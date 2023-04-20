@@ -1,7 +1,8 @@
-// 1. Import the extendTheme function
 import { extendTheme } from "@chakra-ui/react";
+import { Inter } from "next/font/google";
+const interFont = Inter({ subsets: ["latin"], weight: ["400"] });
 
-// 2. Extend the theme to include custom colors, fonts, etc
+// Extending the theme to include custom colors, fonts, etc
 const colors = {
     // Primary Color
     primary_1: "#2342B0",
@@ -19,4 +20,10 @@ const colors = {
     accent_3: "#E2CC08",
 };
 
-export const theme = extendTheme({ colors });
+export const theme = extendTheme({
+    colors,
+    fonts: {
+        body: interFont.style.fontFamily,
+        heading: interFont.style.fontFamily,
+    },
+});
