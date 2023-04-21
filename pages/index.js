@@ -1,5 +1,6 @@
-import Layout from "@/components/layouts/Layout";
 import LandingPage from "@/Pages/LandingPage";
+import Layout from "@/components/layouts/Layout";
+
 
 
 
