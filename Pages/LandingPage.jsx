@@ -5,7 +5,7 @@ import React from "react";
 
 const LandingPage = () => {
     return (
-        <Box pt={["40px",null, "40px"]}>
+        <Box pt={["40px", null, "40px"]}>
             <HeroSlider />
             <Footer />
         </Box>

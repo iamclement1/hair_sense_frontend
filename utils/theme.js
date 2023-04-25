@@ -1,6 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
-import { Inter } from "next/font/google";
-const interFont = Inter({ subsets: ["latin"], weight: ["400"] });
+
 
 // Extending the theme to include custom colors, fonts, etc
 const colors = {
@@ -12,6 +11,7 @@ const colors = {
     shades_3: "#93A4E2",
     shades_4: "#637ACD",
     shades_5: "#263F99",
+    shades_6:"#7A7474",
     // Secondary Color
     secondary_1: "#F3F3F3",
     // Accent Colors
@@ -23,7 +23,7 @@ const colors = {
 export const theme = extendTheme({
     colors,
     fonts: {
-        body: interFont.style.fontFamily,
-        heading: interFont.style.fontFamily,
+        heading: `'Open Sans', sans-serif`,
+        body: `'inter', sans-serif`,
     },
 });

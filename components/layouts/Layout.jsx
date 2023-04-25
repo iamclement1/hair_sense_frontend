@@ -5,7 +5,6 @@ import Navbar from "../Common/Navbar";
 
 
 const Layout = ({ title, children }) => {
-    
     return (
         <>
             <Head>
@@ -20,7 +19,7 @@ const Layout = ({ title, children }) => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <Box className="inter.className">
+            <Box>
                 <Navbar />
 
                 {children}

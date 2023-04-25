@@ -3,7 +3,7 @@ import React from "react";
 
 const ScreenSize = ({ children }) => {
     return (
-        <Box px={["16px", "20px", "30px", "64px"]} maxW="1568px" mx="auto">
+        <Box px={["16px", "20px", "25px", "44px"]} maxW="1568px" mx="auto">
             {children}
         </Box>
     );
