@@ -6,7 +6,7 @@ import Layout from "@/components/layouts/Layout";
 
 export default function Home() {
     return (
-        <Layout title="Landing Page">
+        <Layout title="Hair Sense">
             <LandingPage />
         </Layout>
     );
