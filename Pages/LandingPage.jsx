@@ -1,5 +1,4 @@
-import HeroSlider from "@/components/Common/HeroSlider";
-import { Footer } from "@/components/layouts";
+import { Footer, HeroSlider } from "@/components/Common";
 import { Box } from "@chakra-ui/react";
 import React from "react";
 
