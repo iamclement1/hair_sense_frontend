@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import { theme } from "@/theme";
+import { theme } from "@/utils/theme";
 import { ChakraProvider } from "@chakra-ui/react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
