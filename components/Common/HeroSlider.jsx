@@ -1,7 +1,8 @@
 import { Box, Icon, IconButton } from "@chakra-ui/react";
 import React from "react";
 import Slider from "react-slick";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
+
 import ScreenSize from "../layouts/ScreenSize";
 
 const NextArrow = (props) => {
@@ -10,7 +11,7 @@ const NextArrow = (props) => {
         <Icon
             aria-label="Next"
             color="accent_2"
-            as={FaChevronRight}
+            as={BsChevronRight}
             onClick={onClick}
             position="absolute"
             top="50%"
@@ -29,7 +30,7 @@ const PrevArrow = (props) => {
         <Icon
             aria-label="Previous"
             color="accent_2"
-            as={FaChevronLeft}
+            as={BsChevronLeft}
             onClick={onClick}
             position="absolute"
             top="50%"
