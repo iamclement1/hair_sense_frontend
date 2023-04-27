@@ -12,6 +12,7 @@ const colors = {
     shades_4: "#637ACD",
     shades_5: "#263F99",
     shades_6:"#7A7474",
+    shades_7:"#959595",
     // Secondary Color
     secondary_1: "#F3F3F3",
     // Accent Colors
