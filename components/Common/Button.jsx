@@ -1,9 +1,18 @@
-import React from 'react'
+import React from "react";
+import { Button } from "@chakra-ui/react";
 
-const Button = () => {
+const PrimaryButton = ({ text, ...props }) => {
     return (
-        <div>Button</div>
-    )
-}
+        <Button
+            {...props}
+            _hover={{}}
+            _active={{}}
+            _focus={{}}
+            bgColor={"primary_1"}
+        >
+            {text}
+        </Button>
+    );
+};
 
-export default Button
+export default PrimaryButton;

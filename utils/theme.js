@@ -18,6 +18,7 @@ const colors = {
     accent_1: "#ECECEC",
     accent_2: "#333333",
     accent_3: "#E2CC08",
+    accent_4: "#F3D3D3",
 };
 
 export const theme = extendTheme({

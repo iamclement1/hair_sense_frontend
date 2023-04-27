@@ -19,7 +19,7 @@ const ProductBox = ({ productData }) => {
                 <Box w="100%" maxW="247px" pos={"relative"}>
                     <Image
                         mx="auto"
-                        boxSize={["137px", null, null, "248px"]}
+                        boxSize={["137px", null, "200px", "248px"]}
                         objectFit="cover"
                         src={imageUrl}
                         alt={text}

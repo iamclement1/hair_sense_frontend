@@ -6,21 +6,35 @@ const LandingPage = () => {
     return (
         <Box pt={["40px", null, "40px"]}>
             <HeroSlider />
-            <ProductSlider section="What’s New" productDatas={whatsNew} />
-            <ProductSlider
-                section="Trending Products"
-                productDatas={whatsNew}
-            />
-            <ProductSlider
-                section="Skin Care Product"
-                productDatas={whatsNew}
-            />
-            <ProductSlider section="Accessories" productDatas={whatsNew} />
-            <ProductSlider section="Hair Care" productDatas={whatsNew} />
-            <ProductSlider
-                section="Equipment & Tools"
-                productDatas={whatsNew}
-            />
+
+            <Box>
+                <ProductSlider section="What’s New" productDatas={whatsNew} />
+            </Box>
+
+            <Box>
+                <ProductSlider
+                    section="Trending Products"
+                    productDatas={whatsNew}
+                />
+            </Box>
+            <Box>
+                <ProductSlider
+                    section="Skin Care Product"
+                    productDatas={whatsNew}
+                />
+            </Box>
+            <Box>
+                <ProductSlider section="Accessories" productDatas={whatsNew} />
+            </Box>
+            <Box>
+                <ProductSlider section="Hair Care" productDatas={whatsNew} />
+            </Box>
+            <Box>
+                <ProductSlider
+                    section="Equipment & Tools"
+                    productDatas={whatsNew}
+                />
+            </Box>
         </Box>
     );
 };
