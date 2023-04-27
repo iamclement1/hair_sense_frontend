@@ -15,7 +15,11 @@ import { ScreenSize } from "../layouts";
 
 const Footer = () => {
     return (
-        <Box py={["40px", null, "95px"]} bgColor={"accent_1"} mt="40px">
+        <Box
+            py={["40px", null, "95px"]}
+            bgColor={"accent_1"}
+            mt={["40px", null, "100px"]}
+        >
             <ScreenSize>
                 <SimpleGrid columns={[1, 2, 2, 4]} spacingY={"20px"}>
                     {/* General Information section */}
