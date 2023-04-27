@@ -16,7 +16,7 @@ import {
 import { FaSearch } from "react-icons/fa";
 const SearchInput = () => {
     return (
-        <InputGroup w="100%">
+        <InputGroup w="100%" maxW={["100%", "100%", "460px"]} mx="auto">
             <Input
                 placeholder="Search favorite product..."
                 bgColor={"white"}

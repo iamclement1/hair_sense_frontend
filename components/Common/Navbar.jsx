@@ -1,5 +1,13 @@
 import { useState } from "react";
-import { Flex, Box, Image, Link, Icon, Text } from "@chakra-ui/react";
+import {
+    Flex,
+    Box,
+    Image,
+    Link,
+    Icon,
+    Text,
+    useDisclosure,
+} from "@chakra-ui/react";
 
 import ScreenSize from "../layouts/ScreenSize";
 import NextLink from "next/link";
@@ -11,13 +19,11 @@ import {
     FaTimes,
     FaUser,
 } from "react-icons/fa";
+import { NavDropDown } from ".";
+import MobileNav from "./MobileNav";
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggleMenu = () => {
-        setIsOpen(!isOpen);
-    };
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <Box bgColor="secondary_1">
@@ -27,6 +33,7 @@ const Navbar = () => {
                     justify="space-between"
                     py="40px"
                     gap="20px"
+                    flexWrap={["wrap", null, "nowrap"]}
                 >
                     {/* The logo section */}
 
@@ -36,28 +43,28 @@ const Navbar = () => {
                                 src="/images/logo.svg"
                                 alt="Logo"
                                 height="100%"
-                                width={["100px", "100px", "150px", "200px"]}
+                                width={["120px", "150px", "150px", "200px"]}
                                 mr={2}
                             />
                         </Link>
                     </Box>
 
                     {/*Search Input Section */}
-                    <Box w="100%" maxW={["100%", "360px", null, "460px"]}>
+                    <Box
+                        w={["100%", null, "100%"]}
+                        order={[3, 3, 2]}
+                        // flexShrink={1}
+                    >
                         <SearchInput />
                     </Box>
                     {/* Account and other menu section */}
                     <Box
-                        // w="100px"
-                        // display={{
-                        //     base: isOpen ? "block" : "none",
-                        //     md: "flex",
-                        // }}
-                        display={["none", "none", null, "flex"]}
-                        // mt={{ base: 4, md: 0 }}
-                        // w="100%"
+                        order={3}
+                        justifyContent={"flex-end"}
+                        display={["none", "none", "none", "flex"]}
+                        flexShrink={0}
                     >
-                        <Flex gap="20px" flexShrink={0}>
+                        <Flex gap="20px">
                             {menuItems.map(({ url, text, icon }, i) => {
                                 return (
                                     <Link
@@ -73,15 +80,29 @@ const Navbar = () => {
                             })}
                         </Flex>
                     </Box>
-                    {/* Humbuger for mobile screen */}
+                    {/* Humbuger for Mobile Nav */}
                     <Box
-                        display={["block", null, null, "none"]}
-                        onClick={toggleMenu}
+                        // w={"50%"}
+                        order={[2, 2, 3]}
+                        display={["block", null, "null", "none"]}
+                        onClick={onOpen}
                         cursor={"pointer"}
                     >
-                        <Icon as={isOpen ? FaTimes : FaBars} boxSize={"20px"} />
+                        <Icon as={FaBars} boxSize={"25px"} />
                     </Box>
                 </Flex>
+                {/* Destop NaV */}
+                <Box>
+                    <NavDropDown />
+                </Box>
+                {/* Moble Nav */}
+                <Box>
+                    <MobileNav
+                        isOpen={isOpen}
+                        onOpen={onOpen}
+                        onClose={onClose}
+                    />
+                </Box>
             </ScreenSize>
         </Box>
     );

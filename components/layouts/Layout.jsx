@@ -2,7 +2,7 @@ import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import React from "react";
 import Navbar from "../Common/Navbar";
-
+import { Footer } from "../Common";
 
 const Layout = ({ title, children }) => {
     return (
@@ -21,8 +21,8 @@ const Layout = ({ title, children }) => {
             </Head>
             <Box>
                 <Navbar />
-
-                {children}
+                <Box>{children}</Box>
+                <Footer />
             </Box>
         </>
     );

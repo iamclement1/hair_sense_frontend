@@ -1,114 +1,109 @@
-import { Box, Flex } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    Link,
+    SimpleGrid,
+    Text,
+    Button,
+    Icon,
+} from "@chakra-ui/react";
 import React from "react";
+import NextLink from "next/link";
+import { FaChevronDown } from "react-icons/fa";
+import { categories } from "@/utils/NavbarData";
 
 const NavDropDown = () => {
-    return <Flex></Flex>;
+    return (
+        <Box>
+            <DesktopMenu />
+        </Box>
+    );
 };
 
 export default NavDropDown;
-const catrgories = [
-    {
-        id: 1,
-        text: "Hair Products",
-        catrgory: "Hair care products",
-        children: [
-            "Shampoo",
-            "Hair Masks",
-            "Leave-in Conditioner",
-            "Conditioner",
-            "Hair Serums",
-            "Scalp Treatment",
-            "Baby’s Hair",
-            "Hair Dyes",
-            "Hair Gels & Glues",
-            "Hair Oils",
-            "Texturizer",
-        ],
-    },
-    {
-        id: 2,
-        text: "Skin Care",
-        catrgory: "Hair Styling Products",
-        children: [
-            "Detanglers",
-            "Styling Gels",
-            "Fragrances",
-            "Sprays",
-            "Root Lifting Powders",
-            "Salt Water Sprays",
-            "Styling Pomades",
-            "Styling Waxes",
-            "Styling Clays",
-            "Styling Creams & Lotions",
-            "Hair Tonic",
-            "Styling Foams",
-        ],
-    },
-    {
-        id: 3,
-        text: "Hair Styling",
-        catrgory: "Skin Care Products",
-        children: [
-            "Detanglers",
-            "Styling Gels",
-            "Fragrances",
-            "Sprays",
-            "Root Lifting Powders",
-            "Salt Water Sprays",
-            "Styling Oils",
-            "Styling Serums",
-            "Styling Pomades",
-            "Styling Waxes",
-            "Styling Clays",
-            "Styling Creams & Lotions",
-            "Styling Foams",
-            "Hair Tonic",
-            "Styling Mouses",
-            "Styling Putties",
-            "Thermal Protection Sprays",
-        ],
-    },
-    {
-        id: 4,
-        text: "Skin Care",
-        catrgory: "Skin Care Products",
-        children: [
-            "Detanglers",
-            "Styling Gels",
-            "Fragrances",
-            "Sprays",
-            "Root Lifting Powders",
-            "Salt Water Sprays",
-            "Styling Oils",
-            "Styling Serums",
-            "Styling Pomades",
-            "Styling Waxes",
-            "Styling Clays",
-            "Styling Creams & Lotions",
-            "Styling Foams",
-            "Hair Tonic",
-            "Styling Mouses",
-            "Styling Putties",
-            "Thermal Protection Sprays",
-        ],
-    },
-    {
-        id: 4,
-        text: "Hair Care",
-        catrgory: "Hair Care",
-        children: [
-            "Dandruff Treatment",
 
-            "Dryness Treatment",
-            "Natural Hair Care",
-            "Scalp Care",
-            "Damaged Hair Care",
-            "Color Care",
-            "Tea Tree",
-            "Sheabutter",
-            "Charcoal",
-            "Ayurvedic",
-            "Honey",
-        ],
-    },
-];
+const DesktopMenu = () => {
+    return (
+        <Flex
+            align={"center"}
+            justify={"space-between"}
+            pb="20px"
+            display={["none", null, null, "flex"]}
+        >
+            {categories.map((item, i) => {
+                return (
+                    <Box key={i}>
+                        <Menu placement="bottom-end">
+                            <MenuButton>
+                                <Flex align={"center"} gap="10px">
+                                    {item.text}{" "}
+                                    <Icon as={FaChevronDown} boxSize={"12px"} />
+                                </Flex>
+                            </MenuButton>
+                            <MenuList
+                                width={{ base: "100%", md: "800px" }}
+                                borderRadius={"none"}
+                                zIndex={100}
+                            >
+                                <Box px="20px" py="20px">
+                                    <Text
+                                        fontWeight={"600"}
+                                        fontSize={"20px"}
+                                        mb="10px"
+                                    >
+                                        {item.category}
+                                    </Text>
+                                    <SimpleGrid spacingX={"12px"}>
+                                        {item &&
+                                            item.children.map((subItem, i) => {
+                                                const lowNav =
+                                                    subItem.toLowerCase();
+                                                return (
+                                                    <Box
+                                                        key={i}
+                                                        as={MenuItem}
+                                                        _hover={{
+                                                            bgColor:
+                                                                "transparent",
+                                                        }}
+                                                        _focus={{
+                                                            bgColor:
+                                                                "transparent",
+                                                        }}
+                                                        _active={{
+                                                            bgColor:
+                                                                "transparent",
+                                                        }}
+                                                    >
+                                                        <Link
+                                                            h="100%"
+                                                            w="100%"
+                                                            display={"block"}
+                                                            as={NextLink}
+                                                            href={`/categories/${lowNav}`}
+                                                        >
+                                                            {subItem}
+                                                        </Link>
+                                                    </Box>
+                                                );
+                                            })}
+                                    </SimpleGrid>
+                                </Box>
+                            </MenuList>
+                        </Menu>
+                    </Box>
+                );
+            })}
+        </Flex>
+    );
+};
+
+// const mobileNav = () =>{
+//     return(
+
+//     )
+// }
