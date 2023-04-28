@@ -5,7 +5,7 @@ import { BsHeart, BsHeartFill } from "react-icons/bs";
 
 const ProductBox = ({ productData }) => {
     const { id, imageUrl, text, rating, price } = productData;
-    console.log(productData);
+    
 
     return (
         <Box>
@@ -19,7 +19,7 @@ const ProductBox = ({ productData }) => {
                 <Box w="100%" maxW="247px" pos={"relative"}>
                     <Image
                         mx="auto"
-                        boxSize={["137px", null, "200px", "248px"]}
+                        boxSize={["137px", null, "200px", "247px"]}
                         objectFit="cover"
                         src={imageUrl}
                         alt={text}
