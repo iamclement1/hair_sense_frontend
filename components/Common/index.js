@@ -1,4 +1,4 @@
-export { default as PrimaryButton } from "./Button";
+export { PrimaryButton } from "./Button";
 export { default as Footer } from "./Footer";
 export { default as HeroSlider } from "./HeroSlider";
 export { default as Navbar } from "./Navbar";
