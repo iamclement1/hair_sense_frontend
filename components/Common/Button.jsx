@@ -55,7 +55,7 @@ export const SocialButton = ({ icon, text, imageUrl, imageText, ...props }) => {
                 )}
             </Text>
             <Text
-                w={["80%",null, null, null,"70%","60%"]}
+                w={["80%", null, "60%", "60%", "60%", "60%"]}
                 color="dark_3"
                 fontWeight={400}
                 fontSize={["16px", null, "20px"]}
