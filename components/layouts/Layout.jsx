@@ -3,8 +3,10 @@ import Head from "next/head";
 import React from "react";
 import Navbar from "../Common/Navbar";
 import { Footer } from "../Common";
+import { useRouter } from "next/router";
 
 const Layout = ({ title, children }) => {
+    const router = useRouter();
     return (
         <>
             <Head>
@@ -20,9 +22,10 @@ const Layout = ({ title, children }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Box>
-                <Navbar />
+                {router.pathname === "/auth/login" ? "" : <Navbar />}
                 <Box>{children}</Box>
-                <Footer />
+
+                {router.pathname === "/auth/login" ? "" : <Footer />}
             </Box>
         </>
     );
