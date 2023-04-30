@@ -22,10 +22,9 @@ const Layout = ({ title, children }) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <Box>
-                {router.pathname === "/auth/login" ? "" : <Navbar />}
+                <Navbar />
                 <Box>{children}</Box>
-
-                {router.pathname === "/auth/login" ? "" : <Footer />}
+                <Footer />
             </Box>
         </>
     );
