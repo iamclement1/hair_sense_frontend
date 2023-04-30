@@ -19,6 +19,10 @@ const colors = {
     accent_2: "#333333",
     accent_3: "#E2CC08",
     accent_4: "#F3D3D3",
+    // Dark Shades
+    dark_1: "rgba(0, 0, 0, 0.3)",
+    dark_2: "#ACB5BD",
+    dark_3: "#222222",
 };
 
 export const theme = extendTheme({
