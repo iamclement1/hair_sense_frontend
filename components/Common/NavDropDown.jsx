@@ -38,10 +38,14 @@ const DesktopMenu = () => {
                 return (
                     <Box key={i}>
                         <Menu placement="bottom-end">
-                            <MenuButton>
+                            <MenuButton color={"accent_1"}>
                                 <Flex align={"center"} gap="10px">
-                                    {item.text}{" "}
-                                    <Icon as={FaChevronDown} boxSize={"12px"} />
+                                    <Text color={"accent_2"}>{item.text} </Text>
+                                    <Icon
+                                        as={FaChevronDown}
+                                        boxSize={"12px"}
+                                        color={"accent_2"}
+                                    />
                                 </Flex>
                             </MenuButton>
                             <MenuList
@@ -85,6 +89,7 @@ const DesktopMenu = () => {
                                                             display={"block"}
                                                             as={NextLink}
                                                             href={`/categories/${lowNav}`}
+                                                            color={"accent_2"}
                                                         >
                                                             {subItem}
                                                         </Link>
