@@ -498,7 +498,7 @@ const Register = () => {
                         </FormErrorMessage>
                     </FormControl>
                     {/* Password Section  */}
-                    <Flex gap="20px">
+                    <Flex gap="20px" flexDir={["column", null, "row"]}>
                         <FormControl
                             isInvalid={!!errors.password && touched.password}
                             mt={["14px", null, "24px"]}
