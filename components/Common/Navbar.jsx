@@ -22,11 +22,13 @@ import {
 import { NavDropDown } from ".";
 import MobileNav from "./MobileNav";
 import AuthModal from "../modal/AuthModal";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
     // fuction to Open Nav
     const { isOpen, onOpen, onClose } = useDisclosure();
     // function to handle Authication  modal
+    const router = useRouter()
     const {
         isOpen: isOpenAuth,
         onOpen: onOpenAuth,
