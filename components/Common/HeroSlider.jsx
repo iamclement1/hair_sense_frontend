@@ -53,7 +53,7 @@ const PrevArrow = (props) => {
 
 const settings = {
     dots: false,
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
@@ -65,41 +65,9 @@ const HeroSlider = ({ children }) => {
     return (
         <ScreenSize>
             <Slider {...settings}>
-                <Box>
-                    <Flex
-                        bgColor={"accent_4"}
-                        px="20px"
-                        py={["60px", null, "0px"]}
-                        rounded={"12px"}
-                    >
-                        <Flex w="50%" justify={"center"} align={"center"}>
-                            <Box maxW="584px">
-                                <Text
-                                    fontWeight={"600"}
-                                    fontSize={["16px", "24px", "54px", "64px"]}
-                                >
-                                    Find Your Favorite Hair Care Products
-                                </Text>
-                                <Text
-                                    mt={["15px"]}
-                                    color="accent_2"
-                                    fontSize={["10px", null, "15px", "28px"]}
-                                >
-                                    Your favorite hair care product is just one
-                                    click away
-                                </Text>
-                                <PrimaryButton>Discover Now</PrimaryButton>
-                            </Box>
-                        </Flex>
-                        <Box w="50%">
-                            <Image
-                                src="/images/heroBg.svg"
-                                alt="hero background"
-                            />
-                        </Box>
-                    </Flex>
-                </Box>
-                <Box></Box>
+                {heroData.map((data, i) => {
+                    return <HeroContent key={i} data={data} />;
+                })}
             </Slider>
             {/* <PrevArrow onClick={() => slider.current.slickPrev()} />
             <NextArrow onClick={() => slider.current.slickNext()} /> */}
@@ -108,3 +76,60 @@ const HeroSlider = ({ children }) => {
 };
 
 export default HeroSlider;
+const heroData = [
+    {
+        bgColor: "accent_4",
+        title: "Find Your Favorite Hair Care Products",
+        subTitle: "Your favorite hair care product is just one click away",
+        imageUrl: "/images/heroBg_1.svg",
+        url: "/",
+    },
+    {
+        bgColor: "accent_4",
+        title: "Beautiful Cosmetics products",
+        subTitle: "Your favorite hair care product is just one click away",
+        imageUrl: "/images/heroBg_2.svg",
+        url: "/",
+    },
+];
+const HeroContent = ({ data }) => {
+    const { bgColor, title, subTitle, imageUrl, url } = data;
+    return (
+        <Box>
+            <Flex
+                bgColor={bgColor}
+                // px="20px"
+                px={["20px", null, "20px"]}
+                py={["60px", null, "70px"]}
+                rounded={"12px"}
+                align={"center"}
+                gap="20px"
+            >
+                <Flex w="50%" justify={"center"} align={"center"}>
+                    <Box maxW="584px">
+                        <Text
+                            fontWeight={"600"}
+                            fontSize={["16px", "24px", "54px", "56px"]}
+                        >
+                            {title}
+                        </Text>
+                        <Text
+                            mt={["15px"]}
+                            color="accent_2"
+                            fontSize={["14px", null, "19px", "28px"]}
+                        >
+                            {subTitle}
+                        </Text>
+
+                        <Box my={["20px", null, "40px", null, "80px"]}>
+                            <PrimaryButton text={"Discover Now"} maxW="272px" />
+                        </Box>
+                    </Box>
+                </Flex>
+                <Box w="50%">
+                    <Image src={imageUrl} alt="hero background" />
+                </Box>
+            </Flex>
+        </Box>
+    );
+};
