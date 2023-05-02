@@ -275,6 +275,28 @@ const Login = ({ handleCurrentForm }) => {
 const Register = () => {
     const [currentPassword, setCurrentPassword] = useState("");
     console.log("currentPassword", currentPassword);
+
+    const [username, setUsername] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
+    const registerUser = async (event) => {
+        event.preventDefault();
+
+        const formData = {
+            "username" : username,
+            "firstName" : firstName,
+            "lastName" : lastName,
+            "email" : email,
+            "password" : password,
+            "confirmPassword" : confirmPassword,
+        }
+
+        console.table({username, firstName, lastName, email, password });
+    }
     return (
         <Formik
             initialValues={{
@@ -284,7 +306,7 @@ const Register = () => {
                 username: "",
                 email: "",
                 confirm_password: "",
-                location: "",
+                // location: "",
             }}
             // consume Api here
             onSubmit={(values) => {
@@ -595,7 +617,7 @@ const Register = () => {
                         </FormControl>
                     </Flex>
                     {/* Location */}
-                    <FormControl
+                    {/* <FormControl
                         isInvalid={!!errors.location && touched.location}
                         mt={["14px", null, "24px"]}
                     >
@@ -647,7 +669,7 @@ const Register = () => {
                         <FormErrorMessage fontSize={["12px", null, "15px"]}>
                             {errors.location}
                         </FormErrorMessage>
-                    </FormControl>
+                    </FormControl> */}
                     {/* Prvacy and policy */}
                     <FormControl mt="27px">
                         <FormLabel
@@ -687,6 +709,7 @@ const Register = () => {
                         maxW="602.79px"
                         mb="15px"
                         mx="auto"
+                        handleButton={registerUser}
                     />
                 </form>
             )}

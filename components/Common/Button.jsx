@@ -16,6 +16,7 @@ export const PrimaryButton = ({ text, ...props }) => {
             h="auto"
             w="100%"
             fontSize={["14px", null, "20px", null, "20px"]}
+            onClick={props.handleButton}
         >
             {text}
         </Button>
