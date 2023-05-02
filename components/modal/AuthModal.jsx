@@ -22,6 +22,12 @@ import {
 import { PrimaryButton, SocialButton } from "../Common/Button";
 import { Formik, Field } from "formik";
 import NextLink from "next/link";
+import { baseUrl, httpPost } from "@/http-request/http-request";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from "next/router";
+import Cookies from "js-cookie";
+
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -70,8 +76,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                             {currentPage === "login"
                                 ? "Welcome Back"
                                 : currentPage === "register"
-                                ? "Create An Account"
-                                : "Recover your Password"}
+                                    ? "Create An Account"
+                                    : "Recover your Password"}
                         </Text>
                         <Divider />
                     </Flex>
@@ -108,15 +114,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     currentPage === "login"
                                         ? handleCurrentForm("register")
                                         : currentPage === "register"
-                                        ? handleCurrentForm("login")
-                                        : handleCurrentForm("login");
+                                            ? handleCurrentForm("login")
+                                            : handleCurrentForm("login");
                                 }}
                             >
                                 {currentPage === "login"
                                     ? "Don’t have an account? "
                                     : currentPage === "register"
-                                    ? "Already have an account? "
-                                    : "Already have an account? "}
+                                        ? "Already have an account? "
+                                        : "Already have an account? "}
                                 <Box
                                     as="button"
                                     color="accent_2"
@@ -125,8 +131,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
-                                        ? "Sign in"
-                                        : "Sign in"}
+                                            ? "Sign in"
+                                            : "Sign in"}
                                 </Box>
                             </Box>
                         </Box>
@@ -141,6 +147,31 @@ export default AuthModal;
 
 // Forms Start
 const Login = ({ handleCurrentForm }) => {
+    const router = useRouter();
+    const loginUser = async (values) => {
+        const formData = {
+            username: values.username,
+            password: values.password,
+        };
+        const { username, password } = formData;
+
+        console.table({ username, password });
+
+        await httpPost(`${baseUrl}/accounts/sign_in/`, formData)
+            .then((response) => {
+                console.log(response);
+                toast("Login successful...");
+                const { access, refresh } = response;
+                Cookies.set("refresh_token", refresh);
+                Cookies.set("access_token", access);
+                console.log("tokens are here === ", "Refresh token === ", refresh,
+                "access token === ", access);
+                if (response.status === 200) {
+                    router.push('/');
+                }
+            })
+            .catch((error) => console.log(error))
+    };
     return (
         <Formik
             initialValues={{
@@ -148,7 +179,8 @@ const Login = ({ handleCurrentForm }) => {
                 password: "",
             }}
             onSubmit={(values) => {
-                alert(JSON.stringify(values, null, 2));
+                // alert(JSON.stringify(values, null, 2));
+                loginUser(values)
             }}
         >
             {({ handleSubmit, errors, touched }) => (
@@ -266,6 +298,7 @@ const Login = ({ handleCurrentForm }) => {
                         mt="30px"
                         py="20px"
                     />
+                    <ToastContainer/>
                 </form>
             )}
         </Formik>
@@ -275,39 +308,30 @@ const Login = ({ handleCurrentForm }) => {
 const Register = () => {
     const [currentPassword, setCurrentPassword] = useState("");
 
-    // const [username, setUsername] = useState("");
-    // const [firstName, setFirstName] = useState("");
-    // const [lastName, setLastName] = useState("");
-    // const [email, setEmail] = useState("");
-    // const [password, setPassword] = useState("");
-    // const [confirmPassword, setConfirmPassword] = useState("");
-
-    // const registerUser = async (event) => {
-    //     event.preventDefault();
-
-    // const formData = {
-    //     "username" : username,
-    //     "firstName" : firstName,
-    //     "lastName" : lastName,
-    //     "email" : email,
-    //     "password" : password,
-    //     "confirmPassword" : confirmPassword,
-    // }
-
-    // console.table({username, firstName, lastName, email, password });
-    // }
+    //routing
+    const router = useRouter();
 
     const regUser = async (values) => {
         const formData = {
             username: values.username,
-            firstName: values.first_name,
-            lastName: values.last_name,
+            first_name: values.first_name,
+            last_name: values.last_name,
             phone: values.phone,
             password: values.password,
         };
-        const { username, firstName, lastName, phone, password } = formData;
+        const { username, first_name, last_name, phone, password } = formData;
 
-        console.table({ username, firstName, lastName, phone, password });
+        console.table({ username, first_name, last_name, phone, password });
+
+        await httpPost(`${baseUrl}/accounts/register/`, formData)
+            .then((response) => {
+                console.log(response);
+                toast.success("Account Created Successfully, Process To Login");
+                if (response.status === 201) {
+                    setCurrentPage = "login"
+                }
+            })
+            .catch((error) => console.log(error))
     };
     return (
         <Formik
@@ -482,7 +506,7 @@ const Register = () => {
                             {errors.username}
                         </FormErrorMessage>
                     </FormControl>
-                    {/* Email Section  */}
+                    {/* Phone number Section  */}
                     <FormControl
                         isInvalid={!!errors.phone && touched.phone}
                         mt={["14px", null, "24px"]}
@@ -500,15 +524,15 @@ const Register = () => {
                             mb="12px"
                             fontWeight={"600"}
                         >
-                            phone
+                            Phone
                         </FormLabel>
                         <Field
                             h={["50px", null]}
                             as={Input}
                             id="phone"
                             name="phone"
-                            type="text"
-                            placeholder="Enter your phone"
+                            type="number"
+                            placeholder="Enter phone number"
                             fontSize={[
                                 "12px",
                                 null,
@@ -726,7 +750,7 @@ const Register = () => {
                         maxW="602.79px"
                         mb="15px"
                         mx="auto"
-                        // handleButton={registerUser}
+                    // handleButton={registerUser}
                     />
                 </form>
             )}
