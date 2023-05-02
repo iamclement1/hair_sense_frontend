@@ -11,11 +11,11 @@ import StateProvider from "@/context/StateProvider";
 
 export default function App({ Component, pageProps }) {
     return (
-        <StateProvider>
-            <ChakraProvider theme={theme}>
+        <ChakraProvider theme={theme}>
+            <StateProvider>
                 <CSSReset />
                 <Component {...pageProps} />
-            </ChakraProvider>
-        </StateProvider>
+            </StateProvider>
+        </ChakraProvider>
     );
 }

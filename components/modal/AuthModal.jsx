@@ -754,6 +754,7 @@ const Register = ({ handleCurrentForm }) => {
                         maxW="602.79px"
                         mb="15px"
                         mx="auto"
+                        isLoading={true}
                         // handleButton={registerUser}
                     />
                     <ToastContainer />
