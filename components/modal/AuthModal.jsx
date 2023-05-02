@@ -24,10 +24,9 @@ import { Formik, Field } from "formik";
 import NextLink from "next/link";
 import { baseUrl, httpPost } from "@/http-request/http-request";
 import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -76,8 +75,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                             {currentPage === "login"
                                 ? "Welcome Back"
                                 : currentPage === "register"
-                                    ? "Create An Account"
-                                    : "Recover your Password"}
+                                ? "Create An Account"
+                                : "Recover your Password"}
                         </Text>
                         <Divider />
                     </Flex>
@@ -114,15 +113,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     currentPage === "login"
                                         ? handleCurrentForm("register")
                                         : currentPage === "register"
-                                            ? handleCurrentForm("login")
-                                            : handleCurrentForm("login");
+                                        ? handleCurrentForm("login")
+                                        : handleCurrentForm("login");
                                 }}
                             >
                                 {currentPage === "login"
                                     ? "Don’t have an account? "
                                     : currentPage === "register"
-                                        ? "Already have an account? "
-                                        : "Already have an account? "}
+                                    ? "Already have an account? "
+                                    : "Already have an account? "}
                                 <Box
                                     as="button"
                                     color="accent_2"
@@ -131,8 +130,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
-                                            ? "Sign in"
-                                            : "Sign in"}
+                                        ? "Sign in"
+                                        : "Sign in"}
                                 </Box>
                             </Box>
                         </Box>
@@ -164,13 +163,18 @@ const Login = ({ handleCurrentForm }) => {
                 const { access, refresh } = response;
                 Cookies.set("refresh_token", refresh);
                 Cookies.set("access_token", access);
-                console.log("tokens are here === ", "Refresh token === ", refresh,
-                "access token === ", access);
+                console.log(
+                    "tokens are here === ",
+                    "Refresh token === ",
+                    refresh,
+                    "access token === ",
+                    access
+                );
                 if (response.status === 200) {
-                    router.push('/');
+                    router.push("/");
                 }
             })
-            .catch((error) => console.log(error))
+            .catch((error) => console.log(error));
     };
     return (
         <Formik
@@ -180,7 +184,7 @@ const Login = ({ handleCurrentForm }) => {
             }}
             onSubmit={(values) => {
                 // alert(JSON.stringify(values, null, 2));
-                loginUser(values)
+                loginUser(values);
             }}
         >
             {({ handleSubmit, errors, touched }) => (
@@ -298,7 +302,7 @@ const Login = ({ handleCurrentForm }) => {
                         mt="30px"
                         py="20px"
                     />
-                    <ToastContainer/>
+                    <ToastContainer />
                 </form>
             )}
         </Formik>
@@ -328,10 +332,10 @@ const Register = () => {
                 console.log(response);
                 toast.success("Account Created Successfully, Process To Login");
                 if (response.status === 201) {
-                    setCurrentPage = "login"
+                    setCurrentPage = "login";
                 }
             })
-            .catch((error) => console.log(error))
+            .catch((error) => console.log(error));
     };
     return (
         <Formik
@@ -750,7 +754,7 @@ const Register = () => {
                         maxW="602.79px"
                         mb="15px"
                         mx="auto"
-                    // handleButton={registerUser}
+                        // handleButton={registerUser}
                     />
                 </form>
             )}
