@@ -1,8 +1,11 @@
 import axios from 'axios'
+import Cookies from 'js-cookie';
 
 export const baseUrl = 'http://hairshine.pythonanywhere.com'
 
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgyNjgyMDc1LCJpYXQiOjE2ODI2Nzg0NzUsImp0aSI6IjNiMWExZDU0M2MzYTQyMjU4MmVhOGM4NmZkMWI5ZjY2IiwidXNlcl9pZCI6NX0.0Rv8YOwARcy0nLqTGJXDCZny-aG_6xRx80hEwqsA8ww"
+console.log("Base Ur === ", baseUrl);
+
+// const accessToken = Cookies.get(access_token)
 
 //a http request for every request like post, get, put, delete
 export const httpGet = async (url) => {
