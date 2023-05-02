@@ -94,7 +94,7 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                         {currentPage === "login" ? (
                             <Login handleCurrentForm={handleCurrentForm} />
                         ) : currentPage === "register" ? (
-                            <Register />
+                            <Register handleCurrentForm={handleCurrentForm} />
                         ) : currentPage === "forgetPassword" ? (
                             "forget password Form  will be here"
                         ) : (
@@ -309,7 +309,7 @@ const Login = ({ handleCurrentForm }) => {
     );
 };
 
-const Register = () => {
+const Register = ({ handleCurrentForm }) => {
     const [currentPassword, setCurrentPassword] = useState("");
 
     //routing
@@ -331,6 +331,9 @@ const Register = () => {
             .then((response) => {
                 console.log(response);
                 toast("Account Created Successfully, Process To Login");
+                if (response && response.message === "proceed to login") {
+                    handleCurrentForm("login");
+                }
             })
             .catch((error) => console.log(error));
     };
