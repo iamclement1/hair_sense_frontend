@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
-    "collectionName": "Hair Shine",
-    "dateExported": "2023-04-26T19:00:21.446Z",
+    "collectionName": "Hair Sense",
+    "dateExported": "2023-05-02T07:51:53.261Z",
     "version": "1.1",
     "folders": [
         {
@@ -46,6 +46,27 @@
             "containerId": "4072c444-0d90-40d1-b9bd-1eb07b8fad4f",
             "created": "2023-04-20T15:32:23.957Z",
             "sortNum": 70000
+        },
+        {
+            "_id": "26422f5a-4caa-46a5-a7dd-7112e162d70c",
+            "name": "cart",
+            "containerId": "4072c444-0d90-40d1-b9bd-1eb07b8fad4f",
+            "created": "2023-04-28T16:17:08.160Z",
+            "sortNum": 80000
+        },
+        {
+            "_id": "eade456f-8528-4b82-ac8c-5b5eeed2775b",
+            "name": "favourites",
+            "containerId": "4072c444-0d90-40d1-b9bd-1eb07b8fad4f",
+            "created": "2023-05-01T17:12:51.973Z",
+            "sortNum": 85000
+        },
+        {
+            "_id": "642dbda9-7fb4-460e-b28b-505d0620477f",
+            "name": "order",
+            "containerId": "4072c444-0d90-40d1-b9bd-1eb07b8fad4f",
+            "created": "2023-04-29T16:03:30.431Z",
+            "sortNum": 90000
         }
     ],
     "requests": [
@@ -58,12 +79,12 @@
             "method": "POST",
             "sortNum": 10000,
             "created": "2023-04-17T17:03:46.935Z",
-            "modified": "2023-04-23T13:31:23.130Z",
+            "modified": "2023-05-01T13:36:01.669Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"username\": \"luffy\",\n  \"first_name\": \"Luffy\",\n  \"last_name\": \"Pirste\",\n  \"email\": \"pirate@gmail.com\",\n  \"password\": \"string\",\n  \"location\": \"string\",\n  \"phone\": \"string\"\n}",
+                "raw": "{\n  \"username\": \"dan\",\n  \"first_name\": \"Danny\",\n  \"last_name\": \"Charles\",\n  \"password\": \"string\",\n  \"phone\": \"09124802297\"\n}",
                 "form": []
             },
             "auth": {
@@ -80,12 +101,12 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2023-04-17T17:07:00.022Z",
-            "modified": "2023-04-26T17:45:34.485Z",
+            "modified": "2023-05-01T17:11:58.299Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"username\": \"luffy\",\n  \"password\": \"string\"\n}",
+                "raw": "{\n  \"username\": \"sam\",\n  \"password\": \"string\"\n}",
                 "form": []
             },
             "tests": []
@@ -99,12 +120,12 @@
             "method": "POST",
             "sortNum": 20000,
             "created": "2023-04-17T18:04:24.302Z",
-            "modified": "2023-04-26T17:46:48.516Z",
+            "modified": "2023-04-30T13:31:40.752Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"name\": \"Hair Stuffs\"\n}",
+                "raw": "{\n  \"name\": \"Hair Care\"\n}",
                 "form": []
             },
             "tests": []
@@ -114,11 +135,11 @@
             "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
             "containerId": "4bd09104-85ba-4f5a-bc7f-6e5542a1c4cb",
             "name": "get user",
-            "url": "accounts/user/luffy",
+            "url": "accounts/user/danny/",
             "method": "GET",
             "sortNum": 30000,
             "created": "2023-04-17T17:08:23.622Z",
-            "modified": "2023-04-26T17:45:53.138Z",
+            "modified": "2023-05-01T14:09:54.604Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -128,16 +149,16 @@
             "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
             "containerId": "4bd09104-85ba-4f5a-bc7f-6e5542a1c4cb",
             "name": "update user",
-            "url": "accounts/user/luffy/",
+            "url": "accounts/user/danny/",
             "method": "PUT",
             "sortNum": 40000,
             "created": "2023-04-17T17:12:22.157Z",
-            "modified": "2023-04-23T13:33:19.527Z",
+            "modified": "2023-05-01T14:19:49.297Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"user\": {\n    \"username\": \"luffy\",\n    \"first_name\": \"Luffy\",\n    \"last_name\": \"Pirate\",\n    \"email\": \"pirate@gmail.com\"\n  },\n  \"phone\": \"09124802297\",\n  \"location\": \"Kano\"\n}",
+                "raw": "{\n  \"email\": \"dannylolo@gmail.com\",\n  \"location\": \"Festac\"\n}",
                 "form": []
             },
             "tests": []
@@ -196,11 +217,11 @@
             "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
             "containerId": "43c60a4c-13b1-4ecb-9300-7427df62eb51",
             "name": "get one",
-            "url": "store/categories/6",
+            "url": "store/categories/2",
             "method": "GET",
             "sortNum": 42500,
             "created": "2023-04-17T18:16:12.567Z",
-            "modified": "2023-04-26T17:47:35.020Z",
+            "modified": "2023-04-30T13:32:30.036Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -210,11 +231,11 @@
             "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
             "containerId": "43c60a4c-13b1-4ecb-9300-7427df62eb51",
             "name": "get sub",
-            "url": "store/categories/2/subs",
+            "url": "store/categories/3/subs",
             "method": "GET",
             "sortNum": 42812.5,
             "created": "2023-04-17T19:30:38.436Z",
-            "modified": "2023-04-23T15:27:17.238Z",
+            "modified": "2023-04-30T13:57:22.793Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -285,12 +306,12 @@
             "method": "POST",
             "sortNum": 50000,
             "created": "2023-04-17T17:56:07.920Z",
-            "modified": "2023-04-17T19:16:22.531Z",
+            "modified": "2023-04-27T16:49:13.997Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4MTgzNzY4NCwiaWF0IjoxNjgxNzUxMjg0LCJqdGkiOiIwZThiMDNiYTJmZGU0NDc3ODk0ZTEzNDRkODkyM2NlOCIsInVzZXJfaWQiOjd9.R39Wp2UWfNfYx57D8g3JBPT5Flu0on09lXL7PPerg8o\"\n}",
+                "raw": "{\n  \"refresh\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY4MjcwMDQ4OSwiaWF0IjoxNjgyNjE0MDg5LCJqdGkiOiI4MzZkY2RkNzM5OGI0ZTJlODU1ZDAyZTY4YWVlZjg2MiIsInVzZXJfaWQiOjR9.vmRG0TNN0pYLzmZsxMjMFea_42T8Txbd-jKuUt2BASY\"\n}",
                 "form": []
             },
             "tests": []
@@ -304,12 +325,12 @@
             "method": "POST",
             "sortNum": 60000,
             "created": "2023-04-17T18:18:52.527Z",
-            "modified": "2023-04-21T14:31:27.351Z",
+            "modified": "2023-04-30T13:49:47.172Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"category\": 2,\n  \"name\": \"lolly\"\n}",
+                "raw": "{\n  \"category\": 3,\n  \"name\": \"pomege\"\n}",
                 "form": []
             },
             "tests": []
@@ -391,7 +412,7 @@
             "method": "POST",
             "sortNum": 80000,
             "created": "2023-04-20T14:08:43.516Z",
-            "modified": "2023-04-23T15:45:45.722Z",
+            "modified": "2023-04-30T14:09:13.322Z",
             "headers": [],
             "params": [],
             "body": {
@@ -400,15 +421,11 @@
                 "form": [
                     {
                         "name": "name",
-                        "value": "Hair conditioner"
+                        "value": "Face sun"
                     },
                     {
                         "name": "actual_price",
-                        "value": "7000"
-                    },
-                    {
-                        "name": "sales_price",
-                        "value": "5000"
+                        "value": "4700"
                     },
                     {
                         "name": "first_description",
@@ -421,6 +438,10 @@
                     {
                         "name": "sub_category",
                         "value": "2"
+                    },
+                    {
+                        "name": "sales_price",
+                        "value": "5000"
                     }
                 ],
                 "files": [
@@ -437,16 +458,16 @@
             "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
             "containerId": "54eacbd8-9ec7-4ec8-a0f5-b9aa1cf2eb0a",
             "name": "update",
-            "url": "store/sub_categories/1/",
+            "url": "store/sub_categories/2/",
             "method": "PUT",
             "sortNum": 82500,
             "created": "2023-04-21T14:01:28.394Z",
-            "modified": "2023-04-21T14:01:59.887Z",
+            "modified": "2023-04-30T13:52:05.870Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"category\": 1,\n  \"name\": \"lala\"\n}",
+                "raw": "{\n  \"id\": 2,\n  \"name\": \"molly\",\n  \"category\": 2\n}",
                 "form": []
             },
             "tests": []
@@ -456,11 +477,11 @@
             "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
             "containerId": "003c6aea-baab-48da-9bb9-a1b0e69a5b6f",
             "name": "update",
-            "url": "store/products/4/",
+            "url": "store/products/5/",
             "method": "PUT",
             "sortNum": 85000,
             "created": "2023-04-20T15:30:01.153Z",
-            "modified": "2023-04-20T15:31:11.451Z",
+            "modified": "2023-04-30T14:14:54.997Z",
             "headers": [],
             "params": [],
             "body": {
@@ -469,7 +490,7 @@
                 "form": [
                     {
                         "name": "name",
-                        "value": "Pomogeranating"
+                        "value": "Face shine"
                     },
                     {
                         "name": "actual_price",
@@ -489,13 +510,14 @@
                     },
                     {
                         "name": "sub_category",
-                        "value": "1"
+                        "value": "3"
                     }
                 ],
                 "files": [
                     {
                         "name": "product_img",
-                        "value": "c:\\Users\\WCC MINISTRIES\\Downloads\\IMG-6768.jpg"
+                        "value": "c:\\Users\\WCC MINISTRIES\\Downloads\\IMG-6768.jpg",
+                        "isDisabled": true
                     }
                 ]
             },
@@ -506,11 +528,11 @@
             "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
             "containerId": "54eacbd8-9ec7-4ec8-a0f5-b9aa1cf2eb0a",
             "name": "get products",
-            "url": "store/sub_categories/2/products/",
+            "url": "store/sub_categories/1/products/",
             "method": "GET",
             "sortNum": 90000,
             "created": "2023-04-20T14:42:12.213Z",
-            "modified": "2023-04-21T15:21:43.358Z",
+            "modified": "2023-04-30T14:09:53.547Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -534,16 +556,16 @@
             "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
             "containerId": "003c6aea-baab-48da-9bb9-a1b0e69a5b6f",
             "name": "search products",
-            "url": "store/products/?query=hair&selection=products",
+            "url": "store/products/?query=face&selection=products",
             "method": "GET",
             "sortNum": 95000,
             "created": "2023-04-23T17:36:44.843Z",
-            "modified": "2023-04-23T17:42:23.067Z",
+            "modified": "2023-04-30T14:20:00.943Z",
             "headers": [],
             "params": [
                 {
                     "name": "query",
-                    "value": "hair",
+                    "value": "face",
                     "isPath": false
                 },
                 {
@@ -559,11 +581,11 @@
             "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
             "containerId": "003c6aea-baab-48da-9bb9-a1b0e69a5b6f",
             "name": "get",
-            "url": "store/products/1",
+            "url": "store/products/4",
             "method": "GET",
             "sortNum": 100000,
             "created": "2023-04-20T15:04:39.519Z",
-            "modified": "2023-04-23T16:48:07.233Z",
+            "modified": "2023-04-30T14:19:44.324Z",
             "headers": [],
             "params": [],
             "tests": []
@@ -605,12 +627,12 @@
             "method": "POST",
             "sortNum": 120000,
             "created": "2023-04-21T15:39:20.858Z",
-            "modified": "2023-04-21T16:10:17.804Z",
+            "modified": "2023-04-30T14:25:32.838Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"commenter\": 1,\n  \"product\": 1,\n  \"comment\": \"This is a comment to delete\",\n  \"rate\": 3\n}",
+                "raw": "{\n  \"product\": 2,\n  \"comment\": \"This is a comment to delete\",\n  \"rate\": 3\n}",
                 "form": []
             },
             "tests": []
@@ -676,12 +698,12 @@
             "method": "PUT",
             "sortNum": 150000,
             "created": "2023-04-21T16:10:03.975Z",
-            "modified": "2023-04-21T16:11:34.235Z",
+            "modified": "2023-04-29T15:57:10.923Z",
             "headers": [],
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\r\n  \"comment\": \"This is a comment to deleted\",\r\n  \"rate\": 3,\r\n  \"commenter\": 1,\r\n  \"product\": 1\r\n}",
+                "raw": "{\n  \"comment\": \"This is a comment to\",\n  \"rate\": 4\n}",
                 "form": []
             },
             "tests": []
@@ -732,15 +754,303 @@
             "headers": [],
             "params": [],
             "tests": []
+        },
+        {
+            "_id": "5290c3a8-c093-4b02-b76d-e7046916137a",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "26422f5a-4caa-46a5-a7dd-7112e162d70c",
+            "name": "get user cart",
+            "url": "store/cart/",
+            "method": "GET",
+            "sortNum": 190000,
+            "created": "2023-04-28T16:17:30.265Z",
+            "modified": "2023-04-28T16:17:43.580Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "19468c8b-500d-48b6-8928-6f9b7ce616f4",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "eade456f-8528-4b82-ac8c-5b5eeed2775b",
+            "name": "get user favourite",
+            "url": "store/favourite/",
+            "method": "GET",
+            "sortNum": 190000,
+            "created": "2023-05-01T17:12:51.973Z",
+            "modified": "2023-05-01T17:13:32.496Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "820e367b-60b1-4345-b2a8-b82dfd56f4e0",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "26422f5a-4caa-46a5-a7dd-7112e162d70c",
+            "name": "add item",
+            "url": "store/cart/items/",
+            "method": "POST",
+            "sortNum": 200000,
+            "created": "2023-04-29T14:45:01.027Z",
+            "modified": "2023-04-30T15:33:20.896Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"product\": 6,\n  \"quantity\": 5\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "8e00c972-e9e8-4b9b-8afe-95455f1b5a38",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "eade456f-8528-4b82-ac8c-5b5eeed2775b",
+            "name": "add item",
+            "url": "store/favourite/items/",
+            "method": "POST",
+            "sortNum": 200000,
+            "created": "2023-05-01T17:12:51.974Z",
+            "modified": "2023-05-01T17:19:16.051Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"product\": 5\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "8a03db89-2977-4d0d-94eb-05cb319dd891",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "26422f5a-4caa-46a5-a7dd-7112e162d70c",
+            "name": "get item",
+            "url": "store/cart/items/2",
+            "method": "GET",
+            "sortNum": 210000,
+            "created": "2023-04-29T15:37:26.610Z",
+            "modified": "2023-04-30T14:48:43.932Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "314e0ad4-9693-4e79-a70e-d090b0f7ba5b",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "eade456f-8528-4b82-ac8c-5b5eeed2775b",
+            "name": "get item",
+            "url": "store/cart/items/2",
+            "method": "GET",
+            "sortNum": 210000,
+            "created": "2023-05-01T17:12:51.975Z",
+            "modified": "2023-05-01T17:12:51.973Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "2f79688e-55f8-4258-bb29-1648eb393bfb",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "26422f5a-4caa-46a5-a7dd-7112e162d70c",
+            "name": "update item",
+            "url": "store/cart/items/2/",
+            "method": "PUT",
+            "sortNum": 220000,
+            "created": "2023-04-29T15:44:48.626Z",
+            "modified": "2023-04-30T15:04:37.573Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"quantity\": 6\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "32682d28-3b1f-4426-a2af-81ae00a034c7",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "642dbda9-7fb4-460e-b28b-505d0620477f",
+            "name": "get orders",
+            "url": "store/orders/all/",
+            "method": "GET",
+            "sortNum": 220000,
+            "created": "2023-04-29T16:03:44.486Z",
+            "modified": "2023-04-29T16:27:55.007Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "7b271f77-1736-4a9d-9444-535b30e39237",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "eade456f-8528-4b82-ac8c-5b5eeed2775b",
+            "name": "update item",
+            "url": "store/cart/items/2/",
+            "method": "PUT",
+            "sortNum": 220000,
+            "created": "2023-05-01T17:12:51.976Z",
+            "modified": "2023-05-01T17:12:51.973Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"quantity\": 6\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "fef880d2-00c5-43ac-bedc-e7300a0d0f5f",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "26422f5a-4caa-46a5-a7dd-7112e162d70c",
+            "name": "delete item",
+            "url": "store/cart/items/6/",
+            "method": "DELETE",
+            "sortNum": 230000,
+            "created": "2023-04-29T15:57:37.081Z",
+            "modified": "2023-04-29T15:58:01.849Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"quantity\": 6\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "ff73fbf5-376c-4bad-a915-5da97bda623e",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "642dbda9-7fb4-460e-b28b-505d0620477f",
+            "name": "get user order",
+            "url": "store/orders/",
+            "method": "GET",
+            "sortNum": 230000,
+            "created": "2023-04-29T16:16:09.740Z",
+            "modified": "2023-04-29T16:16:44.606Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "a304d1d3-5ed1-42c1-9fb0-b7323991f34d",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "642dbda9-7fb4-460e-b28b-505d0620477f",
+            "name": "create order",
+            "url": "store/orders/",
+            "method": "POST",
+            "sortNum": 230000,
+            "created": "2023-04-29T16:34:58.443Z",
+            "modified": "2023-04-30T12:34:16.448Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": " {\n    \"address\": \"209 road\",\n    \"state\": \"Lagos\",\n    \"city\": \"Festac\",\n    \"method\": \"Pay on delivery\"\n  }",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "5d60c539-53c5-4b9e-8eda-4cf0ee161e77",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "eade456f-8528-4b82-ac8c-5b5eeed2775b",
+            "name": "delete item",
+            "url": "store/cart/items/6/",
+            "method": "DELETE",
+            "sortNum": 230000,
+            "created": "2023-05-01T17:12:51.977Z",
+            "modified": "2023-05-01T17:12:51.973Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"quantity\": 6\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "a8f967b0-7098-442b-9c37-d7d7c3bde285",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "26422f5a-4caa-46a5-a7dd-7112e162d70c",
+            "name": "empty cart",
+            "url": "store/cart/empty/",
+            "method": "GET",
+            "sortNum": 240000,
+            "created": "2023-04-30T15:42:30.330Z",
+            "modified": "2023-04-30T15:42:52.143Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"quantity\": 6\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "c70f5e34-8be1-493a-b122-65677f8b877d",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "642dbda9-7fb4-460e-b28b-505d0620477f",
+            "name": "get order",
+            "url": "store/orders/1/",
+            "method": "GET",
+            "sortNum": 240000,
+            "created": "2023-04-30T15:53:31.716Z",
+            "modified": "2023-04-30T15:53:55.879Z",
+            "headers": [],
+            "params": [],
+            "tests": []
+        },
+        {
+            "_id": "420b925f-251d-4007-8b54-c567c9646fe3",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "642dbda9-7fb4-460e-b28b-505d0620477f",
+            "name": "update order",
+            "url": "store/orders/1/",
+            "method": "PUT",
+            "sortNum": 250000,
+            "created": "2023-04-30T15:54:15.439Z",
+            "modified": "2023-04-30T15:57:00.303Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 1,\n  \"user\": \"sam\",\n  \"address\": \"209 road\",\n  \"state\": \"Kwara\",\n  \"city\": \"Festac\",\n  \"method\": \"Pay on delivery\",\n  \"status\": \"received\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "40d8dac3-ce0c-427f-afaf-9d59a140237d",
+            "colId": "013ae43c-9d56-417c-9a3a-e2331528346d",
+            "containerId": "642dbda9-7fb4-460e-b28b-505d0620477f",
+            "name": "delete order",
+            "url": "store/orders/1/",
+            "method": "DELETE",
+            "sortNum": 260000,
+            "created": "2023-04-30T15:57:23.805Z",
+            "modified": "2023-04-30T15:57:42.876Z",
+            "headers": [],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"id\": 1,\n  \"user\": \"sam\",\n  \"address\": \"209 road\",\n  \"state\": \"Kwara\",\n  \"city\": \"Festac\",\n  \"method\": \"Pay on delivery\",\n  \"status\": \"received\"\n}",
+                "form": []
+            },
+            "tests": []
         }
     ],
     "settings": {
         "auth": {
             "type": "bearer",
-            "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgyNTM0NzM0LCJpYXQiOjE2ODI1MzExMzQsImp0aSI6IjljYWQ0OGY1MWI1NjRjMWE5MDc2OWRhNDYyNmUxODdhIiwidXNlcl9pZCI6M30.2FRuOis-d5Zpp8h7To1MuZf9fClKse1JA5PdGOvfoL4"
+            "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjgyOTY0NzQ5LCJpYXQiOjE2ODI5NjExNDksImp0aSI6ImU5Mzk2ZGMxNTllYjQwYzM4OTNmNjE2MDFhMjNjYmU2IiwidXNlcl9pZCI6Mn0.rHUDB68sK7oIBNp7cFZMrhuC7q5GH4H8XPM8KrRjzTg"
         },
         "options": {
-            "baseUrl": "http://hairshine.pythonanywhere.com/"
+            "baseUrl": "localhost:8000/"
         }
     }
 }

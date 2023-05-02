@@ -274,29 +274,41 @@ const Login = ({ handleCurrentForm }) => {
 
 const Register = () => {
     const [currentPassword, setCurrentPassword] = useState("");
-    console.log("currentPassword", currentPassword);
 
-    const [username, setUsername] = useState("");
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    // const [username, setUsername] = useState("");
+    // const [firstName, setFirstName] = useState("");
+    // const [lastName, setLastName] = useState("");
+    // const [email, setEmail] = useState("");
+    // const [password, setPassword] = useState("");
+    // const [confirmPassword, setConfirmPassword] = useState("");
 
-    const registerUser = async (event) => {
-        event.preventDefault();
+    // const registerUser = async (event) => {
+    //     event.preventDefault();
 
+    // const formData = {
+    //     "username" : username,
+    //     "firstName" : firstName,
+    //     "lastName" : lastName,
+    //     "email" : email,
+    //     "password" : password,
+    //     "confirmPassword" : confirmPassword,
+    // }
+
+    // console.table({username, firstName, lastName, email, password });
+    // }
+
+    const regUser = async (values) => {
         const formData = {
-            "username" : username,
-            "firstName" : firstName,
-            "lastName" : lastName,
-            "email" : email,
-            "password" : password,
-            "confirmPassword" : confirmPassword,
-        }
+            username: values.username,
+            firstName: values.first_name,
+            lastName: values.last_name,
+            email: values.email,
+            password: values.password,
+        };
+        const { username, firstName, lastName, email, password } = formData;
 
-        console.table({username, firstName, lastName, email, password });
-    }
+        console.table({ username, firstName, lastName, email, password });
+    };
     return (
         <Formik
             initialValues={{
@@ -310,7 +322,8 @@ const Register = () => {
             }}
             // consume Api here
             onSubmit={(values) => {
-                alert(JSON.stringify(values, null, 2));
+                // alert(JSON.stringify(values, null, 2));
+                regUser(values);
             }}
         >
             {({ handleSubmit, errors, touched }) => (
@@ -709,7 +722,7 @@ const Register = () => {
                         maxW="602.79px"
                         mb="15px"
                         mx="auto"
-                        handleButton={registerUser}
+                        // handleButton={registerUser}
                     />
                 </form>
             )}

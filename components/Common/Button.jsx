@@ -1,7 +1,8 @@
 import React from "react";
 import { Button, Icon, Image, Text } from "@chakra-ui/react";
 
-export const PrimaryButton = ({ text, ...props }) => {
+export const PrimaryButton = ({ text, handleButton, ...props }) => {
+    console.log(props);
     return (
         <Button
             {...props}
@@ -16,7 +17,7 @@ export const PrimaryButton = ({ text, ...props }) => {
             h="auto"
             w="100%"
             fontSize={["14px", null, "20px", null, "20px"]}
-            onClick={props.handleButton}
+            onClick={handleButton}
         >
             {text}
         </Button>
