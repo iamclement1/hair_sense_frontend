@@ -27,7 +27,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
-import StateProvider from "@/context/StateProvider";
+import StateProvider, { StateContext } from "@/context/StateProvider";
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -313,7 +313,7 @@ const Login = ({ handleCurrentForm }) => {
 const Register = ({ handleCurrentForm }) => {
     const [currentPassword, setCurrentPassword] = useState("");
 
-    const { isLoading, setIsLoading } = useContext(StateProvider);
+    const { isLoading, setIsLoading } = useContext(StateContext);
 
     const regUser = async (values) => {
         const formData = {
@@ -331,12 +331,15 @@ const Register = ({ handleCurrentForm }) => {
             .then((response) => {
                 setIsLoading(true);
                 console.log(response);
-                toast("Account Created Successfully, Process To Login");
                 if (response && response.message === "proceed to login") {
+                    toast("Account Created Successfully, Process To Login");
                     handleCurrentForm("login");
                 }
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                setIsLoading(false)
+                console.log(error)
+            });
     };
     return (
         <Formik
