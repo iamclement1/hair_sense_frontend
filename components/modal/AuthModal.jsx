@@ -302,12 +302,12 @@ const Register = () => {
             username: values.username,
             firstName: values.first_name,
             lastName: values.last_name,
-            email: values.email,
+            phone: values.phone,
             password: values.password,
         };
-        const { username, firstName, lastName, email, password } = formData;
+        const { username, firstName, lastName, phone, password } = formData;
 
-        console.table({ username, firstName, lastName, email, password });
+        console.table({ username, firstName, lastName, phone, password });
     };
     return (
         <Formik
