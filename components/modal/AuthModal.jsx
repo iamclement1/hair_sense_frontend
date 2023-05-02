@@ -316,7 +316,7 @@ const Register = () => {
                 last_name: "",
                 password: "",
                 username: "",
-                email: "",
+                phone: "",
                 confirm_password: "",
                 // location: "",
             }}
@@ -484,11 +484,11 @@ const Register = () => {
                     </FormControl>
                     {/* Email Section  */}
                     <FormControl
-                        isInvalid={!!errors.email && touched.email}
+                        isInvalid={!!errors.phone && touched.phone}
                         mt={["14px", null, "24px"]}
                     >
                         <FormLabel
-                            htmlFor="email"
+                            htmlFor="phone"
                             fontSize={[
                                 "14px",
                                 null,
@@ -500,15 +500,15 @@ const Register = () => {
                             mb="12px"
                             fontWeight={"600"}
                         >
-                            Email
+                            phone
                         </FormLabel>
                         <Field
                             h={["50px", null]}
                             as={Input}
-                            id="email"
-                            name="email"
+                            id="phone"
+                            name="phone"
                             type="text"
-                            placeholder="Enter your Email"
+                            placeholder="Enter your phone"
                             fontSize={[
                                 "12px",
                                 null,
@@ -521,15 +521,19 @@ const Register = () => {
                             py="23px"
                             validate={(value) => {
                                 let error;
-                                if (value.length < 1) {
-                                    error = "Email is Required";
+                                if (!value) {
+                                    error = "Phone number is required";
+                                } else if (
+                                    !/^(\+?\d{11}|\d{10})$/.test(value)
+                                ) {
+                                    error = "Please enter a valid phone number";
                                 }
 
                                 return error;
                             }}
                         />
                         <FormErrorMessage fontSize={["12px", null, "15px"]}>
-                            {errors.email}
+                            {errors.phone}
                         </FormErrorMessage>
                     </FormControl>
                     {/* Password Section  */}
