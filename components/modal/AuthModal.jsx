@@ -326,10 +326,7 @@ const Register = () => {
         await httpPost(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
                 console.log(response);
-                toast.success("Account Created Successfully, Process To Login");
-                if (response.status === 201) {
-                    setCurrentPage = "login"
-                }
+                toast("Account Created Successfully, Process To Login");
             })
             .catch((error) => console.log(error))
     };
@@ -752,6 +749,7 @@ const Register = () => {
                         mx="auto"
                     // handleButton={registerUser}
                     />
+                    <ToastContainer />
                 </form>
             )}
         </Formik>
