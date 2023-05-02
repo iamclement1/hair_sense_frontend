@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Icon, Image, Text } from "@chakra-ui/react";
 
 export const PrimaryButton = ({ text, handleButton, ...props }) => {
-    console.log(props);
+    
     return (
         <Button
             {...props}
