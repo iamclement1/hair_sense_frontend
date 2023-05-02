@@ -316,6 +316,7 @@ const Register = ({ handleCurrentForm }) => {
     const { isLoading, setIsLoading } = useContext(StateContext);
 
     const regUser = async (values) => {
+        setIsLoading(true);
         const formData = {
             username: values.username,
             first_name: values.first_name,
@@ -329,16 +330,16 @@ const Register = ({ handleCurrentForm }) => {
 
         await httpPost(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
-                setIsLoading(true);
                 console.log(response);
                 if (response && response.message === "proceed to login") {
-                    toast("Account Created Successfully, Process To Login");
                     handleCurrentForm("login");
                 }
+                toast("Account Created Successfully, Process To Login");
+                setIsLoading(false);
             })
             .catch((error) => {
-                setIsLoading(false)
-                console.log(error)
+                setIsLoading(false);
+                console.log(error);
             });
     };
     return (
@@ -350,11 +351,9 @@ const Register = ({ handleCurrentForm }) => {
                 username: "",
                 phone: "",
                 confirm_password: "",
-                // location: "",
             }}
             // consume Api here
             onSubmit={(values) => {
-                // alert(JSON.stringify(values, null, 2));
                 regUser(values);
             }}
         >
@@ -665,60 +664,7 @@ const Register = ({ handleCurrentForm }) => {
                             </FormErrorMessage>
                         </FormControl>
                     </Flex>
-                    {/* Location */}
-                    {/* <FormControl
-                        isInvalid={!!errors.location && touched.location}
-                        mt={["14px", null, "24px"]}
-                    >
-                        <FormLabel
-                            htmlFor="location"
-                            fontSize={[
-                                "14px",
-                                null,
-                                "18px",
-                                null,
-                                null,
-                                "24px",
-                            ]}
-                            mb="12px"
-                            fontWeight={"600"}
-                        >
-                            Location
-                        </FormLabel>
-                        <Field
-                            h={["50px", null]}
-                            as={Select}
-                            id="location"
-                            name="location"
-                            type="text"
-                            placeholder="Enter your Location"
-                            fontSize={[
-                                "12px",
-                                null,
-                                "15px",
-                                null,
-                                null,
-                                "20px",
-                            ]}
-                            // px={["13px", null, "18px", null, "26px"]}
-                            // py="23px"
-                            validate={(value) => {
-                                let error;
-                                if (value.length < 1) {
-                                    error = "Location is Required";
-                                }
 
-                                return error;
-                            }}
-                        >
-                            <option value="new-york">New York</option>
-                            <option value="los-angeles">Los Angeles</option>
-                            <option value="chicago">Chicago</option>
-                        </Field>
-                        <FormErrorMessage fontSize={["12px", null, "15px"]}>
-                            {errors.location}
-                        </FormErrorMessage>
-                    </FormControl> */}
                     {/* Prvacy and policy */}
                     <FormControl mt="27px">
                         <FormLabel
@@ -758,7 +704,7 @@ const Register = ({ handleCurrentForm }) => {
                         maxW="602.79px"
                         mb="15px"
                         mx="auto"
-                        isLoading={false}
+                        isLoading={isLoading}
                         // handleButton={registerUser}
                     />
                     <ToastContainer />
