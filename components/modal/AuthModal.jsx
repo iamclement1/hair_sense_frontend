@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     Box,
     Divider,
@@ -27,6 +27,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
+import StateProvider from "@/context/StateProvider";
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -312,8 +313,7 @@ const Login = ({ handleCurrentForm }) => {
 const Register = ({ handleCurrentForm }) => {
     const [currentPassword, setCurrentPassword] = useState("");
 
-    //routing
-    const router = useRouter();
+    const { isLoading, setIsLoading } = useContext(StateProvider);
 
     const regUser = async (values) => {
         const formData = {
@@ -329,6 +329,7 @@ const Register = ({ handleCurrentForm }) => {
 
         await httpPost(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
+                setIsLoading(true);
                 console.log(response);
                 toast("Account Created Successfully, Process To Login");
                 if (response && response.message === "proceed to login") {
@@ -754,7 +755,7 @@ const Register = ({ handleCurrentForm }) => {
                         maxW="602.79px"
                         mb="15px"
                         mx="auto"
-                        isLoading={true}
+                        isLoading={false}
                         // handleButton={registerUser}
                     />
                     <ToastContainer />
