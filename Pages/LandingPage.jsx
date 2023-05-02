@@ -7,16 +7,16 @@ import { whatsNew } from "@/utils/dummyData";
 const LandingPage = () => {
     const [produts, setProduts] = useState(null);
 
-    useEffect(() => {
-        async function fetchProduct() {
-            const response = await httpGet(`${baseUrl}/store/products`);
-            setProduts(response);
-            console.log("Response is here", response);
-        }
-        if (!produts) {
-            fetchProduct();
-        }
-    }, [produts]);
+    // useEffect(() => {
+    //     async function fetchProduct() {
+    //         const response = await httpGet(`${baseUrl}/store/products`);
+    //         setProduts(response);
+    //         console.log("Response is here", response);
+    //     }
+    //     if (!produts) {
+    //         fetchProduct();
+    //     }
+    // }, [produts]);
     return (
         <Box pt={["40px", null, "40px"]}>
             <HeroSlider />
