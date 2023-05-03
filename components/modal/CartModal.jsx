@@ -20,7 +20,7 @@ import {
     Select,
 } from "@chakra-ui/react";
 
-const CartModal = () => {
+const CartModal = ({ isOpen, onClose, onOpen }) => {
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="6xl">
             <ModalOverlay />
