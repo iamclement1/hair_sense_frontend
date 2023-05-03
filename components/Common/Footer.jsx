@@ -45,7 +45,7 @@ const Footer = () => {
                                             null,
                                             "16px",
                                             null,
-                                            "20px",
+                                            "16px",
                                         ]}
                                     >
                                         {text}
@@ -76,7 +76,7 @@ const Footer = () => {
                                             null,
                                             "16px",
                                             null,
-                                            "20px",
+                                            "16px",
                                         ]}
                                     >
                                         {text}
@@ -107,7 +107,7 @@ const Footer = () => {
                                             null,
                                             "16px",
                                             null,
-                                            "20px",
+                                            "16px",
                                         ]}
                                     >
                                         {text}
@@ -150,7 +150,7 @@ const Footer = () => {
                                                     null,
                                                     "16px",
                                                     null,
-                                                    "20px",
+                                                    "16px",
                                                 ]}
                                             >
                                                 {text}
@@ -176,12 +176,12 @@ const Footer = () => {
                                                 null,
                                                 "16px",
                                                 null,
-                                                "20px",
+                                                "16px",
                                             ]}
                                         >
                                             <Icon
                                                 as={icon}
-                                                boxSize={"30px"}
+                                                boxSize={"20px"}
                                                 color="shades_7"
                                             />
                                         </Link>
