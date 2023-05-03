@@ -35,7 +35,7 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
         setCurrentPage(page);
     };
     return (
-        <Modal isOpen={isOpen} onClose={onClose} size="6xl">
+        <Modal isOpen={isOpen} onClose={onClose} size="4xl">
             <ModalOverlay />
             <ModalContent
                 bgColor={"white"}
@@ -54,22 +54,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                     bgColor={""}
                     pos={"relative"}
                     w={"100%"}
-                    maxW={["100%", null, "100%", "733px"]}
+                    maxW={["100%", null, "100%", "533px"]}
                     mx="auto"
                 >
                     {" "}
-                    <Flex align={"center"} gap={["20px"]} px={["20px"]}>
+                    <Flex align={"center"} gap={["20px"]} px={["0px"]}>
                         <Divider />
                         <Text
                             flexShrink={0}
-                            fontSize={[
-                                "18px",
-                                null,
-                                null,
-                                null,
-                                "20px",
-                                "40px",
-                            ]}
+                            fontSize={["18px", null, "40px"]}
                             fontWeight={600}
                             color="accent_2"
                         >
@@ -83,7 +76,7 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                     </Flex>
                     <Box
                         mt={["0px", null, "40px"]}
-                        pt={["24px", null, "54px"]}
+                        pt={["24px", null, "34px"]}
                         pb={["0px", null, "54px"]}
                         border={"1px"}
                         borderColor={["transparent", null, "dark_1"]}
@@ -109,6 +102,7 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                         </Box>
                         <Box>
                             <Box
+                            fontSize={"14px"}
                                 textAlign={"center"}
                                 onClick={() => {
                                     currentPage === "login"
@@ -194,37 +188,21 @@ const Login = ({ handleCurrentForm }) => {
                         isInvalid={!!errors.username && touched.username}
                     >
                         <FormLabel
+                            fontSize={"14px"}
                             htmlFor="username"
-                            fontSize={[
-                                "14px",
-                                null,
-                                "18px",
-                                null,
-                                null,
-                                "24px",
-                            ]}
-                            mb="12px"
+                            mb="8px"
                             fontWeight={"600"}
                         >
                             Username
                         </FormLabel>
                         <Field
-                            h={["50px", null]}
                             as={Input}
                             id="username"
                             name="username"
                             type="text"
                             placeholder="Enter your username"
-                            fontSize={[
-                                "12px",
-                                null,
-                                "15px",
-                                null,
-                                null,
-                                "20px",
-                            ]}
-                            px={["13px", null, "18px", null, "26px"]}
-                            py="23px"
+                            fontSize={["12px"]}
+                            px={["13px", null]}
                             validate={(value) => {
                                 let error;
                                 if (value.length < 1) {
@@ -234,7 +212,7 @@ const Login = ({ handleCurrentForm }) => {
                                 return error;
                             }}
                         />
-                        <FormErrorMessage fontSize={["12px", null, "15px"]}>
+                        <FormErrorMessage fontSize={["12px"]}>
                             {errors.username}
                         </FormErrorMessage>
                     </FormControl>
@@ -243,30 +221,21 @@ const Login = ({ handleCurrentForm }) => {
                         mt={["14px", null, "24px"]}
                     >
                         <FormLabel
+                            fontSize={"14px"}
                             htmlFor="password"
-                            fontSize={["14px", null, "18px", null, "20px"]}
-                            mb="12px"
+                            mb="8px"
                             fontWeight={"600"}
                         >
                             Password
                         </FormLabel>
                         <Field
-                            h={["50px", null]}
                             as={Input}
                             id="password"
                             name="password"
-                            fontSize={[
-                                "12px",
-                                null,
-                                "15px",
-                                null,
-                                null,
-                                "20px",
-                            ]}
+                            fontSize={["12px"]}
                             type="password"
                             placeholder="Password"
-                            px={["13px", null, "18px", "26px"]}
-                            py="23px"
+                            px={["13px", null]}
                             validate={(value) => {
                                 let error;
 
@@ -278,7 +247,7 @@ const Login = ({ handleCurrentForm }) => {
                                 return error;
                             }}
                         />
-                        <FormErrorMessage fontSize={["12px", null, "15px"]}>
+                        <FormErrorMessage fontSize={["12px"]}>
                             {errors.password}
                         </FormErrorMessage>
                     </FormControl>
@@ -286,7 +255,7 @@ const Login = ({ handleCurrentForm }) => {
                     <Box
                         display={"inline-block"}
                         fontWeight={"600"}
-                        fontSize={["14px", null, "15px"]}
+                        fontSize={["14px", null, ""]}
                         mt="12px"
                         textDecor={"underline"}
                         cursor={"pointer"}
@@ -368,37 +337,21 @@ const Register = ({ handleCurrentForm }) => {
                             }
                         >
                             <FormLabel
+                                fontSize={"14px"}
                                 htmlFor="first_name"
-                                fontSize={[
-                                    "14px",
-                                    null,
-                                    "18px",
-                                    null,
-                                    null,
-                                    "24px",
-                                ]}
-                                mb="12px"
+                                mb="8px"
                                 fontWeight={"600"}
                             >
                                 First Name
                             </FormLabel>
                             <Field
-                                h={["50px", null]}
                                 as={Input}
                                 id="first_name"
                                 name="first_name"
                                 type="text"
+                                fontSize={["12px"]}
                                 placeholder="John"
-                                fontSize={[
-                                    "12px",
-                                    null,
-                                    "15px",
-                                    null,
-                                    null,
-                                    "20px",
-                                ]}
-                                px={["13px", null, "18px", null, "26px"]}
-                                py="23px"
+                                px={["13px", null]}
                                 validate={(value) => {
                                     let error;
                                     if (value.length < 1) {
@@ -408,7 +361,7 @@ const Register = ({ handleCurrentForm }) => {
                                     return error;
                                 }}
                             />
-                            <FormErrorMessage fontSize={["12px", null, "15px"]}>
+                            <FormErrorMessage fontSize={["12px"]}>
                                 {errors.first_name}
                             </FormErrorMessage>
                         </FormControl>
@@ -418,37 +371,21 @@ const Register = ({ handleCurrentForm }) => {
                             isInvalid={!!errors.last_name && touched.last_name}
                         >
                             <FormLabel
+                                fontSize={"14px"}
                                 htmlFor="last_name"
-                                fontSize={[
-                                    "14px",
-                                    null,
-                                    "18px",
-                                    null,
-                                    null,
-                                    "24px",
-                                ]}
-                                mb="12px"
+                                mb="8px"
                                 fontWeight={"600"}
                             >
                                 Last Name
                             </FormLabel>
                             <Field
-                                h={["50px", null]}
                                 as={Input}
                                 id="last_name"
                                 name="last_name"
                                 type="text"
+                                fontSize={["12px"]}
                                 placeholder="Doe"
-                                fontSize={[
-                                    "12px",
-                                    null,
-                                    "15px",
-                                    null,
-                                    null,
-                                    "20px",
-                                ]}
-                                px={["13px", null, "18px", null, "26px"]}
-                                py="23px"
+                                px={["13px", null]}
                                 validate={(value) => {
                                     let error;
                                     if (value.length < 1) {
@@ -458,7 +395,7 @@ const Register = ({ handleCurrentForm }) => {
                                     return error;
                                 }}
                             />
-                            <FormErrorMessage fontSize={["12px", null, "15px"]}>
+                            <FormErrorMessage fontSize={["12px"]}>
                                 {errors.last_name}
                             </FormErrorMessage>
                         </FormControl>
@@ -469,37 +406,21 @@ const Register = ({ handleCurrentForm }) => {
                         mt={["14px", null, "24px"]}
                     >
                         <FormLabel
+                            fontSize={"14px"}
                             htmlFor="username"
-                            fontSize={[
-                                "14px",
-                                null,
-                                "18px",
-                                null,
-                                null,
-                                "24px",
-                            ]}
-                            mb="12px"
+                            mb="8px"
                             fontWeight={"600"}
                         >
                             Username
                         </FormLabel>
                         <Field
-                            h={["50px", null]}
                             as={Input}
                             id="username"
                             name="username"
                             type="text"
                             placeholder="Enter your username"
-                            fontSize={[
-                                "12px",
-                                null,
-                                "15px",
-                                null,
-                                null,
-                                "20px",
-                            ]}
-                            px={["13px", null, "18px", null, "26px"]}
-                            py="23px"
+                            fontSize={["12px"]}
+                            px={["13px", null]}
                             validate={(value) => {
                                 let error;
                                 if (value.length < 1) {
@@ -509,7 +430,7 @@ const Register = ({ handleCurrentForm }) => {
                                 return error;
                             }}
                         />
-                        <FormErrorMessage fontSize={["12px", null, "15px"]}>
+                        <FormErrorMessage fontSize={["12px"]}>
                             {errors.username}
                         </FormErrorMessage>
                     </FormControl>
@@ -519,37 +440,21 @@ const Register = ({ handleCurrentForm }) => {
                         mt={["14px", null, "24px"]}
                     >
                         <FormLabel
+                            fontSize={"14px"}
                             htmlFor="phone"
-                            fontSize={[
-                                "14px",
-                                null,
-                                "18px",
-                                null,
-                                null,
-                                "24px",
-                            ]}
-                            mb="12px"
+                            mb="8px"
                             fontWeight={"600"}
                         >
                             Phone
                         </FormLabel>
                         <Field
-                            h={["50px", null]}
                             as={Input}
                             id="phone"
                             name="phone"
                             type="number"
                             placeholder="Enter phone number"
-                            fontSize={[
-                                "12px",
-                                null,
-                                "15px",
-                                null,
-                                null,
-                                "20px",
-                            ]}
-                            px={["13px", null, "18px", null, "26px"]}
-                            py="23px"
+                            fontSize={["12px"]}
+                            px={["13px", null]}
                             validate={(value) => {
                                 let error;
                                 if (!value) {
@@ -563,7 +468,7 @@ const Register = ({ handleCurrentForm }) => {
                                 return error;
                             }}
                         />
-                        <FormErrorMessage fontSize={["12px", null, "15px"]}>
+                        <FormErrorMessage fontSize={["12px"]}>
                             {errors.phone}
                         </FormErrorMessage>
                     </FormControl>
@@ -574,30 +479,21 @@ const Register = ({ handleCurrentForm }) => {
                             mt={["14px", null, "24px"]}
                         >
                             <FormLabel
+                                fontSize={"14px"}
                                 htmlFor="password"
-                                fontSize={["14px", null, "18px", null, "20px"]}
-                                mb="12px"
+                                mb="8px"
                                 fontWeight={"600"}
                             >
                                 Password
                             </FormLabel>
                             <Field
-                                h={["50px", null]}
                                 as={Input}
                                 id="password"
                                 name="password"
-                                fontSize={[
-                                    "12px",
-                                    null,
-                                    "15px",
-                                    null,
-                                    null,
-                                    "20px",
-                                ]}
                                 type="password"
                                 placeholder="Password"
-                                px={["13px", null, "18px", "26px"]}
-                                py="23px"
+                                px={["13px", null]}
+                                fontSize={["12px"]}
                                 validate={(value) => {
                                     let error;
 
@@ -610,7 +506,7 @@ const Register = ({ handleCurrentForm }) => {
                                     return error;
                                 }}
                             />
-                            <FormErrorMessage fontSize={["12px", null, "15px"]}>
+                            <FormErrorMessage fontSize={["12px"]}>
                                 {errors.password}
                             </FormErrorMessage>
                         </FormControl>
@@ -625,30 +521,21 @@ const Register = ({ handleCurrentForm }) => {
                             mt={["14px", null, "24px"]}
                         >
                             <FormLabel
+                                fontSize={"14px"}
                                 htmlFor="confirm_password"
-                                fontSize={["14px", null, "18px", null, "20px"]}
-                                mb="12px"
+                                mb="8px"
                                 fontWeight={"600"}
                             >
                                 Confirm Password
                             </FormLabel>
                             <Field
-                                h={["50px", null]}
                                 as={Input}
                                 id="confirm_password"
                                 name="confirm_password"
-                                fontSize={[
-                                    "12px",
-                                    null,
-                                    "15px",
-                                    null,
-                                    null,
-                                    "20px",
-                                ]}
                                 type="password"
                                 placeholder="Confirm your Password"
-                                px={["13px", null, "18px", "26px"]}
-                                py="23px"
+                                px={["13px", null]}
+                                fontSize={["12px"]}
                                 validate={(value) => {
                                     let error;
 
@@ -659,7 +546,7 @@ const Register = ({ handleCurrentForm }) => {
                                     return error;
                                 }}
                             />
-                            <FormErrorMessage fontSize={["12px", null, "15px"]}>
+                            <FormErrorMessage fontSize={["12px"]}>
                                 {errors.confirm_password}
                             </FormErrorMessage>
                         </FormControl>
@@ -668,6 +555,7 @@ const Register = ({ handleCurrentForm }) => {
                     {/* Prvacy and policy */}
                     <FormControl mt="27px">
                         <FormLabel
+                            fontSize={"14px"}
                             htmlFor="rememberMe"
                             mt={4}
                             display={"flex"}
@@ -680,14 +568,14 @@ const Register = ({ handleCurrentForm }) => {
                                 as={Checkbox}
                                 mr={2}
                             />
-                            <Text fontSize={["12px", null, "14px"]}>
+                            <Text fontSize={["12px"]}>
                                 I have read and acknowledge Hair Sense’s Privacy
                                 Policy
                             </Text>
                         </FormLabel>
                     </FormControl>
                     <Box mt={["10px", null, "27px"]}>
-                        <Text fontSize={["12px", null, "14px"]}>
+                        <Text fontSize={["12px"]}>
                             By providing us with your email, you agree to Hair
                             Sense Terms of Service and to receive email updates
                             on new products
