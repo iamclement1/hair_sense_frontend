@@ -34,6 +34,7 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const handleCurrentForm = (page) => {
         setCurrentPage(page);
     };
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="4xl">
             <ModalOverlay />
@@ -86,13 +87,16 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                         {/* ************* */}
                         {/* Form Are being Use here  Check the Components Below for forms */}
                         {currentPage === "login" ? (
-                            <Login handleCurrentForm={handleCurrentForm} />
+                            <Login
+                                handleCurrentForm={handleCurrentForm}
+                                onClose={onClose}
+                            />
                         ) : currentPage === "register" ? (
                             <Register handleCurrentForm={handleCurrentForm} />
                         ) : currentPage === "forgetPassword" ? (
                             "forget password Form  will be here"
                         ) : (
-                            <Login handleCurrentForm={handleCurrentForm} />
+                            ""
                         )}
 
                         {/* ************    * */}
@@ -140,7 +144,7 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
 export default AuthModal;
 
 // Forms Start
-const Login = ({ handleCurrentForm }) => {
+const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
     const { isLoading, setIsLoading } = useContext(StateContext);
     const loginUser = async (values) => {
@@ -155,20 +159,21 @@ const Login = ({ handleCurrentForm }) => {
 
         await httpPost(`${baseUrl}/accounts/sign_in/`, formData)
             .then((response) => {
-                console.log(response);
-                toast("Login successful...");
-                const { access, refresh } = response;
-                Cookies.set("refresh_token", refresh);
-                Cookies.set("access_token", access);
-                console.log(
-                    "tokens are here === ",
-                    "Refresh token === ",
-                    refresh,
-                    "access token === ",
-                    access
-                );
                 if (response.status === 200) {
-                    router.push("/");
+                    // console.log(response.status);
+                    const { access, refresh } = response;
+                    Cookies.set("refresh_token", refresh);
+                    Cookies.set("access_token", access);
+                    // console.log(
+                    //     "tokens are here === ",
+                    //     "Refresh token === ",
+                    //     refresh,
+                    //     "access token === ",
+                    //     access
+                    // );
+
+                    toast("Login successful...");
+                    onClose();
                 }
                 setIsLoading(false);
             })
@@ -307,7 +312,7 @@ const Register = ({ handleCurrentForm }) => {
 
         await httpPost(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 if (response && response.message === "proceed to login") {
                     handleCurrentForm("login");
                     toast("Account Created Successfully, Process To Login");
