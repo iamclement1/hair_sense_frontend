@@ -102,7 +102,7 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                         </Box>
                         <Box>
                             <Box
-                            fontSize={"14px"}
+                                fontSize={"14px"}
                                 textAlign={"center"}
                                 onClick={() => {
                                     currentPage === "login"
@@ -310,8 +310,8 @@ const Register = ({ handleCurrentForm }) => {
                 console.log(response);
                 if (response && response.message === "proceed to login") {
                     handleCurrentForm("login");
+                    toast("Account Created Successfully, Process To Login");
                 }
-                toast("Account Created Successfully, Process To Login");
                 setIsLoading(false);
             })
             .catch((error) => {
