@@ -1,3 +1,4 @@
+import Pagination from "@/components/Common/Pagination";
 import ProductBox from "@/components/Common/ProductBox";
 import { whatsNew } from "@/utils/dummyData";
 import { Box, Divider, SimpleGrid, Text } from "@chakra-ui/react";
@@ -22,11 +23,12 @@ const Category = ({ data }) => {
                 <Divider />
             </Box>
             <Box>
-                <SimpleGrid columns={[2,3, 4]}>
+                {/* <SimpleGrid columns={[2, 3, 4]}>
                     {whatsNew.map((productData, i) => {
                         return <ProductBox key={i} productData={productData} />;
                     })}
-                </SimpleGrid>
+                </SimpleGrid> */}
+                <Pagination />
             </Box>
         </Box>
     );

@@ -1,8 +1,13 @@
 import React from "react";
-import { Button, Icon, Image, Text } from "@chakra-ui/react";
+import { Button, Icon, Image, Spinner, Text } from "@chakra-ui/react";
 
-export const PrimaryButton = ({ text, handleButton, ...props }) => {
-    console.log(props);
+export const PrimaryButton = ({
+    text,
+    children,
+    handleButton,
+    isLoading,
+    ...props
+}) => {
     return (
         <Button
             {...props}
@@ -12,14 +17,15 @@ export const PrimaryButton = ({ text, handleButton, ...props }) => {
             bgColor={"primary_1"}
             color={"white"}
             px={["16px", null, "26px"]}
-            py="15px"
+            py="12px"
             display={"block"}
             h="auto"
             w="100%"
-            fontSize={["14px", null, "20px", null, "20px"]}
+            fontSize={["14px", null, "16px"]}
             onClick={handleButton}
+            isDisabled={isLoading}
         >
-            {text}
+            {isLoading ? <Spinner size="md" /> : text}
         </Button>
     );
 };
@@ -35,11 +41,11 @@ export const SocialButton = ({ icon, text, imageUrl, imageText, ...props }) => {
             _active={{}}
             _focus={{}}
             bgColor={"transparent"}
-            px={["16px", null, "26px"]}
-            py="15px"
+            px={["16px", null, "16px"]}
+            py="10px"
             h="auto"
             w="100%"
-            fontSize={["14px", null, "20px", null, "20px"]}
+            fontSize={["14px", null, "16px"]}
             boxShadow={"0px 1.466px 1.466px rgba(51, 154, 240, 0.1)"}
             border={"1px"}
             borderColor={"dark_2"}
@@ -52,7 +58,7 @@ export const SocialButton = ({ icon, text, imageUrl, imageText, ...props }) => {
                         src={imageUrl}
                         alt={imageText}
                         display="inline-block"
-                        w={["24px", null, "35px"]}
+                        w={["20px", null, "25px"]}
                     />
                 )}
             </Text>
@@ -60,7 +66,7 @@ export const SocialButton = ({ icon, text, imageUrl, imageText, ...props }) => {
                 w={["80%", null, "60%", "60%", "60%", "60%"]}
                 color="dark_3"
                 fontWeight={400}
-                fontSize={["16px", null, "20px"]}
+                fontSize={["16px", null]}
                 textAlign={"left"}
             >
                 {" "}

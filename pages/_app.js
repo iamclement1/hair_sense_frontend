@@ -8,14 +8,16 @@ import { CSSReset, ChakraProvider } from "@chakra-ui/react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import StateProvider from "@/context/StateProvider";
+import { ToastContainer } from "react-toastify";
 
 export default function App({ Component, pageProps }) {
     return (
-        <StateProvider>
-            <ChakraProvider theme={theme}>
+        <ChakraProvider theme={theme}>
+            <StateProvider>
                 <CSSReset />
+                <ToastContainer />
                 <Component {...pageProps} />
-            </ChakraProvider>
-        </StateProvider>
+            </StateProvider>
+        </ChakraProvider>
     );
 }
