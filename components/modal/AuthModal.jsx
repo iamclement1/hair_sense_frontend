@@ -142,7 +142,9 @@ export default AuthModal;
 // Forms Start
 const Login = ({ handleCurrentForm }) => {
     const router = useRouter();
+    const { isLoading, setIsLoading } = useContext(StateContext);
     const loginUser = async (values) => {
+        setIsLoading(true);
         const formData = {
             username: values.username,
             password: values.password,
@@ -168,8 +170,13 @@ const Login = ({ handleCurrentForm }) => {
                 if (response.status === 200) {
                     router.push("/");
                 }
+                setIsLoading(false);
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+                console.log(error);
+                setIsLoading(false);
+                toast.error(error.message);
+            });
     };
     return (
         <Formik
@@ -271,6 +278,7 @@ const Login = ({ handleCurrentForm }) => {
                         width="full"
                         mt="30px"
                         py="20px"
+                        isLoading={isLoading}
                     />
                     <ToastContainer />
                 </form>
