@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-export const baseUrl = "http://hairshine.pythonanywhere.com";
+export const baseUrl = "https://hairshine.pythonanywhere.com";
 
 // console.log("Base Ur === ", baseUrl);
 
@@ -33,6 +33,7 @@ export const httpGet = async (url) => {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: `Bearer ${access_token}`,
+        mode: "no-cors",
     };
     try {
         const { data } = await axios.get(`${url}`, {
@@ -90,6 +91,7 @@ export const httpPost = async (url, postBody) => {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: `Bearer ${access_token}`,
+        mode: "no-cors"
     };
     try {
         const { data } = await axios.post(url, postBody, { headers });
