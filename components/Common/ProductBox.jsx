@@ -1,11 +1,11 @@
 import { Box, Flex, Icon, Image, Text } from "@chakra-ui/react";
 import React from "react";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+
 import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { StarRating } from ".";
 
 const ProductBox = ({ productData }) => {
     const { id, imageUrl, text, rating, price } = productData;
-    
 
     return (
         <Box>
@@ -55,22 +55,3 @@ const ProductBox = ({ productData }) => {
 };
 
 export default ProductBox;
-
-const StarRating = ({ rating }) => {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating - fullStars >= 0.5;
-
-    return (
-        <Flex justify={"center"} align="center">
-            {[...Array(fullStars)].map((_, index) => (
-                <Icon key={index} as={AiFillStar} color="yellow.500" />
-            ))}
-            {hasHalfStar && <Icon as={AiFillStar} color="yellow.500" mr={1} />}
-            {[...Array(5 - fullStars - (hasHalfStar ? 1 : 0))].map(
-                (_, index) => (
-                    <Icon key={index} as={AiFillStar} color="gray.500" />
-                )
-            )}
-        </Flex>
-    );
-};
