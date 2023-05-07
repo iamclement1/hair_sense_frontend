@@ -164,13 +164,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     const { access, refresh } = response;
                     Cookies.set("refresh_token", refresh);
                     Cookies.set("access_token", access);
-                    // console.log(
-                    //     "tokens are here === ",
-                    //     "Refresh token === ",
-                    //     refresh,
-                    //     "access token === ",
-                    //     access
-                    // );
+                   
 
                     toast("Login successful...");
                     onClose();
@@ -178,7 +172,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                 setIsLoading(false);
             })
             .catch((error) => {
-                console.log(error);
+                console.log("error", error);
                 setIsLoading(false);
                 toast.error(error.message);
             });

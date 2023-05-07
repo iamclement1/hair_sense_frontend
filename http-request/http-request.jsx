@@ -91,7 +91,7 @@ export const httpPost = async (url, postBody) => {
         Accept: "application/json",
         "Content-Type": "application/json",
         Authorization: `Bearer ${access_token}`,
-        mode: "no-cors"
+        mode: "no-cors",
     };
     try {
         const { data } = await axios.post(url, postBody, { headers });
