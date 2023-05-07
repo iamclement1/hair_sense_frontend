@@ -10,13 +10,16 @@ const LandingPage = () => {
     useEffect(() => {
         async function fetchProduct() {
             const response = await httpGet(`${baseUrl}/store/products`);
-            if(response && response.data && response.status === 200) {
-                setProducts(response);
+            if (response && response.data && response.status === 200) {
+                setProducts(response && response.data && response.data.results);
             }
             console.log("Response is here", response);
-            console.log("product data fetched is here mf", response.data.results);
+            console.log(
+                "product data fetched is here mf",
+                response.data.results
+            );
         }
-        if (!produts) {
+        if (!products) {
             fetchProduct();
         }
     }, [products]);

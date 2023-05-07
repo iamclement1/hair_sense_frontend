@@ -5,7 +5,15 @@ import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { StarRating } from ".";
 
 const ProductBox = ({ productData }) => {
-    const { id, imageUrl, text, rating, price } = productData;
+    // const { id, imageUrl, text, rating, price } = productData;
+    const {
+        id,
+        name,
+        actual_price,
+        sales_price,
+        first_description,
+        product_img,
+    } = productData;
 
     return (
         <Box>
@@ -21,8 +29,10 @@ const ProductBox = ({ productData }) => {
                         mx="auto"
                         boxSize={["137px", null, "200px", "247px"]}
                         objectFit="cover"
-                        src={imageUrl}
-                        alt={text}
+                        src={product_img}
+                        display="inline-block"
+                        alt={name}
+                        fallbackSrc="https://via.placeholder.com/150"
                     />
                     <Icon
                         as={!true ? BsHeartFill : BsHeart}
@@ -33,20 +43,20 @@ const ProductBox = ({ productData }) => {
                         right={2}
                     />
                 </Box>
-                <Box mt="19px">
+                <Box mt="19px" textAlign="center">
                     <Text fontSize={["13px", null, "14px", "16px"]}>
-                        {text}
+                        {name}
                     </Text>
-                    <Box mt="13px">
+                    <Flex mt="13px" justify="center">
                         {/* <Icon as={AiFillStar} /> */}
-                        <StarRating rating={rating} />
-                    </Box>
+                        <StarRating rating={3.5} />
+                    </Flex>
                     <Text
                         mt="10px"
                         fontSize={["18px", null, "24px"]}
                         fontWeight={600}
                     >
-                        ₦{price}
+                        ₦{actual_price}
                     </Text>
                 </Box>
             </Box>
