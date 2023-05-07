@@ -160,7 +160,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
         await httpPost(`${baseUrl}/accounts/sign_in/`, formData)
             .then((response) => {
                 if (response.status === 200) {
-                    // console.log(response.status);
+                    console.log(response);
                     const { access, refresh } = response;
                     Cookies.set("refresh_token", refresh);
                     Cookies.set("access_token", access);
@@ -178,8 +178,10 @@ const Login = ({ handleCurrentForm, onClose }) => {
                 setIsLoading(false);
             })
             .catch((error) => {
-                console.log(error);
                 setIsLoading(false);
+                console.log(error)
+
+                console.log(error);
                 toast.error(error.message);
             });
     };
@@ -285,7 +287,6 @@ const Login = ({ handleCurrentForm, onClose }) => {
                         py="20px"
                         isLoading={isLoading}
                     />
-                    <ToastContainer />
                 </form>
             )}
         </Formik>
