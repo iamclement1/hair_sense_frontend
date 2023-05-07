@@ -103,11 +103,11 @@ const ProductSlider = ({ section, productDatas, children }) => {
                 <Divider />
             </Box>
 
-            <Slider {...settings}>
+            {/* <Slider {...settings}>
                 {productDatas.map((productData, i) => {
                     return <ProductBox key={i} productData={productData} />;
                 })}
-            </Slider>
+            </Slider> */}
         </ScreenSize>
     );
 };

@@ -16,7 +16,7 @@ const LandingPage = () => {
             console.log("Response is here", response);
             console.log("product data fetched is here mf", response.data.results);
         }
-        if (!produts) {
+        if (!products) {
             fetchProduct();
         }
     }, [products]);
