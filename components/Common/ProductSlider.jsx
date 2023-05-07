@@ -103,11 +103,23 @@ const ProductSlider = ({ section, productDatas, children }) => {
                 <Divider />
             </Box>
 
-            {/* <Slider {...settings}>
-                {productDatas.map((productData, i) => {
-                    return <ProductBox key={i} productData={productData} />;
-                })}
-            </Slider> */}
+            <Box>
+                {productDatas && productDatas === null ? (
+                    <Text> Products not Available </Text>
+                ) : (
+                    <Slider {...settings}>
+                        {productDatas && productDatas.length > 0 &&
+                            productDatas.map((productData, i) => {
+                                return (
+                                    <ProductBox
+                                        key={i}
+                                        productData={productData}
+                                    />
+                                );
+                            })}
+                    </Slider>
+                )}
+            </Box>
         </ScreenSize>
     );
 };
