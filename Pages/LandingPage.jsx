@@ -5,24 +5,27 @@ import { baseUrl, httpGet } from "@/http-request/http-request";
 import { whatsNew } from "@/utils/dummyData";
 
 const LandingPage = () => {
-    const [produts, setProduts] = useState(null);
+    const [products, setProducts] = useState(null);
 
-    // useEffect(() => {
-    //     async function fetchProduct() {
-    //         const response = await httpGet(`${baseUrl}/store/products`);
-    //         setProduts(response);
-    //         console.log("Response is here", response);
-    //     }
-    //     if (!produts) {
-    //         fetchProduct();
-    //     }
-    // }, [produts]);
+    useEffect(() => {
+        async function fetchProduct() {
+            const response = await httpGet(`${baseUrl}/store/products`);
+            if(response && response.data && response.status === 200) {
+                setProducts(response);
+            }
+            console.log("Response is here", response);
+            console.log("product data fetched is here mf", response.data.results);
+        }
+        if (!produts) {
+            fetchProduct();
+        }
+    }, [products]);
     return (
         <Box pt={["40px", null, "40px"]}>
             <HeroSlider />
 
             <Box>
-                <ProductSlider section="What’s New" productDatas={whatsNew} />
+                <ProductSlider section="What’s New" productDatas={products} />
             </Box>
 
             <Box>
