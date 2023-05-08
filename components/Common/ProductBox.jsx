@@ -42,13 +42,13 @@ const ProductBox = ({ productData }) => {
                         top={3}
                         right={3}
                     />
-                    {/* <Icon 
+                    <Icon 
                     as={ AiOutlineShoppingCart}
                     cursor={"pointer"}
                     color={!true ? "primary_1" : "accent_2"}
                     pos={"absolute"}
                     top={3}
-                    right={3} /> */}
+                    right={3} />
                 </Box>
                 <Box mt="19px" textAlign="center">
                     <Text fontSize={["13px", null, "14px", "16px"]}
