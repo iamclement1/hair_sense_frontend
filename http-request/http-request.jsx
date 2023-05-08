@@ -20,9 +20,7 @@ export const httpGet = async (url) => {
         Authorization: `Bearer ${access_token}`,
     };
     try {
-        const { data } = await axios.get(`${url}`, {
-            headers: headers
-        });
+        const { data } = await axios.get(`${url}`);
         return data;
     } catch (error) {
         return error;
