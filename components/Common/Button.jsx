@@ -75,3 +75,34 @@ export const SocialButton = ({ icon, text, imageUrl, imageText, ...props }) => {
         </Button>
     );
 };
+
+export const SecondaryButton = ({
+    text,
+    children,
+    handleButton,
+    isLoading,
+    ...props
+}) => {
+    return (
+        <Button
+            {...props}
+            _hover={{}}
+            _active={{}}
+            _focus={{}}
+            bgColor={"white"}
+            border="1px"
+            borderColor="black"
+            color={"accent_2"}
+            px={["16px", null, "26px"]}
+            py="12px"
+            display={"block"}
+            h="auto"
+            w="100%"
+            fontSize={["14px", null, "16px"]}
+            onClick={handleButton}
+            isDisabled={isLoading}
+        >
+            {isLoading ? <Spinner size="md" /> : text}
+        </Button>
+    );
+};
