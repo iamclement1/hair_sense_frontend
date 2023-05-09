@@ -1,8 +1,24 @@
-import { Box, Flex, Icon, Image, Text } from "@chakra-ui/react";
+import {
+    Box,
+    Flex,
+    Icon,
+    Image,
+    Text,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
+} from "@chakra-ui/react";
 import React from "react";
 
 import { BsHeart, BsHeartFill, AiOutlineShoppingCart } from "react-icons/bs";
 import { StarRating } from ".";
+import { FaBars, FaShoppingCart } from "react-icons/fa";
 
 const ProductBox = ({ productData }) => {
     // const { id, imageUrl, text, rating, price } = productData;
@@ -34,25 +50,62 @@ const ProductBox = ({ productData }) => {
                         alt={name}
                         fallbackSrc="https://via.placeholder.com/150"
                     />
-                    <Icon
-                        as={!true ? BsHeartFill : BsHeart}
-                        cursor={"pointer"}
-                        color={!true ? "primary_1" : "accent_2"}
-                        pos={"absolute"}
-                        top={3}
-                        right={3}
-                    />
-                    <Icon 
-                    as={ AiOutlineShoppingCart}
-                    cursor={"pointer"}
-                    color={!true ? "primary_1" : "accent_2"}
-                    pos={"absolute"}
-                    top={3}
-                    right={3} />
+                    {/* Add to favourite ICON */}
+                    <Popover trigger="hover">
+                        <PopoverTrigger>
+                            <Icon
+                                as={!true ? BsHeartFill : BsHeart}
+                                cursor={"pointer"}
+                                color={!true ? "primary_1" : "accent_2"}
+                                pos={"absolute"}
+                                top={3}
+                                right={3}
+                            />
+                        </PopoverTrigger>
+                        <PopoverContent
+                            bgColor="White"
+                            w="fit-content"
+                            rounded="200px"
+                            fontSize="12px"
+                            px="20px"
+                            py="5px"
+                        >
+                            <PopoverArrow />
+                            Add to Favourite
+                        </PopoverContent>
+                    </Popover>
+
+                    {/* Add to Cart ICON */}
+
+                    <Popover trigger="hover">
+                        <PopoverTrigger>
+                            <Icon
+                                as={FaShoppingCart}
+                                cursor={"pointer"}
+                                color={!true ? "primary_1" : "accent_2"}
+                                pos={"absolute"}
+                                top={10}
+                                right={3}
+                            />
+                        </PopoverTrigger>
+                        <PopoverContent
+                            bgColor="White"
+                            w="fit-content"
+                            rounded="200px"
+                            fontSize="12px"
+                            px="20px"
+                            py="5px"
+                        >
+                            <PopoverArrow />
+                            Add to Cart
+                        </PopoverContent>
+                    </Popover>
                 </Box>
                 <Box mt="19px" textAlign="center">
-                    <Text fontSize={["13px", null, "14px", "16px"]}
-                    fontWeight={["bold"]}>
+                    <Text
+                        fontSize={["13px", null, "14px", "16px"]}
+                        fontWeight={["bold"]}
+                    >
                         {name}
                     </Text>
                     <Text fontSize={["13px", null, "14px", "16px"]}>
