@@ -130,14 +130,14 @@ const CartModal = ({ isOpen, onClose, onOpen }) => {
                         <PrimaryButton text="Check Out" w="100%" />
                     </Flex>
                     <Box mt={{ base: "18px", md: "24px" }}>
-                        <Link
-                            as={NextLink}
+                        <Text
                             fontWeight="600"
-                            href="/"
+                            cursor="pointer"
+                            fontSize={{ base: "12px", lg: "16px" }}
                             color="primary_1"
                         >
                             Continue Shopping
-                        </Link>
+                        </Text>
                     </Box>
                 </Box>
             </ModalContent>
