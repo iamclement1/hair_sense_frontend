@@ -85,30 +85,62 @@ const settings = {
     ],
 };
 
-const ProductSlider = ({ section, productDatas, children }) => {
+const ProductSlider = ({
+    section,
+    productDatas,
+    type = "default",
+    children,
+}) => {
     return (
         <ScreenSize>
-            <Box
-                mt={["80px", null, null, "100px"]}
-                mb={["40px", null, null, "80px"]}
-            >
-                <Text
-                    color="accent_2"
-                    fontSize={["16px", null, "40px"]}
-                    mb="12px"
-                    fontWeight={600}
+            {/* Default Header for product slider  */}
+            {type === "default" ? (
+                <Box
+                    mt={["80px", null, null, "100px"]}
+                    mb={["40px", null, null, "80px"]}
                 >
-                    {section}
-                </Text>
-                <Divider />
-            </Box>
+                    <Text
+                        color="accent_2"
+                        fontSize={{ base: "18px", md: "20px", xl: "30px" }}
+                        mb="12px"
+                        fontWeight={600}
+                    >
+                        {section}
+                    </Text>
+                    <Divider />
+                </Box>
+            ) : type === "other" ? (
+                <Box
+                    mt={["80px", null, null, "100px"]}
+                    mb={["40px", null, null, "80px"]}
+                >
+                    <Flex align={"center"} gap={["20px"]} px={["0px"]}>
+                        <Divider />
+                        <Text
+                            flexShrink={0}
+                            fontSize={{ base: "18px", md: "20px", xl: "30px" }}
+                            fontWeight={600}
+                            color="accent_2"
+                        >
+                            {section}
+                        </Text>
+                        <Divider />
+                    </Flex>
+                </Box>
+            ) : (
+                ""
+            )}
+
+            {/*  Header for product slider which type is === "others"  */}
+            {/*  */}
 
             <Box>
                 {productDatas && productDatas === null ? (
                     <Text> Products not Available </Text>
                 ) : (
                     <Slider {...settings}>
-                        {productDatas && productDatas.length > 0 &&
+                        {productDatas &&
+                            productDatas.length > 0 &&
                             productDatas.map((productData, i) => {
                                 return (
                                     <ProductBox
