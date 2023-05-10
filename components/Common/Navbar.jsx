@@ -43,7 +43,7 @@ const Navbar = () => {
     } = useDisclosure();
 
     const navigateToFav = () => {
-        router.push("/");
+        router.push("/favorite");
     };
     const menuItems = [
         {
