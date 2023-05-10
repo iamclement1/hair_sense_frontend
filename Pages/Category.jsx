@@ -23,11 +23,7 @@ const Category = ({ data }) => {
                 <Divider />
             </Box>
             <Box>
-                {/* <SimpleGrid columns={[2, 3, 4]}>
-                    {whatsNew.map((productData, i) => {
-                        return <ProductBox key={i} productData={productData} />;
-                    })}
-                </SimpleGrid> */}
+                
                 <Pagination />
             </Box>
         </Box>
