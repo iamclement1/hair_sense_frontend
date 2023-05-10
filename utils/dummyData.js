@@ -1,4 +1,4 @@
-export const whatsNew = [
+export const whatsNe = [
     {
         id: 1,
         imageUrl: "/images/np_1.svg",
@@ -281,7 +281,7 @@ export const whatsNew = [
     },
 ];
 
-export const dummyProduct = [
+export const whatsNew = [
     {
         id: 1,
         name: "Face mask",
