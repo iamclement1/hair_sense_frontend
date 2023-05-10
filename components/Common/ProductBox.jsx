@@ -20,7 +20,7 @@ import { BsHeart, BsHeartFill, AiOutlineShoppingCart } from "react-icons/bs";
 import { StarRating } from ".";
 import { FaBars, FaShoppingCart } from "react-icons/fa";
 
-const ProductBox = ({ productData }) => {
+const ProductBox = ({ productData }, isLiked) => {
     // const { id, imageUrl, text, rating, price } = productData;
     const {
         id,
@@ -54,9 +54,9 @@ const ProductBox = ({ productData }) => {
                     <Popover trigger="hover">
                         <PopoverTrigger>
                             <Icon
-                                as={!true ? BsHeartFill : BsHeart}
+                                as={isLiked ? BsHeartFill : BsHeart}
                                 cursor={"pointer"}
-                                color={!true ? "primary_1" : "accent_2"}
+                                color={isLiked ? "primary_1" : "accent_2"}
                                 pos={"absolute"}
                                 top={3}
                                 right={3}
