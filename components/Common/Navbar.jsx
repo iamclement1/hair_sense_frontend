@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
     Flex,
     Box,
@@ -24,10 +24,13 @@ import MobileNav from "./MobileNav";
 import AuthModal from "../modal/AuthModal";
 import { useRouter } from "next/router";
 import CartModal from "../modal/CartModal";
+import { StateContext } from "@/context/StateProvider";
 
 const Navbar = () => {
     // fuction to Open Nav
     const { isOpen, onOpen, onClose } = useDisclosure();
+    //fetch user from context api
+    const { user } = useContext(StateContext);
     // function to handle Authication  modal
     const router = useRouter();
     const {
@@ -96,7 +99,7 @@ const Navbar = () => {
                         <Box
                             w={["100%", null, "100%"]}
                             order={[3, 3, 2]}
-                            // flexShrink={1}
+                        // flexShrink={1}
                         >
                             <SearchInput />
                         </Box>
@@ -108,21 +111,30 @@ const Navbar = () => {
                             flexShrink={0}
                         >
                             <Flex gap="20px">
-                                {menuItems.map(({ url, text, icon }, i) => {
-                                    return (
-                                        <Box
-                                            cursor={"pointer"}
-                                            key={i}
-                                            textAlign={"center"}
-                                            onClick={url}
-                                        >
-                                            <Icon as={icon} color="accent_2" />
-                                            <Text color="accent_2">
-                                                {text}{" "}
-                                            </Text>
-                                        </Box>
-                                    );
-                                })}
+                                {user && user ? (
+                                    <>
+                                        <h1>display user info here...</h1>
+                                    </>
+                                ) : (
+                                    <>
+                                        {menuItems.map(({ url, text, icon }, i) => {
+                                            return (
+                                                <Box
+                                                    cursor={"pointer"}
+                                                    key={i}
+                                                    textAlign={"center"}
+                                                    onClick={url}
+                                                >
+                                                    <Icon as={icon} color="accent_2" />
+                                                    <Text color="accent_2">
+                                                        {text}{" "}
+                                                    </Text>
+                                                </Box>
+                                            );
+                                        })}
+                                    </>
+                                )}
+
                             </Flex>
                         </Box>
                         {/* Humbuger for Mobile Nav */}
