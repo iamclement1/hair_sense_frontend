@@ -7,6 +7,7 @@ const StateProvider = ({ children }) => {
     const [products, setProducts] = useState(null);
     const [isProduct, setIsProduct] = useState(null);
     const [prodID, setProdID] = useState(null);
+    const [user, setUser] = useState(null);
 
     const passedData = {
         isLoading,
@@ -17,6 +18,8 @@ const StateProvider = ({ children }) => {
         setIsProduct,
         prodID,
         setProdID,
+        user,
+        setUser
     };
     return (
         <StateContext.Provider value={passedData}>
