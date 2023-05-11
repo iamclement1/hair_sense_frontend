@@ -12,13 +12,13 @@ export const baseUrl = "https://hairshine.pythonanywhere.com";
 
 //a http request for every request like post, get, put, delete
 export const httpGet = async (url) => {
-    const access_token = Cookies.get("access_token");
-    const refresh_token = Cookies.get("refresh_token");
-    const headers = {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${access_token}`,
-    };
+    // const access_token = Cookies.get("access_token");
+    // const refresh_token = Cookies.get("refresh_token");
+    // const headers = {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${access_token}`,
+    // };
     try {
         const { data } = await axios.get(`${url}`);
         return data;

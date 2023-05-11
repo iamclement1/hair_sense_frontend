@@ -9,9 +9,9 @@ import {
    SimpleGrid,
    Text,
 } from "@chakra-ui/react";
-import React from "react";
 
 const FavouritePage = () => {
+   
    return (
       <Box pt={["40px", null, "40px"]}>
          <Box>
