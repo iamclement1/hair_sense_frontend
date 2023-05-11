@@ -40,6 +40,18 @@ const ProductBox = ({ productData }, isLiked) => {
         // await httpPost(`${baseUrl}/store/favourite/items`).then(
         //     (response) => {}
         // );
+
+        const data = {
+            "product" : productData.id
+        }
+
+        await httpPost(`${baseUrl}/store/favourite/items/`, data)
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
         console.log("favorite item added");
         console.log("favorite item details will be ", productData);
         console.log("favorite item ID will be ", productData && productData.id);
@@ -51,11 +63,11 @@ const ProductBox = ({ productData }, isLiked) => {
         //     (response) => {}
         // );
         console.log("Cart item added");
-        console.log(
+        alert(
             "Item that was added to cart details will be ",
             productData
         );
-        console.log(
+        alert(
             "Item that was added to cart ID will be ",
             productData && productData.id
         );
@@ -87,9 +99,9 @@ const ProductBox = ({ productData }, isLiked) => {
                     <Popover trigger="hover">
                         <PopoverTrigger>
                             <Icon
-                                as={isLiked ? BsHeartFill : BsHeart}
+                                as={!isLiked ? BsHeartFill : BsHeart}
                                 cursor={"pointer"}
-                                color={isLiked ? "primary_1" : "accent_2"}
+                                color={!isLiked ? "gray" : "gray"}
                                 pos={"absolute"}
                                 top={3}
                                 right={3}
