@@ -36,15 +36,36 @@ const ProductBox = ({ productData }, isLiked) => {
     } = productData;
 
     const handleAddFavorite = async (event) => {
-        event.preventDefault();
-        await httpPost(`${baseUrl}/store/favourite/items`)
-        .then((response) => {
+        event.stopPropagation();
+        // await httpPost(`${baseUrl}/store/favourite/items`).then(
+        //     (response) => {}
+        // );
+        console.log("favorite item added");
+        console.log("favorite item details will be ", productData);
+        console.log("favorite item ID will be ", productData && productData.id);
+    };
 
-        })
-        // console.log("favorite item added");
-    }
+    const handleAddToCart = async (event) => {
+        event.stopPropagation();
+        // await httpPost(`${baseUrl}/store/favourite/items`).then(
+        //     (response) => {}
+        // );
+        console.log("Cart item added");
+        console.log(
+            "Item that was added to cart details will be ",
+            productData
+        );
+        console.log(
+            "Item that was added to cart ID will be ",
+            productData && productData.id
+        );
+    };
+    const handleProductDetails = () => {
+        // OnClick of the whole box the Box detaill will be open on the new product Details page.
+        console.log("The clicked product Details is", productData);
+    };
     return (
-        <Box>
+        <Box onClick={handleProductDetails}>
             <Box
                 cursor={"pointer"}
                 bgColor=""
@@ -99,6 +120,7 @@ const ProductBox = ({ productData }, isLiked) => {
                                 pos={"absolute"}
                                 top={10}
                                 right={3}
+                                onClick={handleAddToCart}
                             />
                         </PopoverTrigger>
                         <PopoverContent
