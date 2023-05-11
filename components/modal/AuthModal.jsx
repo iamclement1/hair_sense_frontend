@@ -147,6 +147,8 @@ export default AuthModal;
 const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
     const { isLoading, setIsLoading } = useContext(StateContext);
+    // import user from context api
+    const { setUser } = useContext(StateContext);
     const loginUser = async (values) => {
         setIsLoading(true);
         const formData = {
@@ -164,6 +166,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     const { access, refresh } = response;
                     Cookies.set("refresh_token", refresh);
                     Cookies.set("access_token", access);
+                    setUser(response.data);
 
                     toast("Login successful...");
                     onClose();
