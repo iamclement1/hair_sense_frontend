@@ -14,14 +14,18 @@ import {
     PopoverCloseButton,
     PopoverAnchor,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 
 import { BsHeart, BsHeartFill, AiOutlineShoppingCart } from "react-icons/bs";
 import { StarRating } from ".";
 import { FaBars, FaShoppingCart } from "react-icons/fa";
+import { baseUrl, httpPost } from "@/http-request/http-request";
+import { StateContext } from "@/context/StateProvider";
 
 const ProductBox = ({ productData }, isLiked) => {
     // const { id, imageUrl, text, rating, price } = productData;
+    const { products } = useContext(StateContext);
+    // console.log("hey dude find the products here",products)
     const {
         id,
         name,
@@ -31,6 +35,14 @@ const ProductBox = ({ productData }, isLiked) => {
         product_img,
     } = productData;
 
+    const handleAddFavorite = async (event) => {
+        event.preventDefault();
+        await httpPost(`${baseUrl}/store/favourite/items`)
+        .then((response) => {
+
+        })
+        // console.log("favorite item added");
+    }
     return (
         <Box>
             <Box
@@ -60,6 +72,7 @@ const ProductBox = ({ productData }, isLiked) => {
                                 pos={"absolute"}
                                 top={3}
                                 right={3}
+                                onClick={handleAddFavorite}
                             />
                         </PopoverTrigger>
                         <PopoverContent
