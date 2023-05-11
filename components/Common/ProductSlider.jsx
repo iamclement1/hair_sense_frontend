@@ -105,11 +105,11 @@ const ProductSlider = ({
             if (response && response.data && response.status === 200) {
                 setProducts(response && response.data && response.data.results);
             }
-            // console.log("Response is here", response);
-            // console.log(
-            //     "product data fetched is here mf",
-            //     response.data.results
-            // );
+            console.log("Response is here", response);
+            console.log(
+                "product data fetched is here mf",
+                response.data.results
+            );
         }
         if (!products) {
             fetchProduct();
