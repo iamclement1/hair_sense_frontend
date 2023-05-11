@@ -1,5 +1,6 @@
 import { ProductSlider } from "@/components/Common";
 import ProductBox from "@/components/Common/ProductBox";
+import { baseUrl, httpGet } from "@/http-request/http-request";
 import { whatsNew } from "@/utils/dummyData";
 import {
    Box,
@@ -9,9 +10,27 @@ import {
    SimpleGrid,
    Text,
 } from "@chakra-ui/react";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 
 const FavouritePage = () => {
-   
+
+   const [fav, setFav] = useState(null);
+
+   const token = Cookies.get('token')
+   useEffect(() => {
+      async function fetchFavorite(){
+         const response = await httpGet(`${baseUrl}/store/favourite/`, {
+            headers: {
+               Authorization: `Bearer ${token}`
+            }
+         })
+         console.log(response);
+      }
+
+      fetchFavorite();
+   },[])
+
    return (
       <Box pt={["40px", null, "40px"]}>
          <Box>
