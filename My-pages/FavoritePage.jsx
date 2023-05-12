@@ -1,3 +1,4 @@
+'use client';
 import { ProductSlider } from "@/components/Common";
 import ProductBox from "@/components/Common/ProductBox";
 import { baseUrl, httpGet } from "@/http-request/http-request";
@@ -17,7 +18,8 @@ const FavouritePage = () => {
 
    const [fav, setFav] = useState(null);
 
-   const token = Cookies.get('token')
+   const token = localStorage.getItem('token')
+   console.log(token);
    useEffect(() => {
       async function fetchFavorite(){
          const response = await httpGet(`${baseUrl}/store/favourite/`, {

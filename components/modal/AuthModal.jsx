@@ -157,17 +157,18 @@ const Login = ({ handleCurrentForm, onClose }) => {
         };
         const { username, password } = formData;
 
-        console.table({ username, password });
+        // console.table({ username, password });
 
         await httpPost(`${baseUrl}/accounts/sign_in/`, formData)
             .then((response) => {
                 if (response.status === 200) {
-                    console.log(response);
+                    // console.log(response);
                     const { access, refresh } = response;
-                    Cookies.set("refresh_token", refresh);
-                    Cookies.set("access_token", access);
-                    setUser(response.data);
-
+                    Cookies.set('currentUser', access);
+                    Cookies.set('refreshToken', refresh);
+                    Cookies.set('access_token', access)
+                    setUser(response);
+                    //success callback
                     toast("Login successful...");
                     onClose();
                 }

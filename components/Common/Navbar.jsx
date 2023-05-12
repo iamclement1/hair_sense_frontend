@@ -31,6 +31,7 @@ const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
     const { user } = useContext(StateContext);
+    // console.log("User: " + user);
     // function to handle Authication  modal
     const router = useRouter();
     const {
