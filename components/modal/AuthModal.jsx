@@ -28,6 +28,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import StateProvider, { StateContext } from "@/context/StateProvider";
+import axios from "axios";
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -159,11 +160,11 @@ const Login = ({ handleCurrentForm, onClose }) => {
 
         // console.table({ username, password });
 
-        await httpPost(`${baseUrl}/accounts/sign_in/`, formData)
+        await axios.post(`${baseUrl}/accounts/sign_in/`, formData)
             .then((response) => {
-                if (response.status === 200) {
-                    // console.log(response);
-                    const { access, refresh } = response;
+                if (response.data.role === "client") {
+                    // console.log(response.data.role);
+                    const { access, refresh } = response.data;
                     Cookies.set('currentUser', access);
                     Cookies.set('refreshToken', refresh);
                     Cookies.set('access_token', access)
@@ -171,6 +172,8 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     //success callback
                     toast("Login successful...");
                     onClose();
+                } else if (response.data.role === 'admin') {
+                    router.push('/admin');
                 }
                 setIsLoading(false);
             })
@@ -308,7 +311,7 @@ const Register = ({ handleCurrentForm }) => {
 
         console.table({ username, first_name, last_name, phone, password });
 
-        await httpPost(`${baseUrl}/accounts/register/`, formData)
+        await axios.post(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
                 // console.log(response);
                 if (response && response.message === "proceed to login") {

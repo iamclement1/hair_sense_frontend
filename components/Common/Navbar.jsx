@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
     Flex,
     Box,
@@ -25,6 +25,8 @@ import AuthModal from "../modal/AuthModal";
 import { useRouter } from "next/router";
 import CartModal from "../modal/CartModal";
 import { StateContext } from "@/context/StateProvider";
+import { baseUrl, httpGet } from "@/http-request/http-request";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
     // fuction to Open Nav
@@ -33,6 +35,17 @@ const Navbar = () => {
     const { user } = useContext(StateContext);
     // console.log("User: " + user);
     // function to handle Authication  modal
+    //fetch user info from the endpoint
+    const access_token = Cookies.get('access_token');
+    console.log("here is the token", access_token);
+    useEffect(() => {
+        async function fetchUser (){
+            const response = await httpGet(`${baseUrl}/account/users`)
+            const data = await response;
+            console.log(data);
+        };
+        fetchUser();
+    }, [])
     const router = useRouter();
     const {
         isOpen: isOpenAuth,

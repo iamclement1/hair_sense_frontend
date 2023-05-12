@@ -21,6 +21,7 @@ import { StarRating } from ".";
 import { FaBars, FaShoppingCart } from "react-icons/fa";
 import { baseUrl, httpPost } from "@/http-request/http-request";
 import { StateContext } from "@/context/StateProvider";
+import { toast } from "react-toastify";
 
 const ProductBox = ({ productData }, isLiked) => {
     // const { id, imageUrl, text, rating, price } = productData;
@@ -48,6 +49,10 @@ const ProductBox = ({ productData }, isLiked) => {
         await httpPost(`${baseUrl}/store/favourite/items/`, data)
         .then((response) => {
             console.log(response);
+            // if(response === "successfull") {
+            //     console.log(response)
+            //     toast("item added successfully");
+            // }
         })
         .catch((error) => {
             console.log(error);
