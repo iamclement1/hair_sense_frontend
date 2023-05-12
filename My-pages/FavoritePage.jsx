@@ -18,10 +18,10 @@ const FavouritePage = () => {
 
    const [fav, setFav] = useState(null);
 
-   const token = localStorage.getItem('token')
+   const token = Cookies.get('access_token');
    console.log(token);
    useEffect(() => {
-      async function fetchFavorite(){
+      async function fetchFavorite() {
          const response = await httpGet(`${baseUrl}/store/favourite/`, {
             headers: {
                Authorization: `Bearer ${token}`
@@ -31,7 +31,7 @@ const FavouritePage = () => {
       }
 
       fetchFavorite();
-   },[])
+   }, [])
 
    return (
       <Box pt={["40px", null, "40px"]}>
