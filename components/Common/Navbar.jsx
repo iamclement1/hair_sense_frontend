@@ -35,6 +35,7 @@ import CartModal from "../modal/CartModal";
 import { StateContext } from "@/context/StateProvider";
 import { baseUrl, httpGet } from "@/http-request/http-request";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 const Navbar = () => {
     // fuction to Open Nav
@@ -45,15 +46,19 @@ const Navbar = () => {
     // function to handle Authication  modal
     //fetch user info from the endpoint
     const access_token = Cookies.get("access_token");
-    console.log("here is the token", access_token);
+    // console.log("here is the token", access_token);
     useEffect(() => {
         async function fetchUser() {
-            const response = await httpGet(`${baseUrl}/account/users`);
-            const data = await response;
-            console.log("user details here ", data);
+            const response = await axios.get(`${baseUrl}/accounts/user`, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            });
+            // const data = await response;
+            console.log(response);
         }
         fetchUser();
-    }, []);
+    }, [access_token]);
     const router = useRouter();
     const {
         isOpen: isOpenAuth,
