@@ -1,4 +1,5 @@
-import React, { createContext, useState } from "react";
+import Cookies from "js-cookie";
+import React, { createContext, useEffect, useState } from "react";
 
 export const StateContext = createContext();
 
@@ -8,6 +9,16 @@ const StateProvider = ({ children }) => {
     const [isProduct, setIsProduct] = useState(null);
     const [prodID, setProdID] = useState(null);
     const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const mainUser_token = Cookies.get("access_token");
+
+        setUser(mainUser_token && mainUser_token);
+    }, []);
+    const handleLogOut = () => {
+        Cookies.remove("access_token");
+        setUser(null);
+    };
 
     const passedData = {
         isLoading,
@@ -19,7 +30,8 @@ const StateProvider = ({ children }) => {
         prodID,
         setProdID,
         user,
-        setUser
+        setUser,
+        handleLogOut,
     };
     return (
         <StateContext.Provider value={passedData}>
