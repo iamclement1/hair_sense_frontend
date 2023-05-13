@@ -18,6 +18,7 @@ const StateProvider = ({ children }) => {
     }, []);
     const handleLogOut = () => {
         Cookies.remove("access_token");
+        toast("Logged out successfully");
         setUser(null);
         toast("Logout successful");
     };
