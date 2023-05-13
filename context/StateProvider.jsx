@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import React, { createContext, useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 export const StateContext = createContext();
 
@@ -18,6 +19,7 @@ const StateProvider = ({ children }) => {
     const handleLogOut = () => {
         Cookies.remove("access_token");
         setUser(null);
+        toast("Logout successful");
     };
 
     const passedData = {
