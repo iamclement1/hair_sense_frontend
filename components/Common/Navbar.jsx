@@ -6,6 +6,14 @@ import {
     Link,
     Icon,
     Text,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuItemOption,
+    MenuGroup,
+    MenuOptionGroup,
+    MenuDivider,
     useDisclosure,
 } from "@chakra-ui/react";
 
@@ -36,16 +44,16 @@ const Navbar = () => {
     // console.log("User: " + user);
     // function to handle Authication  modal
     //fetch user info from the endpoint
-    const access_token = Cookies.get('access_token');
+    const access_token = Cookies.get("access_token");
     console.log("here is the token", access_token);
     useEffect(() => {
-        async function fetchUser (){
-            const response = await httpGet(`${baseUrl}/account/users`)
+        async function fetchUser() {
+            const response = await httpGet(`${baseUrl}/account/users`);
             const data = await response;
-            console.log(data);
-        };
+            console.log("user details here ", data);
+        }
         fetchUser();
-    }, [])
+    }, []);
     const router = useRouter();
     const {
         isOpen: isOpenAuth,
@@ -113,7 +121,7 @@ const Navbar = () => {
                         <Box
                             w={["100%", null, "100%"]}
                             order={[3, 3, 2]}
-                        // flexShrink={1}
+                            // flexShrink={1}
                         >
                             <SearchInput />
                         </Box>
@@ -127,28 +135,103 @@ const Navbar = () => {
                             <Flex gap="20px">
                                 {user && user ? (
                                     <>
-                                        <h1>display user info here...</h1>
+                                        {menuItems.map(
+                                            ({ url, text, icon }, i) => {
+                                                return (
+                                                    <>
+                                                        {" "}
+                                                        {text ===
+                                                        "My Account" ? (
+                                                            <>
+                                                                {" "}
+                                                                <Menu>
+                                                                    <Box
+                                                                        as={
+                                                                            MenuButton
+                                                                        }
+                                                                        cursor={
+                                                                            "pointer"
+                                                                        }
+                                                                        textAlign={
+                                                                            "center"
+                                                                        }
+                                                                    >
+                                                                        <Icon
+                                                                            as={
+                                                                                icon
+                                                                            }
+                                                                            color="accent_2"
+                                                                        />
+                                                                        <Text color="accent_2">
+                                                                            user
+                                                                            Name
+                                                                        </Text>
+                                                                    </Box>
+                                                                    <MenuList py="0px">
+                                                                        <MenuItem
+                                                                            rounded="4px"
+                                                                            shadow="lg"
+                                                                            onClick={() => {
+                                                                                console.log(
+                                                                                    "log out user"
+                                                                                );
+                                                                            }}
+                                                                        >
+                                                                            Log
+                                                                            out
+                                                                        </MenuItem>
+                                                                    </MenuList>
+                                                                </Menu>
+                                                            </>
+                                                        ) : (
+                                                            <Box
+                                                                cursor={
+                                                                    "pointer"
+                                                                }
+                                                                key={i}
+                                                                textAlign={
+                                                                    "center"
+                                                                }
+                                                                onClick={url}
+                                                            >
+                                                                <Icon
+                                                                    as={icon}
+                                                                    color="accent_2"
+                                                                />
+                                                                <Text color="accent_2">
+                                                                    {text}{" "}
+                                                                </Text>
+                                                            </Box>
+                                                        )}{" "}
+                                                    </>
+                                                );
+                                            }
+                                        )}
                                     </>
                                 ) : (
                                     <>
-                                        {menuItems.map(({ url, text, icon }, i) => {
-                                            return (
-                                                <Box
-                                                    cursor={"pointer"}
-                                                    key={i}
-                                                    textAlign={"center"}
-                                                    onClick={url}
-                                                >
-                                                    <Icon as={icon} color="accent_2" />
-                                                    <Text color="accent_2">
-                                                        {text}{" "}
-                                                    </Text>
-                                                </Box>
-                                            );
-                                        })}
+                                        {menuItems.map(
+                                            ({ url, text, icon }, i) => {
+                                                return (
+                                                    <Box
+                                                        cursor={"pointer"}
+                                                        key={i}
+                                                        textAlign={"center"}
+                                                        onClick={url}
+                                                    >
+                                                        <Icon
+                                                            as={icon}
+                                                            color="accent_2"
+                                                        />
+                                                        <Text color="accent_2">
+                                                            {text}{" "}
+                                                        </Text>
+                                                    </Box>
+                                                );
+                                            }
+                                        )}
                                     </>
                                 )}
-
                             </Flex>
                         </Box>
                         {/* Humbuger for Mobile Nav */}
