@@ -11,6 +11,7 @@ import {
    SimpleGrid,
    Text,
 } from "@chakra-ui/react";
+import axios from "axios";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 
@@ -19,10 +20,13 @@ const FavouritePage = () => {
    const [fav, setFav] = useState(null);
 
    const token = Cookies.get('access_token');
-   console.log(token);
+   // console.log(token);
+   const headers = {
+      Authorization : `Bearer ${token}`,
+   }
    useEffect(() => {
       async function fetchFavorite() {
-         const response = await httpGet(`${baseUrl}/store/favourite/`, {
+         const response = await axios.get(`${baseUrl}/store/favourite/`, {
             headers: {
                Authorization: `Bearer ${token}`
             }
@@ -30,7 +34,9 @@ const FavouritePage = () => {
          console.log(response);
       }
 
-      fetchFavorite();
+      if(token) {
+         fetchFavorite();
+      };
    }, [])
 
    return (
@@ -56,7 +62,7 @@ const FavouritePage = () => {
                   columns={[2, 3, 4]}
                   spacingY={["30px", null, "50px"]}
                >
-                  {whatsNew.slice(0, 1).map((item, i) => {
+                  {fav && fav.slice(0, 1).map((item, i) => {
                      return (
                         <ProductBox
                            isLiked="true"
