@@ -298,50 +298,6 @@ const Login = ({ handleCurrentForm, onClose }) => {
     );
 };
 
-// {
-//     "data": {
-//         "status": 201,
-//         "message": "proceed to login"
-//     },
-//     "status": 201,
-//     "statusText": "Created",
-//     "headers": {
-//         "content-length": "43",
-//         "content-type": "application/json"
-//     },
-//     "config": {
-//         "transitional": {
-//             "silentJSONParsing": true,
-//             "forcedJSONParsing": true,
-//             "clarifyTimeoutError": false
-//         },
-//         "adapter": [
-//             "xhr",
-//             "http"
-//         ],
-//         "transformRequest": [
-//             null
-//         ],
-//         "transformResponse": [
-//             null
-//         ],
-//         "timeout": 0,
-//         "xsrfCookieName": "XSRF-TOKEN",
-//         "xsrfHeaderName": "X-XSRF-TOKEN",
-//         "maxContentLength": -1,
-//         "maxBodyLength": -1,
-//         "env": {},
-//         "headers": {
-//             "Accept": "application/json, text/plain, */*",
-//             "Content-Type": "application/json"
-//         },
-//         "method": "post",
-//         "url": "https://hairshine.pythonanywhere.com/accounts/register/",
-//         "data": "{\"username\":\"faruq4\",\"first_name\":\"Faruq\",\"last_name\":\"Azeez\",\"phone\":8149557484,\"password\":\"password\"}"
-//     },
-//     "request": {}
-// }
-
 const Register = ({ handleCurrentForm }) => {
     const [currentPassword, setCurrentPassword] = useState("");
 
@@ -368,8 +324,9 @@ const Register = ({ handleCurrentForm }) => {
                 //     handleCurrentForm("login");
                 //     toast("Account Created Successfully, Process To Login");
                 // }
-                if (response.data.status === "201") {
+                if (response.status === 201) {
                     toast("Account Created Successfully, Process To Login");
+                    handleCurrentForm("login");
                 }
                 setIsLoading(false);
             })
