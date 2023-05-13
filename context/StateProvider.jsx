@@ -20,7 +20,6 @@ const StateProvider = ({ children }) => {
         Cookies.remove("access_token");
         toast("Logged out successfully");
         setUser(null);
-        toast("Logout successful");
     };
 
     const passedData = {
