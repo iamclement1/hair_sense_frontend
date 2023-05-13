@@ -160,26 +160,31 @@ const Login = ({ handleCurrentForm, onClose }) => {
 
         // console.table({ username, password });
 
-        await axios.post(`${baseUrl}/accounts/sign_in/`, formData)
+        await axios
+            .post(`${baseUrl}/accounts/sign_in/`, formData)
             .then((response) => {
-                if (response.data.role === "client") {
+                if (
+                    response &&
+                    response.data &&
+                    response.data.role === "client"
+                ) {
                     // console.log(response.data.role);
                     const { access, refresh } = response.data;
-                    Cookies.set('currentUser', access);
-                    Cookies.set('refreshToken', refresh);
-                    Cookies.set('access_token', access)
-                    setUser(response);
+                    Cookies.set("currentUser", access);
+                    Cookies.set("refreshToken", refresh);
+                    Cookies.set("access_token", access);
+                    setUser(access);
                     //success callback
                     toast("Login successful...");
                     onClose();
-                } else if (response.data.role === 'admin') {
-                    router.push('/admin');
+                } else if (response.data.role === "admin") {
+                    router.push("/admin");
                 }
                 setIsLoading(false);
             })
             .catch((error) => {
                 setIsLoading(false);
-                console.log(error)
+                console.log(error);
 
                 console.log(error);
                 toast.error(error.message);
@@ -293,6 +298,50 @@ const Login = ({ handleCurrentForm, onClose }) => {
     );
 };
 
+// {
+//     "data": {
+//         "status": 201,
+//         "message": "proceed to login"
+//     },
+//     "status": 201,
+//     "statusText": "Created",
+//     "headers": {
+//         "content-length": "43",
+//         "content-type": "application/json"
+//     },
+//     "config": {
+//         "transitional": {
+//             "silentJSONParsing": true,
+//             "forcedJSONParsing": true,
+//             "clarifyTimeoutError": false
+//         },
+//         "adapter": [
+//             "xhr",
+//             "http"
+//         ],
+//         "transformRequest": [
+//             null
+//         ],
+//         "transformResponse": [
+//             null
+//         ],
+//         "timeout": 0,
+//         "xsrfCookieName": "XSRF-TOKEN",
+//         "xsrfHeaderName": "X-XSRF-TOKEN",
+//         "maxContentLength": -1,
+//         "maxBodyLength": -1,
+//         "env": {},
+//         "headers": {
+//             "Accept": "application/json, text/plain, */*",
+//             "Content-Type": "application/json"
+//         },
+//         "method": "post",
+//         "url": "https://hairshine.pythonanywhere.com/accounts/register/",
+//         "data": "{\"username\":\"faruq4\",\"first_name\":\"Faruq\",\"last_name\":\"Azeez\",\"phone\":8149557484,\"password\":\"password\"}"
+//     },
+//     "request": {}
+// }
+
 const Register = ({ handleCurrentForm }) => {
     const [currentPassword, setCurrentPassword] = useState("");
 
@@ -311,18 +360,22 @@ const Register = ({ handleCurrentForm }) => {
 
         console.table({ username, first_name, last_name, phone, password });
 
-        await axios.post(`${baseUrl}/accounts/register/`, formData)
+        await axios
+            .post(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
-                // console.log(response);
-                if (response && response.message === "proceed to login") {
-                    handleCurrentForm("login");
+                console.log(response);
+                // if (response && response.message === "proceed to login") {
+                //     handleCurrentForm("login");
+                //     toast("Account Created Successfully, Process To Login");
+                // }
+                if (response.data.status === "201") {
                     toast("Account Created Successfully, Process To Login");
                 }
                 setIsLoading(false);
             })
             .catch((error) => {
                 setIsLoading(false);
-                console.log(error);
+                toast.error(error.message);
             });
     };
     return (
