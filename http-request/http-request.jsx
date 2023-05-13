@@ -12,20 +12,19 @@ export const baseUrl = "https://hairshine.pythonanywhere.com";
 
 //a http request for every request like post, get, put, delete
 export const httpGet = async (url) => {
-    // const access_token = Cookies.get("access_token");
-    // const refresh_token = Cookies.get("refresh_token");
-    // const headers = {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer ${access_token}`,
-    // };
     try {
-        const { data } = await axios.get(`${url}`);
-        return data;
+        const response = await axios.get(`${url}`);
+        return response.data;
     } catch (error) {
-        return error;
+        if (error.response && error.response.status === 404) {
+            console.log('Resource not found');
+        } else {
+            console.log('Error occurred:', error.message);
+        }
+        return null;
     }
 };
+
 
 // export const httpGet = async (url) => {
 //     const access_token = Cookies.get("access_token");
