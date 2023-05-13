@@ -42,6 +42,8 @@ const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
     const { user } = useContext(StateContext);
+    // have userData here
+    const [userData, setUserData] = useState(null);
     // console.log("User: " + user);
     // function to handle Authication  modal
     //fetch user info from the endpoint
@@ -55,10 +57,11 @@ const Navbar = () => {
                 },
             });
             // const data = await response;
-            console.log(response);
+            setUserData(response && response.data && response.data.data);
+            console.log("fetch user detaitils res", userData);
         }
         fetchUser();
-    }, [access_token]);
+    }, [access_token]); //eslint-disable-line
     const router = useRouter();
     const {
         isOpen: isOpenAuth,
@@ -143,7 +146,7 @@ const Navbar = () => {
                                         {menuItems.map(
                                             ({ url, text, icon }, i) => {
                                                 return (
-                                                    <>
+                                                    <Box key={i}>
                                                         {" "}
                                                         {text ===
                                                         "My Account" ? (
@@ -168,8 +171,11 @@ const Navbar = () => {
                                                                             color="accent_2"
                                                                         />
                                                                         <Text color="accent_2">
-                                                                            user
-                                                                            Name
+                                                                            {userData &&
+                                                                                userData.user &&
+                                                                                userData
+                                                                                    .user
+                                                                                    .username}
                                                                         </Text>
                                                                     </Box>
                                                                     <MenuList py="0px">
@@ -208,7 +214,7 @@ const Navbar = () => {
                                                                 </Text>
                                                             </Box>
                                                         )}{" "}
-                                                    </>
+                                                    </Box>
                                                 );
                                             }
                                         )}
