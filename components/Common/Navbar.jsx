@@ -41,7 +41,7 @@ const Navbar = () => {
     // fuction to Open Nav
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
-    const { user } = useContext(StateContext);
+    const { user, handleLogOut } = useContext(StateContext);
     // have userData here
     const [userData, setUserData] = useState(null);
     // console.log("User: " + user);
@@ -58,7 +58,6 @@ const Navbar = () => {
             });
             // const data = await response;
             setUserData(response && response.data && response.data.data);
-            console.log("fetch user detaitils res", userData);
         }
         fetchUser();
     }, [access_token]); //eslint-disable-line
@@ -183,9 +182,7 @@ const Navbar = () => {
                                                                             rounded="4px"
                                                                             shadow="lg"
                                                                             onClick={() => {
-                                                                                console.log(
-                                                                                    "log out user"
-                                                                                );
+                                                                                handleLogOut();
                                                                             }}
                                                                         >
                                                                             Log
