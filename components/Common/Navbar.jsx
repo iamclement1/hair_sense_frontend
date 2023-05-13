@@ -59,8 +59,8 @@ const Navbar = () => {
             // const data = await response;
             setUserData(response && response.data && response.data.data);
         }
-        fetchUser();
-    }, [access_token]); //eslint-disable-line
+        user && fetchUser();
+    }, [user]); //eslint-disable-line
     const router = useRouter();
     const {
         isOpen: isOpenAuth,
