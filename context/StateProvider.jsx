@@ -11,6 +11,7 @@ const StateProvider = ({ children }) => {
     const [isProduct, setIsProduct] = useState(null);
     const [prodID, setProdID] = useState(null);
     const [user, setUser] = useState(null);
+    const [cart, setCart] = useState(null);
 
     useEffect(() => {
         const mainUser_token = Cookies.get("access_token");
@@ -36,6 +37,8 @@ const StateProvider = ({ children }) => {
         user,
         setUser,
         handleLogOut,
+        cart,
+        setCart,
     };
     return (
         <StateContext.Provider value={passedData}>

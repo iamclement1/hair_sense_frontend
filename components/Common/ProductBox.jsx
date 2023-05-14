@@ -25,7 +25,7 @@ import { toast } from "react-toastify";
 
 const ProductBox = ({ productData }, isLiked) => {
     // const { id, imageUrl, text, rating, price } = productData;
-    const { products } = useContext(StateContext);
+    const { products, cart, setCart } = useContext(StateContext);
     // console.log("hey dude find the products here",products)
     const {
         id,
