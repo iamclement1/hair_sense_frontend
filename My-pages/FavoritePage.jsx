@@ -30,7 +30,7 @@ const FavouritePage = () => {
          })
          if (response && response.data && response.status == 200) {
             setFav(response.data);
-            console.log(response);
+            // console.log(response);
             // console.log(fav);
          }
       }
@@ -38,7 +38,7 @@ const FavouritePage = () => {
       if (token) {
          fetchFavorite();
       };
-   }, [])
+   }, [token])
 
    return (
       <Box pt={["40px", null, "40px"]}>
