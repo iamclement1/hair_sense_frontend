@@ -1,76 +1,182 @@
-import { Box, Flex, Icon, Image, Text } from "@chakra-ui/react";
-import React from "react";
-import { AiFillStar, AiOutlineStar } from "react-icons/ai";
-import { BsHeart, BsHeartFill } from "react-icons/bs";
+import {
+    Box,
+    Flex,
+    Icon,
+    Image,
+    Text,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
+    PopoverBody,
+    PopoverFooter,
+    PopoverArrow,
+    PopoverCloseButton,
+    PopoverAnchor,
+} from "@chakra-ui/react";
+import React, { useContext } from "react";
 
-const ProductBox = ({ productData }) => {
-    const { id, imageUrl, text, rating, price } = productData;
-    
+import { BsHeart, BsHeartFill, AiOutlineShoppingCart } from "react-icons/bs";
+import { StarRating } from ".";
+import { FaBars, FaShoppingCart } from "react-icons/fa";
+import { baseUrl, httpPost } from "@/http-request/http-request";
+import { StateContext } from "@/context/StateProvider";
+import { toast } from "react-toastify";
 
-    return (
-        <Box>
-            <Box
-                cursor={"pointer"}
-                bgColor=""
-                maxW="285px"
-                textAlign={"center"}
-                mx="auto"
-            >
-                <Box w="100%" maxW="247px" pos={"relative"}>
-                    <Image
-                        mx="auto"
-                        boxSize={["137px", null, "200px", "247px"]}
-                        objectFit="cover"
-                        src={imageUrl}
-                        alt={text}
-                    />
-                    <Icon
-                        as={!true ? BsHeartFill : BsHeart}
-                        cursor={"pointer"}
-                        color={!true ? "primary_1" : "accent_2"}
-                        pos={"absolute"}
-                        top={0}
-                        right={2}
-                    />
-                </Box>
-                <Box mt="19px">
-                    <Text fontSize={["13px", null, "14px", "16px"]}>
-                        {text}
-                    </Text>
-                    <Box mt="13px">
-                        {/* <Icon as={AiFillStar} /> */}
-                        <StarRating rating={rating} />
+const ProductBox = ({ productData }, isLiked) => {
+    // const { id, imageUrl, text, rating, price } = productData;
+    const { products, cart, setCart } = useContext(StateContext);
+    // console.log("hey dude find the products here",products)
+    const {
+        id,
+        name,
+        actual_price,
+        sales_price,
+        first_description,
+        product_img,
+    } = productData;
+
+    const handleAddFavorite = async (event) => {
+        event.stopPropagation();
+        // await httpPost(`${baseUrl}/store/favourite/items`).then(
+        //     (response) => {}
+        // );
+
+        const data = {
+            "product": productData.id
+        }
+
+        await httpPost(`${baseUrl}/store/favourite/items/`, data)
+            .then((response) => {
+                if (response && response.status === 201) {
+                    console.log(response)
+                    toast("item added successfully");
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+        console.log("favorite item added");
+        console.log("favorite item details will be ", productData);
+        console.log("favorite item ID will be ", productData && productData.id);
+    };
+
+    const handleAddToCart = async (event) => {
+        event.stopPropagation();
+        // await httpPost(`${baseUrl}/store/favourite/items`).then(
+        //     (response) => {}
+        // );
+        // console.log("Cart item added");
+        // alert(
+        //     "Item that was added to cart details will be ",
+        //     productData
+        // );
+        // alert(
+        //     "Item that was added to cart ID will be ",
+        //     productData && productData.id
+        // );
+    };
+        const handleProductDetails = () => {
+            // OnClick of the whole box the Box detaill will be open on the new product Details page.
+            console.log("The clicked product Details is", productData);
+        };
+        return (
+            <Box onClick={handleProductDetails}>
+                <Box
+                    cursor={"pointer"}
+                    bgColor=""
+                    maxW="285px"
+                    textAlign={"center"}
+                    mx="auto"
+                >
+                    <Box w="100%" maxW="247px" pos={"relative"}>
+                        <Image
+                            mx="auto"
+                            boxSize={["137px", null, "200px", "247px"]}
+                            objectFit="cover"
+                            src={product_img}
+                            display="inline-block"
+                            alt={name}
+                            fallbackSrc="https://via.placeholder.com/150"
+                        />
+                        {/* Add to favourite ICON */}
+                        <Popover trigger="hover">
+                            <PopoverTrigger>
+                                <Icon
+                                    as={!isLiked ? BsHeartFill : BsHeart}
+                                    cursor={"pointer"}
+                                    color={!isLiked ? "gray" : "gray"}
+                                    pos={"absolute"}
+                                    top={3}
+                                    right={3}
+                                    onClick={handleAddFavorite}
+                                />
+                            </PopoverTrigger>
+                            <PopoverContent
+                                bgColor="White"
+                                w="fit-content"
+                                rounded="200px"
+                                fontSize="12px"
+                                px="20px"
+                                py="5px"
+                            >
+                                <PopoverArrow />
+                                Add to Favourite
+                            </PopoverContent>
+                        </Popover>
+
+                        {/* Add to Cart ICON */}
+
+                        <Popover trigger="hover">
+                            <PopoverTrigger>
+                                <Icon
+                                    as={FaShoppingCart}
+                                    cursor={"pointer"}
+                                    color={!true ? "primary_1" : "accent_2"}
+                                    pos={"absolute"}
+                                    top={10}
+                                    right={3}
+                                    onClick={handleAddToCart}
+                                />
+                            </PopoverTrigger>
+                            <PopoverContent
+                                bgColor="White"
+                                w="fit-content"
+                                rounded="200px"
+                                fontSize="12px"
+                                px="20px"
+                                py="5px"
+                            >
+                                <PopoverArrow />
+                                Add to Cart
+                            </PopoverContent>
+                        </Popover>
                     </Box>
-                    <Text
-                        mt="10px"
-                        fontSize={["18px", null, "24px"]}
-                        fontWeight={600}
-                    >
-                        ₦{price}
-                    </Text>
+                    <Box mt="19px" textAlign="center">
+                        <Text
+                            fontSize={["13px", null, "14px", "16px"]}
+                            fontWeight={["bold"]}
+                        >
+                            {name}
+                        </Text>
+                        <Text fontSize={["13px", null, "14px", "16px"]}>
+                            {first_description}
+                        </Text>
+                        <Flex mt="13px" justify="center">
+                            {/* <Icon as={AiFillStar} /> */}
+                            <StarRating rating={3.5} />
+                        </Flex>
+                        <Text
+                            mt="10px"
+                            fontSize={["18px", null, "24px"]}
+                            fontWeight={600}
+                        >
+                            ₦{actual_price}
+                        </Text>
+                    </Box>
                 </Box>
             </Box>
-        </Box>
-    );
-};
+        );
+    };
 
-export default ProductBox;
-
-const StarRating = ({ rating }) => {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating - fullStars >= 0.5;
-
-    return (
-        <Flex justify={"center"} align="center">
-            {[...Array(fullStars)].map((_, index) => (
-                <Icon key={index} as={AiFillStar} color="yellow.500" />
-            ))}
-            {hasHalfStar && <Icon as={AiFillStar} color="yellow.500" mr={1} />}
-            {[...Array(5 - fullStars - (hasHalfStar ? 1 : 0))].map(
-                (_, index) => (
-                    <Icon key={index} as={AiFillStar} color="gray.500" />
-                )
-            )}
-        </Flex>
-    );
-};
+    export default ProductBox;

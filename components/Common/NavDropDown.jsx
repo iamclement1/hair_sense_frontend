@@ -88,7 +88,7 @@ const DesktopMenu = () => {
                                                             w="100%"
                                                             display={"block"}
                                                             as={NextLink}
-                                                            href={`/categories/${lowNav}`}
+                                                            href={`/categories/${item.id}`}
                                                             color={"accent_2"}
                                                         >
                                                             {subItem}

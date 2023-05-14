@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { use, useContext, useState } from "react";
 import {
     Box,
     Divider,
@@ -28,12 +28,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import StateProvider, { StateContext } from "@/context/StateProvider";
+import axios from "axios";
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
     const handleCurrentForm = (page) => {
         setCurrentPage(page);
     };
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="4xl">
             <ModalOverlay />
@@ -86,13 +88,16 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                         {/* ************* */}
                         {/* Form Are being Use here  Check the Components Below for forms */}
                         {currentPage === "login" ? (
-                            <Login handleCurrentForm={handleCurrentForm} />
+                            <Login
+                                handleCurrentForm={handleCurrentForm}
+                                onClose={onClose}
+                            />
                         ) : currentPage === "register" ? (
                             <Register handleCurrentForm={handleCurrentForm} />
                         ) : currentPage === "forgetPassword" ? (
                             "forget password Form  will be here"
                         ) : (
-                            <Login handleCurrentForm={handleCurrentForm} />
+                            ""
                         )}
 
                         {/* ************    * */}
@@ -140,9 +145,11 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
 export default AuthModal;
 
 // Forms Start
-const Login = ({ handleCurrentForm }) => {
+const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
-    const { isLoading, setIsLoading } = useContext(StateContext);
+    const { isLoading, setIsLoading,
+    setUser } = useContext(StateContext);
+    // import user from context api
     const loginUser = async (values) => {
         setIsLoading(true);
         const formData = {
@@ -151,30 +158,42 @@ const Login = ({ handleCurrentForm }) => {
         };
         const { username, password } = formData;
 
-        console.table({ username, password });
+        // console.table({ username, password });
 
-        await httpPost(`${baseUrl}/accounts/sign_in/`, formData)
+        await axios
+            .post(`${baseUrl}/accounts/sign_in/`, formData)
             .then((response) => {
-                console.log(response);
-                toast("Login successful...");
-                const { access, refresh } = response;
-                Cookies.set("refresh_token", refresh);
-                Cookies.set("access_token", access);
-                console.log(
-                    "tokens are here === ",
-                    "Refresh token === ",
-                    refresh,
-                    "access token === ",
-                    access
-                );
-                if (response.status === 200) {
-                    router.push("/");
+                if (
+                    response &&
+                    response.data &&
+                    response.data.role === "client"
+                ) {
+                    const expirationTime = 60 * 60 * 1000;
+                    // console.log(response.data.role);
+                    const { access, refresh } = response.data;
+                    Cookies.set("currentUser", access);
+                    Cookies.set("refreshToken", refresh);
+                    Cookies.set("access_token", access);
+                    //remove token from cookies after one hour
+                    setTimeout(() => {
+                        Cookies.remove("access_token");
+                        Cookies.remove("refreshToken");
+                        Cookies.remove("currentUser");
+                    }, expirationTime);
+                    setUser(access);
+                    //success callback
+                    toast("Login successful...");
+                    onClose();
+                } else if (response.data.role === "admin") {
+                    router.push("/admin");
                 }
                 setIsLoading(false);
             })
             .catch((error) => {
-                console.log(error);
                 setIsLoading(false);
+                console.log(error);
+
+                console.log(error);
                 toast.error(error.message);
             });
     };
@@ -280,7 +299,6 @@ const Login = ({ handleCurrentForm }) => {
                         py="20px"
                         isLoading={isLoading}
                     />
-                    <ToastContainer />
                 </form>
             )}
         </Formik>
@@ -305,18 +323,23 @@ const Register = ({ handleCurrentForm }) => {
 
         console.table({ username, first_name, last_name, phone, password });
 
-        await httpPost(`${baseUrl}/accounts/register/`, formData)
+        await axios
+            .post(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
                 console.log(response);
-                if (response && response.message === "proceed to login") {
-                    handleCurrentForm("login");
+                // if (response && response.message === "proceed to login") {
+                //     handleCurrentForm("login");
+                //     toast("Account Created Successfully, Process To Login");
+                // }
+                if (response.status === 201) {
                     toast("Account Created Successfully, Process To Login");
+                    handleCurrentForm("login");
                 }
                 setIsLoading(false);
             })
             .catch((error) => {
                 setIsLoading(false);
-                console.log(error);
+                toast.error(error.message);
             });
     };
     return (

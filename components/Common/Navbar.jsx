@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
     Flex,
     Box,
@@ -6,6 +6,10 @@ import {
     Link,
     Icon,
     Text,
+    Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
     useDisclosure,
 } from "@chakra-ui/react";
 
@@ -23,12 +27,37 @@ import { NavDropDown } from ".";
 import MobileNav from "./MobileNav";
 import AuthModal from "../modal/AuthModal";
 import { useRouter } from "next/router";
+import CartModal from "../modal/CartModal";
+import { StateContext } from "@/context/StateProvider";
+import { baseUrl, httpGet } from "@/http-request/http-request";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const Navbar = () => {
     // fuction to Open Nav
     const { isOpen, onOpen, onClose } = useDisclosure();
+    //fetch user from context api
+    const { user, handleLogOut } = useContext(StateContext);
+    // have userData here
+    const [userData, setUserData] = useState(null);
+    // console.log("User: " + user);
     // function to handle Authication  modal
-    const router = useRouter()
+    //fetch user info from the endpoint
+    const access_token = Cookies.get("access_token");
+    // console.log("here is the token", access_token);
+    useEffect(() => {
+        async function fetchUser() {
+            const response = await axios.get(`${baseUrl}/accounts/user`, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            });
+            // const data = await response;
+            setUserData(response && response.data && response.data.data);
+        }
+        user && fetchUser();
+    }, [user]); //eslint-disable-line
+    const router = useRouter();
     const {
         isOpen: isOpenAuth,
         onOpen: onOpenAuth,
@@ -42,7 +71,7 @@ const Navbar = () => {
     } = useDisclosure();
 
     const navigateToFav = () => {
-        router.push("/");
+        router.push("/favorite");
     };
     const menuItems = [
         {
@@ -107,21 +136,106 @@ const Navbar = () => {
                             flexShrink={0}
                         >
                             <Flex gap="20px">
-                                {menuItems.map(({ url, text, icon }, i) => {
-                                    return (
-                                        <Box
-                                            cursor={"pointer"}
-                                            key={i}
-                                            textAlign={"center"}
-                                            onClick={url}
-                                        >
-                                            <Icon as={icon} color="accent_2" />
-                                            <Text color="accent_2">
-                                                {text}{" "}
-                                            </Text>
-                                        </Box>
-                                    );
-                                })}
+                                {user && user ? (
+                                    <>
+                                        {menuItems.map(
+                                            ({ url, text, icon }, i) => {
+                                                return (
+                                                    <Box key={i}>
+                                                        {" "}
+                                                        {text ===
+                                                        "My Account" ? (
+                                                            <>
+                                                                {" "}
+                                                                <Menu>
+                                                                    <Box
+                                                                        as={
+                                                                            MenuButton
+                                                                        }
+                                                                        cursor={
+                                                                            "pointer"
+                                                                        }
+                                                                        textAlign={
+                                                                            "center"
+                                                                        }
+                                                                    >
+                                                                        <Icon
+                                                                            as={
+                                                                                icon
+                                                                            }
+                                                                            color="accent_2"
+                                                                        />
+                                                                        <Text color="accent_2">
+                                                                            {userData &&
+                                                                                userData.user &&
+                                                                                userData
+                                                                                    .user
+                                                                                    .username}
+                                                                        </Text>
+                                                                    </Box>
+                                                                    <MenuList py="0px">
+                                                                        <MenuItem
+                                                                            rounded="4px"
+                                                                            shadow="lg"
+                                                                            onClick={() => {
+                                                                                handleLogOut();
+                                                                            }}
+                                                                        >
+                                                                            Log
+                                                                            out
+                                                                        </MenuItem>
+                                                                    </MenuList>
+                                                                </Menu>
+                                                            </>
+                                                        ) : (
+                                                            <Box
+                                                                cursor={
+                                                                    "pointer"
+                                                                }
+                                                                key={i}
+                                                                textAlign={
+                                                                    "center"
+                                                                }
+                                                                onClick={url}
+                                                            >
+                                                                <Icon
+                                                                    as={icon}
+                                                                    color="accent_2"
+                                                                />
+                                                                <Text color="accent_2">
+                                                                    {text}{" "}
+                                                                </Text>
+                                                            </Box>
+                                                        )}{" "}
+                                                    </Box>
+                                                );
+                                            }
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        {menuItems.map(
+                                            ({ url, text, icon }, i) => {
+                                                return (
+                                                    <Box
+                                                        cursor={"pointer"}
+                                                        key={i}
+                                                        textAlign={"center"}
+                                                        onClick={url}
+                                                    >
+                                                        <Icon
+                                                            as={icon}
+                                                            color="accent_2"
+                                                        />
+                                                        <Text color="accent_2">
+                                                            {text}{" "}
+                                                        </Text>
+                                                    </Box>
+                                                );
+                                            }
+                                        )}
+                                    </>
+                                )}
                             </Flex>
                         </Box>
                         {/* Humbuger for Mobile Nav */}
@@ -156,6 +270,11 @@ const Navbar = () => {
                 isOpen={isOpenAuth}
                 onOpen={onOpenAuth}
                 onClose={onCloseAuth}
+            />
+            <CartModal
+                isOpen={isOpenCart}
+                onOpen={onOpenCart}
+                onClose={onCloseCart}
             />
         </>
     );

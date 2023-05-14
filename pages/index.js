@@ -1,6 +1,6 @@
-import LandingPage from "@/Pages/LandingPage";
-import { Layout } from "@/components/layouts";
 
+import LandingPage from "@/My-pages/LandingPage";
+import { Layout, ScreenSize } from "@/components/layouts";
 
 export default function Home() {
     return (

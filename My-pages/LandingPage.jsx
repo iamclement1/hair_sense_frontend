@@ -1,47 +1,49 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Footer, HeroSlider, ProductSlider } from "@/components/Common";
 import { Box } from "@chakra-ui/react";
 import { baseUrl, httpGet } from "@/http-request/http-request";
 import { whatsNew } from "@/utils/dummyData";
+import { StateContext } from "@/context/StateProvider";
 
 const LandingPage = () => {
-    const [produts, setProduts] = useState(null);
+    const { products, setProducts,
+        prodID, setProdID } = useContext(StateContext);
 
-    // useEffect(() => {
-    //     async function fetchProduct() {
-    //         const response = await httpGet(`${baseUrl}/store/products`);
-    //         setProduts(response);
-    //         console.log("Response is here", response);
-    //     }
-    //     if (!produts) {
-    //         fetchProduct();
-    //     }
-    // }, [produts]);
+    const [clickedProd, setClickedProd] = useState(0)
+
+    useEffect(() => {
+        async function fetchAccessories() {
+            const response = await httpGet(`${baseUrl}/store/categories`);
+            // console.log("A new response is here", response.data.results);
+        }
+
+        fetchAccessories();
+    }, [])
     return (
         <Box pt={["40px", null, "40px"]}>
             <HeroSlider />
 
             <Box>
-                <ProductSlider section="What’s New" productDatas={whatsNew} />
+                <ProductSlider section="What’s New" productDatas={products} />
             </Box>
 
             <Box>
                 <ProductSlider
                     section="Trending Products"
-                    productDatas={whatsNew}
+                    productDatas={products}
                 />
             </Box>
             <Box>
                 <ProductSlider
                     section="Skin Care Product"
-                    productDatas={whatsNew}
+                    productDatas={products}
                 />
             </Box>
             <Box>
-                <ProductSlider section="Accessories" productDatas={whatsNew} />
+                <ProductSlider section="Accessories" productDatas={products} />
             </Box>
             <Box>
-                <ProductSlider section="Hair Care" productDatas={whatsNew} />
+                <ProductSlider section="Hair Care" productDatas={products} />
             </Box>
             <Box>
                 <ProductSlider
