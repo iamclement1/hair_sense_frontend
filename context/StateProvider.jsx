@@ -1,8 +1,9 @@
 import Cookies from "js-cookie";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
 import { toast } from "react-toastify";
 
 export const StateContext = createContext();
+
 
 const StateProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -18,6 +19,7 @@ const StateProvider = ({ children }) => {
     }, []);
     const handleLogOut = () => {
         Cookies.remove("access_token");
+        Cookies.remove("currentUser");
         toast("Logged out successfully");
         setUser(null);
     };

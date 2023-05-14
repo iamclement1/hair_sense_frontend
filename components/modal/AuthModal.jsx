@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { use, useContext, useState } from "react";
 import {
     Box,
     Divider,
@@ -147,9 +147,9 @@ export default AuthModal;
 // Forms Start
 const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
-    const { isLoading, setIsLoading } = useContext(StateContext);
+    const { isLoading, setIsLoading,
+    setUser } = useContext(StateContext);
     // import user from context api
-    const { setUser } = useContext(StateContext);
     const loginUser = async (values) => {
         setIsLoading(true);
         const formData = {
@@ -168,11 +168,18 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     response.data &&
                     response.data.role === "client"
                 ) {
+                    const expirationTime = 60 * 60 * 1000;
                     // console.log(response.data.role);
                     const { access, refresh } = response.data;
                     Cookies.set("currentUser", access);
                     Cookies.set("refreshToken", refresh);
                     Cookies.set("access_token", access);
+                    //remove token from cookies after one hour
+                    setTimeout(() => {
+                        Cookies.remove("access_token");
+                        Cookies.remove("refreshToken");
+                        Cookies.remove("currentUser");
+                    }, expirationTime);
                     setUser(access);
                     //success callback
                     toast("Login successful...");

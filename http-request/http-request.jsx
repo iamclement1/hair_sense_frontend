@@ -8,12 +8,16 @@ export const baseUrl = "https://hairshine.pythonanywhere.com";
 
 // console.log("Base Ur === ", baseUrl);
 
-// const accessToken = Cookies.get(access_token)
+const token = Cookies.get("access_token");
+const headers = {
+    "Content-Type": "application/json",
+    Authorization: `Bearer ${token}`,
+}
 
 //a http request for every request like post, get, put, delete
 export const httpGet = async (url) => {
     try {
-        const response = await axios.get(`${url}`);
+        const response = await axios.get(`${url}`, headers);
         return response.data;
     } catch (error) {
         if (error.response && error.response.status === 404) {

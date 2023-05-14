@@ -17,13 +17,10 @@ import { useEffect, useState } from "react";
 
 const FavouritePage = () => {
 
-   const [fav, setFav] = useState(null);
+   const [fav, setFav] = useState([]);
 
    const token = Cookies.get('access_token');
    // console.log(token);
-   const headers = {
-      Authorization : `Bearer ${token}`,
-   }
    useEffect(() => {
       async function fetchFavorite() {
          const response = await axios.get(`${baseUrl}/store/favourite/`, {
@@ -31,10 +28,14 @@ const FavouritePage = () => {
                Authorization: `Bearer ${token}`
             }
          })
-         console.log(response);
+         if (response && response.data && response.status == 200) {
+            setFav(response.data);
+            console.log(response);
+            // console.log(fav);
+         }
       }
 
-      if(token) {
+      if (token) {
          fetchFavorite();
       };
    }, [])
@@ -62,7 +63,9 @@ const FavouritePage = () => {
                   columns={[2, 3, 4]}
                   spacingY={["30px", null, "50px"]}
                >
-                  {fav && fav.slice(0, 1).map((item, i) => {
+
+                  {fav && fav.response && fav.slice(0, 1).map((item, i) => {
+                     // console.log(fav);
                      return (
                         <ProductBox
                            isLiked="true"
