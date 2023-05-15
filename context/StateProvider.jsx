@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useReducer, useState } fro
 import { toast } from "react-toastify";
 
 export const StateContext = createContext();
-
+export const CartContext = createContext();
 
 const StateProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
