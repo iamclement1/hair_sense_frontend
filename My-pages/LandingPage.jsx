@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Footer, HeroSlider, ProductSlider } from "@/components/Common";
 import { Box } from "@chakra-ui/react";
 import { baseUrl, httpGet } from "@/http-request/http-request";
-import { StateContext } from "@/context/StateProvider";
+import { CartContext, StateContext } from "@/context/StateProvider";
 
 const LandingPage = () => {
     const { products, setProducts,
@@ -18,6 +18,10 @@ const LandingPage = () => {
 
         fetchAccessories();
     }, [])
+    //cart context
+    const GlobalCart = useContext(CartContext);
+    // console.log(GlobalCart)
+    const dispatch = GlobalCart.dispatch;
     return (
         <Box pt={["40px", null, "40px"]}>
             <HeroSlider />
