@@ -104,7 +104,9 @@ const ProductSlider = ({
         async function fetchProduct() {
             const response = await axios.get(`${baseUrl}/store/products`);
             if (response && response.data && response.status === 200) {
-                setProducts(response && response.data && response.data.results);
+                const data = response.data.data.results;
+                // console.log("here is the data",data);
+                setProducts(data);
             }
             // console.log("Response is here", response);
             // console.log(
@@ -118,7 +120,7 @@ const ProductSlider = ({
     }, [products, setProducts]);
 
     const handleProduct = (id) => {
-        alert("Product Id === ",  id)
+        alert("Product Id === ", id)
     }
     return (
         <ScreenSize>
@@ -171,6 +173,7 @@ const ProductSlider = ({
                         {products &&
                             products.length > 0 &&
                             products.map((product, id) => {
+                                product.quantity = 1;
                                 return (
                                     <ProductBox
                                         key={id}
