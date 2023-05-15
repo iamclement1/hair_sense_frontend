@@ -71,8 +71,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                             {currentPage === "login"
                                 ? "Welcome Back"
                                 : currentPage === "register"
-                                ? "Create An Account"
-                                : "Recover your Password"}
+                                    ? "Create An Account"
+                                    : "Recover your Password"}
                         </Text>
                         <Divider />
                     </Flex>
@@ -113,15 +113,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     currentPage === "login"
                                         ? handleCurrentForm("register")
                                         : currentPage === "register"
-                                        ? handleCurrentForm("login")
-                                        : handleCurrentForm("login");
+                                            ? handleCurrentForm("login")
+                                            : handleCurrentForm("login");
                                 }}
                             >
                                 {currentPage === "login"
                                     ? "Don’t have an account? "
                                     : currentPage === "register"
-                                    ? "Already have an account? "
-                                    : "Already have an account? "}
+                                        ? "Already have an account? "
+                                        : "Already have an account? "}
                                 <Box
                                     as="button"
                                     color="accent_2"
@@ -130,8 +130,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
-                                        ? "Sign in"
-                                        : "Sign in"}
+                                            ? "Sign in"
+                                            : "Sign in"}
                                 </Box>
                             </Box>
                         </Box>
@@ -148,7 +148,7 @@ export default AuthModal;
 const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
     const { isLoading, setIsLoading,
-    setUser } = useContext(StateContext);
+        setUser } = useContext(StateContext);
     // import user from context api
     const loginUser = async (values) => {
         setIsLoading(true);
@@ -168,18 +168,22 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     response.data &&
                     response.data.role === "client"
                 ) {
-                    const expirationTime = 60 * 60 * 1000;
+                    const setAccessTokenCookie = (access) => {
+                        const expires = new Date(Date.now() + 60 * 60 * 1000); // One hour from now
+                        Cookies.set("currentUser", access, { expires });
+                        Cookies.set("refreshToken", refresh, { expires });
+                        Cookies.set("access_token", access, { expires });
+                    };
                     // console.log(response.data.role);
                     const { access, refresh } = response.data;
-                    Cookies.set("currentUser", access);
-                    Cookies.set("refreshToken", refresh);
-                    Cookies.set("access_token", access);
+                    setAccessTokenCookie(access);
+
                     //remove token from cookies after one hour
                     setTimeout(() => {
                         Cookies.remove("access_token");
                         Cookies.remove("refreshToken");
                         Cookies.remove("currentUser");
-                    }, expirationTime);
+                    }, 60 * 60 * 1000);
                     setUser(access);
                     //success callback
                     toast("Login successful...");
@@ -624,7 +628,7 @@ const Register = ({ handleCurrentForm }) => {
                         mb="15px"
                         mx="auto"
                         isLoading={isLoading}
-                        // handleButton={registerUser}
+                    // handleButton={registerUser}
                     />
                     <ToastContainer />
                 </form>

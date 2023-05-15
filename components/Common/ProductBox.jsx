@@ -56,9 +56,9 @@ const ProductBox = ({ productData }, isLiked) => {
             .catch((error) => {
                 console.log(error);
             })
-        console.log("favorite item added");
-        console.log("favorite item details will be ", productData);
-        console.log("favorite item ID will be ", productData && productData.id);
+        // console.log("favorite item added");
+        // console.log("favorite item details will be ", productData);
+        // console.log("favorite item ID will be ", productData && productData.id);
     };
 
     const handleAddToCart = async (event) => {
