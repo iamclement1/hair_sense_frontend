@@ -1,7 +1,7 @@
 import { Box, Text, Button, SimpleGrid, Flex } from "@chakra-ui/react";
 import ReactPaginate from "react-paginate";
 import { useState } from "react";
-import { whatsNew } from "@/utils/dummyData";
+
 import ProductBox from "./ProductBox";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
@@ -17,7 +17,7 @@ const Pagination = () => {
     const RenderBoxes = () => {
         const start = currentPage * ITEMS_PER_PAGE;
         const end = start + ITEMS_PER_PAGE;
-        const boxesOnPage = whatsNew && whatsNew.slice(start, end);
+        const boxesOnPage = [1, 2] && [1, 2, 3].slice(start, end);
         return (
             <SimpleGrid
                 columns={[2, 3, 4]}
@@ -52,7 +52,7 @@ const Pagination = () => {
                         }
                         breakLabel={"..."}
                         breakClassName="break-me"
-                        pageCount={Math.ceil(whatsNew.length / ITEMS_PER_PAGE)}
+                        pageCount={Math.ceil([1, 2].length / ITEMS_PER_PAGE)}
                         marginPagesDisplayed={2}
                         pageRangeDisplayed={3}
                         onPageChange={handlePageChange}

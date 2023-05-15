@@ -90,6 +90,19 @@ const Navbar = () => {
             icon: FaShoppingCart,
         },
     ];
+    const logOutmenuItems = [
+        {
+            url: () => onOpenAuth(),
+            text: "My Account",
+            icon: FaUser,
+        },
+
+        {
+            url: onOpenCart,
+            text: "My Cart",
+            icon: FaShoppingCart,
+        },
+    ];
 
     return (
         <>
@@ -214,7 +227,7 @@ const Navbar = () => {
                                     </>
                                 ) : (
                                     <>
-                                        {menuItems.map(
+                                        {logOutmenuItems.map(
                                             ({ url, text, icon }, i) => {
                                                 return (
                                                     <Box
