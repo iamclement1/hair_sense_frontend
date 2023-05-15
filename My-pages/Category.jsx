@@ -1,6 +1,6 @@
 import Pagination from "@/components/Common/Pagination";
 import ProductBox from "@/components/Common/ProductBox";
-import { whatsNew } from "@/utils/dummyData";
+
 import { Box, Divider, SimpleGrid, Text } from "@chakra-ui/react";
 import React from "react";
 

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { Footer, HeroSlider, ProductSlider } from "@/components/Common";
 import { Box } from "@chakra-ui/react";
 import { baseUrl, httpGet } from "@/http-request/http-request";
-import { whatsNew } from "@/utils/dummyData";
 import { StateContext } from "@/context/StateProvider";
 
 const LandingPage = () => {
@@ -48,7 +47,7 @@ const LandingPage = () => {
             <Box>
                 <ProductSlider
                     section="Equipment & Tools"
-                    productDatas={whatsNew}
+                    productDatas={[]}
                 />
             </Box>
         </Box>
