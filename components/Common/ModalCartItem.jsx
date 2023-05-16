@@ -28,7 +28,7 @@ const ModalCartItem = () => {
     useEffect(() => {
         let totalPrice = 0;
         state.forEach((product) => {
-            totalPrice += (product.sales_price * product.quantity);
+            totalPrice += (product.actual_price * product.quantity);
         });
         setTotal(totalPrice);
         console.log(totalPrice, total);
@@ -107,7 +107,7 @@ const ModalCartItem = () => {
                                                                 xl: "32px"
                                                             }}
                                                             fontWeight={"600"} >
-                                                            ₦ {" "}{product.quantity * product.sales_price}
+                                                            ₦ {" "}{product.quantity * product.actual_price}
                                                         </Text>
                                                     </Box>
                                                 </Box>

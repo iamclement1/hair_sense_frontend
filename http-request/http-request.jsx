@@ -17,7 +17,7 @@ const headers = {
 //a http request for every request like post, get, put, delete
 export const httpGet = async (url) => {
     try {
-        const response = await axios.get(`${url}`, headers);
+        const response = await axios.get(`${url}`);
         return response.data;
     } catch (error) {
         if (error.response && error.response.status === 404) {
