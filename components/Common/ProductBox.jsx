@@ -61,6 +61,7 @@ const ProductBox = ({ productData }, isLiked) => {
     const GlobalCart = useContext(CartContext);
     const prevCartStateRef = useRef(GlobalCart.state);
     const handleAddToCart = async (event) => {
+        //add item to localstorage
         event.stopPropagation();
         const dispatch = GlobalCart.dispatch;
         dispatch({
