@@ -63,15 +63,34 @@ const StateProvider = ({ children }, props) => {
                 }
 
             case "INCREASE_QUANTITY":
-                const { id, quantity } = action.payload;
+                // const { id, quantity } = action.payload;
                 const tempQuantity = state.map((item) => {
-                    if (item.id === id) {
-                        return { ...item, quantity: quantity + 1 };
+                    if (item.id === action.payload.id) {
+                        return { ...item, quantity: item.quantity + 1 };
                     } else {
                         return item;
                     }
                 });
                 return tempQuantity;
+
+            case "DECREASE_QUANTITY":
+                // const { decID, dQuantity } = action.payload;
+                const decQuantity = state.map((item) => {
+                    if (item.id === action.payload.id) {
+                        return {
+                            ...item,
+                            quantity: item.quantity - 1,
+                        };
+                    } else {
+                        return item;
+                    }
+                });
+                return decQuantity;
+
+            case "REMOVE":
+                // remove item from state
+                const remove = state.filter((item) => item.id !== action.payload.id);
+                return remove;
 
             default:
                 return state;
