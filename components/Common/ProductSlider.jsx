@@ -14,7 +14,6 @@ import ScreenSize from "../layouts/ScreenSize";
 import ProductBox from "./ProductBox";
 import { StateContext } from "@/context/StateProvider";
 import { baseUrl, httpGet } from "@/http-request/http-request";
-import axios from "axios";
 
 const NextArrow = (props) => {
     const { onClick } = props;
@@ -94,32 +93,11 @@ const ProductSlider = ({
     type = "default",
     children,
 }) => {
-
-    //product data
-    const { products, setProducts } = useContext(StateContext);
-    // console.log(products);
-
-
-    useEffect(() => {
-        async function fetchProduct() {
-            const response = await axios.get(`${baseUrl}/store/products`);
-            if (response && response.data && response.status === 200) {
-                setProducts(response && response.data && response.data.results);
-            }
-            // console.log("Response is here", response);
-            // console.log(
-            //     "product data fetched is here mf",
-            //     response.data.results
-            // );
-        }
-        if (!products) {
-            fetchProduct();
-        }
-    }, [products, setProducts]);
+   
 
     const handleProduct = (id) => {
-        alert("Product Id === ",  id)
-    }
+        alert("Product Id === ", id);
+    };
     return (
         <ScreenSize>
             {/* Default Header for product slider  */}
@@ -164,18 +142,20 @@ const ProductSlider = ({
             {/*  */}
 
             <Box>
-                {products && products === null ? (
+                {productDatas && productDatas === null ? (
                     <Text> Products not Available </Text>
                 ) : (
                     <Slider {...settings}>
-                        {products &&
-                            products.length > 0 &&
-                            products.map((product, id) => {
+                        {productDatas &&
+                            productDatas.length > 0 &&
+                            productDatas.map((product, id) => {
                                 return (
                                     <ProductBox
                                         key={id}
                                         productData={product}
-                                        onClick={() => handleProduct(product.id)}
+                                        onClick={() =>
+                                            handleProduct(product.id)
+                                        }
                                     />
                                 );
                             })}
