@@ -2,7 +2,6 @@ import {
     Box,
     Flex,
     Icon,
-    IconPrimaryButton,
     Image,
     Text,
 } from "@chakra-ui/react";

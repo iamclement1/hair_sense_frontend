@@ -14,13 +14,13 @@ import {
     PopoverCloseButton,
     PopoverAnchor,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 
 import { BsHeart, BsHeartFill, AiOutlineShoppingCart } from "react-icons/bs";
 import { StarRating } from ".";
 import { FaBars, FaShoppingCart } from "react-icons/fa";
 import { baseUrl, httpPost } from "@/http-request/http-request";
-import { StateContext } from "@/context/StateProvider";
+import { CartContext, StateContext } from "@/context/StateProvider";
 import { toast } from "react-toastify";
 
 const ProductBox = ({ productData }, isLiked) => {
@@ -38,10 +38,6 @@ const ProductBox = ({ productData }, isLiked) => {
 
     const handleAddFavorite = async (event) => {
         event.stopPropagation();
-        // await httpPost(`${baseUrl}/store/favourite/items`).then(
-        //     (response) => {}
-        // );
-
         const data = {
             product: productData.id,
         };
@@ -61,24 +57,35 @@ const ProductBox = ({ productData }, isLiked) => {
         // console.log("favorite item ID will be ", productData && productData.id);
     };
 
+    //cart context
+    const GlobalCart = useContext(CartContext);
+    const prevCartStateRef = useRef(GlobalCart.state);
     const handleAddToCart = async (event) => {
+        //add item to localstorage
         event.stopPropagation();
-        // await httpPost(`${baseUrl}/store/favourite/items`).then(
-        //     (response) => {}
-        // );
-        // console.log("Cart item added");
-        // alert(
-        //     "Item that was added to cart details will be ",
-        //     productData
-        // );
-        // alert(
-        //     "Item that was added to cart ID will be ",
-        //     productData && productData.id
-        // );
+        const dispatch = GlobalCart.dispatch;
+        dispatch({
+            type: "ADD_ITEM_TO_CART",
+            payload: {
+                product: productData,
+            },
+        });
     };
+
+    useEffect(() => {
+        if (prevCartStateRef.current !== GlobalCart.state) {
+            // setCart(GlobalCart.state);
+            prevCartStateRef.current = GlobalCart.state;
+            console.log(GlobalCart.state); // Log the updated state
+        }
+    }, [GlobalCart.state]);
+
+    console.log(GlobalCart.state); // Log the updated state
+    // const dispatch = GlobalCart.dispatch;
+    // console.log(GlobalCart);
     const handleProductDetails = () => {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
-        console.log("The clicked product Details is", productData);
+        // console.log("The clicked product Details is", productData);
     };
     return (
         <Box onClick={handleProductDetails}>
@@ -87,14 +94,12 @@ const ProductBox = ({ productData }, isLiked) => {
                 bgColor=""
                 maxW="285px"
                 textAlign={"center"}
-                // mx="auto"
+                mx="auto"
             >
-                <Box w="100%" pos={"relative"}>
+                <Box w="100%" maxW="247px" pos={"relative"}>
                     <Image
-                        // mx="auto"
-                        // boxSize={["137px", null, "200px", "247px"]}
-                        w="100%"
-                        h="100%"
+                        mx="auto"
+                        boxSize={["137px", null, "200px", "247px"]}
                         objectFit="cover"
                         src={product_img}
                         display="inline-block"

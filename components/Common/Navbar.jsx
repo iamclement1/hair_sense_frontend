@@ -20,7 +20,6 @@ import {
     FaBars,
     FaHeart,
     FaShoppingCart,
-    FaTimes,
     FaUser,
 } from "react-icons/fa";
 import { NavDropDown } from ".";
@@ -29,15 +28,16 @@ import AuthModal from "../modal/AuthModal";
 import { useRouter } from "next/router";
 import CartModal from "../modal/CartModal";
 import { StateContext } from "@/context/StateProvider";
-import { baseUrl, httpGet } from "@/http-request/http-request";
+import { baseUrl } from "@/http-request/http-request";
 import Cookies from "js-cookie";
 import axios from "axios";
+import Logo from "../../public/images/Hairsense-logo.svg";
 
 const Navbar = () => {
     // fuction to Open Nav
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
-    const { user, handleLogOut } = useContext(StateContext);
+    const { user, setUser, handleLogOut } = useContext(StateContext);
     // have userData here
     const [userData, setUserData] = useState(null);
     // console.log("User: " + user);
@@ -53,6 +53,7 @@ const Navbar = () => {
                 },
             });
             // const data = await response;
+            setUser(response && response.data && response.data.data);
             setUserData(response && response.data && response.data.data);
         }
         user && fetchUser();
@@ -124,7 +125,7 @@ const Navbar = () => {
                         >
                             <Link as={NextLink} href="/">
                                 <Image
-                                    src="/images/logo.svg"
+                                    src={Logo}
                                     alt="Logo"
                                     height="100%"
                                     width={["120px", "150px", "150px", "200px"]}

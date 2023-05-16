@@ -2,8 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Footer, HeroSlider, ProductSlider } from "@/components/Common";
 import { Box } from "@chakra-ui/react";
 import { baseUrl, httpGet } from "@/http-request/http-request";
-import { StateContext } from "@/context/StateProvider";
-import axios from "axios";
+import { CartContext, StateContext } from "@/context/StateProvider";
 
 const LandingPage = () => {
     const { products, setProducts, prodID, setProdID } =
@@ -19,36 +18,10 @@ const LandingPage = () => {
 
         fetchAccessories();
     }, []);
-
-    useEffect(() => {
-        async function fetchProduct() {
-            const response = await axios.get(`${baseUrl}/store/products`);
-            if (response && response.data && response.status === 200) {
-                setProducts(response && response.data && response.data.results);
-            }
-            // console.log(
-            //     "Response is here",
-            //     response &&
-            //         response.data &&
-            //         response.data.data &&
-            //         response.data.data.results
-            // );
-            setProducts(
-                response &&
-                    response.data &&
-                    response.data.data &&
-                    response.data.data.results
-            );
-            // console.log(
-            //     "product data fetched is here mf",
-            //     response.data.results
-            // );
-        }
-        if (!products) {
-            fetchProduct();
-        }
-    }, [products, setProducts]);
-
+    //cart context
+    const GlobalCart = useContext(CartContext);
+    // console.log(GlobalCart)
+    const dispatch = GlobalCart.dispatch;
     return (
         <Box pt={["40px", null, "40px"]}>
             <HeroSlider />
