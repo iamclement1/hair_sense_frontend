@@ -7,7 +7,7 @@ import { theme } from "@/utils/theme";
 import { CSSReset, ChakraProvider } from "@chakra-ui/react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import StateProvider, { CartContext } from "@/context/StateProvider";
+import StateProvider from "@/context/StateProvider";
 import { ToastContainer } from "react-toastify";
 
 export default function App({ Component, pageProps }) {
