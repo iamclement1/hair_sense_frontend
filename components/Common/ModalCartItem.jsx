@@ -16,7 +16,7 @@ import { FaTrash } from "react-icons/fa";
 import { BsCart4 } from "react-icons/bs";
 
 const ModalCartItem = () => {
-    const { user } = useContext(StateContext);
+    const { user, product } = useContext(StateContext);
     const [total, setTotal] = useState(0);
     const GlobalCart = useContext(CartContext);
     const state = GlobalCart.state;
@@ -25,13 +25,14 @@ const ModalCartItem = () => {
     //calculate total price of the quantity added to the cart
 
 
-    // useEffect(() => {
-    //     const totalPrice = state.reduce((total, product) => {
-    //         return total + product.price * product.quantity;
-    //     }, 0);
-    //     setTotal(totalPrice);
-    //     console.log(totalPrice, total);
-    // }, [state, total]);
+    useEffect(() => {
+        let totalPrice = 0;
+        state.forEach((product) => {
+            totalPrice += (product.sales_price * product.quantity);
+        });
+        setTotal(totalPrice);
+        console.log(totalPrice, total);
+    }, [state, total]);
 
 
     return (
