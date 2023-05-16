@@ -34,6 +34,10 @@ const ModalCartItem = () => {
         console.log(totalPrice, total);
     }, [state, total]);
 
+    //handle checkout payment button with paystack
+    const handleCheckout = () => {
+        alert('Checkout');
+    };
 
     return (
         <Box>
@@ -223,7 +227,8 @@ const ModalCartItem = () => {
                             >
                                 <Box>
                                     {user && user ? (
-                                        <PrimaryButton w="100%" text="Checkout" />
+                                        <PrimaryButton w="100%" text="Checkout"
+                                        onClick={handleCheckout} />
                                     ) : (
                                         <SecondaryButton w="100%" text="Login to checkout" disabled />
                                     )}
