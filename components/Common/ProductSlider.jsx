@@ -14,6 +14,7 @@ import ScreenSize from "../layouts/ScreenSize";
 import ProductBox from "./ProductBox";
 import { StateContext } from "@/context/StateProvider";
 import { baseUrl, httpGet } from "@/http-request/http-request";
+import axios from "axios";
 
 const NextArrow = (props) => {
     const { onClick } = props;
