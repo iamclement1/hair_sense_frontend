@@ -103,7 +103,7 @@ const ProductSlider = ({
             const response = await axios.get(`${baseUrl}/store/products`);
             if (response && response.data && response.status === 200) {
                 const data = response.data.data.results;
-                // console.log("here is the data",data);
+                // console.log("here is the data",response);
                 setProducts(data);
             }
             // console.log("Response is here", response);
