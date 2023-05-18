@@ -16,12 +16,7 @@ import {
 import ScreenSize from "../layouts/ScreenSize";
 import NextLink from "next/link";
 import SearchInput from "./SearchInput";
-import {
-    FaBars,
-    FaHeart,
-    FaShoppingCart,
-    FaUser,
-} from "react-icons/fa";
+import { FaBars, FaHeart, FaShoppingCart, FaUser } from "react-icons/fa";
 import { NavDropDown } from ".";
 import MobileNav from "./MobileNav";
 import AuthModal from "../modal/AuthModal";
@@ -31,7 +26,6 @@ import { StateContext } from "@/context/StateProvider";
 import { baseUrl } from "@/http-request/http-request";
 import Cookies from "js-cookie";
 import axios from "axios";
-import Logo from "../../public/images/Hairsense-logo.svg";
 
 const Navbar = () => {
     // fuction to Open Nav
@@ -125,7 +119,7 @@ const Navbar = () => {
                         >
                             <Link as={NextLink} href="/">
                                 <Image
-                                    src={Logo}
+                                    src={"/images/Hairsense-logo.svg"}
                                     alt="Logo"
                                     height="100%"
                                     width={["120px", "150px", "150px", "200px"]}
@@ -203,6 +197,7 @@ const Navbar = () => {
                                                             </>
                                                         ) : (
                                                             <Box
+                                                                pos="relative"
                                                                 cursor={
                                                                     "pointer"
                                                                 }
@@ -219,6 +214,25 @@ const Navbar = () => {
                                                                 <Text color="accent_2">
                                                                     {text}{" "}
                                                                 </Text>
+                                                                {text ===
+                                                                    "My Cart" && (
+                                                                    <Flex
+                                                                        bgColor="red"
+                                                                        color="white"
+                                                                        rounded="full"
+                                                                        w="20px"
+                                                                        h="20px"
+                                                                        align="center"
+                                                                        justify="center"
+                                                                        fontSize="10px"
+                                                                        fontWeight="600"
+                                                                        pos="absolute"
+                                                                        top="-2"
+                                                                        right="1px"
+                                                                    >
+                                                                        12
+                                                                    </Flex>
+                                                                )}
                                                             </Box>
                                                         )}{" "}
                                                     </Box>
@@ -232,6 +246,7 @@ const Navbar = () => {
                                             ({ url, text, icon }, i) => {
                                                 return (
                                                     <Box
+                                                        pos="relative"
                                                         cursor={"pointer"}
                                                         key={i}
                                                         textAlign={"center"}
@@ -244,6 +259,24 @@ const Navbar = () => {
                                                         <Text color="accent_2">
                                                             {text}{" "}
                                                         </Text>
+                                                        {text === "My Cart" && (
+                                                            <Flex
+                                                                bgColor="red"
+                                                                color="white"
+                                                                rounded="full"
+                                                                w="20px"
+                                                                h="20px"
+                                                                align="center"
+                                                                justify="center"
+                                                                fontSize="10px"
+                                                                fontWeight="600"
+                                                                pos="absolute"
+                                                                top="-2"
+                                                                right="1px"
+                                                            >
+                                                                12
+                                                            </Flex>
+                                                        )}
                                                     </Box>
                                                 );
                                             }
