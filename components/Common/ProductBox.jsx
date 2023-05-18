@@ -22,8 +22,10 @@ import { FaBars, FaShoppingCart } from "react-icons/fa";
 import { baseUrl, httpPost } from "@/http-request/http-request";
 import { CartContext, StateContext } from "@/context/StateProvider";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const ProductBox = ({ productData }, isLiked) => {
+    const router = useRouter();
     // const { id, imageUrl, text, rating, price } = productData;
     const { products, cart, setCart } = useContext(StateContext);
     // console.log("hey dude find the products here",products)
@@ -76,19 +78,21 @@ const ProductBox = ({ productData }, isLiked) => {
         if (prevCartStateRef.current !== GlobalCart.state) {
             // setCart(GlobalCart.state);
             prevCartStateRef.current = GlobalCart.state;
-            console.log(GlobalCart.state); // Log the updated state
+            // console.log(GlobalCart.state); // Log the updated state
         }
     }, [GlobalCart.state]);
 
-    console.log(GlobalCart.state); // Log the updated state
+    // console.log(GlobalCart.state); // Log the updated state
     // const dispatch = GlobalCart.dispatch;
     // console.log(GlobalCart);
-    const handleProductDetails = () => {
+    const handleProductDetails = (productData) => {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
-        // console.log("The clicked product Details is", productData);
+
+        router.push(`/product_details/${productData.name}`);
+        // console.log("The clicked product Details is", queryParams);
     };
     return (
-        <Box onClick={handleProductDetails}>
+        <Box onClick={() => handleProductDetails(productData)}>
             <Box
                 cursor={"pointer"}
                 bgColor=""
