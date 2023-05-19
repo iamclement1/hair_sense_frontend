@@ -45,7 +45,7 @@ const ProductBox = ({ productData }, isLiked) => {
         await httpPost(`${baseUrl}/store/favourite/items/`, data)
             .then((response) => {
                 if (response && response.status === 201) {
-                    console.log(response)
+                    // console.log(response)
                     toast("item added successfully");
                 }
             })
@@ -76,11 +76,11 @@ const ProductBox = ({ productData }, isLiked) => {
         if (prevCartStateRef.current !== GlobalCart.state) {
             // setCart(GlobalCart.state);
             prevCartStateRef.current = GlobalCart.state;
-            console.log(GlobalCart.state); // Log the updated state
+            // console.log(GlobalCart.state); // Log the updated state
         }
     }, [GlobalCart.state]);
 
-    console.log(GlobalCart.state); // Log the updated state
+    // console.log(GlobalCart.state); // Log the updated state
     // const dispatch = GlobalCart.dispatch;
     // console.log(GlobalCart);
     const handleProductDetails = () => {

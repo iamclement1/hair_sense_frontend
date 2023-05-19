@@ -16,7 +16,7 @@ import { FaTrash } from "react-icons/fa";
 import { BsCart4 } from "react-icons/bs";
 
 const ModalCartItem = () => {
-    const { user, product } = useContext(StateContext);
+    const { user, products, setProducts } = useContext(StateContext);
     const [total, setTotal] = useState(0);
     const GlobalCart = useContext(CartContext);
     const state = GlobalCart.state;
@@ -29,10 +29,13 @@ const ModalCartItem = () => {
         let totalPrice = 0;
         state.forEach((product) => {
             totalPrice += (product.actual_price * product.quantity);
+            // const productData = product;
+            // setProducts(productData);
+            // console.log("productin modal", productData);
         });
         setTotal(totalPrice);
         console.log(totalPrice, total);
-    }, [state, total]);
+    }, [ state, total]);
 
     //handle checkout payment button with paystack
     const handleCheckout = () => {
