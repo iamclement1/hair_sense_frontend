@@ -21,7 +21,8 @@ const colors = {
     accent_4: "#F3D3D3",
     accent_5: "#F7F9FF",
     accent_6: "#656565",
-    accent_7:"rgba(169, 169, 169, 0.73)",
+    accent_7: "rgba(169, 169, 169, 0.73)",
+    accent_8: "rgba(201, 201, 201, 0.5)",
     // Dark Shades
     dark_1: "rgba(0, 0, 0, 0.3)",
     dark_2: "#ACB5BD",
