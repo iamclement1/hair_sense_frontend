@@ -8,7 +8,7 @@ const StarRating = ({ rating }) => {
 
     return (
         <Flex justify={""} align="center">
-            {/* {[...Array(fullStars)].map((_, index) => (
+            {[...Array(fullStars)].map((_, index) => (
                 <Icon key={index} as={AiFillStar} color="yellow.500" />
             ))}
             {hasHalfStar && <Icon as={AiFillStar} color="yellow.500" mr={1} />}
@@ -16,7 +16,7 @@ const StarRating = ({ rating }) => {
                 (_, index) => (
                     <Icon key={index} as={AiFillStar} color="gray.500" />
                 )
-            )} */}
+            )}
         </Flex>
     );
 };

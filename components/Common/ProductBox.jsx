@@ -22,8 +22,10 @@ import { FaBars, FaShoppingCart } from "react-icons/fa";
 import { baseUrl, httpPost } from "@/http-request/http-request";
 import { CartContext, StateContext } from "@/context/StateProvider";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const ProductBox = ({ productData }, isLiked) => {
+    const router = useRouter();
     // const { id, imageUrl, text, rating, price } = productData;
     const { products, cart, setCart } = useContext(StateContext);
     // console.log("hey dude find the products here",products)
@@ -39,19 +41,19 @@ const ProductBox = ({ productData }, isLiked) => {
     const handleAddFavorite = async (event) => {
         event.stopPropagation();
         const data = {
-            "product": productData.id
-        }
+            product: productData.id,
+        };
 
         await httpPost(`${baseUrl}/store/favourite/items/`, data)
             .then((response) => {
                 if (response && response.status === 201) {
-                    // console.log(response)
+                    console.log(response);
                     toast("item added successfully");
                 }
             })
             .catch((error) => {
                 console.log(error);
-            })
+            });
         // console.log("favorite item added");
         // console.log("favorite item details will be ", productData);
         // console.log("favorite item ID will be ", productData && productData.id);
@@ -67,7 +69,7 @@ const ProductBox = ({ productData }, isLiked) => {
         dispatch({
             type: "ADD_ITEM_TO_CART",
             payload: {
-                product: productData
+                product: productData,
             },
         });
     };
@@ -83,12 +85,14 @@ const ProductBox = ({ productData }, isLiked) => {
     // console.log(GlobalCart.state); // Log the updated state
     // const dispatch = GlobalCart.dispatch;
     // console.log(GlobalCart);
-    const handleProductDetails = () => {
+    const handleProductDetails = (productData) => {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
-        // console.log("The clicked product Details is", productData);
+
+        router.push(`/product_details/${productData.name}`);
+        // console.log("The clicked product Details is", queryParams);
     };
     return (
-        <Box onClick={handleProductDetails}>
+        <Box onClick={() => handleProductDetails(productData)}>
             <Box
                 cursor={"pointer"}
                 bgColor=""

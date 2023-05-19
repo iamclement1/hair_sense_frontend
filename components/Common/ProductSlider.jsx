@@ -94,11 +94,9 @@ const ProductSlider = ({
     type = "default",
     children,
 }) => {
-
     //product data
     const { products, setProducts } = useContext(StateContext);
     // console.log(products);
-
 
     useEffect(() => {
         async function fetchProduct() {
@@ -120,8 +118,8 @@ const ProductSlider = ({
     }, [products, setProducts]);
 
     const handleProduct = (id) => {
-        alert("Product Id === ", id)
-    }
+        alert("Product Id === ", id);
+    };
     return (
         <ScreenSize>
             {/* Default Header for product slider  */}
@@ -166,7 +164,7 @@ const ProductSlider = ({
             {/*  */}
 
             <Box>
-                {products && products === null ? (
+                {productDatas && productDatas === null ? (
                     <Text> Products not Available </Text>
                 ) : (
                     <Slider {...settings}>
@@ -178,7 +176,9 @@ const ProductSlider = ({
                                     <ProductBox
                                         key={id}
                                         productData={product}
-                                        onClick={() => handleProduct(product.id)}
+                                        onClick={() =>
+                                            handleProduct(product.id)
+                                        }
                                     />
                                 );
                             })}
