@@ -22,12 +22,14 @@ import MobileNav from "./MobileNav";
 import AuthModal from "../modal/AuthModal";
 import { useRouter } from "next/router";
 import CartModal from "../modal/CartModal";
-import { StateContext } from "@/context/StateProvider";
+import { CartContext, StateContext } from "@/context/StateProvider";
 import { baseUrl } from "@/http-request/http-request";
 import Cookies from "js-cookie";
 import axios from "axios";
-
 const Navbar = () => {
+    // Global cart
+    const GlobalCart = useContext(CartContext);
+    const state = GlobalCart.state;
     // fuction to Open Nav
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
@@ -216,24 +218,27 @@ const Navbar = () => {
                                                                     {text}{" "}
                                                                 </Text>
                                                                 {text ===
-                                                                    "My Cart" && (
-                                                                    <Flex
-                                                                        bgColor="red"
-                                                                        color="white"
-                                                                        rounded="full"
-                                                                        w="20px"
-                                                                        h="20px"
-                                                                        align="center"
-                                                                        justify="center"
-                                                                        fontSize="10px"
-                                                                        fontWeight="600"
-                                                                        pos="absolute"
-                                                                        top="-2"
-                                                                        right="1px"
-                                                                    >
-                                                                        12
-                                                                    </Flex>
-                                                                )}
+                                                                    "My Cart" &&
+                                                                    state.length >
+                                                                        0 && (
+                                                                        <Flex
+                                                                            bgColor="primary_1"
+                                                                            color="white"
+                                                                            rounded="full"
+                                                                            w="20px"
+                                                                            h="20px"
+                                                                            align="center"
+                                                                            justify="center"
+                                                                            fontSize="10px"
+                                                                            fontWeight="600"
+                                                                            pos="absolute"
+                                                                            top="-2"
+                                                                            right="1px"
+                                                                        >
+                                                                            {state &&
+                                                                                state.length}
+                                                                        </Flex>
+                                                                    )}
                                                             </Box>
                                                         )}{" "}
                                                     </Box>
@@ -260,24 +265,27 @@ const Navbar = () => {
                                                         <Text color="accent_2">
                                                             {text}{" "}
                                                         </Text>
-                                                        {text === "My Cart" && (
-                                                            <Flex
-                                                                bgColor="red"
-                                                                color="white"
-                                                                rounded="full"
-                                                                w="20px"
-                                                                h="20px"
-                                                                align="center"
-                                                                justify="center"
-                                                                fontSize="10px"
-                                                                fontWeight="600"
-                                                                pos="absolute"
-                                                                top="-2"
-                                                                right="1px"
-                                                            >
-                                                                12
-                                                            </Flex>
-                                                        )}
+                                                        {text === "My Cart" &&
+                                                            state.length >
+                                                                0 && (
+                                                                <Flex
+                                                                    bgColor="primary_1"
+                                                                    color="white"
+                                                                    rounded="full"
+                                                                    w="20px"
+                                                                    h="20px"
+                                                                    align="center"
+                                                                    justify="center"
+                                                                    fontSize="10px"
+                                                                    fontWeight="600"
+                                                                    pos="absolute"
+                                                                    top="-2"
+                                                                    right="1px"
+                                                                >
+                                                                    {state &&
+                                                                        state.length}
+                                                                </Flex>
+                                                            )}
                                                     </Box>
                                                 );
                                             }
