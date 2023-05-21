@@ -5,19 +5,19 @@ import { baseUrl, httpGet } from "@/http-request/http-request";
 import { CartContext, StateContext } from "@/context/StateProvider";
 
 const LandingPage = () => {
-    const { products, setProducts,
-        prodID, setProdID } = useContext(StateContext);
+    const { products, setProducts, prodID, setProdID } =
+        useContext(StateContext);
 
-    const [clickedProd, setClickedProd] = useState(0)
+    const [clickedProd, setClickedProd] = useState(0);
 
     useEffect(() => {
         async function fetchAccessories() {
             const response = await httpGet(`${baseUrl}/store/categories`);
-            // console.log("A new response is here", response.data.results);
+            // console.log("A new response is here", response);
         }
 
         fetchAccessories();
-    }, [])
+    }, []);
     //cart context
     const GlobalCart = useContext(CartContext);
     // console.log(GlobalCart)
@@ -49,10 +49,7 @@ const LandingPage = () => {
                 <ProductSlider section="Hair Care" productDatas={products} />
             </Box>
             <Box>
-                <ProductSlider
-                    section="Equipment & Tools"
-                    productDatas={[]}
-                />
+                <ProductSlider section="Equipment & Tools" productDatas={[]} />
             </Box>
         </Box>
     );

@@ -22,8 +22,10 @@ import { FaBars, FaShoppingCart } from "react-icons/fa";
 import { baseUrl, httpPost } from "@/http-request/http-request";
 import { CartContext, StateContext } from "@/context/StateProvider";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const ProductBox = ({ productData }, isLiked) => {
+    const router = useRouter();
     // const { id, imageUrl, text, rating, price } = productData;
     const { products, cart, setCart } = useContext(StateContext);
     // console.log("hey dude find the products here",products)
@@ -39,19 +41,19 @@ const ProductBox = ({ productData }, isLiked) => {
     const handleAddFavorite = async (event) => {
         event.stopPropagation();
         const data = {
-            "product": productData.id
-        }
+            product: productData.id,
+        };
 
         await httpPost(`${baseUrl}/store/favourite/items/`, data)
             .then((response) => {
                 if (response && response.status === 201) {
-                    console.log(response)
+                    console.log(response);
                     toast("item added successfully");
                 }
             })
             .catch((error) => {
                 console.log(error);
-            })
+            });
         // console.log("favorite item added");
         // console.log("favorite item details will be ", productData);
         // console.log("favorite item ID will be ", productData && productData.id);
@@ -67,28 +69,39 @@ const ProductBox = ({ productData }, isLiked) => {
         dispatch({
             type: "ADD_ITEM_TO_CART",
             payload: {
-                product: productData
+                product: productData,
             },
         });
+
+        // Retrieve the existing cart items from localStorage
+        const existingCartItems =
+            JSON.parse(localStorage.getItem("cartItems")) || [];
+
+        // Add the new product to the cart items array
+        const updatedCartItems = [...existingCartItems, productData];
+
+        // Save the updated cart items to localStorage
+        localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
     };
 
     useEffect(() => {
         if (prevCartStateRef.current !== GlobalCart.state) {
             // setCart(GlobalCart.state);
             prevCartStateRef.current = GlobalCart.state;
-            console.log(GlobalCart.state); // Log the updated state
+            // console.log(GlobalCart.state); // Log the updated state
         }
     }, [GlobalCart.state]);
 
-    console.log(GlobalCart.state); // Log the updated state
+    // console.log(GlobalCart.state); // Log the updated state
     // const dispatch = GlobalCart.dispatch;
     // console.log(GlobalCart);
-    const handleProductDetails = () => {
+    const handleProductDetails = (productData) => {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
-        // console.log("The clicked product Details is", productData);
+
+        router.push(`/product_details/${productData.id}`);
     };
     return (
-        <Box onClick={handleProductDetails}>
+        <Box onClick={() => handleProductDetails(productData)}>
             <Box
                 cursor={"pointer"}
                 bgColor=""
@@ -160,10 +173,7 @@ const ProductBox = ({ productData }, isLiked) => {
                     </Popover>
                 </Box>
                 <Box mt="19px" textAlign="center">
-                    <Text
-                        fontSize={["13px", null, "14px", "16px"]}
-                        fontWeight={["bold"]}
-                    >
+                    <Text fontSize={["13px", null, "14px", "16px"]} fontWeight={["bold"]}>
                         {name}
                     </Text>
                     <Text fontSize={["13px", null, "14px", "16px"]}>
@@ -173,11 +183,7 @@ const ProductBox = ({ productData }, isLiked) => {
                         {/* <Icon as={AiFillStar} /> */}
                         <StarRating rating={3.5} />
                     </Flex>
-                    <Text
-                        mt="10px"
-                        fontSize={["18px", null, "24px"]}
-                        fontWeight={600}
-                    >
+                    <Text mt="10px" fontSize={["18px", null, "24px"]} fontWeight={600}>
                         ₦{actual_price}
                     </Text>
                 </Box>

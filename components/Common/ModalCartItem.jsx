@@ -16,7 +16,7 @@ import { FaTrash } from "react-icons/fa";
 import { BsCart4 } from "react-icons/bs";
 
 const ModalCartItem = () => {
-    const { user, product } = useContext(StateContext);
+    const { user, products, setProducts } = useContext(StateContext);
     const [total, setTotal] = useState(0);
     const GlobalCart = useContext(CartContext);
     const state = GlobalCart.state;
@@ -29,6 +29,9 @@ const ModalCartItem = () => {
         let totalPrice = 0;
         state.forEach((product) => {
             totalPrice += (product.actual_price * product.quantity);
+            // const productData = product;
+            // setProducts(productData);
+            // console.log("productin modal", productData);
         });
         setTotal(totalPrice);
         console.log(totalPrice, total);
@@ -124,31 +127,103 @@ const ModalCartItem = () => {
                                                     xl: "flex",
                                                 }}
                                             >
-                                                <Button
+                                                {/* <Button
                                                     aria-label="reduce quantity"
                                                     onClick={() => {
                                                         if (product.quantity > 1) {
                                                             dispatch({ type: "DECREASE_QUANTITY", payload: product })
                                                         } else {
-                                                            dispatch({ type: "REMOVE", payload: product })
+                                                            dispatch({ type: "REMOVE", payload: product });
+                                                            
+                                                        }
+                                                    }}
+                                                >
+                                                    -
+                                                </Button> */}
+                                                <Button
+                                                    aria-label="reduce quantity"
+                                                    onClick={() => {
+                                                        if (product.quantity > 1) {
+                                                            dispatch({ type: "DECREASE_QUANTITY", payload: product });
+                                                        } else {
+                                                            dispatch({ type: "REMOVE", payload: product });
+
+                                                            // Retrieve the existing cart items from localStorage
+                                                            const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+                                                            // Find the index of the item to be removed
+                                                            const itemIndex = existingCartItems.findIndex(item => item.id === product.id);
+
+                                                            if (itemIndex !== -1) {
+                                                                // Remove the item from the cart items array
+                                                                existingCartItems.splice(itemIndex, 1);
+
+                                                                // Save the updated cart items to localStorage
+                                                                localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
+                                                            }
                                                         }
                                                     }}
                                                 >
                                                     -
                                                 </Button>
+
                                                 <Text w="54px" textAlign="center">
                                                     {product?.quantity}
                                                 </Text>
-                                                <Button
+                                                {/* <Button
                                                     aria-label="Add to quantity"
                                                     onClick={() => dispatch({ type: "INCREASE_QUANTITY", payload: product })}
                                                 >
                                                     +
-                                                </Button>
-                                                <Box onClick={() => dispatch({ type: "REMOVE", payload: product })}
+                                                </Button> */}
+
+                                                <Button
+                                                    aria-label="Add to quantity"
+                                                    onClick={() => {
+                                                        dispatch({ type: "INCREASE_QUANTITY", payload: product });
+
+                                                        // Retrieve the existing cart items from localStorage
+                                                        const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+                                                        // Find the index of the item to be increased
+                                                        const itemIndex = existingCartItems.findIndex(item => item.id === product.id);
+
+                                                        if (itemIndex !== -1) {
+                                                            // Increase the quantity of the item
+                                                            existingCartItems[itemIndex] = {
+                                                                ...existingCartItems[itemIndex],
+                                                                quantity: existingCartItems[itemIndex].quantity + 1
+                                                            };
+
+                                                            // Save the updated cart items to localStorage
+                                                            localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
+                                                        }
+                                                    }}
                                                 >
+                                                    +
+                                                </Button>
+
+
+                                                <Box onClick={() => {
+                                                    dispatch({ type: "REMOVE", payload: product });
+
+                                                    // Retrieve the existing cart items from localStorage
+                                                    const existingCartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+                                                    // Find the index of the item to be removed
+                                                    const itemIndex = existingCartItems.findIndex(item => item.id === product.id);
+
+                                                    if (itemIndex !== -1) {
+                                                        // Remove the item from the cart items array
+                                                        existingCartItems.splice(itemIndex, 1);
+
+                                                        // Save the updated cart items to localStorage
+                                                        localStorage.setItem('cartItems', JSON.stringify(existingCartItems));
+                                                    }
+                                                }}>
                                                     <FaTrash />
                                                 </Box>
+
                                             </Flex>
                                             <Divider />
                                         </Flex>
@@ -228,7 +303,7 @@ const ModalCartItem = () => {
                                 <Box>
                                     {user && user ? (
                                         <PrimaryButton w="100%" text="Checkout"
-                                        onClick={handleCheckout} />
+                                            onClick={handleCheckout} />
                                     ) : (
                                         <SecondaryButton w="100%" text="Login to checkout" disabled />
                                     )}

@@ -71,8 +71,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                             {currentPage === "login"
                                 ? "Welcome Back"
                                 : currentPage === "register"
-                                    ? "Create An Account"
-                                    : "Recover your Password"}
+                                ? "Create An Account"
+                                : "Recover your Password"}
                         </Text>
                         <Divider />
                     </Flex>
@@ -113,15 +113,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     currentPage === "login"
                                         ? handleCurrentForm("register")
                                         : currentPage === "register"
-                                            ? handleCurrentForm("login")
-                                            : handleCurrentForm("login");
+                                        ? handleCurrentForm("login")
+                                        : handleCurrentForm("login");
                                 }}
                             >
                                 {currentPage === "login"
                                     ? "Don’t have an account? "
                                     : currentPage === "register"
-                                        ? "Already have an account? "
-                                        : "Already have an account? "}
+                                    ? "Already have an account? "
+                                    : "Already have an account? "}
                                 <Box
                                     as="button"
                                     color="accent_2"
@@ -130,8 +130,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
-                                            ? "Sign in"
-                                            : "Sign in"}
+                                        ? "Sign in"
+                                        : "Sign in"}
                                 </Box>
                             </Box>
                         </Box>
@@ -147,8 +147,7 @@ export default AuthModal;
 // Forms Start
 const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
-    const { isLoading, setIsLoading,
-        setUser } = useContext(StateContext);
+    const { isLoading, setIsLoading, setUser } = useContext(StateContext);
     // import user from context api
     const loginUser = async (values) => {
         setIsLoading(true);
@@ -322,6 +321,7 @@ const Register = ({ handleCurrentForm }) => {
             last_name: values.last_name,
             phone: values.phone,
             password: values.password,
+            email: values.email,
         };
         const { username, first_name, last_name, phone, password } = formData;
 
@@ -353,6 +353,7 @@ const Register = ({ handleCurrentForm }) => {
                 last_name: "",
                 password: "",
                 username: "",
+                email: "",
                 phone: "",
                 confirm_password: "",
             }}
@@ -467,6 +468,40 @@ const Register = ({ handleCurrentForm }) => {
                         />
                         <FormErrorMessage fontSize={["12px"]}>
                             {errors.username}
+                        </FormErrorMessage>
+                    </FormControl>
+                    {/* EMAIL Section  */}
+                    <FormControl
+                        isInvalid={!!errors.email && touched.email}
+                        mt={["14px", null, "24px"]}
+                    >
+                        <FormLabel
+                            fontSize={"14px"}
+                            htmlFor="username"
+                            mb="8px"
+                            fontWeight={"600"}
+                        >
+                            Email
+                        </FormLabel>
+                        <Field
+                            as={Input}
+                            id="email"
+                            name="email"
+                            type="text"
+                            placeholder="Enter your Email"
+                            fontSize={["12px"]}
+                            px={["13px", null]}
+                            validate={(value) => {
+                                let error;
+                                if (value.length < 1) {
+                                    error = "Email is Required";
+                                }
+
+                                return error;
+                            }}
+                        />
+                        <FormErrorMessage fontSize={["12px"]}>
+                            {errors.email}
                         </FormErrorMessage>
                     </FormControl>
                     {/* Phone number Section  */}
@@ -628,7 +663,7 @@ const Register = ({ handleCurrentForm }) => {
                         mb="15px"
                         mx="auto"
                         isLoading={isLoading}
-                    // handleButton={registerUser}
+                        // handleButton={registerUser}
                     />
                     <ToastContainer />
                 </form>
