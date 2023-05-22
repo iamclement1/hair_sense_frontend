@@ -1,9 +1,42 @@
 import { PrimaryButton, ProductSlider, StarRating } from "@/components/Common";
 import { SecondaryButton } from "@/components/Common/Button";
+import { CartContext } from "@/context/StateProvider";
 import { Box, Flex, Image, Text, Divider, Button } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext, useEffect, useRef } from "react";
 
-const ProductDetails = ({ productName }) => {
+const ProductDetails = ({ productData }) => {
+    //cart context
+    const GlobalCart = useContext(CartContext);
+    const prevCartStateRef = useRef(GlobalCart.state);
+    const handleAddToCart = async (event) => {
+        // //add item to localstorage
+        // const dispatch = GlobalCart.dispatch;
+        // dispatch({
+        //     type: "ADD_ITEM_TO_CART",
+        //     payload: {
+        //         product: productData,
+        //     },
+        // });
+
+        // // Retrieve the existing cart items from localStorage
+        // const existingCartItems =
+        //     JSON.parse(localStorage.getItem("cartItems")) || [];
+
+        // // Add the new product to the cart items array
+        // const updatedCartItems = [...existingCartItems, productData];
+
+        // // Save the updated cart items to localStorage
+        // localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+        console.log("Updated cart items")
+    };
+
+    useEffect(() => {
+        if (prevCartStateRef.current !== GlobalCart.state) {
+            // setCart(GlobalCart.state);
+            prevCartStateRef.current = GlobalCart.state;
+            // console.log(GlobalCart.state); // Log the updated state
+        }
+    }, [GlobalCart.state]);
     return (
         <Box>
             <Flex
@@ -51,8 +84,8 @@ const ProductDetails = ({ productName }) => {
                     </Box>
 
                     <Flex align="center" gap="10px" mt={["18px", null, "35px"]}>
-                        <SecondaryButton text="Add to Cart" />
-                        <PrimaryButton text="Buy Now" />
+                        <SecondaryButton text="Add to Cart" onClick={handleAddToCart} />
+                        <PrimaryButton text="Buy Now" onClick={handleAddToCart}/>
                     </Flex>
                 </Box>
             </Flex>
