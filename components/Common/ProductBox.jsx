@@ -72,6 +72,16 @@ const ProductBox = ({ productData }, isLiked) => {
                 product: productData,
             },
         });
+
+        // Retrieve the existing cart items from localStorage
+        const existingCartItems =
+            JSON.parse(localStorage.getItem("cartItems")) || [];
+
+        // Add the new product to the cart items array
+        const updatedCartItems = [...existingCartItems, productData];
+
+        // Save the updated cart items to localStorage
+        localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
     };
 
     useEffect(() => {
@@ -88,8 +98,7 @@ const ProductBox = ({ productData }, isLiked) => {
     const handleProductDetails = (productData) => {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
 
-        router.push(`/product_details/${productData.name}`);
-        // console.log("The clicked product Details is", queryParams);
+        router.push(`/product_details/${productData.id}`);
     };
     return (
         <Box onClick={() => handleProductDetails(productData)}>
@@ -164,10 +173,7 @@ const ProductBox = ({ productData }, isLiked) => {
                     </Popover>
                 </Box>
                 <Box mt="19px" textAlign="center">
-                    <Text
-                        fontSize={["13px", null, "14px", "16px"]}
-                        fontWeight={["bold"]}
-                    >
+                    <Text fontSize={["13px", null, "14px", "16px"]} fontWeight={["bold"]}>
                         {name}
                     </Text>
                     <Text fontSize={["13px", null, "14px", "16px"]}>
@@ -177,11 +183,7 @@ const ProductBox = ({ productData }, isLiked) => {
                         {/* <Icon as={AiFillStar} /> */}
                         <StarRating rating={3.5} />
                     </Flex>
-                    <Text
-                        mt="10px"
-                        fontSize={["18px", null, "24px"]}
-                        fontWeight={600}
-                    >
+                    <Text mt="10px" fontSize={["18px", null, "24px"]} fontWeight={600}>
                         ₦{actual_price}
                     </Text>
                 </Box>
