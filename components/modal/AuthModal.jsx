@@ -29,6 +29,8 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import StateProvider, { StateContext } from "@/context/StateProvider";
 import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha";
+
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -71,8 +73,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                             {currentPage === "login"
                                 ? "Welcome Back"
                                 : currentPage === "register"
-                                ? "Create An Account"
-                                : "Recover your Password"}
+                                    ? "Create An Account"
+                                    : "Recover your Password"}
                         </Text>
                         <Divider />
                     </Flex>
@@ -113,15 +115,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     currentPage === "login"
                                         ? handleCurrentForm("register")
                                         : currentPage === "register"
-                                        ? handleCurrentForm("login")
-                                        : handleCurrentForm("login");
+                                            ? handleCurrentForm("login")
+                                            : handleCurrentForm("login");
                                 }}
                             >
                                 {currentPage === "login"
                                     ? "Don’t have an account? "
                                     : currentPage === "register"
-                                    ? "Already have an account? "
-                                    : "Already have an account? "}
+                                        ? "Already have an account? "
+                                        : "Already have an account? "}
                                 <Box
                                     as="button"
                                     color="accent_2"
@@ -130,8 +132,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
-                                        ? "Sign in"
-                                        : "Sign in"}
+                                            ? "Sign in"
+                                            : "Sign in"}
                                 </Box>
                             </Box>
                         </Box>
@@ -147,7 +149,10 @@ export default AuthModal;
 // Forms Start
 const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
+    const [isCaptchaValid, setIsCaptchaValid] = useState(false); // Initially set to false
+    const [captchaResponse, setCaptchaResponse] = useState('');
     const { isLoading, setIsLoading, setUser } = useContext(StateContext);
+
     // import user from context api
     const loginUser = async (values) => {
         setIsLoading(true);
@@ -156,6 +161,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
             password: values.password,
         };
         const { username, password } = formData;
+
 
         // console.table({ username, password });
 
@@ -200,6 +206,21 @@ const Login = ({ handleCurrentForm, onClose }) => {
                 toast.error(error.message);
             });
     };
+    const handleRecaptchaChange = (response) => {
+        setCaptchaResponse(response);
+        setIsCaptchaValid(true); // Set to true when reCAPTCHA is clicked
+    };
+
+    const handleSubmit = async (values) => {
+        if (!isCaptchaValid) {
+            toast.error("('Please complete the reCAPTCHA verification.")
+            return; // Don't submit if reCAPTCHA is not clicked
+        }
+
+        setIsLoading(true);
+        await loginUser(values);
+        setIsLoading(false);
+    };
     return (
         <Formik
             initialValues={{
@@ -209,6 +230,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
             onSubmit={(values) => {
                 // alert(JSON.stringify(values, null, 2));
                 loginUser(values);
+                handleSubmit
             }}
         >
             {({ handleSubmit, errors, touched }) => (
@@ -293,6 +315,11 @@ const Login = ({ handleCurrentForm, onClose }) => {
                         Forgot Password?
                     </Box>
 
+                    <ReCAPTCHA
+                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                        onChange={handleRecaptchaChange}
+                    />
+
                     <PrimaryButton
                         type="submit"
                         text="Login"
@@ -300,6 +327,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                         width="full"
                         mt="30px"
                         py="20px"
+                        disabled={!isCaptchaValid || isLoading} // Disable submit button if reCAPTCHA is not clicked or while submitting
                         isLoading={isLoading}
                     />
                 </form>
@@ -663,7 +691,7 @@ const Register = ({ handleCurrentForm }) => {
                         mb="15px"
                         mx="auto"
                         isLoading={isLoading}
-                        // handleButton={registerUser}
+                    // handleButton={registerUser}
                     />
                     <ToastContainer />
                 </form>
