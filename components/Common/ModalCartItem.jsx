@@ -25,28 +25,32 @@ const ModalCartItem = () => {
     //calculate total price of the quantity added to the cart
 
 
+    // Retrieve cart items from localStorage
+    const cartItemsFromLocalStorage = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+    // calculate total item in cartItemsFromLocalStorage
+
     useEffect(() => {
         let totalPrice = 0;
         state.forEach((product) => {
-            totalPrice += (product.actual_price * product.quantity);
-            // const productData = product;
-            // setProducts(productData);
-            // console.log("productin modal", productData);
+            totalPrice += product.actual_price * product.quantity;
         });
         setTotal(totalPrice);
-        console.log(totalPrice, total);
-    }, [state, total]);
+    }, [state]);
+
 
     //handle checkout payment button with paystack
     const handleCheckout = () => {
         alert('Checkout');
     };
 
+
+
     return (
         <Box>
             {/* Cart Item Section  */}
             {
-                state.length === 0 ? (
+                cartItemsFromLocalStorage.length === 0 ? (
                     <Box mt="19px">
                         <Center>
                             <Text fontSize={{
@@ -70,7 +74,7 @@ const ModalCartItem = () => {
                 ) : (
                     <Box>
                         {
-                            state && state.map((product, index) => {
+                            cartItemsFromLocalStorage && cartItemsFromLocalStorage.map((product, index) => {
                                 return (
                                     <Box key={index}>
                                         <Flex
