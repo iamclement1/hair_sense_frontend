@@ -156,7 +156,7 @@ const ProductBox = ({ productData }, isLiked) => {
                                 pos={"absolute"}
                                 top={10}
                                 right={3}
-                                    
+                                onClick={handleAddToCart}
                             />
                         </PopoverTrigger>
                         <PopoverContent
