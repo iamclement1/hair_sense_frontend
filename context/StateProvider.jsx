@@ -28,7 +28,11 @@ const StateProvider = ({ children }, props) => {
         Cookies.remove("currentUser");
         toast("Logged out successfully");
         setUser(null);
-        router.push("/");
+
+        setTimeout(() => {
+            router.push("/");
+            location.reload(); // Reload the page
+        }, 2000); // 1 second delay
     };
 
     const passedData = {
