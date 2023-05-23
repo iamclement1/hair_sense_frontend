@@ -23,10 +23,12 @@ const colors = {
     accent_6: "#656565",
     accent_7: "rgba(169, 169, 169, 0.73)",
     accent_8: "rgba(201, 201, 201, 0.5)",
+    accent_9:"#1B1C1E",
     // Dark Shades
     dark_1: "rgba(0, 0, 0, 0.3)",
     dark_2: "#ACB5BD",
     dark_3: "#222222",
+    dark_4: "rgba(51, 51, 51, 0.3)",
 };
 
 export const theme = extendTheme({
