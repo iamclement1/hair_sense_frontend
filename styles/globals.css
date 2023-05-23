@@ -45,9 +45,31 @@ a {
     color: #656565;
     font-size: 12px;
     font-weight: 600;
-    font-family: "Inter", sans-serif;   
+    font-family: "Inter", sans-serif;
 }
 .active {
     background: blue;
     color: white !important;
+}
+.error {
+    border-color: #e53e3e !important;
+    box-shadow: 0 0 0 1px #e53e3e !important;
+}
+
+.error-message {
+    color: #e53e3e;
+    font-size: 12px;
+    margin-top: 6px;
+}
+.error-message:focus-visible {
+    box-shadow: none;
+}
+
+.css-1eyovus:focus-visible,
+.css-1eyovus[data-focus-visible] {
+    /* z-index: 1;
+    border-color: rgba(51, 51, 51, 0.5) !important;
+    border: none;
+    box-shadow: 0 0 0 1px rgba(51, 51, 51, 0.5) !important;
+    box-shadow: none; */
 }
