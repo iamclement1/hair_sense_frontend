@@ -6,6 +6,7 @@ export const PrimaryButton = ({
     children,
     handleButton,
     isLoading,
+    notValid,
     ...props
 }) => {
     return (
@@ -24,7 +25,7 @@ export const PrimaryButton = ({
             w="100%"
             fontSize={["14px", null, "16px"]}
             onClick={handleButton}
-            isDisabled={isLoading}
+            isDisabled={isLoading || notValid}
         >
             {isLoading ? <Spinner size="md" /> : text}
         </Button>
