@@ -30,7 +30,12 @@ const CustomInput = ({
     };
     return (
         <FormControl isInvalid={!!errors[name] && touched[name]} mt="16px">
-            <FormLabel htmlFor={name} fontSize="14px" fontWeight={600}>
+            <FormLabel
+                htmlFor={name}
+                fontSize="14px"
+                color="accent_2"
+                fontWeight={600}
+            >
                 {label}
             </FormLabel>
             <Box pos="relative">
@@ -47,18 +52,19 @@ const CustomInput = ({
                             : "text"
                     }
                     placeholder={placeholder}
-                    fontSize={"16px"}
+                    fontSize={"15px"}
                     px={"20px"}
                     py="12px"
+                    pl={name === "phone_number" ? "70px" : ""}
                     pr={name === "store_domain" ? "155px" : "unset"}
                     display="inline-block"
                     _focusVisible={{
                         border: "1px",
-                        borderColor: "primary_500",
+                        borderColor: "dark_4",
                     }}
                     border="1px"
-                    borderColor="primary_100"
-                    rounded="8px"
+                    borderColor="dark_4"
+                    rounded="5px"
                 />
                 {type === "password" && (
                     <Icon
@@ -73,25 +79,26 @@ const CustomInput = ({
                     />
                 )}
 
-                {name === "store_domain" && (
+                {name === "phone_number" && (
                     <Flex
                         w="100%"
-                        maxW="150px"
+                        maxW="67px"
                         bg={"white"}
                         transform={"auto"}
-                        borderLeft="1px"
-                        borderColor="primary_100"
+                        borderRight="1px"
+                        bgColor="transparent"
+                        borderColor="dark_4"
                         pos="absolute"
-                        borderRightRadius={"8px"}
-                        top="1px"
-                        bottom="1px"
-                        right="1px"
-                        fontSize="12px"
+                        borderLeftRadius={"8px"}
+                        top="9px"
+                        bottom="9px"
+                        left="1px"
+                        fontSize="15px"
                         justify="center"
                         align="center"
-                        color="grey_300"
+                        color="accent_2"
                     >
-                        <Text>statamart.shop</Text>
+                        <Text>+234</Text>
                     </Flex>
                 )}
             </Box>
