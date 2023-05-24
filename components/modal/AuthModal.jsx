@@ -31,7 +31,6 @@ import StateProvider, { StateContext } from "@/context/StateProvider";
 import axios from "axios";
 import ReCAPTCHA from "react-google-recaptcha";
 
-
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
     const handleCurrentForm = (page) => {
@@ -73,8 +72,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                             {currentPage === "login"
                                 ? "Welcome Back"
                                 : currentPage === "register"
-                                    ? "Create An Account"
-                                    : "Recover your Password"}
+                                ? "Create An Account"
+                                : "Recover your Password"}
                         </Text>
                         <Divider />
                     </Flex>
@@ -115,15 +114,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     currentPage === "login"
                                         ? handleCurrentForm("register")
                                         : currentPage === "register"
-                                            ? handleCurrentForm("login")
-                                            : handleCurrentForm("login");
+                                        ? handleCurrentForm("login")
+                                        : handleCurrentForm("login");
                                 }}
                             >
                                 {currentPage === "login"
                                     ? "Don’t have an account? "
                                     : currentPage === "register"
-                                        ? "Already have an account? "
-                                        : "Already have an account? "}
+                                    ? "Already have an account? "
+                                    : "Already have an account? "}
                                 <Box
                                     as="button"
                                     color="accent_2"
@@ -132,8 +131,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
-                                            ? "Sign in"
-                                            : "Sign in"}
+                                        ? "Sign in"
+                                        : "Sign in"}
                                 </Box>
                             </Box>
                         </Box>
@@ -150,18 +149,17 @@ export default AuthModal;
 const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
     const [isCaptchaValid, setIsCaptchaValid] = useState(false); // Initially set to false
-    const [captchaResponse, setCaptchaResponse] = useState('');
+    const [captchaResponse, setCaptchaResponse] = useState("");
     const { isLoading, setIsLoading, setUser } = useContext(StateContext);
 
     // import user from context api
     const loginUser = async (values) => {
         setIsLoading(true);
         const formData = {
-            username: values.username,
+            email: values.email,
             password: values.password,
         };
-        const { username, password } = formData;
-
+        const { email, password } = formData;
 
         // console.table({ username, password });
 
@@ -213,7 +211,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
 
     const handleSubmit = async (values) => {
         if (!isCaptchaValid) {
-            toast.error("('Please complete the reCAPTCHA verification.")
+            toast.error("('Please complete the reCAPTCHA verification.");
             return; // Don't submit if reCAPTCHA is not clicked
         }
 
@@ -224,47 +222,45 @@ const Login = ({ handleCurrentForm, onClose }) => {
     return (
         <Formik
             initialValues={{
-                username: "",
+                email: "",
                 password: "",
             }}
             onSubmit={(values) => {
                 // alert(JSON.stringify(values, null, 2));
                 loginUser(values);
-                handleSubmit
+                handleSubmit;
             }}
         >
             {({ handleSubmit, errors, touched }) => (
                 <form onSubmit={handleSubmit}>
-                    <FormControl
-                        isInvalid={!!errors.username && touched.username}
-                    >
+                    <FormControl isInvalid={!!errors.email && touched.email}>
                         <FormLabel
                             fontSize={"14px"}
-                            htmlFor="username"
+                            htmlFor="email"
                             mb="8px"
                             fontWeight={"600"}
                         >
-                            Username
+                            Email
                         </FormLabel>
                         <Field
                             as={Input}
-                            id="username"
-                            name="username"
+                            id="email"
+                            name="email"
                             type="text"
-                            placeholder="Enter your username"
+                            placeholder="Enter your Email"
                             fontSize={["12px"]}
                             px={["13px", null]}
                             validate={(value) => {
                                 let error;
                                 if (value.length < 1) {
-                                    error = "Username is Required";
+                                    error = "email is Required";
                                 }
 
                                 return error;
                             }}
                         />
                         <FormErrorMessage fontSize={["12px"]}>
-                            {errors.username}
+                            {errors.email}
                         </FormErrorMessage>
                     </FormControl>
                     <FormControl
@@ -344,16 +340,15 @@ const Register = ({ handleCurrentForm }) => {
     const regUser = async (values) => {
         setIsLoading(true);
         const formData = {
-            username: values.username,
             first_name: values.first_name,
             last_name: values.last_name,
             phone: values.phone,
             password: values.password,
             email: values.email,
         };
-        const { username, first_name, last_name, phone, password } = formData;
+        const { first_name, last_name, phone, password } = formData;
 
-        console.table({ username, first_name, last_name, phone, password });
+        // console.table({  first_name, last_name, phone, password });
 
         await axios
             .post(`${baseUrl}/accounts/register/`, formData)
@@ -380,7 +375,7 @@ const Register = ({ handleCurrentForm }) => {
                 first_name: "",
                 last_name: "",
                 password: "",
-                username: "",
+
                 email: "",
                 phone: "",
                 confirm_password: "",
@@ -464,40 +459,7 @@ const Register = ({ handleCurrentForm }) => {
                             </FormErrorMessage>
                         </FormControl>
                     </Flex>
-                    {/* UserName Section  */}
-                    <FormControl
-                        isInvalid={!!errors.username && touched.username}
-                        mt={["14px", null, "24px"]}
-                    >
-                        <FormLabel
-                            fontSize={"14px"}
-                            htmlFor="username"
-                            mb="8px"
-                            fontWeight={"600"}
-                        >
-                            Username
-                        </FormLabel>
-                        <Field
-                            as={Input}
-                            id="username"
-                            name="username"
-                            type="text"
-                            placeholder="Enter your username"
-                            fontSize={["12px"]}
-                            px={["13px", null]}
-                            validate={(value) => {
-                                let error;
-                                if (value.length < 1) {
-                                    error = "Username is Required";
-                                }
 
-                                return error;
-                            }}
-                        />
-                        <FormErrorMessage fontSize={["12px"]}>
-                            {errors.username}
-                        </FormErrorMessage>
-                    </FormControl>
                     {/* EMAIL Section  */}
                     <FormControl
                         isInvalid={!!errors.email && touched.email}
@@ -691,7 +653,7 @@ const Register = ({ handleCurrentForm }) => {
                         mb="15px"
                         mx="auto"
                         isLoading={isLoading}
-                    // handleButton={registerUser}
+                        // handleButton={registerUser}
                     />
                     <ToastContainer />
                 </form>
