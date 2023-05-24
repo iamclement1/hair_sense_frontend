@@ -48,7 +48,7 @@ const ProductBox = ({ productData }, isLiked) => {
             .then((response) => {
                 if (response && response.status === 201) {
                     console.log(response);
-                    toast("item added successfully");
+                    toast(" Favorite item added successfully");
                 }
             })
             .catch((error) => {
@@ -62,10 +62,22 @@ const ProductBox = ({ productData }, isLiked) => {
     //cart context
     const GlobalCart = useContext(CartContext);
     const prevCartStateRef = useRef(GlobalCart.state);
-    const handleAddToCart = async (event) => {
-        //add item to localstorage
+    const handleAddToCart = (event) => {
         event.stopPropagation();
         const dispatch = GlobalCart.dispatch;
+
+        // Check if the item already exists in the cart
+        const itemExists = GlobalCart.state.find(
+            (item) => item.id === productData.id
+        );
+
+        if (itemExists) {
+            // Item already exists, display a message or handle accordingly
+            toast.error("Item already exists in the cart.");
+            return;
+        }
+
+        // Add the item to the cart state
         dispatch({
             type: "ADD_ITEM_TO_CART",
             payload: {
@@ -77,20 +89,26 @@ const ProductBox = ({ productData }, isLiked) => {
         const existingCartItems =
             JSON.parse(localStorage.getItem("cartItems")) || [];
 
+        // Check if the item already exists in localStorage
+        const itemExistsInLocalStorage = existingCartItems.some(
+            (item) => item.id === productData.id
+        );
+
+        if (itemExistsInLocalStorage) {
+            // Item already exists in localStorage, display a message or handle accordingly
+            toast.error("Item already exists in the cart.");
+            return;
+        }
+
         // Add the new product to the cart items array
         const updatedCartItems = [...existingCartItems, productData];
 
         // Save the updated cart items to localStorage
         localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+
+        toast.success("Item added to cart successfully!");
     };
 
-    useEffect(() => {
-        if (prevCartStateRef.current !== GlobalCart.state) {
-            // setCart(GlobalCart.state);
-            prevCartStateRef.current = GlobalCart.state;
-            // console.log(GlobalCart.state); // Log the updated state
-        }
-    }, [GlobalCart.state]);
 
     // console.log(GlobalCart.state); // Log the updated state
     // const dispatch = GlobalCart.dispatch;
