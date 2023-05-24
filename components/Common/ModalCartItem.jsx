@@ -34,16 +34,16 @@ const ModalCartItem = ({ onOpen, onClose }) => {
 
     //calculate total price of the quantity added to the cart
 
-
     // Retrieve cart items from localStorage
-    const cartItemsFromLocalStorage = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const cartItemsFromLocalStorage =
+        JSON.parse(localStorage.getItem("cartItems")) || [];
 
     // calculate total item in cartItemsFromLocalStorage
 
     useEffect(() => {
         let totalPrice = 0;
         state.forEach((product) => {
-            totalPrice += (product.actual_price * product.quantity);
+            totalPrice += product.actual_price * product.quantity;
             // const productData = product;
             // setProducts(productData);
             // console.log("productin modal", productData);
@@ -51,43 +51,24 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         setTotal(totalPrice);
     }, [state]);
 
-
     //handle checkout payment button with paystack
     const handleCheckout = () => {
         alert("Checkout");
     };
 
-
-
     return (
-        <Box>
-            {/* Cart Item Section  */}
-            {
-                state.length === 0 ? (
-                    <Box mt="19px">
-                        <Center>
-                            <Text fontSize={{
-                                base: "120px",
-                                md: "160px",
-                                lg: "240px",
-                                xl: "320px",
-                            }}
-                                align="center"
-                                fontWeight={"600"}>
-                                <BsCart4 />
-                            </Text>
-                        </Center>
+        <>
+            <Box>
+                {/* Cart Item Section  */}
 
-                        <Box mt="19px" textAlign="center">
-                            <Text fontSize={{ base: "20px", md: "20px", lg: "20px", xl: "20px" }}>
-                                You have no items in your cart.
-                            </Text>
-                        </Box>
+                {state.length === 0 ? (
+                    <Box py="30px">
+                        <EmptyCart />
                     </Box>
                 ) : (
                     <Box>
-                        {
-                            cartItemsFromLocalStorage && cartItemsFromLocalStorage.map((product, index) => {
+                        {cartItemsFromLocalStorage &&
+                            cartItemsFromLocalStorage.map((product, index) => {
                                 return (
                                     <Box key={index}>
                                         <Flex
