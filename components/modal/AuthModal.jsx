@@ -25,11 +25,10 @@ import NextLink from "next/link";
 import { baseUrl, httpPost } from "@/http-request/http-request";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/router";
-import Cookies from "js-cookie";
-import StateProvider, { StateContext } from "@/context/StateProvider";
+import  { StateContext } from "@/context/StateProvider";
 import axios from "axios";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useRouter } from "next/router";
+
 
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
@@ -206,21 +205,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                 toast.error(error.message);
             });
     };
-    const handleRecaptchaChange = (response) => {
-        setCaptchaResponse(response);
-        setIsCaptchaValid(true); // Set to true when reCAPTCHA is clicked
-    };
 
-    const handleSubmit = async (values) => {
-        if (!isCaptchaValid) {
-            toast.error("('Please complete the reCAPTCHA verification.")
-            return; // Don't submit if reCAPTCHA is not clicked
-        }
-
-        setIsLoading(true);
-        await loginUser(values);
-        setIsLoading(false);
-    };
     return (
         <Formik
             initialValues={{
@@ -314,11 +299,6 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     >
                         Forgot Password?
                     </Box>
-
-                    <ReCAPTCHA
-                        sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                        onChange={handleRecaptchaChange}
-                    />
 
                     <PrimaryButton
                         type="submit"
