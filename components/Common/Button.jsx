@@ -23,7 +23,7 @@ export const PrimaryButton = ({
             display={"block"}
             h="auto"
             w="100%"
-            fontSize={["14px", null, "16px"]}
+            fontSize={["12px", null, "16px"]}
             onClick={handleButton}
             isDisabled={isLoading || notValid}
         >

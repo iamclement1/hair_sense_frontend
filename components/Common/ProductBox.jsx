@@ -97,8 +97,8 @@ const ProductBox = ({ productData }, isLiked) => {
     // console.log(GlobalCart);
     const handleProductDetails = (productData) => {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
-
-        router.push(`/product_details/${productData.id}`);
+        localStorage.setItem("current_product", JSON.stringify(productData));
+        router.push(`/product_details/${productData.name}`);
     };
     return (
         <Box onClick={() => handleProductDetails(productData)}>
@@ -173,7 +173,10 @@ const ProductBox = ({ productData }, isLiked) => {
                     </Popover>
                 </Box>
                 <Box mt="19px" textAlign="center">
-                    <Text fontSize={["13px", null, "14px", "16px"]} fontWeight={["bold"]}>
+                    <Text
+                        fontSize={["13px", null, "14px", "16px"]}
+                        fontWeight={["bold"]}
+                    >
                         {name}
                     </Text>
                     <Text fontSize={["13px", null, "14px", "16px"]}>
@@ -183,7 +186,11 @@ const ProductBox = ({ productData }, isLiked) => {
                         {/* <Icon as={AiFillStar} /> */}
                         <StarRating rating={3.5} />
                     </Flex>
-                    <Text mt="10px" fontSize={["18px", null, "24px"]} fontWeight={600}>
+                    <Text
+                        mt="10px"
+                        fontSize={["18px", null, "24px"]}
+                        fontWeight={600}
+                    >
                         ₦{actual_price}
                     </Text>
                 </Box>

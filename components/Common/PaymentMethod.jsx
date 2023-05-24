@@ -3,8 +3,10 @@ import React from "react";
 import AddressDetailsPreview from "./AddressDetailsPreview";
 import DeliveryDetailsPreview from "./DeliveryDetailsPreview";
 import { PrimaryButton } from ".";
+import { useRouter } from "next/router";
 
 const PaymentMethod = ({ handleCheckOutStep }) => {
+    const router = useRouter();
     return (
         <Box>
             <AddressDetailsPreview handleCheckOutStep={handleCheckOutStep} />
@@ -76,7 +78,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                         <PrimaryButton
                             text="Make Payment"
                             w="100%"
-                            handleButton={() => handleCheckOutStep(3)}
+                            handleButton={() => router.push("/order_details")}
                         />
                     </Box>
                 </Box>
