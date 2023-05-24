@@ -11,8 +11,8 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
-const CartItemBoxDetails = ({data}) => {
-  
+const CartItemBoxDetails = ({ data }) => {
+
     return (
         <Flex
             mt="30px"
