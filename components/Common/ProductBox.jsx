@@ -66,17 +66,6 @@ const ProductBox = ({ productData }, isLiked) => {
         event.stopPropagation();
         const dispatch = GlobalCart.dispatch;
 
-        // Check if the item already exists in the cart
-        const itemExists = GlobalCart.state.find(
-            (item) => item.id === productData.id
-        );
-
-        if (itemExists) {
-            // Item already exists, display a message or handle accordingly
-            toast.error("Item already exists in the cart.");
-            return;
-        }
-
         // Add the item to the cart state
         dispatch({
             type: "ADD_ITEM_TO_CART",
@@ -84,35 +73,16 @@ const ProductBox = ({ productData }, isLiked) => {
                 product: productData,
             },
         });
-
-        // Retrieve the existing cart items from localStorage
-        const existingCartItems =
-            JSON.parse(localStorage.getItem("cartItems")) || [];
-
-        // Check if the item already exists in localStorage
-        const itemExistsInLocalStorage = existingCartItems.some(
-            (item) => item.id === productData.id
-        );
-
-        if (itemExistsInLocalStorage) {
-            // Item already exists in localStorage, display a message or handle accordingly
-            toast.error("Item already exists in the cart.");
-            return;
-        }
-
-        // Add the new product to the cart items array
-        const updatedCartItems = [...existingCartItems, productData];
-
-        // Save the updated cart items to localStorage
-        localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-
-        toast.success("Item added to cart successfully!");
     };
+
+    
+
+    // console.log(GlobalCart);
+
 
 
     // console.log(GlobalCart.state); // Log the updated state
     // const dispatch = GlobalCart.dispatch;
-    // console.log(GlobalCart);
     const handleProductDetails = (productData) => {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
         localStorage.setItem("current_product", JSON.stringify(productData));
