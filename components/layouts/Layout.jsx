@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 
 const Layout = ({ title, children }) => {
     const router = useRouter();
-    console.log(router);
+    // console.log(router);
     return (
         <>
             <Head>
