@@ -35,8 +35,8 @@ const ModalCartItem = ({ onOpen, onClose }) => {
     //calculate total price of the quantity added to the cart
 
     // Retrieve cart items from localStorage
-    const cartItemsFromLocalStorage =
-        JSON.parse(localStorage.getItem("cartItems")) || [];
+    const cartItems =
+        JSON.parse(localStorage.getItem("cartState")) || [];
 
     // calculate total item in cartItemsFromLocalStorage
 
@@ -62,14 +62,14 @@ const ModalCartItem = ({ onOpen, onClose }) => {
             <Box>
                 {/* Cart Item Section  */}
 
-                {state.length === 0 ? (
+                {cartItems.length === 0 ? (
                     <Box py="30px">
                         <EmptyCart />
                     </Box>
                 ) : (
                     <Box>
-                        {state &&
-                            state.map((product, index) => {
+                        {cartItems &&
+                            cartItems.map((product, index) => {
                                 return (
                                     <Box key={index}>
                                         <Flex

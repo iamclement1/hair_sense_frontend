@@ -62,32 +62,43 @@ const ProductBox = ({ productData }, isLiked) => {
     //cart context
     const GlobalCart = useContext(CartContext);
     const prevCartStateRef = useRef(GlobalCart.state);
+
     const handleAddToCart = (event) => {
         event.stopPropagation();
         const dispatch = GlobalCart.dispatch;
 
-        // Add the item to the cart state
-        dispatch({
-            type: "ADD_ITEM_TO_CART",
-            payload: {
-                product: productData,
-            },
-        });
+        const isItemExist = GlobalCart.state.some(item => item.productId === productData.productId);
+
+        if (isItemExist) {
+            toast.error('Item already exists in the cart'); // Display toast message
+        } else {
+            // Add the item to the cart state
+            dispatch({
+                type: 'ADD_ITEM_TO_CART',
+                payload: {
+                    product: productData,
+                },
+            });
+            toast.success('Item added to the cart'); // Display toast message
+        }
     };
 
-    
+    useEffect(() => {
+        localStorage.setItem('cartState', JSON.stringify(GlobalCart.state));
+        const stateCart = localStorage.getItem('cartState');
+        // console.log(stateCart);
+    }, [GlobalCart.state])
 
-    // console.log(GlobalCart);
 
 
 
     // console.log(GlobalCart.state); // Log the updated state
     // const dispatch = GlobalCart.dispatch;
-    const handleProductDetails = (productData) => {
+    function handleProductDetails(productData) {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
         localStorage.setItem("current_product", JSON.stringify(productData));
         router.push(`/product_details/${productData.name}`);
-    };
+    }
     return (
         <Box onClick={() => handleProductDetails(productData)}>
             <Box
