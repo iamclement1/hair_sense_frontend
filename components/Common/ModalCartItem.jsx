@@ -51,6 +51,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         setTotal(totalPrice);
     }, [state]);
 
+
     //handle checkout payment button with paystack
     const handleCheckout = () => {
         alert("Checkout");
@@ -67,8 +68,8 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                     </Box>
                 ) : (
                     <Box>
-                        {cartItemsFromLocalStorage &&
-                            cartItemsFromLocalStorage.map((product, index) => {
+                        {state &&
+                            state.map((product, index) => {
                                 return (
                                     <Box key={index}>
                                         <Flex
@@ -143,12 +144,12 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                                         <Flex
                                                             align="center"
                                                             alignSelf="flex-end"
-                                                            // display={{
-                                                            //     base: "none",
-                                                            //     md: "flex",
-                                                            //     lg: "flex",
-                                                            //     xl: "flex",
-                                                            // }}
+                                                        // display={{
+                                                        //     base: "none",
+                                                        //     md: "flex",
+                                                        //     lg: "flex",
+                                                        //     xl: "flex",
+                                                        // }}
                                                         >
                                                             <Text
                                                                 as="button"
@@ -163,63 +164,10 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                                                 minW="30px"
                                                                 aria-label="reduce quantity"
                                                                 onClick={() => {
-                                                                    if (
-                                                                        product.quantity >
-                                                                        1
-                                                                    ) {
-                                                                        dispatch(
-                                                                            {
-                                                                                type: "DECREASE_QUANTITY",
-                                                                                payload:
-                                                                                    product,
-                                                                            }
-                                                                        );
+                                                                    if (product.quantity > 1) {
+                                                                        dispatch({ type: "DECREASE_QUANTITY", payload: product });
                                                                     } else {
-                                                                        dispatch(
-                                                                            {
-                                                                                type: "REMOVE",
-                                                                                payload:
-                                                                                    product,
-                                                                            }
-                                                                        );
-
-                                                                        // Retrieve the existing cart items from localStorage
-                                                                        const existingCartItems =
-                                                                            JSON.parse(
-                                                                                localStorage.getItem(
-                                                                                    "cartItems"
-                                                                                )
-                                                                            ) ||
-                                                                            [];
-
-                                                                        // Find the index of the item to be removed
-                                                                        const itemIndex =
-                                                                            existingCartItems.findIndex(
-                                                                                (
-                                                                                    item
-                                                                                ) =>
-                                                                                    item.id ===
-                                                                                    product.id
-                                                                            );
-
-                                                                        if (
-                                                                            itemIndex !==
-                                                                            -1
-                                                                        ) {
-                                                                            // Remove the item from the cart items array
-                                                                            existingCartItems.splice(
-                                                                                itemIndex,
-                                                                                1
-                                                                            );
-
-                                                                            // Save the updated cart items to localStorage
-                                                                            localStorage.setItem(
-                                                                                "cartItems",
-                                                                                JSON.stringify(
-                                                                                    existingCartItems
-                                                                                )
-                                                                            );
-                                                                        }
+                                                                        dispatch({ type: "REMOVE", payload: product });
                                                                     }
                                                                 }}
                                                             >
@@ -260,112 +208,12 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                                                 rounded={"3px"}
                                                                 minW="30px"
                                                                 aria-label="Add to quantity"
-                                                                onClick={() => {
-                                                                    dispatch({
-                                                                        type: "INCREASE_QUANTITY",
-                                                                        payload:
-                                                                            product,
-                                                                    });
-
-                                                                    // Retrieve the existing cart items from localStorage
-                                                                    const existingCartItems =
-                                                                        JSON.parse(
-                                                                            localStorage.getItem(
-                                                                                "cartItems"
-                                                                            )
-                                                                        ) || [];
-
-                                                                    // Find the index of the item to be increased
-                                                                    const itemIndex =
-                                                                        existingCartItems.findIndex(
-                                                                            (
-                                                                                item
-                                                                            ) =>
-                                                                                item.id ===
-                                                                                product.id
-                                                                        );
-
-                                                                    if (
-                                                                        itemIndex !==
-                                                                        -1
-                                                                    ) {
-                                                                        // Increase the quantity of the item
-                                                                        existingCartItems[
-                                                                            itemIndex
-                                                                        ] = {
-                                                                            ...existingCartItems[
-                                                                                itemIndex
-                                                                            ],
-                                                                            quantity:
-                                                                                existingCartItems[
-                                                                                    itemIndex
-                                                                                ]
-                                                                                    .quantity +
-                                                                                1,
-                                                                        };
-
-                                                                        // Save the updated cart items to localStorage
-                                                                        localStorage.setItem(
-                                                                            "cartItems",
-                                                                            JSON.stringify(
-                                                                                existingCartItems
-                                                                            )
-                                                                        );
-                                                                    }
-                                                                }}
+                                                                onClick={() => dispatch({ type: "INCREASE_QUANTITY", payload: product })}
                                                             >
                                                                 +
                                                             </Text>
-
-                                                            <Box
-                                                                onClick={() => {
-                                                                    dispatch({
-                                                                        type: "REMOVE",
-                                                                        payload:
-                                                                            product,
-                                                                    });
-
-                                                                    // Retrieve the existing cart items from localStorage
-                                                                    const existingCartItems =
-                                                                        JSON.parse(
-                                                                            localStorage.getItem(
-                                                                                "cartItems"
-                                                                            )
-                                                                        ) || [];
-
-                                                                    // Find the index of the item to be removed
-                                                                    const itemIndex =
-                                                                        existingCartItems.findIndex(
-                                                                            (
-                                                                                item
-                                                                            ) =>
-                                                                                item.id ===
-                                                                                product.id
-                                                                        );
-
-                                                                    if (
-                                                                        itemIndex !==
-                                                                        -1
-                                                                    ) {
-                                                                        // Remove the item from the cart items array
-                                                                        existingCartItems.splice(
-                                                                            itemIndex,
-                                                                            1
-                                                                        );
-
-                                                                        // Save the updated cart items to localStorage
-                                                                        localStorage.setItem(
-                                                                            "cartItems",
-                                                                            JSON.stringify(
-                                                                                existingCartItems
-                                                                            )
-                                                                        );
-                                                                    }
-                                                                }}
-                                                            >
-                                                                {/* <Box ml="20px">
+                                                            <Box ml="20px" onClick={() => dispatch({ type: "REMOVE", payload: product })}>
                                                                 <FaTrash />
-                                                            </Box> */}
                                                             </Box>
                                                         </Flex>
                                                     </Flex>
