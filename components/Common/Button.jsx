@@ -6,6 +6,7 @@ export const PrimaryButton = ({
     children,
     handleButton,
     isLoading,
+    notValid,
     ...props
 }) => {
     return (
@@ -17,14 +18,14 @@ export const PrimaryButton = ({
             rounded="3.43px"
             bgColor={"primary_1"}
             color={"white"}
-            px={["16px", null, "26px"]}
-            py="12px"
+            px={["10px", null, "26px"]}
+            py={["8px", null, "12px"]}
             display={"block"}
             h="auto"
             w="100%"
-            fontSize={["14px", null, "16px"]}
+            fontSize={["12px", null, "16px"]}
             onClick={handleButton}
-            isDisabled={isLoading}
+            isDisabled={isLoading || notValid}
         >
             {isLoading ? <Spinner size="md" /> : text}
         </Button>

@@ -42,8 +42,7 @@ const CartModal = ({ isOpen, onClose, onOpen }) => {
                         fontSize={{
                             base: "16px",
                             md: "24px",
-                            lg: "26px",
-                            xl: "40px",
+                            lg: "29px",
                         }}
                         fontWeight="600"
                         color="accent_2"
@@ -59,7 +58,7 @@ const CartModal = ({ isOpen, onClose, onOpen }) => {
 
                 <Divider mt="15px" />
 
-                <ModalCartItem />
+                <ModalCartItem isOpen={isOpen} onClose={onClose} />
             </ModalContent>
         </Modal>
     );

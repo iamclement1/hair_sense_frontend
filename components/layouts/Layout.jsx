@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 
 const Layout = ({ title, children }) => {
     const router = useRouter();
+    // console.log(router);
     return (
         <>
             <Head>
@@ -22,9 +23,10 @@ const Layout = ({ title, children }) => {
                 <link rel="icon" href="/images/favicon.svg" />
             </Head>
             <Box>
-                <Navbar />
+                {router.asPath !== "/checkout" ? <Navbar /> : ""}
                 <Box>{children}</Box>
-                <Footer />
+
+                {router.asPath !== "/checkout" ? <Footer /> : ""}
             </Box>
         </>
     );

@@ -27,7 +27,7 @@ const ProductDetails = ({ productData }) => {
 
         // // Save the updated cart items to localStorage
         // localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-        console.log("Updated cart items")
+        console.log("Updated cart items");
     };
 
     useEffect(() => {
@@ -37,6 +37,7 @@ const ProductDetails = ({ productData }) => {
             // console.log(GlobalCart.state); // Log the updated state
         }
     }, [GlobalCart.state]);
+
     return (
         <Box>
             <Flex
@@ -84,8 +85,14 @@ const ProductDetails = ({ productData }) => {
                     </Box>
 
                     <Flex align="center" gap="10px" mt={["18px", null, "35px"]}>
-                        <SecondaryButton text="Add to Cart" onClick={handleAddToCart} />
-                        <PrimaryButton text="Buy Now" onClick={handleAddToCart}/>
+                        <SecondaryButton
+                            text="Add to Cart"
+                            onClick={handleAddToCart}
+                        />
+                        <PrimaryButton
+                            text="Buy Now"
+                            onClick={handleAddToCart}
+                        />
                     </Flex>
                 </Box>
             </Flex>

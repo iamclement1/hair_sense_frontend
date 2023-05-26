@@ -62,62 +62,50 @@ const ProductBox = ({ productData }, isLiked) => {
     //cart context
     const GlobalCart = useContext(CartContext);
     const prevCartStateRef = useRef(GlobalCart.state);
+
     const handleAddToCart = (event) => {
         event.stopPropagation();
         const dispatch = GlobalCart.dispatch;
-
-        // Check if the item already exists in the cart
-        const itemExists = GlobalCart.state.find(
-            (item) => item.id === productData.id
-        );
-
-        if (itemExists) {
-            // Item already exists, display a message or handle accordingly
-            toast.error("Item already exists in the cart.");
-            return;
-        }
-
-        // Add the item to the cart state
-        dispatch({
-            type: "ADD_ITEM_TO_CART",
-            payload: {
-                product: productData,
-            },
-        });
-
-        // Retrieve the existing cart items from localStorage
-        const existingCartItems =
-            JSON.parse(localStorage.getItem("cartItems")) || [];
-
+    
+        // Check if the product ID already exists in the cart
+        const isItemExist = GlobalCart.state.some((item) => item.id === productData.id);
+    
         // Check if the item already exists in localStorage
-        const itemExistsInLocalStorage = existingCartItems.some(
-            (item) => item.id === productData.id
-        );
-
-        if (itemExistsInLocalStorage) {
-            // Item already exists in localStorage, display a message or handle accordingly
-            toast.error("Item already exists in the cart.");
-            return;
+        const existingCartData = JSON.parse(localStorage.getItem('cart')) || [];
+        const isItemInLocalStorage = existingCartData.some((item) => item.id === productData.id);
+    
+        if (isItemExist) {
+            toast.error('Item already exists in the cart');
+        } else if (isItemInLocalStorage) {
+            toast.error('Item already exists in the localStorage');
+        } else {
+            dispatch({
+                type: 'ADD_ITEM_TO_CART',
+                payload: {
+                    product: productData,
+                },
+            });
+            toast.success('Item added successfully');
+    
+            // Update the cart data in localStorage
+            localStorage.setItem(
+                'cart',
+                JSON.stringify([...existingCartData, productData])
+            );
         }
-
-        // Add the new product to the cart items array
-        const updatedCartItems = [...existingCartItems, productData];
-
-        // Save the updated cart items to localStorage
-        localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-
-        toast.success("Item added to cart successfully!");
     };
+    
+
+
 
 
     // console.log(GlobalCart.state); // Log the updated state
     // const dispatch = GlobalCart.dispatch;
-    // console.log(GlobalCart);
-    const handleProductDetails = (productData) => {
+    function handleProductDetails(productData) {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
-
-        router.push(`/product_details/${productData.id}`);
-    };
+        localStorage.setItem("current_product", JSON.stringify(productData));
+        router.push(`/product_details/${productData.name}`);
+    }
     return (
         <Box onClick={() => handleProductDetails(productData)}>
             <Box
@@ -191,7 +179,10 @@ const ProductBox = ({ productData }, isLiked) => {
                     </Popover>
                 </Box>
                 <Box mt="19px" textAlign="center">
-                    <Text fontSize={["13px", null, "14px", "16px"]} fontWeight={["bold"]}>
+                    <Text
+                        fontSize={["13px", null, "14px", "16px"]}
+                        fontWeight={["bold"]}
+                    >
                         {name}
                     </Text>
                     <Text fontSize={["13px", null, "14px", "16px"]}>
@@ -201,7 +192,11 @@ const ProductBox = ({ productData }, isLiked) => {
                         {/* <Icon as={AiFillStar} /> */}
                         <StarRating rating={3.5} />
                     </Flex>
-                    <Text mt="10px" fontSize={["18px", null, "24px"]} fontWeight={600}>
+                    <Text
+                        mt="10px"
+                        fontSize={["18px", null, "24px"]}
+                        fontWeight={600}
+                    >
                         ₦{actual_price}
                     </Text>
                 </Box>
