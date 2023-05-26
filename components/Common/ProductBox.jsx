@@ -67,30 +67,41 @@ const ProductBox = ({ productData }, isLiked) => {
         event.stopPropagation();
         const dispatch = GlobalCart.dispatch;
 
-        const isItemExist = GlobalCart.state.some(item => item.productId === productData.productId);
+        const isItemExist = GlobalCart.state.some(
+            (item) => item.productId === productData.productId
+        );
 
         if (isItemExist) {
-            toast.error('Item already exists in the cart'); // Display toast message
+            toast.error("Item already exists in the cart"); // Display toast message
         } else {
             // Add the item to the cart state
             dispatch({
-                type: 'ADD_ITEM_TO_CART',
+                type: "ADD_ITEM_TO_CART",
                 payload: {
                     product: productData,
                 },
             });
-            toast.success('Item added to the cart'); // Display toast message
+            toast.success("Item added to the cart"); // Display toast message
         }
     };
 
     useEffect(() => {
-        localStorage.setItem('cartState', JSON.stringify(GlobalCart.state));
-        const stateCart = localStorage.getItem('cartState');
+        if (localStorage.getItem("cartState")) {
+            // const ourInitialItem = localStorage.getItem("cartState");
+            // setGloblaCart({...stateCart, ourInitialItem})
+        }else{
+
+        }
+        // localStorage.setItem("cartState", JSON.stringify(GlobalCart.state));
+        // const stateCart = localStorage.getItem("cartState");
         // console.log(stateCart);
-    }, [GlobalCart.state])
+    }, []);
 
-
-
+    useEffect(() => {
+        localStorage.setItem("cartState", JSON.stringify(GlobalCart.state));
+        const stateCart = localStorage.getItem("cartState");
+        // console.log(stateCart);
+    }, [GlobalCart.state]);
 
     // console.log(GlobalCart.state); // Log the updated state
     // const dispatch = GlobalCart.dispatch;
