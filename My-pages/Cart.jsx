@@ -22,10 +22,6 @@ const Cart = () => {
         cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     }
 
-  
-
-console.log(cartItems);
-
     return (
         <Box w="100%" mt={{ base: "33px", md: "74px", xl: "" }}>
             <Flex align="center" justify="space-between" w="100%">
@@ -42,11 +38,15 @@ console.log(cartItems);
             <Box mt="59px" w="100%">
                 {cartItems ? (
                     <>
-                        {cartItems && cartItems.map((item, i)=>{
-                            return (
-                                <CartItemBoxDetails key={i} singleItem={item} />
-                            );
-                        })}
+                        {cartItems &&
+                            cartItems.map((item, i) => {
+                                return (
+                                    <CartItemBoxDetails
+                                        key={i}
+                                        singleItem={item}
+                                    />
+                                );
+                            })}
 
                         <Box mt={{ base: "35px", md: "53px" }}>
                             <PrimaryButton
