@@ -11,8 +11,9 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
-const CartItemBoxDetails = ({ data }) => {
-
+const CartItemBoxDetails = ({ singleItem }) => {
+    const { id, name, actual_price, sales_price, product_img, quantity } =
+        singleItem;
     return (
         <Flex
             mt="30px"
@@ -23,11 +24,12 @@ const CartItemBoxDetails = ({ data }) => {
             <Icon
                 as={IoIosCloseCircleOutline}
                 boxSize={{ base: "21px", md: "27px" }}
+                
             />
             {/* product Image */}
 
             <Image
-                src="/images/cream.svg"
+                src={product_img && product_img}
                 maxW={{ base: "188px", md: "115px" }}
                 maxH={{ base: "188px", md: "115px" }}
                 alt=""
@@ -55,7 +57,7 @@ const CartItemBoxDetails = ({ data }) => {
                     flexShrink={0}
                     noOfLines={3}
                 >
-                    Hyggee Vegan Sun Cream - 50ml
+                    {name && name}
                 </Text>
             </Box>
 
@@ -86,7 +88,7 @@ const CartItemBoxDetails = ({ data }) => {
                         fontSize={{ base: "16px", md: "14px", xl: "24px" }}
                         fontWeight={600}
                     >
-                        ₦ 4,000
+                        ₦ {sales_price}
                     </Text>
                 </Flex>
                 {/* Quantity Section */}
@@ -134,7 +136,7 @@ const CartItemBoxDetails = ({ data }) => {
                                 xl: "22px",
                             }}
                         >
-                            12
+                            {quantity}
                         </Flex>
                         <Text
                             as="button"
@@ -178,7 +180,6 @@ const CartItemBoxDetails = ({ data }) => {
             </Flex>
         </Flex>
     );
+};
 
-}
-
-export default CartItemBoxDetails
+export default CartItemBoxDetails;

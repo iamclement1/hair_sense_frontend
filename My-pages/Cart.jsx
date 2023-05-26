@@ -15,7 +15,6 @@ import { PrimaryButton, ProductSlider } from "@/components/Common";
 import EmptyCart from "@/components/Common/EmptyCart";
 
 const Cart = () => {
-
     // Retrieve cart items from localStorage
     let cartItems = [];
 
@@ -23,7 +22,9 @@ const Cart = () => {
         cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     }
 
+  
 
+console.log(cartItems);
 
     return (
         <Box w="100%" mt={{ base: "33px", md: "74px", xl: "" }}>
@@ -39,10 +40,13 @@ const Cart = () => {
             <Divider mt="8px" />
 
             <Box mt="59px" w="100%">
-                {!true ? (
+                {cartItems ? (
                     <>
-                        <CartItemBoxDetails />
-                        <CartItemBoxDetails />
+                        {cartItems && cartItems.map((item, i)=>{
+                            return (
+                                <CartItemBoxDetails key={i} singleItem={item} />
+                            );
+                        })}
 
                         <Box mt={{ base: "35px", md: "53px" }}>
                             <PrimaryButton
@@ -80,4 +84,3 @@ const Cart = () => {
 };
 
 export default Cart;
-
