@@ -15,6 +15,16 @@ import { PrimaryButton, ProductSlider } from "@/components/Common";
 import EmptyCart from "@/components/Common/EmptyCart";
 
 const Cart = () => {
+
+    // Retrieve cart items from localStorage
+    let cartItems = [];
+
+    if (typeof window !== "undefined") {
+        cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    }
+
+
+
     return (
         <Box w="100%" mt={{ base: "33px", md: "74px", xl: "" }}>
             <Flex align="center" justify="space-between" w="100%">

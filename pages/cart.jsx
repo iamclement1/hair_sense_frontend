@@ -4,7 +4,7 @@ import React from "react";
 
 const cart = () => {
     return (
-        <Layout title="Hair Sense Cart page">
+        <Layout title="Cart ">
             <ScreenSize>
                 <Cart />
             </ScreenSize>
