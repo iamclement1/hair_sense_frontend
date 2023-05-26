@@ -24,6 +24,8 @@ const Cart = () => {
     }
 
 
+    
+
 
     return (
         <Box w="100%" mt={{ base: "33px", md: "74px", xl: "" }}>

@@ -13,6 +13,88 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const CartItemBoxDetails = ({ data }) => {
 
+        //remove cart from state and localStorage
+        const handleRemoveFromCart = (product) => {
+            const dispatch = GlobalCart.dispatch;
+    
+            // Remove the item from the cart state
+            dispatch({ type: "REMOVE", payload: product });
+    
+            // Get the existing cart data from localStorage
+            const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+    
+            // Find the index of the item to remove in the existing cart data
+            const itemIndex = existingCartData.findIndex(
+                (item) => item.id === product.id
+            );
+    
+            if (itemIndex !== -1) {
+                // Remove the item from the existing cart data
+                existingCartData.splice(itemIndex, 1);
+    
+                // Update the cart data in localStorage
+                localStorage.setItem("cart", JSON.stringify(existingCartData));
+            }
+        };
+    
+        //increase the quantity of an item in the cart and update the quantity in the localStorage
+        const handleIncreaseQuantity = (product) => {
+            const dispatch = GlobalCart.dispatch;
+    
+            // Update the quantity in the cart state
+            dispatch({ type: "INCREASE_QUANTITY", payload: product });
+    
+            // Get the existing cart data from localStorage
+            const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+    
+            // Find the index of the item in the existing cart data
+            const itemIndex = existingCartData.findIndex((item) => item.id === product.id);
+    
+            if (itemIndex !== -1) {
+                // Update the quantity in the existing cart data
+                existingCartData[itemIndex].quantity += 1;
+    
+                // Update the cart data in localStorage
+                localStorage.setItem("cart", JSON.stringify(existingCartData));
+            }
+        };
+    
+        //decrease the quantity of an item in the cart and in localStorage
+        const handleDecreaseQuantity = (product) => {
+            const dispatch = GlobalCart.dispatch;
+    
+            if (product.quantity > 1) {
+                // Decrease the quantity in the cart state
+                dispatch({ type: "DECREASE_QUANTITY", payload: product });
+    
+                // Get the existing cart data from localStorage
+                const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+    
+                // Find the index of the item in the existing cart data
+                const itemIndex = existingCartData.findIndex((item) => item.id === product.id);
+    
+                if (itemIndex !== -1) {
+                    // Decrease the quantity in the existing cart data
+                    existingCartData[itemIndex].quantity -= 1;
+    
+                    // Update the cart data in localStorage
+                    localStorage.setItem("cart", JSON.stringify(existingCartData));
+                }
+            } else {
+                // Remove the item from the cart state
+                dispatch({ type: "REMOVE", payload: product });
+    
+                // Get the existing cart data from localStorage
+                const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+    
+                // Remove the item from the existing cart data
+                const updatedCartData = existingCartData.filter((item) => item.id !== product.id);
+    
+                // Update the cart data in localStorage
+                localStorage.setItem("cart", JSON.stringify(updatedCartData));
+            }
+        };
+
     return (
         <Flex
             mt="30px"
