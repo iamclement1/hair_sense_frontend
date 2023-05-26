@@ -30,6 +30,12 @@ const Navbar = () => {
     // Global cart
     const GlobalCart = useContext(CartContext);
     const state = GlobalCart.state;
+    let cartItems = [];
+
+    if (typeof window !== "undefined") {
+        cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    }
+
     // fuction to Open Nav
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
@@ -135,7 +141,7 @@ const Navbar = () => {
                         <Box
                             w={["100%", null, "100%"]}
                             order={[3, 3, 2]}
-                            // flexShrink={1}
+                        // flexShrink={1}
                         >
                             <SearchInput />
                         </Box>
@@ -155,7 +161,7 @@ const Navbar = () => {
                                                     <Box key={i}>
                                                         {" "}
                                                         {text ===
-                                                        "My Account" ? (
+                                                            "My Account" ? (
                                                             <>
                                                                 {" "}
                                                                 <Menu>
@@ -219,8 +225,8 @@ const Navbar = () => {
                                                                 </Text>
                                                                 {text ===
                                                                     "My Cart" &&
-                                                                    state.length >
-                                                                        0 && (
+                                                                    cartItems.length >
+                                                                    0 && (
                                                                         <Flex
                                                                             bgColor="primary_1"
                                                                             color="white"
@@ -235,8 +241,8 @@ const Navbar = () => {
                                                                             top="-2"
                                                                             right="1px"
                                                                         >
-                                                                            {state &&
-                                                                                state.length}
+                                                                            {cartItems &&
+                                                                                cartItems.length}
                                                                         </Flex>
                                                                     )}
                                                             </Box>
@@ -267,7 +273,7 @@ const Navbar = () => {
                                                         </Text>
                                                         {text === "My Cart" &&
                                                             state.length >
-                                                                0 && (
+                                                            0 && (
                                                                 <Flex
                                                                     bgColor="primary_1"
                                                                     color="white"
@@ -282,8 +288,8 @@ const Navbar = () => {
                                                                     top="-2"
                                                                     right="1px"
                                                                 >
-                                                                    {state &&
-                                                                        state.length}
+                                                                    {cartItems &&
+                                                                        cartItems.length}
                                                                 </Flex>
                                                             )}
                                                     </Box>
