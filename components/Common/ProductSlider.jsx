@@ -7,7 +7,7 @@ import {
     Image,
     Text,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Slider from "react-slick";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import ScreenSize from "../layouts/ScreenSize";
@@ -16,94 +16,95 @@ import { StateContext } from "@/context/StateProvider";
 import { baseUrl, httpGet } from "@/http-request/http-request";
 import axios from "axios";
 
-const NextArrow = (props) => {
-    const { onClick } = props;
-    return (
-        <Icon
-            aria-label="Next"
-            color="accent_2"
-            as={BsChevronRight}
-            onClick={onClick}
-            position="absolute"
-            top="50%"
-            right={["0", "10px"]}
-            transform="translateY(-50%)"
-            zIndex="1"
-            boxSize={["20px", "30px"]}
-            cursor={"pointer"}
-        />
-    );
-};
-
-const PrevArrow = (props) => {
-    const { onClick } = props;
-    return (
-        <Icon
-            aria-label="Previous"
-            color="accent_2"
-            as={BsChevronLeft}
-            onClick={onClick}
-            position="absolute"
-            top="50%"
-            left={["0", "10px"]}
-            transform="translateY(-50%)"
-            zIndex="1"
-            boxSize={["20px", "30px"]}
-            cursor={"pointer"}
-        />
-    );
-};
-
-const settings = {
-    dots: false,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 2,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-    responsive: [
-        {
-            breakpoint: 1024,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 1,
-            },
-        },
-        {
-            breakpoint: 820,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 1,
-            },
-        },
-
-        {
-            breakpoint: 560,
-            settings: {
-                slidesToShow: 2,
-                slidesToScroll: 2,
-            },
-        },
-    ],
-};
-
 const ProductSlider = ({
     section,
     productDatas,
     type = "default",
     children,
 }) => {
+    const [currentSlide, setCurrentSlide] = useState(1);
+    const NextArrow = (props) => {
+        const { onClick } = props;
+        return (
+            <Icon
+                aria-label="Next"
+                color="accent_2"
+                as={BsChevronRight}
+                onClick={() => sliderRef.current.slickPrev()}
+                position="absolute"
+                top="50%"
+                right={["0", "10px"]}
+                transform="translateY(-50%)"
+                zIndex="1"
+                boxSize={["20px", "30px"]}
+                cursor={"pointer"}
+            />
+        );
+    };
+
+    const PrevArrow = (props) => {
+        const { onClick } = props;
+        return (
+            <Icon
+                aria-label="Previous"
+                color="accent_2"
+                as={BsChevronLeft}
+                onClick={onClick}
+                position="absolute"
+                top="50%"
+                left={["0", "10px"]}
+                transform="translateY(-50%)"
+                zIndex="1"
+                boxSize={["20px", "30px"]}
+                cursor={"pointer"}
+            />
+        );
+    };
+
+    const settings = {
+        dots: false,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 4,
+        slidesToScroll: 2,
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />,
+        responsive: [
+            {
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                },
+            },
+            {
+                breakpoint: 820,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 1,
+                },
+            },
+
+            {
+                breakpoint: 560,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 2,
+                },
+            },
+        ],
+    };
+
+    const sliderRef = useRef(null);
     //product data
     const { products, setProducts } = useContext(StateContext);
-    // console.log(products);
 
     useEffect(() => {
         async function fetchProduct() {
             const response = await axios.get(`${baseUrl}/store/products`);
             if (response && response.data && response.status === 200) {
                 const data = response.data.data.results;
-                // console.log("here is the data",response);
+
                 setProducts(data);
             }
             // console.log("Response is here", response);
@@ -120,6 +121,8 @@ const ProductSlider = ({
     const handleProduct = (id) => {
         alert("Product Id === ", id);
     };
+
+   
     return (
         <ScreenSize>
             {/* Default Header for product slider  */}
@@ -167,11 +170,11 @@ const ProductSlider = ({
                 {productDatas && productDatas === null ? (
                     <Text> Products not Available </Text>
                 ) : (
-                    <Slider {...settings}>
+                    <Slider {...settings} ref={sliderRef}>
                         {products &&
-                            products.length > 0 &&
                             products.map((product, id) => {
                                 product.quantity = 1;
+
                                 return (
                                     <ProductBox
                                         key={id}

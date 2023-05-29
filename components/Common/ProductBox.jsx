@@ -118,9 +118,9 @@ const ProductBox = ({ productData }, isLiked) => {
             <Box
                 cursor={"pointer"}
                 bgColor=""
-                maxW="285px"
+                // maxW="285px"
                 textAlign={"center"}
-                mx="auto"
+                // mx="auto"
             >
                 <Box w="100%" maxW="247px" pos={"relative"}>
                     <Image
@@ -192,7 +192,7 @@ const ProductBox = ({ productData }, isLiked) => {
                     >
                         {name}
                     </Text>
-                    <Text fontSize={["13px", null, "14px", "16px"]}>
+                    <Text fontSize={["13px", null, "14px", "16px"]} noOfLines={2}>
                         {second_description}
                     </Text>
                     <Flex mt="13px" justify="center">
