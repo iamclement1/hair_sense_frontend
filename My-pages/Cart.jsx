@@ -7,17 +7,25 @@ import {
     Text,
     Image,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import CartItemBoxDetails from "@/components/Common/CartItemBoxDetails";
 import { PrimaryButton, ProductSlider } from "@/components/Common";
 import EmptyCart from "@/components/Common/EmptyCart";
+import { CartContext } from "@/context/StateProvider";
 
 const Cart = () => {
     // Retrieve cart items from localStorage
     let cartItems = [];
 
+    // const GlobalCart = useContext(CartContext);
+    // const state = GlobalCart.state;
+    // const dispatch = GlobalCart.dispatch;
+
+    // useEffect(() => {
+
+    // }, [state]);
     if (typeof window !== "undefined") {
         cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     }

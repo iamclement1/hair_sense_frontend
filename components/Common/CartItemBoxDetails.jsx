@@ -8,11 +8,12 @@ import {
     Text,
     Image,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const CartItemBoxDetails = ({ singleItem }) => {
+    console.log(singleItem);
     const { id, name, actual_price, sales_price, product_img, quantity } =
         singleItem;
 
@@ -22,18 +23,18 @@ const CartItemBoxDetails = ({ singleItem }) => {
     const dispatch = GlobalCart.dispatch;
 
     //remove cart from state and localStorage
-    const handleRemoveFromCart = (product) => {
+    const handleRemoveFromCart = (singleItem) => {
         const dispatch = GlobalCart.dispatch;
 
         // Remove the item from the cart state
-        dispatch({ type: "REMOVE", payload: product });
+        dispatch({ type: "REMOVE", payload: singleItem });
 
         // Get the existing cart data from localStorage
         const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
 
         // Find the index of the item to remove in the existing cart data
         const itemIndex = existingCartData.findIndex(
-            (item) => item.id === product.id
+            (item) => item.id === singleItem.id
         );
 
         if (itemIndex !== -1) {
@@ -46,18 +47,18 @@ const CartItemBoxDetails = ({ singleItem }) => {
     };
 
     //increase the quantity of an item in the cart and update the quantity in the localStorage
-    const handleIncreaseQuantity = (product) => {
+    const handleIncreaseQuantity = (singleItem) => {
         const dispatch = GlobalCart.dispatch;
 
         // Update the quantity in the cart state
-        dispatch({ type: "INCREASE_QUANTITY", payload: product });
+        dispatch({ type: "INCREASE_QUANTITY", payload: singleItem });
 
         // Get the existing cart data from localStorage
         const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
 
         // Find the index of the item in the existing cart data
         const itemIndex = existingCartData.findIndex(
-            (item) => item.id === product.id
+            (item) => item.id === singleItem.id
         );
 
         if (itemIndex !== -1) {
@@ -70,12 +71,12 @@ const CartItemBoxDetails = ({ singleItem }) => {
     };
 
     //decrease the quantity of an item in the cart and in localStorage
-    const handleDecreaseQuantity = (product) => {
+    const handleDecreaseQuantity = (singleItem) => {
         const dispatch = GlobalCart.dispatch;
 
-        if (product.quantity > 1) {
+        if (singleItem.quantity > 1) {
             // Decrease the quantity in the cart state
-            dispatch({ type: "DECREASE_QUANTITY", payload: product });
+            dispatch({ type: "DECREASE_QUANTITY", payload: singleItem });
 
             // Get the existing cart data from localStorage
             const existingCartData =
@@ -83,7 +84,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
 
             // Find the index of the item in the existing cart data
             const itemIndex = existingCartData.findIndex(
-                (item) => item.id === product.id
+                (item) => item.id === singleItem.id
             );
 
             if (itemIndex !== -1) {
@@ -95,7 +96,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
             }
         } else {
             // Remove the item from the cart state
-            dispatch({ type: "REMOVE", payload: product });
+            dispatch({ type: "REMOVE", payload: singleItem });
 
             // Get the existing cart data from localStorage
             const existingCartData =
@@ -103,13 +104,25 @@ const CartItemBoxDetails = ({ singleItem }) => {
 
             // Remove the item from the existing cart data
             const updatedCartData = existingCartData.filter(
-                (item) => item.id !== product.id
+                (item) => item.id !== singleItem.id
             );
 
             // Update the cart data in localStorage
             localStorage.setItem("cart", JSON.stringify(updatedCartData));
         }
     };
+
+    useEffect(() => {
+        let totalPrice = 0;
+        // Get the existing cart data from localStorage
+        const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+        existingCartData.forEach((singleItem) => {
+            totalPrice += singleItem.actual_price * singleItem.quantity;
+        });
+
+        setTotal(totalPrice);
+    }, [state]);
 
     return (
         <Flex
@@ -118,17 +131,19 @@ const CartItemBoxDetails = ({ singleItem }) => {
             gap="30px"
             align={{ base: "auto", md: "center", xl: "" }}
         >
-            <Icon
-                as={IoIosCloseCircleOutline}
-                boxSize={{ base: "21px", md: "27px" }}
-            />
+            <Box>
+                <Icon
+                    as={IoIosCloseCircleOutline}
+                    boxSize={{ base: "21px", md: "27px" }}
+                />
+            </Box>
             {/* product Image */}
 
             <Image
                 src={product_img && product_img}
                 maxW={{ base: "188px", md: "115px" }}
                 maxH={{ base: "188px", md: "115px" }}
-                alt=""
+                alt={name}
                 display={"block"}
                 mx="auto"
             />
@@ -184,7 +199,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
                         fontSize={{ base: "16px", md: "14px", xl: "24px" }}
                         fontWeight={600}
                     >
-                        ₦ {sales_price}
+                        ₦ {actual_price}
                     </Text>
                 </Flex>
                 {/* Quantity Section */}
@@ -272,7 +287,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
                         fontSize={{ base: "16px", md: "14px", xl: "24px" }}
                         fontWeight={600}
                     >
-                        ₦ 4,000
+                        ₦ {total}
                     </Text>
                 </Flex>
             </Flex>
