@@ -1,7 +1,7 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast";
 
 export const StateContext = createContext();
 export const CartContext = createContext();
@@ -26,7 +26,7 @@ const StateProvider = ({ children }, props) => {
     const handleLogOut = () => {
         Cookies.remove("access_token");
         Cookies.remove("currentUser");
-        toast("Logged out successfully");
+        toast.success("Logged out successfully");
         setUser(null);
 
         setTimeout(() => {

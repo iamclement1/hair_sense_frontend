@@ -23,12 +23,13 @@ import { PrimaryButton, SocialButton } from "../Common/Button";
 import { Formik, Field } from "formik";
 import NextLink from "next/link";
 import { baseUrl, httpPost } from "@/http-request/http-request";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import StateProvider, { StateContext } from "@/context/StateProvider";
 import axios from "axios";
+import { toast } from "react-hot-toast";
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -188,7 +189,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     }, 60 * 60 * 1000);
                     setUser(access);
                     //success callback
-                    toast("Login successful...");
+                    toast.success("Login successful...");
                     onClose();
                 } else if (response.data.role === "admin") {
                     router.push("/admin");
@@ -339,7 +340,7 @@ const Register = ({ handleCurrentForm }) => {
                 //     toast("Account Created Successfully, Process To Login");
                 // }
                 if (response.status === 201) {
-                    toast("Account Created Successfully, Process To Login");
+                    toast.success("Account Created Successfully, Process To Login");
                     handleCurrentForm("login");
                 }
                 setIsLoading(false);
@@ -635,7 +636,6 @@ const Register = ({ handleCurrentForm }) => {
                         isLoading={isLoading}
                         // handleButton={registerUser}
                     />
-                    <ToastContainer />
                 </form>
             )}
         </Formik>
