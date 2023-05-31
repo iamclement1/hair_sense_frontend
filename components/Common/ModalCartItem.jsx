@@ -144,8 +144,8 @@ const ModalCartItem = ({ onOpen, onClose }) => {
 
 
     //handle checkout payment button with paystack
-    const handleCheckout = () => {
-        alert("Checkout");
+    const sendCartItems = () => {
+        alert('Please check out');
     };
 
     return (
@@ -386,9 +386,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                     <PrimaryButton
                                         text="Check Out"
                                         w="100%"
-                                        handleButton={() =>
-                                            router.push("/checkout")
-                                        }
+                                        handleButton={sendCartItems}
                                     />
                                 ) : (
                                     <PrimaryButton
