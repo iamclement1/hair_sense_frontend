@@ -12,6 +12,9 @@ const colors = {
     shades_5: "#263F99",
     shades_6: "#7A7474",
     shades_7: "#959595",
+    shades_8: "#e9ecf7",
+    shades_9: "#D1D9F2",
+    shades_10: "rgba(149, 149, 149, 0.12)",
     // Secondary Color
     secondary_1: "#F3F3F3",
     secondary_2: "#CFF8E1",
