@@ -7,23 +7,28 @@ import {
     Text,
     Image,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 import { MdRemoveShoppingCart } from "react-icons/md";
 import CartItemBoxDetails from "@/components/Common/CartItemBoxDetails";
 import { PrimaryButton, ProductSlider } from "@/components/Common";
 import EmptyCart from "@/components/Common/EmptyCart";
+import { CartContext } from "@/context/StateProvider";
 
 const Cart = () => {
-
     // Retrieve cart items from localStorage
     let cartItems = [];
 
+    // const GlobalCart = useContext(CartContext);
+    // const state = GlobalCart.state;
+    // const dispatch = GlobalCart.dispatch;
+
+    // useEffect(() => {
+
+    // }, [state]);
     if (typeof window !== "undefined") {
         cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     }
-
-
 
     return (
         <Box w="100%" mt={{ base: "33px", md: "74px", xl: "" }}>
@@ -39,10 +44,17 @@ const Cart = () => {
             <Divider mt="8px" />
 
             <Box mt="59px" w="100%">
-                {!true ? (
+                {cartItems ? (
                     <>
-                        <CartItemBoxDetails />
-                        <CartItemBoxDetails />
+                        {cartItems &&
+                            cartItems.map((item, i) => {
+                                return (
+                                    <CartItemBoxDetails
+                                        key={i}
+                                        singleItem={item}
+                                    />
+                                );
+                            })}
 
                         <Box mt={{ base: "35px", md: "53px" }}>
                             <PrimaryButton
@@ -80,4 +92,3 @@ const Cart = () => {
 };
 
 export default Cart;
-

@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useState } from "react";
 
-const Index = () => {
-   return (
-      <div>welcome to the admin dashboard</div>
-   )
-}
+import Navbar from "@/components/Admin/NavBar";
 
-export default Index
+const index = () => {
+    return (
+        <div>
+            <Navbar />
+        </div>
+    );
+};
+
+export default index;
