@@ -21,8 +21,8 @@ import { StarRating } from ".";
 import { FaBars, FaShoppingCart } from "react-icons/fa";
 import { baseUrl, httpPost } from "@/http-request/http-request";
 import { CartContext, StateContext } from "@/context/StateProvider";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 const ProductBox = ({ productData }, isLiked) => {
     const router = useRouter();
@@ -49,7 +49,7 @@ const ProductBox = ({ productData }, isLiked) => {
             .then((response) => {
                 if (response && response.status === 201) {
                     console.log(response);
-                    toast(" Favorite item added successfully");
+                    toast.success(" Favorite item added successfully");
                 }
             })
             .catch((error) => {

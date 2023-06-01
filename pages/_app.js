@@ -10,13 +10,15 @@ import "slick-carousel/slick/slick-theme.css";
 import StateProvider from "@/context/StateProvider";
 import { ToastContainer } from "react-toastify";
 import { BackToTop } from "@/components/Common";
+import { Toaster } from "react-hot-toast";
 
 export default function App({ Component, pageProps }) {
     return (
         <ChakraProvider theme={theme}>
             <StateProvider>
                 <CSSReset />
-                <ToastContainer />
+                {/* <ToastContainer /> */}
+                <Toaster position="top-right" containerClassName="text-lg p-4" />
                 <Component {...pageProps} />
                 <BackToTop />
             </StateProvider>
