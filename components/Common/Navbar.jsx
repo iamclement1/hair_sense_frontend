@@ -187,7 +187,7 @@ const Navbar = () => {
                                                                                 userData.user &&
                                                                                 userData
                                                                                     .user
-                                                                                    .username}
+                                                                                    .first_name}
                                                                         </Text>
                                                                     </Box>
                                                                     <MenuList py="0px">

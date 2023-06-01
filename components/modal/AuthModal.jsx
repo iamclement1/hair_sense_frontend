@@ -334,7 +334,7 @@ const Register = ({ handleCurrentForm }) => {
         await axios
             .post(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 // if (response && response.message === "proceed to login") {
                 //     handleCurrentForm("login");
                 //     toast("Account Created Successfully, Process To Login");

@@ -27,8 +27,9 @@ import { toast } from "react-hot-toast";
 const ProductBox = ({ productData }, isLiked) => {
     const router = useRouter();
     // const { id, imageUrl, text, rating, price } = productData;
-    const { products, cart, setCart } = useContext(StateContext);
+    const { products, cart, setCart, user } = useContext(StateContext);
     // console.log("hey dude find the products here",products)
+    // console.log(user);
     const {
         id,
         name,
@@ -48,8 +49,10 @@ const ProductBox = ({ productData }, isLiked) => {
         await httpPost(`${baseUrl}/store/favourite/items/`, data)
             .then((response) => {
                 if (response && response.status === 201) {
-                    console.log(response);
+                    // console.log(response);
                     toast.success(" Favorite item added successfully");
+                } else {
+                    toast.error("Please login add item as favorite!")
                 }
             })
             .catch((error) => {
