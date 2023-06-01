@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useContext, useEffect, useState } from "react";
 import {
     IconButton,
     Avatar,
@@ -42,6 +42,8 @@ import Orders from "@/components/Admin/Orders";
 import Transactions from "@/components/Admin/Transactions";
 import Customers from "@/components/Admin/Customers";
 import NextLink from "next/link";
+import { StateContext } from "@/context/StateProvider";
+import { useRouter } from "next/router";
 
 const navData = [
     {
@@ -77,9 +79,19 @@ const navData = [
 ];
 
 export default function Navbar({ children }) {
+
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [activePage, setActivePage] = useState(1);
+
+    const { user } = useContext(StateContext)
+
+    const router = useRouter();
+
+    useEffect(() => {
+        //redirect user to login if not logged in
+        if (!user) router.push('/')
+    }, [user, router]);
     return (
         <Box minH="100vh" bgColor="shades_8">
             <SidebarContent
