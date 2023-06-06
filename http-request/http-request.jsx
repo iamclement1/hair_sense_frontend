@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { ERROR_RESPONSES } from "./response";
 
 
-export const baseUrl = "https://hairshine.pythonanywhere.com";
+export const baseUrl = process.env.BASE_URL || " https://hairshine.pythonanywhere.com";
 
 // console.log("Base Ur === ", baseUrl);
 
