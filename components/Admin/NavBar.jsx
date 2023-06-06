@@ -85,13 +85,14 @@ export default function Navbar({ children }) {
     const [activePage, setActivePage] = useState(1);
 
     const { user } = useContext(StateContext)
+    // console.log(user);
 
-    const router = useRouter();
+    // const router = useRouter();
 
-    useEffect(() => {
-        //redirect user to login if not logged in
-        if (!user) router.push('/')
-    }, [user, router]);
+    // useEffect(() => {
+    //     //redirect user to login if not logged in
+    //     if (user.role !== "admin") router.push('/')
+    // }, [user, router]);
     return (
         <Box minH="100vh" bgColor="shades_8">
             <SidebarContent
