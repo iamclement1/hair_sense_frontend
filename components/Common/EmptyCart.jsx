@@ -14,7 +14,7 @@ import CartItemBoxDetails from "@/components/Common/CartItemBoxDetails";
 import { PrimaryButton, ProductSlider } from "@/components/Common";
 import { useRouter } from "next/router";
 
-const EmptyCart = () => {
+const EmptyCart = ({ onOpen, onClose }) => {
     const router = useRouter();
     return (
         <Flex minH="300px" align="center" justify="center">
@@ -50,7 +50,10 @@ const EmptyCart = () => {
                         text="Go Shopping"
                         maxW={{ base: "100%", md: "215px" }}
                         mx="auto"
-                        handleButton={() => router.push("/")}
+                        handleButton={() => {
+                            onClose();
+                            router.push("/");
+                        }}
                     />
                 </Box>
             </Box>
