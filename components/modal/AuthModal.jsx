@@ -192,7 +192,28 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     toast.success("Login successful...");
                     onClose();
                 } else if (response.data.role === "admin") {
+                    const setAccessTokenCookie = (access) => {
+                        const expires = new Date(Date.now() + 60 * 60 * 1000); // One hour from now
+                        Cookies.set("currentUser", access, { expires });
+                        Cookies.set("refreshToken", refresh, { expires });
+                        Cookies.set("access_token", access, { expires });
+                    };
+                    // console.log(response.data.role);
+                    const { access, refresh } = response.data;
+                    setAccessTokenCookie(access);
+
+                    //remove token from cookies after one hour
+                    setTimeout(() => {
+                        Cookies.remove("access_token");
+                        Cookies.remove("refreshToken");
+                        Cookies.remove("currentUser");
+                    }, 60 * 60 * 1000);
+                    setUser(access);
+                    //success callback
+                    toast.success("Login successful...");
+                    onClose();
                     router.push("/admin");
+                    setUser(access);
                 }
                 setIsLoading(false);
             })
