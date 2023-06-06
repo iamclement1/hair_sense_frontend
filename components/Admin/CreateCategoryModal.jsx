@@ -15,15 +15,41 @@ import {
 } from "@chakra-ui/react";
 import { PrimaryButton } from "../Common";
 import { SecondaryButton } from "../Common/Button";
+import { baseUrl, httpPost } from "@/http-request/http-request";
+import Cookies from "js-cookie";
+import { toast } from "react-hot-toast";
 
 const CreateCategoryModal = ({ isOpen, onOpen, onClose }) => {
     const [name, setName] = useState("");
     const handleChange = (e) => {
         setName(e.target.value);
     };
-    const handleSubmit = () => {
-        console.log(name);
-    };
+    const handleSubmit = async () => {
+        // console.log(category);
+        const formData = {
+            "name": name,
+        }
+
+        const accessToken = Cookies.get('access_token')
+
+
+    await httpPost(`${baseUrl}/store/categories/`, formData, {
+        headers : {
+            Authorization : `Bearer ${accessToken}`
+        }
+    })
+        .then(response => {
+            if(response.status === 201) {
+                toast.success("Category created successfully!")
+            }
+            console.log(response);
+            
+        })
+        .catch((error) => {
+            console.log(error);
+            // setIsLoading(false);
+        })
+}
 
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="lg">
@@ -63,7 +89,7 @@ const CreateCategoryModal = ({ isOpen, onOpen, onClose }) => {
                                 gap="20px"
                             >
                                 <SecondaryButton
-                                    text="Cancle"
+                                    text="Cancel"
                                     maxW="130px"
                                     color="accent_2"
                                     handleButton={onClose}
