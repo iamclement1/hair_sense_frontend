@@ -36,7 +36,6 @@ import {
 } from "react-icons/fi";
 import { MdOutlineDashboard } from "react-icons/md";
 import Dashboard from "@/components/Admin/Dashboard";
-import Products from "@/components/Admin/Products";
 import Categories from "@/components/Admin/Categories";
 import Orders from "@/components/Admin/Orders";
 import Transactions from "@/components/Admin/Transactions";
@@ -45,6 +44,8 @@ import NextLink from "next/link";
 import { StateContext } from "@/context/StateProvider";
 import { useRouter } from "next/router";
 import { HiChevronDown } from "react-icons/hi2";
+import CreateProducts from "./CreateProducts";
+import Products from "./Products";
 
 const navData = [
     {
@@ -58,23 +59,28 @@ const navData = [
         icon: MdOutlineDashboard,
     },
     {
-        name: "products",
+        name: "create products",
         value: 3,
         icon: MdOutlineDashboard,
     },
     {
-        name: "orders",
+        name: "products",
         value: 4,
         icon: MdOutlineDashboard,
     },
     {
-        name: "transactions",
+        name: "orders",
         value: 5,
         icon: MdOutlineDashboard,
     },
     {
-        name: "Customers",
+        name: "transactions",
         value: 6,
+        icon: MdOutlineDashboard,
+    },
+    {
+        name: "Customers",
+        value: 7,
         icon: MdOutlineDashboard,
     },
 ];
@@ -85,12 +91,13 @@ export default function AdminDashboard({ children }) {
     const [activePage, setActivePage] = useState(1);
 
     const { user } = useContext(StateContext);
+    // console.log(user);
 
-    const router = useRouter();
+    // const router = useRouter();
 
     // useEffect(() => {
     //     //redirect user to login if not logged in
-    //     if (!user) router.push("/");
+    //     if (user.role !== "admin") router.push('/')
     // }, [user, router]);
     return (
         <Box minH="100vh" bgColor="shades_8">
@@ -130,12 +137,14 @@ export default function AdminDashboard({ children }) {
                 ) : activePage === 2 ? (
                     <Categories />
                 ) : activePage === 3 ? (
-                    <Products />
+                    <CreateProducts />
                 ) : activePage === 4 ? (
-                    <Orders />
+                    <Products />
                 ) : activePage === 5 ? (
-                    <Transactions />
+                    <Orders />
                 ) : activePage === 6 ? (
+                    <Transactions />
+                ) : activePage === 7 ? (
                     <Customers />
                 ) : (
                     ""

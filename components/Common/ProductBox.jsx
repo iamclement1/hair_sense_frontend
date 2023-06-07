@@ -52,7 +52,7 @@ const ProductBox = ({ productData }, isLiked) => {
                     // console.log(response);
                     toast.success(" Favorite item added successfully");
                 } else {
-                    toast.error("Please login add item as favorite!")
+                    toast.error("Please login to add item as favorite!")
                 }
             })
             .catch((error) => {

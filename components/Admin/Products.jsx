@@ -1,286 +1,172 @@
-import { PrimaryButton } from "@/components/Common";
-import CustomInput from "@/components/Common/CustomInput";
-import {
-    Box,
-    Flex,
-    Button,
-    Divider,
-    Icon,
-    Text,
-    Image,
-    Textarea,
-    FormErrorMessage,
-    FormLabel,
-    FormControl,
-    Select,
-    Input,
-} from "@chakra-ui/react";
-import { ErrorMessage, Field, Formik } from "formik";
-import React from "react";
-import { FaTimes } from "react-icons/fa";
+import { baseUrl, httpGet } from '@/http-request/http-request';
+import { Flex, Table, Tbody, Td, Th, Thead, Tr } from '@chakra-ui/react';
+import Cookies from 'js-cookie';
+import React, { useEffect, useMemo, useState } from 'react'
+import { AiFillEdit } from 'react-icons/ai';
+import { MdDelete } from 'react-icons/md';
+import { useTable } from 'react-table';
+import TablePagination from '../Common/TablePagination';
 
 const Products = () => {
-    return (
-        <Box>
-            <Box>
-                <Text fontWeight="600" fontSize="20px">
-                    Create product
-                </Text>
-            </Box>
-            <Box maxW="541px">
-                <Box>
-                    <Formik
-                        initialValues={{
-                            name: "",
-                            price: "",
-                            category: "",
-                            description: "",
-                            category: "",
-                            quantity: "",
-                            size: "",
-                        }}
-                        validate={(values) => {
-                            let errors = {};
-                            if (!values.name) {
-                                errors.name = "Name is required";
-                            }
-                            if (!values.price) {
-                                errors.price = "Price is required";
-                            }
-                            if (!values.description) {
-                                errors.description = "Description is required";
-                            }
-                            if (!values.category) {
-                                errors.category = "Category is required";
-                            }
-                            if (!values.quantity) {
-                                errors.quantity = "Quantity is required";
-                            }
-                            if (!values.size) {
-                                errors.size = "Size is required";
-                            }
-                            return errors;
-                        }}
-                        onSubmit={(values) => {
-                            handleCheckOutStep(2);
-                        }}
-                    >
-                        {({
-                            handleSubmit,
-                            errors,
-                            touched,
-                            isValid,
-                            dirty,
-                        }) => (
-                            <form onSubmit={handleSubmit}>
-                                {/* Product Name */}
-                                <CustomInput
-                                    label="Name"
-                                    name="name"
-                                    type="text"
-                                    bgColor="white"
-                                    errors={errors}
-                                    touched={touched}
-                                />
+   const [products, setProducts] = useState(null);
+   const [currentPage, setCurrentPage] = useState(1);
+   const accessToken = Cookies.get('access_token');
 
-                                <Flex
-                                    flexDir={{
-                                        base: "column",
-                                        md: "row",
-                                    }}
-                                    gap={["0px", "20px"]}
-                                >
-                                    {/* Category Input */}
-                                    <Box mt="16px" w="100%">
-                                        <FormLabel
-                                            htmlFor="category"
-                                            fontSize="14px"
-                                            color="accent_2"
-                                            fontWeight={600}
-                                        >
-                                            Category
-                                        </FormLabel>
-                                        <Field
-                                            as={Select}
-                                            id="category"
-                                            name="category"
-                                            bgColor="white"
-                                            placeholder="Select Category"
-                                            className={
-                                                errors.category &&
-                                                touched.category
-                                                    ? "error"
-                                                    : ""
-                                            }
-                                            fontSize="15px"
-                                            // px={"20px"}
-                                            // py="12px"
-                                            display="inline-block"
-                                            _focusVisible={{
-                                                border: "1px",
-                                                borderColor: "dark_4",
-                                            }}
-                                            border="1px"
-                                            borderColor="dark_4"
-                                            rounded="5px"
-                                        >
-                                            <option value="1">
-                                                Category 1
-                                            </option>
-                                            <option value="2">
-                                                Category 2
-                                            </option>
-                                        </Field>
-                                        <ErrorMessage
-                                            name="category"
-                                            component="div"
-                                            className="error-message"
-                                        />
-                                    </Box>
 
-                                    {/* Price */}
+   //pagination session starts here
+   const itemsPerPage = 10;
 
-                                    <CustomInput
-                                        label="Price"
-                                        name="price"
-                                        type="text"
-                                        bgColor="white"
-                                        errors={errors}
-                                        touched={touched}
-                                    />
-                                </Flex>
+   //calculate the total number of page
+   const totalPages = Math.ceil(products && products.length / itemsPerPage);
 
-                                {/* Text Arear */}
-                                <Box mt="16px">
-                                    <FormLabel
-                                        htmlFor="description"
-                                        fontSize="14px"
-                                        color="accent_2"
-                                        fontWeight={600}
-                                    >
-                                        Description
-                                    </FormLabel>
-                                    <Field
-                                        as={Textarea}
-                                        id="description"
-                                        name="description"
-                                        bgColor="white"
-                                        className={
-                                            errors.description &&
-                                            touched.description
-                                                ? "error"
-                                                : ""
-                                        }
-                                        fontSize="15px"
-                                        px={"20px"}
-                                        py="12px"
-                                        display="inline-block"
-                                        _focusVisible={{
-                                            border: "1px",
-                                            borderColor: "dark_4",
-                                        }}
-                                        border="1px"
-                                        borderColor="dark_4"
-                                        rounded="5px"
-                                    />
-                                    <ErrorMessage
-                                        name="description"
-                                        component="div"
-                                        className="error-message"
-                                    />
-                                </Box>
+   const handlePageChange = (selectedPage) => {
+      setCurrentPage(selectedPage);
+   }
 
-                                {/* Cover Image Section */}
+   //the calculation of the start and end index per page starts here
+   const startIndex = (currentPage - 1) * itemsPerPage;
+   const endIndex = startIndex + itemsPerPage;
+   const itemsToDisplay = products && products.length > 0 && products.slice(startIndex, endIndex);
+   // console.log(itemsToDisplay);
 
-                                <Box mt="16px">
-                                    <label>Cover image</label>
-                                    <Input
-                                        type="file"
-                                        name=""
-                                        id=""
-                                        py="10px"
-                                        bgColor="white"
-                                    />
-                                </Box>
+   //pagination session ends here
 
-                                {/* Size Section  */}
+   useEffect(() => {
+      async function fetchProduct() {
+         const response = await httpGet(`${baseUrl}/store/products`, {
+            headers: {
+               Authorization: `Bearer ${accessToken}`,
+            }
+         });
+         if (response && response.data && response.status === 200) {
+            const data = response.data.results;
+            setProducts(data);
+            console.log("Response is here", data);
+         }
+         // console.log(
+         //     "product data fetched is here mf",
+         //     response.data.results
+         // );
+      }
+      if (!products) {
+         fetchProduct();
+      }
+   }, [accessToken, products, setProducts]);
 
-                                <Flex
-                                    flexDir={{
-                                        base: "column",
-                                        md: "row",
-                                    }}
-                                    gap={["0px", "20px"]}
-                                >
-                                    {/* Size Select */}
-                                    <Box mt="16px" w="100%">
-                                        <FormLabel
-                                            htmlFor="size"
-                                            fontSize="14px"
-                                            color="accent_2"
-                                            fontWeight={600}
-                                        >
-                                            Size
-                                        </FormLabel>
-                                        <Field
-                                            as={Select}
-                                            id="size"
-                                            name="size"
-                                            bgColor="white"
-                                            placeholder="Select Size"
-                                            className={
-                                                errors.size && touched.size
-                                                    ? "error"
-                                                    : ""
-                                            }
-                                            fontSize="15px"
-                                            // px={"20px"}
-                                            // py="12px"
-                                            display="inline-block"
-                                            _focusVisible={{
-                                                border: "1px",
-                                                borderColor: "dark_4",
-                                            }}
-                                            border="1px"
-                                            borderColor="dark_4"
-                                            rounded="5px"
-                                        >
-                                            <option value="1">size 1</option>
-                                            <option value="2">size 2</option>
-                                        </Field>
-                                        <ErrorMessage
-                                            name="size"
-                                            component="div"
-                                            className="error-message"
-                                        />
-                                    </Box>
+   const columns = useMemo(() => [
+      {
+         Header: 'SN',
+         accessor: 'id'
+      },
+      {
+         Header: 'Product Name',
+         accessor: 'name'
+      },
+      {
+         Header: 'Product Description',
+         accessor: 'first_description'
+      },
+      {
+         Header: 'Product Price',
+         accessor: 'actual_price'
+      },
+      {
+         Header: 'Product Image',
+         accessor: 'product_img'
+      }
+   ], [])
 
-                                    {/* Price */}
+   const EnvData = useMemo(() => itemsToDisplay, [itemsToDisplay])
 
-                                    <CustomInput
-                                        label="Quantity"
-                                        name="quantity"
-                                        type="text"
-                                        bgColor="white"
-                                        errors={errors}
-                                        touched={touched}
-                                    />
-                                </Flex>
+   const EnvColumn = useMemo(() => {
+      if (products && products.length > 0) {
+         const validKeys = Object.keys(products[0]).filter(
+            key => !["comment", "rate", "commenter", "second_description", "sales_price", "product", "views", "product_img"].includes(key)
+         );
+         return validKeys.map(key => ({
+            Header: key,
+            accessor: key
+         }));
+      } else {
+         return [];
+      }
+   }, [products]);
 
-                                {/* create new store  */}
-                                <Box mt="40px">
-                                    <PrimaryButton
-                                        text="Continue"
-                                        type="submit"
-                                    />
-                                </Box>
-                            </form>
-                        )}
-                    </Formik>
-                </Box>
-            </Box>
-        </Box>
-    );
-};
 
-export default Products;
+   const tableInstance = useTable({ columns: EnvColumn, data: EnvData });
+   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableInstance;
+
+
+   // Handler for the edit action
+   const handleEdit = (productId) => {
+      // Implement the logic for handling the edit action
+      console.log("Edit product with ID:", productId);
+   };
+
+   // Handler for the delete action
+   const handleDelete = (productId) => {
+      // Implement the logic for handling the delete action
+      console.log("Delete product with ID:", productId);
+   };
+
+   return (
+      <React.Fragment>
+         {products && products.length > 0 ? (
+            <Table {...getTableProps()} >
+               <Thead variant="simple" bgColor="#D0DAF2">
+                  {headerGroups.map((headerGroup, header) => (
+                     <Tr {...headerGroup.getHeaderGroupProps()} key={header}>
+                        {headerGroup.headers.map((column, col) => (
+                           <Th {...column.getHeaderProps()} key={col}>
+                              {column.render('Header')}
+                           </Th>
+                        ))}
+                        <Th>Action</Th> {/* Add a column for action buttons */}
+                     </Tr>
+                  ))}
+               </Thead>
+
+               <Tbody {...getTableBodyProps()}>
+                  {rows.map(row => {
+                     prepareRow(row);
+                     const { id } = row.original; // Get the ID of the product
+
+                     return (
+                        <Tr {...row.getRowProps()} key={row.id}>
+                           {row.cells.map(cell => (
+                              <Td {...cell.getCellProps()} key={cell.id}>
+                                 {cell.render('Cell')}
+                              </Td>
+                           ))}
+                           <Td>
+                              <Flex>
+                                 <AiFillEdit color="blue"
+                                    // size="xs"
+                                    mr={2}
+                                    cursor={"pointer"}
+                                    onClick={() => handleEdit(id)} />
+                                 <MdDelete
+                                    color="red"
+                                    // size="xs"
+                                    cursor={"pointer"}
+                                    onClick={() => handleDelete(id)} />
+                              </Flex>
+                           </Td>
+                        </Tr>
+                     );
+                  })}
+               </Tbody>
+            </Table>
+         ) : (
+            <div></div>
+         )}
+
+         {totalPages > 1 && (
+            <TablePagination pageCount={totalPages} onPageChange={handlePageChange} />
+         )}
+      </React.Fragment>
+
+   )
+}
+
+export default Products
