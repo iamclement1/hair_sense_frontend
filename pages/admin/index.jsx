@@ -1,11 +1,10 @@
+import AdminDashboard from "@/components/Admin/AdminDashboard";
 import React, { useState } from "react";
-
-import Navbar from "@/components/Admin/NavBar";
 
 const index = () => {
     return (
         <div>
-            <Navbar />
+            <AdminDashboard />
         </div>
     );
 };

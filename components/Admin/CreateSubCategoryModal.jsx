@@ -16,17 +16,24 @@ import {
 import { PrimaryButton } from "../Common";
 import { SecondaryButton } from "../Common/Button";
 
-const CreateCategoryModal = ({ isOpen, onOpen, onClose }) => {
+const CreateSubCategoryModal = ({ isOpen, onOpen, onClose, Categoryname }) => {
     const [name, setName] = useState("");
     const handleChange = (e) => {
         setName(e.target.value);
     };
     const handleSubmit = () => {
-        console.log(name);
+        const formData = {
+            category: Categoryname,
+            newSubCartegory: name,
+        };
+
+        alert(JSON.stringify(formData));
+        onClose();
+        setName("");
     };
 
     return (
-        <Modal isOpen={isOpen} onClose={onClose} size="lg">
+        <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered>
             <ModalOverlay />
             <ModalContent
                 rounded="0px"
@@ -36,24 +43,21 @@ const CreateCategoryModal = ({ isOpen, onOpen, onClose }) => {
                 shadow={"none"}
             >
                 <ModalBody bgColor="white" rounded="24px" shadow="sm" py="57px">
-                    <Text
-                        fontWeight="600"
-                        fontSize={["18px", null, "20px"]}
-                        textAlign="center"
-                    >
-                        Input the name of the category you wish to create
+                    <Text fontWeight="600" fontSize={["19px"]}>
+                        Sub-Category for {Categoryname}
                     </Text>
 
-                    <Box mt={["14px", null, "24px"]}>
+                    <Box mt={["14px"]}>
                         <form>
                             <Input
                                 type="text"
                                 required
                                 bgColor={"shades_10"}
-                                py="24px"
-                                placeholder="Name of category"
+                                py="14px"
+                                placeholder="Input the name of the sub-category"
                                 value={name}
                                 onChange={handleChange}
+                                _focusVisible={{}}
                             />
 
                             <Flex
@@ -83,4 +87,4 @@ const CreateCategoryModal = ({ isOpen, onOpen, onClose }) => {
     );
 };
 
-export default CreateCategoryModal;
+export default CreateSubCategoryModal;

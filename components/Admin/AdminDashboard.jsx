@@ -44,6 +44,7 @@ import Customers from "@/components/Admin/Customers";
 import NextLink from "next/link";
 import { StateContext } from "@/context/StateProvider";
 import { useRouter } from "next/router";
+import { HiChevronDown } from "react-icons/hi2";
 
 const navData = [
     {
@@ -78,20 +79,19 @@ const navData = [
     },
 ];
 
-export default function Navbar({ children }) {
-
+export default function AdminDashboard({ children }) {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [activePage, setActivePage] = useState(1);
 
-    const { user } = useContext(StateContext)
+    const { user } = useContext(StateContext);
 
     const router = useRouter();
 
-    useEffect(() => {
-        //redirect user to login if not logged in
-        if (!user) router.push('/')
-    }, [user, router]);
+    // useEffect(() => {
+    //     //redirect user to login if not logged in
+    //     if (!user) router.push("/");
+    // }, [user, router]);
     return (
         <Box minH="100vh" bgColor="shades_8">
             <SidebarContent
@@ -168,7 +168,7 @@ const SidebarContent = ({ onClose, setActivePage, activePage, ...rest }) => {
                     <Image
                         src="/images/Hairsense-logo.svg"
                         alt="Logo"
-                        w={["150px",null,"225px"]}
+                        w={["150px", null, "225px"]}
                         h="100%"
                     />
                 </Link>
@@ -262,9 +262,29 @@ const MobileNav = ({ onOpen, setActivePage, activePage, ...rest }) => {
                 Logo
             </Text>
 
-            <HStack spacing={{ base: "0", md: "6" }}>
+            <HStack
+                spacing={{ base: "0", md: "6" }}
+                flexShrink={0}
+                cursor={"pointer"}
+            >
                 {/* <Flex alignItems={"center"}></Flex> */}
-                <Text>Admin</Text>
+                <Menu>
+                    <MenuButton
+                        as={"flex"}
+                        alignContent={"center"}
+                        fontWeight="bold"
+                        w="fit-content"
+                    >
+                        <Flex align={"center"} cursor={"pointer"}>
+                            {" "}
+                            <Text> Admin</Text>{" "}
+                            <Icon as={HiChevronDown} ml="2" />
+                        </Flex>
+                    </MenuButton>
+                    <MenuList p="0" overflow={"hidden"}>
+                        <MenuItem py="10px">Log out</MenuItem>
+                    </MenuList>
+                </Menu>
             </HStack>
         </Flex>
     );
