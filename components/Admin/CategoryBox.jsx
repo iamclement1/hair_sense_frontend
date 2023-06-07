@@ -27,6 +27,7 @@ import CreateSubCategoryModal from "./CreateSubCategoryModal";
 
 const CategoryBox = ({ data }) => {
     const [name, setName] = useState(data && data.name);
+    const [id, setId] = useState(data && data.id);
     const {
         isOpen: isOpenSubCategory,
         onOpen: onOpenSubCategory,
@@ -87,6 +88,7 @@ const CategoryBox = ({ data }) => {
                 {/* Create Sub category modal */}
                 <CreateSubCategoryModal
                     Categoryname={name}
+                    Categoryid={id}
                     isOpen={isOpenAddSubCategory}
                     onOpen={onOpenAddSubCategory}
                     onClose={onCloseAddSubCategory}

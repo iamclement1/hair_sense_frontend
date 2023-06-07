@@ -9,7 +9,7 @@ import {
     useDisclosure,
     Input,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NextLink from "next/link";
 import { MdOutlineDashboard, MdOutlineDelete } from "react-icons/md";
 import { PrimaryButton } from "../Common";
@@ -21,6 +21,8 @@ import SubCategoryModal from "./SubCategoryModal";
 
 const Categories = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
+    useEffect(() => {
+    }, [])
 
     return (
         <>
@@ -34,6 +36,15 @@ const Categories = () => {
                             A list of all product category.
                         </Text>
                     </Box>
+                </Flex>
+
+                <Flex align="center" justify="flex-end">
+                    <PrimaryButton
+                    maxW="190px"
+                    text="Create Category"
+                    align="center"
+                    marginTop="20px"
+                    isOpen={isOpen} />
                 </Flex>
 
                 <Box mt="50px">

@@ -1,5 +1,6 @@
 import { PrimaryButton } from "@/components/Common";
 import CustomInput from "@/components/Common/CustomInput";
+import { baseUrl, httpGet } from "@/http-request/http-request";
 import {
     Box,
     Flex,
@@ -16,10 +17,30 @@ import {
     Input,
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Formik } from "formik";
-import React from "react";
+import Cookies from "js-cookie";
+import React, { useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
 
 const CreateProducts = () => {
+
+    const accessToken = Cookies.get('access_token');
+    useEffect(() => {
+        const fetchSubCategory = async () => {
+            await httpGet(`${baseUrl}/store/sub_categories`, {
+                headers: {
+                    Authrization: `${accessToken}`
+                }
+            })
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+        }
+
+        fetchSubCategory();
+    }, [accessToken])
     return (
         <Box>
             <Box>
@@ -108,7 +129,7 @@ const CreateProducts = () => {
                                             placeholder="Select Category"
                                             className={
                                                 errors.category &&
-                                                touched.category
+                                                    touched.category
                                                     ? "error"
                                                     : ""
                                             }
@@ -167,7 +188,7 @@ const CreateProducts = () => {
                                         bgColor="white"
                                         className={
                                             errors.description &&
-                                            touched.description
+                                                touched.description
                                                 ? "error"
                                                 : ""
                                         }
