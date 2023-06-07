@@ -6,6 +6,7 @@ import { AiFillEdit } from 'react-icons/ai';
 import { MdDelete } from 'react-icons/md';
 import { useTable } from 'react-table';
 import TablePagination from '../Common/TablePagination';
+import Spinner from '../Common/Spinner';
 
 const Products = () => {
    const [products, setProducts] = useState(null);
@@ -158,7 +159,9 @@ const Products = () => {
                </Tbody>
             </Table>
          ) : (
-            <div></div>
+            <div>
+               <Spinner />
+            </div>
          )}
 
          {totalPages > 1 && (
