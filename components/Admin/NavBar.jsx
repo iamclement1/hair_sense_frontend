@@ -36,7 +36,6 @@ import {
 } from "react-icons/fi";
 import { MdOutlineDashboard } from "react-icons/md";
 import Dashboard from "@/components/Admin/Dashboard";
-import Products from "@/components/Admin/Products";
 import Categories from "@/components/Admin/Categories";
 import Orders from "@/components/Admin/Orders";
 import Transactions from "@/components/Admin/Transactions";
@@ -44,6 +43,8 @@ import Customers from "@/components/Admin/Customers";
 import NextLink from "next/link";
 import { StateContext } from "@/context/StateProvider";
 import { useRouter } from "next/router";
+import CreateProducts from "./CreateProducts";
+import Products from "./Products";
 
 const navData = [
     {
@@ -57,23 +58,28 @@ const navData = [
         icon: MdOutlineDashboard,
     },
     {
-        name: "products",
+        name: "create products",
         value: 3,
         icon: MdOutlineDashboard,
     },
     {
-        name: "orders",
+        name: "products",
         value: 4,
         icon: MdOutlineDashboard,
     },
     {
-        name: "transactions",
+        name: "orders",
         value: 5,
         icon: MdOutlineDashboard,
     },
     {
-        name: "Customers",
+        name: "transactions",
         value: 6,
+        icon: MdOutlineDashboard,
+    },
+    {
+        name: "Customers",
+        value: 7,
         icon: MdOutlineDashboard,
     },
 ];
@@ -131,12 +137,14 @@ export default function Navbar({ children }) {
                 ) : activePage === 2 ? (
                     <Categories />
                 ) : activePage === 3 ? (
-                    <Products />
+                    <CreateProducts />
                 ) : activePage === 4 ? (
-                    <Orders />
+                    <Products />
                 ) : activePage === 5 ? (
-                    <Transactions />
+                    <Orders />
                 ) : activePage === 6 ? (
+                    <Transactions />
+                ) : activePage === 7 ? (
                     <Customers />
                 ) : (
                     ""
