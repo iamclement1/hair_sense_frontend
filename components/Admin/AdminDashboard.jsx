@@ -242,6 +242,7 @@ const NavItem = (
 };
 
 const MobileNav = ({ onOpen, setActivePage, activePage, ...rest }) => {
+    const { handleLogOut } = useContext(StateContext);
     return (
         <Flex
             ml={{ base: 0, md: 60 }}
@@ -291,7 +292,9 @@ const MobileNav = ({ onOpen, setActivePage, activePage, ...rest }) => {
                         </Flex>
                     </MenuButton>
                     <MenuList p="0" overflow={"hidden"}>
-                        <MenuItem py="10px">Log out</MenuItem>
+                        <MenuItem py="10px" onClick={handleLogOut}>
+                            Log out
+                        </MenuItem>
                     </MenuList>
                 </Menu>
             </HStack>
