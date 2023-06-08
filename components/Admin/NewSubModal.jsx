@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
     Modal,
     ModalOverlay,
@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { PrimaryButton } from "../Common";
 import { SecondaryButton } from "../Common/Button";
-import { baseUrl, httpPost } from "@/http-request/http-request";
+import { baseUrl, httpGet, httpPost } from "@/http-request/http-request";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
 
@@ -33,28 +33,27 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
         setNewCategory({ ...newCategory, [name]: value });
     };
 
-    const accesToken = Cookies.get("access_token");
+    const accessToken = Cookies.get("access_token");
 
     // Desstructure the data state
-    const { category, name } = newCategory;
+    const { name } = newCategory;
 
     const handleSubmit = async (e) => {
         setLodaing(true);
         e.preventDefault();
         const formData = {
-            category: category,
             name: name,
         };
 
-        await httpPost(`${baseUrl}/store/sub_categories/`, formData, {
+        await httpPost(`${baseUrl}/store/categories/`, formData, {
             headers: {
-                Authorization: `Bearer ${accesToken}`,
+                Authorization: `Bearer ${accessToken}`,
             },
         })
             .then((response) => {
                 console.log(response);
                 if (response.status === 201) {
-                    toast.success("Sub Category successfully created");
+                    toast.success("Category successfully created");
                     // Close the modal
                     onClose();
                     // Reset the state to initial
@@ -74,6 +73,26 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
         // // alert(JSON.stringify(formData));
     };
 
+    useEffect(() => {
+        
+        const fetchCategory = async () => {
+            await httpGet(`${baseUrl}/store/categories/`, {
+                headers: {
+                    Authorization : `Bearer ${accessToken}`,
+                },
+            })
+            .then((response) => {
+                const data = response;
+                console.log(data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+
+        fetchCategory();
+    }, [accessToken])
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered>
             <ModalOverlay />
@@ -86,22 +105,11 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
             >
                 <ModalBody bgColor="white" rounded="24px" shadow="sm" py="57px">
                     <Text fontWeight="600" fontSize={["19px"]}>
-                        Sub-Category
+                        Add new category
                     </Text>
 
                     <Box mt={["14px"]}>
                         <form>
-                            <Input
-                                type="text"
-                                required
-                                bgColor={"shades_10"}
-                                py="14px"
-                                placeholder="Input the id of the sub-category"
-                                value={category}
-                                name="category"
-                                onChange={handleChange}
-                                _focusVisible={{}}
-                            />
 
                             <Input
                                 mt="16px"
@@ -109,7 +117,7 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
                                 required
                                 bgColor={"shades_10"}
                                 py="14px"
-                                placeholder="Input the name of the sub-category"
+                                placeholder="Category name"
                                 value={name}
                                 name="name"
                                 onChange={handleChange}
