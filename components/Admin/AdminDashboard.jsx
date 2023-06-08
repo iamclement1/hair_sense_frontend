@@ -43,7 +43,7 @@ import Customers from "@/components/Admin/Customers";
 import NextLink from "next/link";
 import { StateContext } from "@/context/StateProvider";
 import { useRouter } from "next/router";
-import { HiChevronDown } from "react-icons/hi2";
+import { HiChevronDown, HiOutlineShoppingBag } from "react-icons/hi2";
 import CreateProducts from "./CreateProducts";
 import Products from "./Products";
 
@@ -71,7 +71,7 @@ const navData = [
     {
         name: "orders",
         value: 5,
-        icon: MdOutlineDashboard,
+        icon: HiOutlineShoppingBag,
     },
     {
         name: "transactions",
