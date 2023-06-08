@@ -53,7 +53,7 @@ const CreateProducts = () => {
         }
 
         fetchSubCategory();
-    }, [accessToken, subCat])
+    }, [accessToken])
     return (
         <Box>
             <Box>
