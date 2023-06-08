@@ -9,7 +9,7 @@ This is an [E-commerce](https://hair-sense-frontend.vercel.app/) project bootstr
     <img src="images/Hairsense-logo.svg" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">HairSense Unisex Salon</h3>
+<h3 align="center" fontSize="65px">HairSense Unisex Salon</h3>
 
   <p align="center">
     project_description
