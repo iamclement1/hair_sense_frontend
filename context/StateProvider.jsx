@@ -1,11 +1,16 @@
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
+import React, {
+    createContext,
+    useContext,
+    useEffect,
+    useReducer,
+    useState,
+} from "react";
 import { toast } from "react-hot-toast";
 
 export const StateContext = createContext();
 export const CartContext = createContext();
-
 
 const StateProvider = ({ children }, props) => {
     const [isLoading, setIsLoading] = useState(false);
@@ -17,22 +22,21 @@ const StateProvider = ({ children }, props) => {
 
     const router = useRouter();
 
-
     useEffect(() => {
         const mainUser_token = Cookies.get("access_token");
 
         setUser(mainUser_token && mainUser_token);
     }, []);
     const handleLogOut = () => {
+        router.push("/");
         Cookies.remove("access_token");
         Cookies.remove("currentUser");
         toast.success("Logged out successfully");
         setUser(null);
 
         setTimeout(() => {
-            router.push("/");
             location.reload(); // Reload the page
-        }, 2000); // 1 second delay
+        }, 2000); // 2 second delay
     };
 
     const passedData = {
@@ -50,7 +54,7 @@ const StateProvider = ({ children }, props) => {
         cart,
         setCart,
     };
-    //dispatch and state => dispatch pushes the actions 
+    //dispatch and state => dispatch pushes the actions
     const reducer = (state, action) => {
         switch (action.type) {
             case "ADD_ITEM_TO_CART":
@@ -58,7 +62,9 @@ const StateProvider = ({ children }, props) => {
                 //used filter to check if the item is already in the cart before adding it to the cart
                 //each object is represented by item in the cart
                 //check if action.payload.id is equal to the item.id
-                const tempstate = state.filter((item) => action.payload.product.id === item.id);
+                const tempstate = state.filter(
+                    (item) => action.payload.product.id === item.id
+                );
                 //if available then we have an id greater than zero means that the item is already in the cart
                 if (tempstate.length > 0) {
                     return state;
@@ -93,14 +99,15 @@ const StateProvider = ({ children }, props) => {
 
             case "REMOVE":
                 // remove item from state
-                const remove = state.filter((item) => item.id !== action.payload.id);
+                const remove = state.filter(
+                    (item) => item.id !== action.payload.id
+                );
                 return remove;
 
             default:
                 return state;
         }
     };
-
 
     const [state, dispatch] = useReducer(reducer, []);
     const cartInfo = { state, dispatch };
