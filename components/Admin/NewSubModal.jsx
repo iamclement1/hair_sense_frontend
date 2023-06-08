@@ -19,24 +19,30 @@ import { baseUrl, httpPost } from "@/http-request/http-request";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
 
-const CreateSubCategoryModal = ({
-    isOpen,
-    onOpen,
-    onClose,
-    Categoryname,
-    Categoryid,
-}) => {
+const NewSubModal = ({ isOpen, onOpen, onClose }) => {
     // console.log(cate)
-    const [name, setName] = useState("");
+    const initalData = {
+        category: "",
+        name: "",
+    };
+
+    const [newCategory, setNewCategory] = useState(initalData);
+    const [lodaing, setLodaing] = useState(false);
     const handleChange = (e) => {
-        setName(e.target.value);
+        const { name, value } = e.target;
+        setNewCategory({ ...newCategory, [name]: value });
     };
 
     const accesToken = Cookies.get("access_token");
+
+    // Desstructure the data state
+    const { category, name } = newCategory;
+
     const handleSubmit = async (e) => {
+        setLodaing(true);
         e.preventDefault();
         const formData = {
-            category: Categoryid,
+            category: category,
             name: name,
         };
 
@@ -49,15 +55,23 @@ const CreateSubCategoryModal = ({
                 console.log(response);
                 if (response.status === 201) {
                     toast.success("Sub Category successfully created");
+                    // Close the modal
+                    onClose();
+                    // Reset the state to initial
+                    setNewCategory(initalData);
+                    setLodaing(false);
                 }
             })
             .catch((error) => {
+                setLodaing(false);
+
                 console.log(error);
+            })
+            .finally(() => {
+                setLodaing(false);
             });
 
         // // alert(JSON.stringify(formData));
-        // onClose();
-        // setName("");
     };
 
     return (
@@ -72,7 +86,7 @@ const CreateSubCategoryModal = ({
             >
                 <ModalBody bgColor="white" rounded="24px" shadow="sm" py="57px">
                     <Text fontWeight="600" fontSize={["19px"]}>
-                        Sub-Category for {Categoryname}
+                        Sub-Category
                     </Text>
 
                     <Box mt={["14px"]}>
@@ -82,8 +96,22 @@ const CreateSubCategoryModal = ({
                                 required
                                 bgColor={"shades_10"}
                                 py="14px"
+                                placeholder="Input the id of the sub-category"
+                                value={category}
+                                name="category"
+                                onChange={handleChange}
+                                _focusVisible={{}}
+                            />
+
+                            <Input
+                                mt="16px"
+                                type="text"
+                                required
+                                bgColor={"shades_10"}
+                                py="14px"
                                 placeholder="Input the name of the sub-category"
                                 value={name}
+                                name="name"
                                 onChange={handleChange}
                                 _focusVisible={{}}
                             />
@@ -106,6 +134,7 @@ const CreateSubCategoryModal = ({
                                     handleButton={handleSubmit}
                                     py="30px"
                                     type="submit"
+                                    isLoading={lodaing}
                                 />
                             </Flex>
                         </form>
@@ -116,4 +145,4 @@ const CreateSubCategoryModal = ({
     );
 };
 
-export default CreateSubCategoryModal;
+export default NewSubModal;

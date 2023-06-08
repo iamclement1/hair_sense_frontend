@@ -18,11 +18,17 @@ import { IoCheckmarkOutline } from "react-icons/io5";
 import { HiXMark } from "react-icons/hi2";
 import CategoryBox from "./CategoryBox";
 import SubCategoryModal from "./SubCategoryModal";
+import NewSubModal from "./NewSubModal";
 
 const Categories = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    useEffect(() => {
-    }, [])
+    useEffect(() => {}, []);
+
+    const {
+        isOpen: isOpenNewSubCategory,
+        onOpen: onOpenNewSubCategory,
+        onClose: onCloseNewSubCategory,
+    } = useDisclosure();
 
     return (
         <>
@@ -40,11 +46,13 @@ const Categories = () => {
 
                 <Flex align="center" justify="flex-end">
                     <PrimaryButton
-                    maxW="190px"
-                    text="Create Category"
-                    align="center"
-                    marginTop="20px"
-                    isOpen={isOpen} />
+                        maxW="190px"
+                        text="Create Category"
+                        align="center"
+                        marginTop="20px"
+                        isOpen={isOpen}
+                        handleButton={onOpenNewSubCategory}
+                    />
                 </Flex>
 
                 <Box mt="50px">
@@ -69,6 +77,12 @@ const Categories = () => {
                     </Box>
                 </Box>
             </Box>
+            {/* New Categories */}
+            <NewSubModal
+                isOpen={isOpenNewSubCategory}
+                onOpen={onOpenNewSubCategory}
+                onClose={onCloseNewSubCategory}
+            />
         </>
     );
 };
