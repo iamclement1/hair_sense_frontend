@@ -15,19 +15,40 @@ import {
 } from "@chakra-ui/react";
 import { PrimaryButton } from "../Common";
 import { SecondaryButton } from "../Common/Button";
+import { baseUrl, httpPost } from "@/http-request/http-request";
+import Cookies from "js-cookie";
+import { toast } from "react-hot-toast";
 
-const CreateSubCategoryModal = ({ isOpen, onOpen, onClose, Categoryname }) => {
+const CreateSubCategoryModal = ({ isOpen, onOpen, onClose, Categoryname, Categoryid }) => {
+    // console.log(cate)
     const [name, setName] = useState("");
     const handleChange = (e) => {
         setName(e.target.value);
     };
-    const handleSubmit = () => {
+
+    const accesToken = Cookies.get('access_token');
+    const handleSubmit = async () => {
         const formData = {
-            category: Categoryname,
-            newSubCartegory: name,
+            category: Categoryid,
+            name: name,
         };
 
-        alert(JSON.stringify(formData));
+        await httpPost(`${baseUrl}/store/sub_categories/`, formData, {
+            headers: {
+                Authorization : `Bearer ${accesToken}`
+            }
+        } )
+        .then((response) => {
+            // console.log(response);
+            if (response.status === 201){
+                toast.success("Sub Category successfully created");
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+
+        // alert(JSON.stringify(formData));
         onClose();
         setName("");
     };
@@ -67,7 +88,7 @@ const CreateSubCategoryModal = ({ isOpen, onOpen, onClose, Categoryname }) => {
                                 gap="20px"
                             >
                                 <SecondaryButton
-                                    text="Cancle"
+                                    text="Cancel"
                                     maxW="130px"
                                     color="accent_2"
                                     handleButton={onClose}
