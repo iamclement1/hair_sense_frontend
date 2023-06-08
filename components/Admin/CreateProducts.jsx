@@ -18,10 +18,20 @@ import {
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Formik } from "formik";
 import Cookies from "js-cookie";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
 const CreateProducts = () => {
+
+    const [subCat, setSubCat] = useState([]);
+
+    const handleSelectChange = (event) => {
+        const selectedCategoryId = parseInt(event.target.value);
+        const selectedCategory = subcategory.find((subcategory) => subcategory.id === selectedCategoryId);
+        if (selectedCategory) {
+            console.log(selectedCategory.id);
+        }
+    };
 
     const accessToken = Cookies.get('access_token');
     useEffect(() => {
@@ -32,7 +42,10 @@ const CreateProducts = () => {
                 }
             })
                 .then((response) => {
-                    console.log(response);
+                    const data = response.data.results
+                    // console.log(data);
+                    setSubCat(data);
+                    console.log(subCat);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -40,7 +53,7 @@ const CreateProducts = () => {
         }
 
         fetchSubCategory();
-    }, [accessToken])
+    }, [accessToken, subCat])
     return (
         <Box>
             <Box>
@@ -145,12 +158,13 @@ const CreateProducts = () => {
                                             borderColor="dark_4"
                                             rounded="5px"
                                         >
-                                            <option value="1">
-                                                Category 1
-                                            </option>
-                                            <option value="2">
-                                                Category 2
-                                            </option>
+                                            <select>
+                                                {subCat && subCat.map((subCategory) => (
+                                                    <option key={subCategory.id} value={subCategory.id}>
+                                                        {subCategory.category_name}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </Field>
                                         <ErrorMessage
                                             name="category"
