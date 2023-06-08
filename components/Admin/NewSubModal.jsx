@@ -73,26 +73,6 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
         // // alert(JSON.stringify(formData));
     };
 
-    useEffect(() => {
-        
-        const fetchCategory = async () => {
-            await httpGet(`${baseUrl}/store/categories/`, {
-                headers: {
-                    Authorization : `Bearer ${accessToken}`,
-                },
-            })
-            .then((response) => {
-                const data = response;
-                console.log(data);
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-        }
-
-        fetchCategory();
-    }, [accessToken])
-
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="lg" isCentered>
             <ModalOverlay />
