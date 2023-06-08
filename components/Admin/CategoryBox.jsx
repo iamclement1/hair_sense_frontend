@@ -41,8 +41,6 @@ const CategoryBox = ({ data }) => {
         onClose: onCloseAddSubCategory,
     } = useDisclosure();
 
-   
-
     return (
         <Box
             _notLast={{

@@ -19,10 +19,38 @@ import { HiXMark } from "react-icons/hi2";
 import CategoryBox from "./CategoryBox";
 import SubCategoryModal from "./SubCategoryModal";
 import NewSubModal from "./NewSubModal";
+import Cookies from "js-cookie";
+import { baseUrl, httpGet } from "@/http-request/http-request";
+import CustomSpinner from "../Common/Spinner";
 
 const Categories = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
-    useEffect(() => {}, []);
+    const [catData, setCatData] = useState([]);
+    useEffect(() => { }, []);
+
+    const accessToken = Cookies.get("access_token");
+
+    useEffect(() => {
+
+        const fetchCategory = async () => {
+            await httpGet(`${baseUrl}/store/categories/`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+                .then((response) => {
+                    const data = response.data.results;
+                    // console.log(data);
+                    setCatData(data);
+                    console.log("Category data",catData)
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+
+        fetchCategory();
+    }, [accessToken, catData])
 
     const {
         isOpen: isOpenNewSubCategory,
@@ -69,11 +97,19 @@ const Categories = () => {
 
                         {/* Categories */}
 
-                        <Box>
-                            {catData.map((item, i) => {
-                                return <CategoryBox data={item} key={i} />;
-                            })}
-                        </Box>
+                        {
+                            catData && catData.length > 0 ? (
+                                <Box>
+                                    {catData && catData.length > 0 && catData.map((item, i) => {
+                                        return <CategoryBox data={item} key={i} />;
+                                    })}
+                                </Box>
+
+                            ) : (
+                                <CustomSpinner />
+                            )
+                        }
+
                     </Box>
                 </Box>
             </Box>
@@ -89,34 +125,34 @@ const Categories = () => {
 
 export default Categories;
 
-const catData = [
-    {
-        name: "Hair Styling",
-        id: 1,
-    },
-    {
-        name: "Hair Product",
-        id: 2,
-    },
-    {
-        name: "Skin Care",
-        id: 3,
-    },
+// const catData = [
+//     {
+//         name: "Hair Styling",
+//         id: 1,
+//     },
+//     {
+//         name: "Hair Product",
+//         id: 2,
+//     },
+//     {
+//         name: "Skin Care",
+//         id: 3,
+//     },
 
-    {
-        name: "Hair Care",
-        id: 4,
-    },
-    {
-        name: "Equipments & Tools",
-        id: 5,
-    },
-    {
-        name: "Accessories",
-        id: 6,
-    },
-    {
-        name: "Cosmetics",
-        id: 7,
-    },
-];
+//     {
+//         name: "Hair Care",
+//         id: 4,
+//     },
+//     {
+//         name: "Equipments & Tools",
+//         id: 5,
+//     },
+//     {
+//         name: "Accessories",
+//         id: 6,
+//     },
+//     {
+//         name: "Cosmetics",
+//         id: 7,
+//     },
+// ];
