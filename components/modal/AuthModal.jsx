@@ -30,6 +30,7 @@ import Cookies from "js-cookie";
 import StateProvider, { StateContext } from "@/context/StateProvider";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import { ERROR_RESPONSES } from "@/http-request/response";
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -219,10 +220,30 @@ const Login = ({ handleCurrentForm, onClose }) => {
             })
             .catch((error) => {
                 setIsLoading(false);
+                if (error.response){
+                    const { status } = error.response;
+                    switch(status){
+                        // case 401:
+                        //     toast.error(ERROR_RESPONSES.UNAUTHORIZED);
+                        //     break;
+                        case 404:
+                            toast.error("Details incorrect");
+                            break;
+                        // case 500:
+                        //     toast.error(ERROR_RESPONSES.INTERNAL_SERVER_ERROR);
+                        //     break;
+                        // case 404:
+                        //     toast.error(ERROR_RESPONSES.RESOURCE_NOT_FOUND);
+                        //     break;
+                        // case 400:
+                        //     toast.error(ERROR_RESPONSES.BAD_REQUEST);
+                        //     break;
+                        // default:
+                        //     toast.error(ERROR_RESPONSES.GENERIC_ERROR);
+                    }
+                }
                 console.log(error);
-
-                console.log(error);
-                toast.error(error.message);
+                // toast.error(error.message);
             });
     };
 
