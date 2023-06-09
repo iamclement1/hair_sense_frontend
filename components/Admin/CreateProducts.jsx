@@ -25,6 +25,29 @@ const CreateProducts = () => {
 
     const [subCat, setSubCat] = useState([]);
 
+    //check file type
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+    const [file, setFile] = useState(null);
+
+
+    //file updload
+    const handleFileChange = (e) => {
+        // setImage(e.target.files[0]);
+        const selectedFile = e.target.files[0];
+        if (selectedFile && allowedTypes.includes(selectedFile.type)) {
+            setFile(selectedFile);
+            // toast.error("Please select a valid PNG or JPEG file")
+        } else {
+            setFile(null);
+            toast.error("Please select a valid PNG or JPEG file")
+        }
+    };
+
+    //remove image
+    const handleRemoveImage = () => {
+        setFile(null);
+    }
+
     const handleSelectChange = (event) => {
         const selectedCategoryId = parseInt(event.target.value);
         const selectedCategory = subcategory.find((subcategory) => subcategory.id === selectedCategoryId);
@@ -54,6 +77,21 @@ const CreateProducts = () => {
 
         fetchSubCategory();
     }, [accessToken])
+
+
+    // submit form
+    const handleCreateProduct = async () => {
+        event.preventDefault();
+        console.table({ name, description, version, file })
+
+        const accessToken = Cookies.get('access_token');
+
+        const payload = new FormData();
+        payload.append('file', file);
+        payload.append('name', name);
+        payload.append('description', description);
+        payload.append('version', version);
+    }
     return (
         <Box>
             <Box>
@@ -227,16 +265,47 @@ const CreateProducts = () => {
 
                                 {/* Cover Image Section */}
 
-                                <Box mt="16px">
-                                    <label>Cover image</label>
-                                    <Input
-                                        type="file"
-                                        name=""
-                                        id=""
-                                        py="10px"
-                                        bgColor="white"
-                                    />
-                                </Box>
+
+                                {file ? (
+                                    <Box w="full" h="full" display="flex" flexDir="column" alignItems="center" justifyContent="center" gap="2">
+                                        <Image
+                                            src={URL.createObjectURL(file)}
+                                            alt="Uploaded"
+                                            maxH="full"
+                                            maxW="full"
+                                            width={500}
+                                            height={350}
+                                            padding="12px"
+                                        />
+                                        <Text
+                                            as="button"
+                                            onClick={handleRemoveImage}
+                                            color="red.300"
+                                            _hover={{ color: "red.500" }}
+                                            fontSize="md"
+                                            cursor="pointer"
+                                            textDecoration="underline"
+                                            mb="3"
+                                        >
+                                            Remove Image
+                                        </Text>
+                                    </Box>
+                                ) : (
+                                    <Box mt="16px">
+                                        <Text as="label" htmlFor="cover-image">
+                                            Cover image
+                                        </Text>
+                                        <Input
+                                            type="file"
+                                            name="cover-image"
+                                            id="cover-image"
+                                            py="10px"
+                                            bgColor="white"
+                                            onChange={handleFileChange}
+                                        />
+                                    </Box>
+                                )}
+
 
                                 {/* Size Section  */}
 
