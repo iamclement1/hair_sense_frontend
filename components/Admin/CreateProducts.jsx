@@ -106,8 +106,8 @@ const CreateProducts = () => {
         const payload = new FormData();
         payload.append("name", name);
         payload.append("sub_category", sub_category);
-        payload.append("description", first_description);
-        payload.append("description_2", second_description);
+        payload.append("first_description", first_description);
+        payload.append("second_description", second_description);
         payload.append("sales_price", sales_price);
         payload.append("actual_price", actual_price);
 
