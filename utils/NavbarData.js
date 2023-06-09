@@ -126,3 +126,160 @@ export const categories = [
         ],
     },
 ];
+
+const category = [
+    {
+        id: 1,
+        name: "Shampoo",
+        category_name: "Hair Products",
+        sub_cat: [
+            {
+                id: 1,
+                name: "Shampoo",
+                category_name: "Hair Products",
+            },
+            {
+                id: 2,
+                name: "Hair Masks",
+                category_name: "Hair Products",
+            },
+            {
+                id: 3,
+                name: "Leave-in Conditioner",
+                category_name: "Hair Products",
+            },
+            {
+                id: 4,
+                name: "Conditioner",
+                category_name: "Hair Products",
+            },
+            {
+                id: 5,
+                name: "Hair Serums",
+                category_name: "Hair Products",
+            },
+            {
+                id: 6,
+                name: "Scalp Treatment",
+                category_name: "Hair Products",
+            },
+            {
+                id: 7,
+                name: "Baby's Hair",
+                category_name: "Hair Products",
+            },
+            {
+                id: 8,
+                name: "Hair Dyes",
+                category_name: "Hair Products",
+            },
+            {
+                id: 9,
+                name: "Hair Gels & Glues",
+                category_name: "Hair Products",
+            },
+            {
+                id: 10,
+                name: "Hair Oils",
+                category_name: "Hair Products",
+            },
+            {
+                id: 11,
+                name: "Texturizer",
+                category_name: "Hair Products",
+            },
+            {
+                id: 12,
+                name: "Detanglers",
+                category_name: "Hair Styling",
+            },
+            {
+                id: 13,
+                name: "Style Gels",
+                category_name: "Hair Styling",
+            },
+            {
+                id: 14,
+                name: "Frangrances",
+                category_name: "Hair Styling",
+            },
+            {
+                id: 15,
+                name: "Sprays",
+                category_name: "Hair Styling",
+            },
+        ],
+    },
+    {
+        id: 2,
+        name: "Hair Masks",
+        category_name: "Hair Products",
+        sub_cat: [{}],
+    },
+    {
+        id: 3,
+        name: "Leave-in Conditioner",
+        category_name: "Hair Products",
+        sub_cat: [{}],
+    },
+    {
+        id: 4,
+        name: "Conditioner",
+        category_name: "Hair Products",
+    },
+    {
+        id: 5,
+        name: "Hair Serums",
+        category_name: "Hair Products",
+    },
+    {
+        id: 6,
+        name: "Scalp Treatment",
+        category_name: "Hair Products",
+    },
+    {
+        id: 7,
+        name: "Baby's Hair",
+        category_name: "Hair Products",
+    },
+    {
+        id: 8,
+        name: "Hair Dyes",
+        category_name: "Hair Products",
+    },
+    {
+        id: 9,
+        name: "Hair Gels & Glues",
+        category_name: "Hair Products",
+    },
+    {
+        id: 10,
+        name: "Hair Oils",
+        category_name: "Hair Products",
+    },
+    {
+        id: 11,
+        name: "Texturizer",
+        category_name: "Hair Products",
+    },
+    {
+        id: 12,
+        name: "Detanglers",
+        category_name: "Hair Styling",
+    },
+    {
+        id: 13,
+        name: "Style Gels",
+        category_name: "Hair Styling",
+    },
+    {
+        id: 14,
+        name: "Frangrances",
+        category_name: "Hair Styling",
+    },
+    {
+        id: 15,
+        name: "Sprays",
+        category_name: "Hair Styling",
+    },
+];

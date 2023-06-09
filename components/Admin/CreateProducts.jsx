@@ -22,38 +22,62 @@ import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
 const CreateProducts = () => {
-
     const [subCat, setSubCat] = useState([]);
 
-    const handleSelectChange = (event) => {
-        const selectedCategoryId = parseInt(event.target.value);
-        const selectedCategory = subcategory.find((subcategory) => subcategory.id === selectedCategoryId);
-        if (selectedCategory) {
-            console.log(selectedCategory.id);
-        }
-    };
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedSubCat, setSelectedSubCat] = useState([]);
 
-    const accessToken = Cookies.get('access_token');
+    // const handleSelectChange = (event) => {
+    //     const selectedCategoryId = parseInt(event.target.value);
+    //     const selectedCategory = subcategory.find(
+    //         (subcategory) => subcategory.id === selectedCategoryId
+    //     );
+    //     if (selectedCategory) {
+    //         console.log(selectedCategory.id);
+    //     }
+    // };
+
+    const accessToken = Cookies.get("access_token");
     useEffect(() => {
         const fetchSubCategory = async () => {
-            await httpGet(`${baseUrl}/store/sub_categories`, {
+            await httpGet(`${baseUrl}/store/categories`, {
                 headers: {
-                    Authrization: `${accessToken}`
-                }
+                    Authrization: `${accessToken}`,
+                },
             })
                 .then((response) => {
-                    const data = response.data.results
+                    const data = response.data.results;
                     // console.log(data);
                     setSubCat(data);
                     console.log(subCat);
                 })
                 .catch((error) => {
                     console.log(error);
-                })
-        }
+                });
+        };
 
-        fetchSubCategory();
-    }, [accessToken, subCat])
+        if (subCat.length < 1) {
+            fetchSubCategory();
+        }
+    }, [accessToken, subCat]);
+
+    // useeffect to handle Selected subcat
+    useEffect(() => {
+        subCat.map((item) => {
+            // console.log(item.id === selectedCategory);
+            console.log(item.id);
+            console.log(selectedCategory);
+            item.id == selectedCategory
+                ? setSelectedSubCat(item.sub_category)
+                : console.log("Not found");
+        });
+    }, [selectedCategory]);
+
+    const handleCategoryChange = (event, handleChange) => {
+        handleChange(event); // Calling the handleChange function provided by Formik
+        setSelectedCategory(event.target.value); // seting the id of the selected
+    };
+
     return (
         <Box>
             <Box>
@@ -70,6 +94,7 @@ const CreateProducts = () => {
                             category: "",
                             description: "",
                             category: "",
+                            sub_category: "",
                             quantity: "",
                             size: "",
                         }}
@@ -86,6 +111,10 @@ const CreateProducts = () => {
                             }
                             if (!values.category) {
                                 errors.category = "Category is required";
+                            }
+                            if (!values.sub_category) {
+                                errors.sub_category =
+                                    "Sub-Category is required";
                             }
                             if (!values.quantity) {
                                 errors.quantity = "Quantity is required";
@@ -105,6 +134,8 @@ const CreateProducts = () => {
                             touched,
                             isValid,
                             dirty,
+                            values,
+                            handleChange,
                         }) => (
                             <form onSubmit={handleSubmit}>
                                 {/* Product Name */}
@@ -142,7 +173,63 @@ const CreateProducts = () => {
                                             placeholder="Select Category"
                                             className={
                                                 errors.category &&
-                                                    touched.category
+                                                touched.category
+                                                    ? "error"
+                                                    : ""
+                                            }
+                                            fontSize="15px"
+                                            // px={"20px"}
+                                            // py="12px"
+                                            display="inline-block"
+                                            _focusVisible={{
+                                                border: "1px",
+                                                borderColor: "dark_4",
+                                            }}
+                                            border="1px"
+                                            borderColor="dark_4"
+                                            rounded="5px"
+                                            onChange={(event) =>
+                                                handleCategoryChange(
+                                                    event,
+                                                    handleChange
+                                                )
+                                            }
+                                        >
+                                            {subCat &&
+                                                subCat.map((subCategory) => (
+                                                    <option
+                                                        key={subCategory.id}
+                                                        value={subCategory.id}
+                                                    >
+                                                        {subCategory.name}
+                                                    </option>
+                                                ))}
+                                        </Field>
+                                        <ErrorMessage
+                                            name="category"
+                                            component="div"
+                                            className="error-message"
+                                        />
+                                    </Box>
+
+                                    <Box mt="16px" w="100%">
+                                        <FormLabel
+                                            htmlFor="sub_category"
+                                            fontSize="14px"
+                                            color="accent_2"
+                                            fontWeight={600}
+                                        >
+                                            Sub-Category
+                                        </FormLabel>
+                                        <Field
+                                            as={Select}
+                                            id="sub_category"
+                                            name="sub_category"
+                                            bgColor="white"
+                                            placeholder="Select Sub-Category"
+                                            className={
+                                                errors.sub_category &&
+                                                touched.sub_category
                                                     ? "error"
                                                     : ""
                                             }
@@ -158,31 +245,26 @@ const CreateProducts = () => {
                                             borderColor="dark_4"
                                             rounded="5px"
                                         >
-                                            <select>
-                                                {subCat && subCat.map((subCategory) => (
-                                                    <option key={subCategory.id} value={subCategory.id}>
-                                                        {subCategory.category_name}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            {selectedSubCat &&
+                                                selectedSubCat.map(
+                                                    (subCategory) => (
+                                                        <option
+                                                            key={subCategory.id}
+                                                            value={
+                                                                subCategory.id
+                                                            }
+                                                        >
+                                                            {subCategory.name}
+                                                        </option>
+                                                    )
+                                                )}
                                         </Field>
                                         <ErrorMessage
-                                            name="category"
+                                            name="sub_category"
                                             component="div"
                                             className="error-message"
                                         />
                                     </Box>
-
-                                    {/* Price */}
-
-                                    <CustomInput
-                                        label="Price"
-                                        name="price"
-                                        type="text"
-                                        bgColor="white"
-                                        errors={errors}
-                                        touched={touched}
-                                    />
                                 </Flex>
 
                                 {/* Text Arear */}
@@ -202,7 +284,7 @@ const CreateProducts = () => {
                                         bgColor="white"
                                         className={
                                             errors.description &&
-                                                touched.description
+                                            touched.description
                                                 ? "error"
                                                 : ""
                                         }
@@ -293,8 +375,8 @@ const CreateProducts = () => {
                                     {/* Price */}
 
                                     <CustomInput
-                                        label="Quantity"
-                                        name="quantity"
+                                        label="Price"
+                                        name="price"
                                         type="text"
                                         bgColor="white"
                                         errors={errors}
