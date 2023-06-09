@@ -99,37 +99,38 @@ const CreateProducts = () => {
             sub_category,
             description: first_description,
             description_2: second_description,
-            price: sales_price,
+            price: actual_price,
+            sales_price: sales_price,
         } = values;
-    
+
         const payload = new FormData();
         payload.append("name", name);
         payload.append("sub_category", sub_category);
         payload.append("description", first_description);
         payload.append("description_2", second_description);
-        payload.append("price", sales_price);
-    
+        payload.append("sales_price", sales_price);
+        payload.append("actual_price", actual_price);
+
         if (file) {
             payload.append("product_img", file);
         }
-    
-    
+
         await httpPost(`${baseUrl}/store/products/`, payload, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         })
-        .then((response) => {
-            console.log(response);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-    
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
         setLoading(false);
         console.log(payload);
     };
-    
+
     return (
         <Box>
             <Box>
@@ -147,6 +148,7 @@ const CreateProducts = () => {
                             description: "",
                             description_2: "",
                             price: "",
+                            sales_price: "",
                         }}
                         validate={(values) => {
                             let errors = {};
@@ -155,6 +157,9 @@ const CreateProducts = () => {
                             }
                             if (!values.price) {
                                 errors.price = "Price is required";
+                            }
+                            if (!values.sales_price) {
+                                errors.sales_price = "Sales_price is required";
                             }
                             if (!values.description) {
                                 errors.description = "Description is required";
@@ -458,54 +463,20 @@ const CreateProducts = () => {
                                     }}
                                     gap={["0px", "20px"]}
                                 >
-                                    {/* Size Select */}
-                                    {/* <Box mt="16px" w="100%">
-                                        <FormLabel
-                                            htmlFor="size"
-                                            fontSize="14px"
-                                            color="accent_2"
-                                            fontWeight={600}
-                                        >
-                                            Size
-                                        </FormLabel>
-                                        <Field
-                                            as={Select}
-                                            id="size"
-                                            name="size"
-                                            bgColor="white"
-                                            placeholder="Select Size"
-                                            className={
-                                                errors.size && touched.size
-                                                    ? "error"
-                                                    : ""
-                                            }
-                                            fontSize="15px"
-                                            // px={"20px"}
-                                            // py="12px"
-                                            display="inline-block"
-                                            _focusVisible={{
-                                                border: "1px",
-                                                borderColor: "dark_4",
-                                            }}
-                                            border="1px"
-                                            borderColor="dark_4"
-                                            rounded="5px"
-                                        >
-                                            <option value="1">size 1</option>
-                                            <option value="2">size 2</option>
-                                        </Field>
-                                        <ErrorMessage
-                                            name="size"
-                                            component="div"
-                                            className="error-message"
-                                        />
-                                    </Box> */}
-
                                     {/* Price */}
 
                                     <CustomInput
-                                        label="Price"
+                                        label="Actual Price"
                                         name="price"
+                                        type="text"
+                                        bgColor="white"
+                                        errors={errors}
+                                        touched={touched}
+                                    />
+
+                                    <CustomInput
+                                        label="Sales Price"
+                                        name="sales_price"
                                         type="text"
                                         bgColor="white"
                                         errors={errors}
