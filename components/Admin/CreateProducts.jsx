@@ -49,26 +49,6 @@ const CreateProducts = () => {
         setFile(null);
     };
 
-    const handleSelectChange = (event) => {
-        const selectedCategoryId = parseInt(event.target.value);
-        const selectedCategory = subcategory.find(
-            (subcategory) => subcategory.id === selectedCategoryId
-        );
-        if (selectedCategory) {
-            console.log(selectedCategory.id);
-        }
-    };
-
-    // const handleSelectChange = (event) => {
-    //     const selectedCategoryId = parseInt(event.target.value);
-    //     const selectedCategory = subcategory.find(
-    //         (subcategory) => subcategory.id === selectedCategoryId
-    //     );
-    //     if (selectedCategory) {
-    //         console.log(selectedCategory.id);
-    //     }
-    // };
-
     const accessToken = Cookies.get("access_token");
     useEffect(() => {
         const fetchSubCategory = async () => {
@@ -114,21 +94,34 @@ const CreateProducts = () => {
     // submit form
     const handleCreateProduct = async (values) => {
         setLoading(true);
-        const { prodName, category, sub_category, description, price,  } = values;
+        const {
+            name,
+            sub_category,
+            description: first_description,
+            description_2: second_description,
+            price: sales_price,
+            file: product_img,
+        } = values;
         // console.table({ prodName, category, sub_category, description, file, price, });
 
         // const accessToken = Cookies.get("access_token");
 
         const payload = new FormData();
-        payload.append("name", prodName);
-        payload.append("category", category);
+        payload.append("name", name);
         payload.append("sub_category", sub_category);
-        payload.append("description", description);
-        payload.append("file", file);
-        payload.append("price", price);
+        payload.append("first_description", first_description);
+        payload.append("second_description", second_description);
+        payload.append("product_img", product_img);
+        payload.append("sales_price", sales_price);
         setLoading(false);
-        console.log(payload);
-
+        console.table({
+            name,
+            sub_category,
+            first_description,
+            second_description,
+            product_img,
+            sales_price,
+        });
     };
     return (
         <Box>
@@ -145,7 +138,7 @@ const CreateProducts = () => {
                             category: "",
                             sub_category: "",
                             description: "",
-                            file: "",
+                            description_2: "",
                             price: "",
                         }}
                         validate={(values) => {
@@ -159,6 +152,10 @@ const CreateProducts = () => {
                             if (!values.description) {
                                 errors.description = "Description is required";
                             }
+                            if (!values.description_2) {
+                                errors.description_2 =
+                                    "Second Description is required";
+                            }
                             if (!values.category) {
                                 errors.category = "Category is required";
                             }
@@ -167,9 +164,6 @@ const CreateProducts = () => {
                                     "Sub-Category is required";
                             }
 
-                            if (!values.size) {
-                                errors.size = "Size is required";
-                            }
                             return errors;
                         }}
                         onSubmit={(values) => {
@@ -352,6 +346,47 @@ const CreateProducts = () => {
                                     />
                                     <ErrorMessage
                                         name="description"
+                                        component="div"
+                                        className="error-message"
+                                    />
+                                </Box>
+
+                                {/* Description 2 */}
+
+                                <Box mt="16px">
+                                    <FormLabel
+                                        htmlFor="description_2"
+                                        fontSize="14px"
+                                        color="accent_2"
+                                        fontWeight={600}
+                                    >
+                                        Second Description
+                                    </FormLabel>
+                                    <Field
+                                        as={Textarea}
+                                        id="description_2"
+                                        name="description_2"
+                                        bgColor="white"
+                                        className={
+                                            errors.description_2 &&
+                                            touched.description_2
+                                                ? "error"
+                                                : ""
+                                        }
+                                        fontSize="15px"
+                                        px={"20px"}
+                                        py="12px"
+                                        display="inline-block"
+                                        _focusVisible={{
+                                            border: "1px",
+                                            borderColor: "dark_4",
+                                        }}
+                                        border="1px"
+                                        borderColor="dark_4"
+                                        rounded="5px"
+                                    />
+                                    <ErrorMessage
+                                        name="description_2"
                                         component="div"
                                         className="error-message"
                                     />

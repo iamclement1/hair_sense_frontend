@@ -165,7 +165,7 @@ const Products = () => {
                         {rows.map((row) => {
                             prepareRow(row);
                             const { id } = row.original; // Get the ID of the product
-
+                            console.log(row);
                             return (
                                 <Tr {...row.getRowProps()} key={row.id}>
                                     {row.cells.map((cell) => (
