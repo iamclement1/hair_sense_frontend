@@ -50,7 +50,7 @@ const Categories = () => {
         }
 
         fetchCategory();
-    }, [accessToken, catData])
+    }, [accessToken])
 
     const {
         isOpen: isOpenNewSubCategory,
