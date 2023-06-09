@@ -111,7 +111,8 @@ const CreateProducts = () => {
     };
 
     // submit form
-    const handleCreateProduct = async (event, values) => {
+    const handleCreateProduct = async (values) => {
+        setLoading(true);
         const { name, description, version, file } = values;
         console.table({ name, description, version, file });
 
@@ -122,6 +123,7 @@ const CreateProducts = () => {
         payload.append("name", name);
         payload.append("description", description);
         payload.append("version", version);
+        setLoading(false);
     };
     return (
         <Box>
