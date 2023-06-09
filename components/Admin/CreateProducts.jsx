@@ -468,7 +468,7 @@ const CreateProducts = () => {
                                     <CustomInput
                                         label="Actual Price"
                                         name="price"
-                                        type="text"
+                                        type="number"
                                         bgColor="white"
                                         errors={errors}
                                         touched={touched}
@@ -477,7 +477,7 @@ const CreateProducts = () => {
                                     <CustomInput
                                         label="Sales Price"
                                         name="sales_price"
-                                        type="text"
+                                        type="number"
                                         bgColor="white"
                                         errors={errors}
                                         touched={touched}
