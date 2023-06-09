@@ -21,20 +21,22 @@ import { StarRating } from ".";
 import { FaBars, FaShoppingCart } from "react-icons/fa";
 import { baseUrl, httpPost } from "@/http-request/http-request";
 import { CartContext, StateContext } from "@/context/StateProvider";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 const ProductBox = ({ productData }, isLiked) => {
     const router = useRouter();
     // const { id, imageUrl, text, rating, price } = productData;
-    const { products, cart, setCart } = useContext(StateContext);
+    const { products, cart, setCart, user } = useContext(StateContext);
     // console.log("hey dude find the products here",products)
+    // console.log(user);
     const {
         id,
         name,
         actual_price,
         sales_price,
         first_description,
+        second_description,
         product_img,
     } = productData;
 
@@ -47,8 +49,10 @@ const ProductBox = ({ productData }, isLiked) => {
         await httpPost(`${baseUrl}/store/favourite/items/`, data)
             .then((response) => {
                 if (response && response.status === 201) {
-                    console.log(response);
-                    toast(" Favorite item added successfully");
+                    // console.log(response);
+                    toast.success(" Favorite item added successfully");
+                } else {
+                    toast.error("Please login to add item as favorite!")
                 }
             })
             .catch((error) => {
@@ -66,38 +70,44 @@ const ProductBox = ({ productData }, isLiked) => {
     const handleAddToCart = (event) => {
         event.stopPropagation();
         const dispatch = GlobalCart.dispatch;
-    
+
         // Check if the product ID already exists in the cart
-        const isItemExist = GlobalCart.state.some((item) => item.id === productData.id);
-    
+        const isItemExist = GlobalCart.state.some(
+            (item) => item.id === productData.id
+        );
+
         // Check if the item already exists in localStorage
-        const existingCartData = JSON.parse(localStorage.getItem('cart')) || [];
-        const isItemInLocalStorage = existingCartData.some((item) => item.id === productData.id);
-    
+        const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+        const isItemInLocalStorage = existingCartData.some(
+            (item) => item.id === productData.id
+        );
+
         if (isItemExist) {
-            toast.error('Item already exists in the cart');
+            toast.error("Item already exists in the cart");
         } else if (isItemInLocalStorage) {
-            toast.error('Item already exists in the localStorage');
+            toast.error("Item already exists in the localStorage");
         } else {
             dispatch({
-                type: 'ADD_ITEM_TO_CART',
+                type: "ADD_ITEM_TO_CART",
                 payload: {
                     product: productData,
                 },
             });
-            toast.success('Item added successfully');
-    
+            toast.success("Item added successfully");
+
             // Update the cart data in localStorage
             localStorage.setItem(
-                'cart',
+                "cart",
                 JSON.stringify([...existingCartData, productData])
             );
         }
     };
-    
 
-
-
+    useEffect(() => {
+        localStorage.setItem("cartState", JSON.stringify(GlobalCart.state));
+        const stateCart = localStorage.getItem("cartState");
+        // console.log(stateCart);
+    }, [GlobalCart.state]);
 
     // console.log(GlobalCart.state); // Log the updated state
     // const dispatch = GlobalCart.dispatch;
@@ -111,9 +121,9 @@ const ProductBox = ({ productData }, isLiked) => {
             <Box
                 cursor={"pointer"}
                 bgColor=""
-                maxW="285px"
+                // maxW="285px"
                 textAlign={"center"}
-                mx="auto"
+                // mx="auto"
             >
                 <Box w="100%" maxW="247px" pos={"relative"}>
                     <Image
@@ -185,8 +195,8 @@ const ProductBox = ({ productData }, isLiked) => {
                     >
                         {name}
                     </Text>
-                    <Text fontSize={["13px", null, "14px", "16px"]}>
-                        {first_description}
+                    <Text fontSize={["13px", null, "14px", "16px"]} noOfLines={2}>
+                        {second_description}
                     </Text>
                     <Flex mt="13px" justify="center">
                         {/* <Icon as={AiFillStar} /> */}

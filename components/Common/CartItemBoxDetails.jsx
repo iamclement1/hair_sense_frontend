@@ -1,3 +1,4 @@
+import { CartContext } from "@/context/StateProvider";
 import {
     Box,
     Flex,
@@ -7,11 +8,121 @@ import {
     Text,
     Image,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
-const CartItemBoxDetails = ({ data }) => {
+const CartItemBoxDetails = ({ singleItem }) => {
+    console.log(singleItem);
+    const { id, name, actual_price, sales_price, product_img, quantity } =
+        singleItem;
+
+    const [total, setTotal] = useState(0);
+    const GlobalCart = useContext(CartContext);
+    const state = GlobalCart.state;
+    const dispatch = GlobalCart.dispatch;
+
+    //remove cart from state and localStorage
+    const handleRemoveFromCart = (singleItem) => {
+        const dispatch = GlobalCart.dispatch;
+
+        // Remove the item from the cart state
+        dispatch({ type: "REMOVE", payload: singleItem });
+
+        // Get the existing cart data from localStorage
+        const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // Find the index of the item to remove in the existing cart data
+        const itemIndex = existingCartData.findIndex(
+            (item) => item.id === singleItem.id
+        );
+
+        if (itemIndex !== -1) {
+            // Remove the item from the existing cart data
+            existingCartData.splice(itemIndex, 1);
+
+            // Update the cart data in localStorage
+            localStorage.setItem("cart", JSON.stringify(existingCartData));
+        }
+    };
+
+    //increase the quantity of an item in the cart and update the quantity in the localStorage
+    const handleIncreaseQuantity = (singleItem) => {
+        const dispatch = GlobalCart.dispatch;
+
+        // Update the quantity in the cart state
+        dispatch({ type: "INCREASE_QUANTITY", payload: singleItem });
+
+        // Get the existing cart data from localStorage
+        const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+        // Find the index of the item in the existing cart data
+        const itemIndex = existingCartData.findIndex(
+            (item) => item.id === singleItem.id
+        );
+
+        if (itemIndex !== -1) {
+            // Update the quantity in the existing cart data
+            existingCartData[itemIndex].quantity += 1;
+
+            // Update the cart data in localStorage
+            localStorage.setItem("cart", JSON.stringify(existingCartData));
+        }
+    };
+
+    //decrease the quantity of an item in the cart and in localStorage
+    const handleDecreaseQuantity = (singleItem) => {
+        const dispatch = GlobalCart.dispatch;
+
+        if (singleItem.quantity > 1) {
+            // Decrease the quantity in the cart state
+            dispatch({ type: "DECREASE_QUANTITY", payload: singleItem });
+
+            // Get the existing cart data from localStorage
+            const existingCartData =
+                JSON.parse(localStorage.getItem("cart")) || [];
+
+            // Find the index of the item in the existing cart data
+            const itemIndex = existingCartData.findIndex(
+                (item) => item.id === singleItem.id
+            );
+
+            if (itemIndex !== -1) {
+                // Decrease the quantity in the existing cart data
+                existingCartData[itemIndex].quantity -= 1;
+
+                // Update the cart data in localStorage
+                localStorage.setItem("cart", JSON.stringify(existingCartData));
+            }
+        } else {
+            // Remove the item from the cart state
+            dispatch({ type: "REMOVE", payload: singleItem });
+
+            // Get the existing cart data from localStorage
+            const existingCartData =
+                JSON.parse(localStorage.getItem("cart")) || [];
+
+            // Remove the item from the existing cart data
+            const updatedCartData = existingCartData.filter(
+                (item) => item.id !== singleItem.id
+            );
+
+            // Update the cart data in localStorage
+            localStorage.setItem("cart", JSON.stringify(updatedCartData));
+        }
+    };
+
+    useEffect(() => {
+        let totalPrice = 0;
+        // Get the existing cart data from localStorage
+        const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+        existingCartData.forEach((singleItem) => {
+            totalPrice += singleItem.actual_price * singleItem.quantity;
+        });
+
+        setTotal(totalPrice);
+    }, [state]);
 
     return (
         <Flex
@@ -20,17 +131,19 @@ const CartItemBoxDetails = ({ data }) => {
             gap="30px"
             align={{ base: "auto", md: "center", xl: "" }}
         >
-            <Icon
-                as={IoIosCloseCircleOutline}
-                boxSize={{ base: "21px", md: "27px" }}
-            />
+            <Box>
+                <Icon
+                    as={IoIosCloseCircleOutline}
+                    boxSize={{ base: "21px", md: "27px" }}
+                />
+            </Box>
             {/* product Image */}
 
             <Image
-                src="/images/cream.svg"
+                src={product_img && product_img}
                 maxW={{ base: "188px", md: "115px" }}
                 maxH={{ base: "188px", md: "115px" }}
-                alt=""
+                alt={name}
                 display={"block"}
                 mx="auto"
             />
@@ -55,7 +168,7 @@ const CartItemBoxDetails = ({ data }) => {
                     flexShrink={0}
                     noOfLines={3}
                 >
-                    Hyggee Vegan Sun Cream - 50ml
+                    {name && name}
                 </Text>
             </Box>
 
@@ -86,7 +199,7 @@ const CartItemBoxDetails = ({ data }) => {
                         fontSize={{ base: "16px", md: "14px", xl: "24px" }}
                         fontWeight={600}
                     >
-                        ₦ 4,000
+                        ₦ {actual_price}
                     </Text>
                 </Flex>
                 {/* Quantity Section */}
@@ -119,6 +232,7 @@ const CartItemBoxDetails = ({ data }) => {
                             color="white"
                             rounded={"3px"}
                             minW="30px"
+                            onClick={() => handleDecreaseQuantity(singleItem)}
                         >
                             {" "}
                             -{" "}
@@ -134,7 +248,7 @@ const CartItemBoxDetails = ({ data }) => {
                                 xl: "22px",
                             }}
                         >
-                            12
+                            {quantity}
                         </Flex>
                         <Text
                             as="button"
@@ -147,6 +261,7 @@ const CartItemBoxDetails = ({ data }) => {
                             bgColor="accent_8"
                             color="white"
                             rounded={"3px"}
+                            onClick={() => handleIncreaseQuantity(singleItem)}
                         >
                             {" "}
                             +{" "}
@@ -172,13 +287,12 @@ const CartItemBoxDetails = ({ data }) => {
                         fontSize={{ base: "16px", md: "14px", xl: "24px" }}
                         fontWeight={600}
                     >
-                        ₦ 4,000
+                        ₦ {total}
                     </Text>
                 </Flex>
             </Flex>
         </Flex>
     );
+};
 
-}
-
-export default CartItemBoxDetails
+export default CartItemBoxDetails;

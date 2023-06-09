@@ -41,11 +41,11 @@ const Footer = () => {
                                         href={url}
                                         mb="8px"
                                         fontSize={[
-                                            "16px",
+                                            "15px",
                                             null,
-                                            "16px",
+                                            "15px",
                                             null,
-                                            "16px",
+                                            "15px",
                                         ]}
                                     >
                                         {text}
@@ -72,11 +72,11 @@ const Footer = () => {
                                         href={url}
                                         mb="8px"
                                         fontSize={[
-                                            "16px",
+                                            "15px",
                                             null,
-                                            "16px",
+                                            "15px",
                                             null,
-                                            "16px",
+                                            "15px",
                                         ]}
                                     >
                                         {text}
@@ -103,11 +103,11 @@ const Footer = () => {
                                         href={url}
                                         mb="8px"
                                         fontSize={[
-                                            "16px",
+                                            "15px",
                                             null,
-                                            "16px",
+                                            "15px",
                                             null,
-                                            "16px",
+                                            "15px",
                                         ]}
                                     >
                                         {text}
@@ -201,7 +201,7 @@ export default Footer;
 const generalInformation = [
     {
         text: "Terms and Conditions",
-        url: "/",
+        url: "/terms_and_conditions",
     },
     {
         text: "Shipping and payments",
@@ -209,7 +209,7 @@ const generalInformation = [
     },
     {
         text: "Delivery Information",
-        url: "/",
+        url: "/delivery_info",
     },
     {
         text: "Privacy",
@@ -220,7 +220,7 @@ const generalInformation = [
 const services = [
     {
         text: "Help and Contact",
-        url: "/",
+        url: "/contact",
     },
     {
         text: "FAQ’S",
@@ -228,7 +228,7 @@ const services = [
     },
     {
         text: "Returns",
-        url: "/",
+        url: "/returns",
     },
     {
         text: "Beauty Guide",
@@ -243,7 +243,7 @@ const whyPatronizeUs = [
     },
     {
         text: "Shipping and Returns",
-        url: "/",
+        url: "/returns",
     },
     {
         text: "Best Deals",

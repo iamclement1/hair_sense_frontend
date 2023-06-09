@@ -1,9 +1,12 @@
-import React from 'react'
+import AdminDashboard from "@/components/Admin/AdminDashboard";
+import React, { useState } from "react";
 
-const Index = () => {
-   return (
-      <div>welcome to the admin dashboard</div>
-   )
-}
+const index = () => {
+    return (
+        <div>
+            <AdminDashboard />
+        </div>
+    );
+};
 
-export default Index
+export default index;

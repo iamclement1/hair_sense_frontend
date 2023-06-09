@@ -4,8 +4,7 @@ import { toast } from "react-toastify";
 import { ERROR_RESPONSES } from "./response";
 
 
-export const baseUrl = "https://hairshine.pythonanywhere.com";
-
+export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 // console.log("Base Ur === ", baseUrl);
 
 const token = Cookies.get("access_token");

@@ -23,12 +23,14 @@ import { PrimaryButton, SocialButton } from "../Common/Button";
 import { Formik, Field } from "formik";
 import NextLink from "next/link";
 import { baseUrl, httpPost } from "@/http-request/http-request";
-import { ToastContainer, toast } from "react-toastify";
+// import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import StateProvider, { StateContext } from "@/context/StateProvider";
 import axios from "axios";
+import { toast } from "react-hot-toast";
+import { ERROR_RESPONSES } from "@/http-request/response";
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -188,19 +190,60 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     }, 60 * 60 * 1000);
                     setUser(access);
                     //success callback
-                    toast("Login successful...");
+                    toast.success("Login successful...");
                     onClose();
                 } else if (response.data.role === "admin") {
+                    const setAccessTokenCookie = (access) => {
+                        const expires = new Date(Date.now() + 60 * 60 * 1000); // One hour from now
+                        Cookies.set("currentUser", access, { expires });
+                        Cookies.set("refreshToken", refresh, { expires });
+                        Cookies.set("access_token", access, { expires });
+                    };
+                    // console.log(response.data.role);
+                    const { access, refresh } = response.data;
+                    setAccessTokenCookie(access);
+
+                    //remove token from cookies after one hour
+                    setTimeout(() => {
+                        Cookies.remove("access_token");
+                        Cookies.remove("refreshToken");
+                        Cookies.remove("currentUser");
+                    }, 60 * 60 * 1000);
+                    setUser(access);
+                    //success callback
+                    toast.success("Login successful...");
+                    onClose();
                     router.push("/admin");
+                    setUser(access);
                 }
                 setIsLoading(false);
             })
             .catch((error) => {
                 setIsLoading(false);
+                if (error.response){
+                    const { status } = error.response;
+                    switch(status){
+                        // case 401:
+                        //     toast.error(ERROR_RESPONSES.UNAUTHORIZED);
+                        //     break;
+                        case 404:
+                            toast.error("Details incorrect");
+                            break;
+                        // case 500:
+                        //     toast.error(ERROR_RESPONSES.INTERNAL_SERVER_ERROR);
+                        //     break;
+                        // case 404:
+                        //     toast.error(ERROR_RESPONSES.RESOURCE_NOT_FOUND);
+                        //     break;
+                        // case 400:
+                        //     toast.error(ERROR_RESPONSES.BAD_REQUEST);
+                        //     break;
+                        // default:
+                        //     toast.error(ERROR_RESPONSES.GENERIC_ERROR);
+                    }
+                }
                 console.log(error);
-
-                console.log(error);
-                toast.error(error.message);
+                // toast.error(error.message);
             });
     };
 
@@ -333,13 +376,13 @@ const Register = ({ handleCurrentForm }) => {
         await axios
             .post(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
-                console.log(response);
+                // console.log(response);
                 // if (response && response.message === "proceed to login") {
                 //     handleCurrentForm("login");
                 //     toast("Account Created Successfully, Process To Login");
                 // }
                 if (response.status === 201) {
-                    toast("Account Created Successfully, Process To Login");
+                    toast.success("Account Created Successfully, Process To Login");
                     handleCurrentForm("login");
                 }
                 setIsLoading(false);
@@ -635,7 +678,6 @@ const Register = ({ handleCurrentForm }) => {
                         isLoading={isLoading}
                         // handleButton={registerUser}
                     />
-                    <ToastContainer />
                 </form>
             )}
         </Formik>

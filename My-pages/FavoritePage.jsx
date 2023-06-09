@@ -27,7 +27,7 @@ const FavouritePage = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            if (response && response.data && response.status == 200) {
+            if (response && response.data && response.status === 200) {
                 setFav(
                     response &&
                         response.data &&

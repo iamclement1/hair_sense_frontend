@@ -18,8 +18,13 @@ import { BsCart4 } from "react-icons/bs";
 import EmptyCart from "./EmptyCart";
 import { useRouter } from "next/router";
 import AuthModal from "../modal/AuthModal";
+import { baseUrl, httpPost } from "@/http-request/http-request";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { toast } from "react-hot-toast";
 
 const ModalCartItem = ({ onOpen, onClose }) => {
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
     const {
         isOpen: isOpenAuth,
@@ -27,6 +32,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         onClose: onCloseAuth,
     } = useDisclosure();
     const { user, products, setProducts } = useContext(StateContext);
+
     const [total, setTotal] = useState(0);
     const GlobalCart = useContext(CartContext);
     const state = GlobalCart.state;
@@ -35,8 +41,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
     //calculate total price of the quantity added to the cart
 
     // Retrieve cart items from localStorage
-    const cartItems =
-        JSON.parse(localStorage.getItem("cart")) || [];
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
 
     //remove cart from state and localStorage
     const handleRemoveFromCart = (product) => {
@@ -73,7 +78,9 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
 
         // Find the index of the item in the existing cart data
-        const itemIndex = existingCartData.findIndex((item) => item.id === product.id);
+        const itemIndex = existingCartData.findIndex(
+            (item) => item.id === product.id
+        );
 
         if (itemIndex !== -1) {
             // Update the quantity in the existing cart data
@@ -93,10 +100,13 @@ const ModalCartItem = ({ onOpen, onClose }) => {
             dispatch({ type: "DECREASE_QUANTITY", payload: product });
 
             // Get the existing cart data from localStorage
-            const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+            const existingCartData =
+                JSON.parse(localStorage.getItem("cart")) || [];
 
             // Find the index of the item in the existing cart data
-            const itemIndex = existingCartData.findIndex((item) => item.id === product.id);
+            const itemIndex = existingCartData.findIndex(
+                (item) => item.id === product.id
+            );
 
             if (itemIndex !== -1) {
                 // Decrease the quantity in the existing cart data
@@ -110,18 +120,18 @@ const ModalCartItem = ({ onOpen, onClose }) => {
             dispatch({ type: "REMOVE", payload: product });
 
             // Get the existing cart data from localStorage
-            const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+            const existingCartData =
+                JSON.parse(localStorage.getItem("cart")) || [];
 
             // Remove the item from the existing cart data
-            const updatedCartData = existingCartData.filter((item) => item.id !== product.id);
+            const updatedCartData = existingCartData.filter(
+                (item) => item.id !== product.id
+            );
 
             // Update the cart data in localStorage
             localStorage.setItem("cart", JSON.stringify(updatedCartData));
         }
     };
-
-
-
 
     // calculate total item in cartItemsFromLocalStorage
 
@@ -141,26 +151,55 @@ const ModalCartItem = ({ onOpen, onClose }) => {
 
         setTotal(totalPrice);
     }, [state]);
-
-
+    const access_token = Cookies.get("access_token");
     //handle checkout payment button with paystack
-    const handleCheckout = () => {
-        alert("Checkout");
+    const sendCartItems = async () => {
+        // localStorage.setItem("sample", JSON.stringify(cartItems));
+        // console.log(localStorage.getItem("sample"));
+        setLoading(true);
+
+        if (cartItems.length > 0) {
+            await axios
+                .post(`${baseUrl}/store/cart/items/`, cartItems, {
+                    headers: {
+                        Authorization: `Bearer ${access_token}`,
+                    },
+                })
+                .then((response) => {
+                    //success callback
+                    if (response?.status === 200) {
+                        toast.success(
+                            " Successful... You will now been Redirected to the checkout page "
+                        );
+                        onClose();
+                        setLoading(false);
+                        router.push("/checkout");
+                    }
+                })
+                .catch((error) => {
+                    setLoading(false);
+
+                    toast.error(error.message);
+                });
+        }
     };
 
     return (
         <>
             <Box>
                 {/* Cart Item Section  */}
-
                 {cartItems.length === 0 ? (
                     <Box py="30px">
-                        <EmptyCart />
+                        <EmptyCart onOpen={onOpen} onClose={onClose} />
                     </Box>
                 ) : (
                     <Box>
                         {cartItems &&
                             cartItems.map((product, index) => {
+                                // adding the total amoount to the object
+
+                                product.amount =
+                                    product.quantity * product.actual_price;
                                 return (
                                     <Box key={index}>
                                         <Flex
@@ -248,7 +287,11 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                                                 rounded={"3px"}
                                                                 minW="30px"
                                                                 aria-label="reduce quantity"
-                                                                onClick={() => handleDecreaseQuantity(product)}
+                                                                onClick={() =>
+                                                                    handleDecreaseQuantity(
+                                                                        product
+                                                                    )
+                                                                }
                                                             >
                                                                 -
                                                             </Text>
@@ -287,11 +330,25 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                                                 rounded={"3px"}
                                                                 minW="30px"
                                                                 aria-label="Add to quantity"
-                                                                onClick={() => handleIncreaseQuantity(product)}
+                                                                onClick={() =>
+                                                                    handleIncreaseQuantity(
+                                                                        product
+                                                                    )
+                                                                }
                                                             >
                                                                 +
                                                             </Text>
-                                                            <Box ml="20px" cursor={'pointer'} onClick={() => handleRemoveFromCart(product)}>
+                                                            <Box
+                                                                ml="20px"
+                                                                cursor={
+                                                                    "pointer"
+                                                                }
+                                                                onClick={() =>
+                                                                    handleRemoveFromCart(
+                                                                        product
+                                                                    )
+                                                                }
+                                                            >
                                                                 <FaTrash />
                                                             </Box>
                                                         </Flex>
@@ -386,9 +443,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                     <PrimaryButton
                                         text="Check Out"
                                         w="100%"
-                                        handleButton={() =>
-                                            router.push("/checkout")
-                                        }
+                                        handleButton={sendCartItems}
                                     />
                                 ) : (
                                     <PrimaryButton
@@ -398,6 +453,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                             // onClose();
                                             onOpenAuth();
                                         }}
+                                        isLoading={loading}
                                     />
                                 )}
                             </Flex>
@@ -416,7 +472,6 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                         </Box>
                     </Box>
                 )}
-
                 {/* <Divider my={["24px", null, "34px"]} /> */}
             </Box>
             {/* Login page modal */}

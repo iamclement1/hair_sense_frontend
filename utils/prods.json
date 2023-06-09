@@ -1,69 +1,28 @@
-{
-  "data": [
+[
     {
-      "id": 5,
-      "name": "Hair conditioner",
-      "actual_price": 7000,
-      "sales_price": 5000,
-      "first_description": "This is the first description",
-      "second_description": "This is the second description",
-      "views": 0,
-      "product_img": "/media/images/IMG-6768_vuLZ5Pc.jpg",
-      "date_added": "2023-04-23T15:46:36.293824Z",
-      "updated_at": "2023-04-23T15:46:36.293824Z",
-      "sub_category": 2
+        "id": 2,
+        "name": "Pomegranate & Honey Moisturizing and Detangling Shampoo 355ml",
+        "actual_price": 7000,
+        "sales_price": 0,
+        "first_description": "Why you need this product\r\nWeightless Texture\r\nThis sunscreen has an essence-cream structure that makes it spread and absorb quickly. All day long, the skin feels comfortable because to the lightweight and breathable material.\r\nNourishing & Moisturizing\r\nIt is made with marine algae extract and beet root extract to hydrate and revitalize your skin.",
+        "second_description": "Watch your skin improve by using this vegan sunscreen right away! the Hyggee Vegan Sun Cream has five different chemical UV filter types that provide maximum protection without leaving a white cast. They also provide long-lasting hydration to keep skin hydrated and happy throughout the day.",
+        "views": 0,
+        "product_img": "http://hairshine.pythonanywhere.com/media/images/image_6_Oyim1OY.png",
+        "sub_category": 1,
+        "comment": [],
+        "quantity": 4
     },
     {
-      "id": 1,
-      "name": "Soul mate",
-      "actual_price": 400,
-      "sales_price": 300,
-      "first_description": "First",
-      "second_description": "Second",
-      "views": 17,
-      "product_img": "/media/images/IMG-6768_dNOI3BQ.jpg",
-      "date_added": "2023-04-23T15:44:12.341756Z",
-      "updated_at": "2023-04-23T16:48:07.221380Z",
-      "sub_category": 1
-    },
-    {
-      "id": 2,
-      "name": "lo shine",
-      "actual_price": 500,
-      "sales_price": 350,
-      "first_description": "First",
-      "second_description": "Second",
-      "views": 15,
-      "product_img": "/media/images/IMG-6768_XAKaggp.jpg",
-      "date_added": "2023-04-23T15:44:12.341756Z",
-      "updated_at": "2023-04-23T16:39:52.654636Z",
-      "sub_category": 3
-    },
-    {
-      "id": 3,
-      "name": "Mini Dryer",
-      "actual_price": 2000,
-      "sales_price": 1500,
-      "first_description": "First",
-      "second_description": "Second",
-      "views": 9,
-      "product_img": "/media/images/IMG-6768_03xcc4u.jpg",
-      "date_added": "2023-04-23T15:44:12.341756Z",
-      "updated_at": "2023-04-26T19:20:29.945322Z",
-      "sub_category": 2
-    },
-    {
-      "id": 4,
-      "name": "Hair nutritioner",
-      "actual_price": 7000,
-      "sales_price": 5000,
-      "first_description": "This is the first description",
-      "second_description": "This is the second description",
-      "views": 0,
-      "product_img": "/media/images/IMG-6768_BsFWe9g.jpg",
-      "date_added": "2023-04-23T15:44:12.341756Z",
-      "updated_at": "2023-04-23T15:44:29.453048Z",
-      "sub_category": 2
+        "id": 3,
+        "name": "Face Scrub",
+        "actual_price": 7000,
+        "sales_price": 100,
+        "first_description": "Why you need this product\r\nWeightless Texture\r\nThis sunscreen has an essence-cream structure that makes it spread and absorb quickly. All day long, the skin feels comfortable because to the lightweight and breathable material.\r\nNourishing & Moisturizing\r\nIt is made with marine algae extract and beet root extract to hydrate and revitalize your skin.",
+        "second_description": "Watch your skin improve by using this vegan sunscreen right away! the Hyggee Vegan Sun Cream has five different chemical UV filter types that provide maximum protection without leaving a white cast. They also provide long-lasting hydration to keep skin hydrated and happy throughout the day.",
+        "views": 0,
+        "product_img": "http://hairshine.pythonanywhere.com/media/images/image_16_X7r8ZaQ.png",
+        "sub_category": 2,
+        "comment": [],
+        "quantity": 2
     }
-  ]
-}
+]
