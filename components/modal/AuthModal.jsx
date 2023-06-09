@@ -369,7 +369,7 @@ const Register = ({ handleCurrentForm }) => {
             password: values.password,
             email: values.email,
         };
-        const { first_name, last_name, phone, password } = formData;
+        // const { first_name, last_name, phone, password } = formData;
 
         // console.table({  first_name, last_name, phone, password });
 

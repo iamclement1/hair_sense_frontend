@@ -110,20 +110,25 @@ const CreateProducts = () => {
         setSelectedCategory(event.target.value); // seting the id of the selected
     };
 
+    //TODO: HANDLE PRODUCT CREATION
     // submit form
     const handleCreateProduct = async (values) => {
         setLoading(true);
-        const { name, description, version, file } = values;
-        console.table({ name, description, version, file });
+        const { prodName, category, sub_category, description, price,  } = values;
+        // console.table({ prodName, category, sub_category, description, file, price, });
 
-        const accessToken = Cookies.get("access_token");
+        // const accessToken = Cookies.get("access_token");
 
         const payload = new FormData();
-        payload.append("file", file);
-        payload.append("name", name);
+        payload.append("name", prodName);
+        payload.append("category", category);
+        payload.append("sub_category", sub_category);
         payload.append("description", description);
-        payload.append("version", version);
+        payload.append("file", file);
+        payload.append("price", price);
         setLoading(false);
+        console.log(payload);
+
     };
     return (
         <Box>
@@ -137,13 +142,11 @@ const CreateProducts = () => {
                     <Formik
                         initialValues={{
                             name: "",
-                            price: "",
-                            category: "",
-                            description: "",
                             category: "",
                             sub_category: "",
-                            quantity: "",
-                            size: "",
+                            description: "",
+                            file: "",
+                            price: "",
                         }}
                         validate={(values) => {
                             let errors = {};
@@ -414,7 +417,7 @@ const CreateProducts = () => {
                                     gap={["0px", "20px"]}
                                 >
                                     {/* Size Select */}
-                                    <Box mt="16px" w="100%">
+                                    {/* <Box mt="16px" w="100%">
                                         <FormLabel
                                             htmlFor="size"
                                             fontSize="14px"
@@ -454,7 +457,7 @@ const CreateProducts = () => {
                                             component="div"
                                             className="error-message"
                                         />
-                                    </Box>
+                                    </Box> */}
 
                                     {/* Price */}
 
