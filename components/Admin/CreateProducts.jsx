@@ -1,6 +1,6 @@
 import { PrimaryButton } from "@/components/Common";
 import CustomInput from "@/components/Common/CustomInput";
-import { baseUrl, httpGet } from "@/http-request/http-request";
+import { baseUrl, httpGet, httpPost } from "@/http-request/http-request";
 import {
     Box,
     Flex,
@@ -100,29 +100,36 @@ const CreateProducts = () => {
             description: first_description,
             description_2: second_description,
             price: sales_price,
-            file: product_img,
         } = values;
-        // console.table({ prodName, category, sub_category, description, file, price, });
-
-        // const accessToken = Cookies.get("access_token");
-
+    
         const payload = new FormData();
         payload.append("name", name);
         payload.append("sub_category", sub_category);
-        payload.append("first_description", first_description);
-        payload.append("second_description", second_description);
-        payload.append("product_img", product_img);
-        payload.append("sales_price", sales_price);
-        setLoading(false);
-        console.table({
-            name,
-            sub_category,
-            first_description,
-            second_description,
-            product_img,
-            sales_price,
+        payload.append("description", first_description);
+        payload.append("description_2", second_description);
+        payload.append("price", sales_price);
+    
+        if (file) {
+            payload.append("product_img", file);
+        }
+    
+    
+        await httpPost(`${baseUrl}/store/products/`, payload, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error);
         });
+    
+        setLoading(false);
+        console.log(payload);
     };
+    
     return (
         <Box>
             <Box>
