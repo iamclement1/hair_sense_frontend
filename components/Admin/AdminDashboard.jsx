@@ -137,7 +137,7 @@ export default function AdminDashboard({ children }) {
                 ) : activePage === 2 ? (
                     <Categories />
                 ) : activePage === 3 ? (
-                    <CreateProducts />
+                    <CreateProducts setActivePage={setActivePage} />
                 ) : activePage === 4 ? (
                     <Products />
                 ) : activePage === 5 ? (

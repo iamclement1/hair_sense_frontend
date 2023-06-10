@@ -19,9 +19,10 @@ import {
 import { ErrorMessage, Field, Formik } from "formik";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 
-const CreateProducts = () => {
+const CreateProducts = ({ setActivePage }) => {
     const [subCat, setSubCat] = useState([]);
 
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -121,10 +122,14 @@ const CreateProducts = () => {
             },
         })
             .then((response) => {
-                console.log(response);
+                if (response.status === 201) {
+                    toast.success("Create product successfully");
+                    setActivePage(4);
+                }
             })
             .catch((error) => {
                 console.log(error);
+                toast.error("Unable to create product");
             });
 
         setLoading(false);
