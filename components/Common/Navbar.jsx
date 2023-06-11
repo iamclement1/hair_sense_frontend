@@ -40,6 +40,7 @@ const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
     const { user, setUser, products, handleLogOut } = useContext(StateContext);
+    console.log("user", user);
     // console.log("Producs is here in nav", products);
     // have userData here
     const [userData, setUserData] = useState(null);
@@ -141,7 +142,7 @@ const Navbar = () => {
                         <Box
                             w={["100%", null, "100%"]}
                             order={[3, 3, 2]}
-                        // flexShrink={1}
+                            // flexShrink={1}
                         >
                             <SearchInput />
                         </Box>
@@ -161,7 +162,7 @@ const Navbar = () => {
                                                     <Box key={i}>
                                                         {" "}
                                                         {text ===
-                                                            "My Account" ? (
+                                                        "My Account" ? (
                                                             <>
                                                                 {" "}
                                                                 <Menu>
@@ -183,11 +184,8 @@ const Navbar = () => {
                                                                             color="accent_2"
                                                                         />
                                                                         <Text color="accent_2">
-                                                                            {userData &&
-                                                                                userData.user &&
-                                                                                userData
-                                                                                    .user
-                                                                                    .first_name}
+                                                                            {user &&
+                                                                                user.first_name}
                                                                         </Text>
                                                                     </Box>
                                                                     <MenuList py="0px">
@@ -226,7 +224,7 @@ const Navbar = () => {
                                                                 {text ===
                                                                     "My Cart" &&
                                                                     cartItems.length >
-                                                                    0 && (
+                                                                        0 && (
                                                                         <Flex
                                                                             bgColor="primary_1"
                                                                             color="white"
@@ -273,7 +271,7 @@ const Navbar = () => {
                                                         </Text>
                                                         {text === "My Cart" &&
                                                             state.length >
-                                                            0 && (
+                                                                0 && (
                                                                 <Flex
                                                                     bgColor="primary_1"
                                                                     color="white"
