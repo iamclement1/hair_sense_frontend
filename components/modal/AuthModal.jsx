@@ -1,4 +1,4 @@
-import React, { use, useContext, useState } from "react";
+import React, { use, useContext, useEffect, useState } from "react";
 import {
     Box,
     Divider,
@@ -73,8 +73,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                             {currentPage === "login"
                                 ? "Welcome Back"
                                 : currentPage === "register"
-                                ? "Create An Account"
-                                : "Recover your Password"}
+                                    ? "Create An Account"
+                                    : "Recover your Password"}
                         </Text>
                         <Divider />
                     </Flex>
@@ -115,15 +115,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     currentPage === "login"
                                         ? handleCurrentForm("register")
                                         : currentPage === "register"
-                                        ? handleCurrentForm("login")
-                                        : handleCurrentForm("login");
+                                            ? handleCurrentForm("login")
+                                            : handleCurrentForm("login");
                                 }}
                             >
                                 {currentPage === "login"
                                     ? "Don’t have an account? "
                                     : currentPage === "register"
-                                    ? "Already have an account? "
-                                    : "Already have an account? "}
+                                        ? "Already have an account? "
+                                        : "Already have an account? "}
                                 <Box
                                     as="button"
                                     color="accent_2"
@@ -132,8 +132,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
-                                        ? "Sign in"
-                                        : "Sign in"}
+                                            ? "Sign in"
+                                            : "Sign in"}
                                 </Box>
                             </Box>
                         </Box>
@@ -220,9 +220,9 @@ const Login = ({ handleCurrentForm, onClose }) => {
             })
             .catch((error) => {
                 setIsLoading(false);
-                if (error.response){
+                if (error.response) {
                     const { status } = error.response;
-                    switch(status){
+                    switch (status) {
                         // case 401:
                         //     toast.error(ERROR_RESPONSES.UNAUTHORIZED);
                         //     break;
@@ -245,7 +245,10 @@ const Login = ({ handleCurrentForm, onClose }) => {
                 console.log(error);
                 // toast.error(error.message);
             });
+
+
     };
+
 
     return (
         <Formik
@@ -676,7 +679,7 @@ const Register = ({ handleCurrentForm }) => {
                         mb="15px"
                         mx="auto"
                         isLoading={isLoading}
-                        // handleButton={registerUser}
+                    // handleButton={registerUser}
                     />
                 </form>
             )}

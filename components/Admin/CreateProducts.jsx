@@ -96,10 +96,10 @@ const CreateProducts = ({ setActivePage }) => {
     const handleCreateProduct = async (values) => {
         setLoading(true);
         const {
-            name,
+            name, 
             sub_category,
-            description: first_description,
-            description_2: second_description,
+            desc: desc,
+            // description_2: second_description,
             price: actual_price,
             sales_price: sales_price,
         } = values;
@@ -107,8 +107,8 @@ const CreateProducts = ({ setActivePage }) => {
         const payload = new FormData();
         payload.append("name", name);
         payload.append("sub_category", sub_category);
-        payload.append("first_description", first_description);
-        payload.append("second_description", second_description);
+        payload.append("desc", desc);
+        // payload.append("second_description", second_description);
         payload.append("sales_price", sales_price);
         payload.append("actual_price", actual_price);
 
@@ -150,8 +150,8 @@ const CreateProducts = ({ setActivePage }) => {
                             name: "",
                             category: "",
                             sub_category: "",
-                            description: "",
-                            description_2: "",
+                            desc: "",
+                            // description_2: "",
                             price: "",
                             sales_price: "",
                         }}
@@ -166,13 +166,13 @@ const CreateProducts = ({ setActivePage }) => {
                             if (!values.sales_price) {
                                 errors.sales_price = "Sales_price is required";
                             }
-                            if (!values.description) {
-                                errors.description = "Description is required";
+                            if (!values.desc) {
+                                errors.des = "Description is required";
                             }
-                            if (!values.description_2) {
-                                errors.description_2 =
-                                    "Second Description is required";
-                            }
+                            // if (!values.description_2) {
+                            //     errors.description_2 =
+                            //         "Second Description is required";
+                            // }
                             if (!values.category) {
                                 errors.category = "Category is required";
                             }
@@ -331,7 +331,7 @@ const CreateProducts = ({ setActivePage }) => {
                                 {/* Text Arear */}
                                 <Box mt="16px">
                                     <FormLabel
-                                        htmlFor="description"
+                                        htmlFor="desc"
                                         fontSize="14px"
                                         color="accent_2"
                                         fontWeight={600}
@@ -340,12 +340,12 @@ const CreateProducts = ({ setActivePage }) => {
                                     </FormLabel>
                                     <Field
                                         as={Textarea}
-                                        id="description"
-                                        name="description"
+                                        id="desc"
+                                        name="desc"
                                         bgColor="white"
                                         className={
-                                            errors.description &&
-                                            touched.description
+                                            errors.desc &&
+                                            touched.desc
                                                 ? "error"
                                                 : ""
                                         }
@@ -362,7 +362,7 @@ const CreateProducts = ({ setActivePage }) => {
                                         rounded="5px"
                                     />
                                     <ErrorMessage
-                                        name="description"
+                                        name="desc"
                                         component="div"
                                         className="error-message"
                                     />
@@ -370,7 +370,7 @@ const CreateProducts = ({ setActivePage }) => {
 
                                 {/* Description 2 */}
 
-                                <Box mt="16px">
+                                {/* <Box mt="16px">
                                     <FormLabel
                                         htmlFor="description_2"
                                         fontSize="14px"
@@ -407,7 +407,7 @@ const CreateProducts = ({ setActivePage }) => {
                                         component="div"
                                         className="error-message"
                                     />
-                                </Box>
+                                </Box> */}
 
                                 {/* Cover Image Section */}
 
