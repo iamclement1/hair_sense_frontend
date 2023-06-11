@@ -91,13 +91,14 @@ export default function AdminDashboard({ children }) {
     const [activePage, setActivePage] = useState(1);
 
     const { user } = useContext(StateContext);
-    // console.log(user);
+    console.log(user);
 
-    // const router = useRouter();
+    const router = useRouter();
 
     // useEffect(() => {
+
     //     //redirect user to login if not logged in
-    //     if (user.role !== "admin") router.push('/')
+    //     if (user.role === "admin") router.push('/admin');
     // }, [user, router]);
     return (
         <Box minH="100vh" bgColor="shades_8">

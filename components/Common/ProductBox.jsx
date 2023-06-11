@@ -35,8 +35,8 @@ const ProductBox = ({ productData }, isLiked) => {
         name,
         actual_price,
         sales_price,
-        first_description,
-        second_description,
+        // first_description,
+        desc,
         product_img,
     } = productData;
 
@@ -196,7 +196,7 @@ const ProductBox = ({ productData }, isLiked) => {
                         {name}
                     </Text>
                     <Text fontSize={["13px", null, "14px", "16px"]} noOfLines={2}>
-                        {second_description}
+                        {desc}
                     </Text>
                     <Flex mt="13px" justify="center">
                         {/* <Icon as={AiFillStar} /> */}

@@ -40,6 +40,7 @@ const Products = () => {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
+            console.log(response);
             if (response && response.data && response.status === 200) {
                 const data = response.data.results;
                 setProducts(data);
@@ -129,8 +130,9 @@ const Products = () => {
             if (response){
                 toast.success("Product deleted successfully");
                 window.location.reload();
+                setActivePage(5)
             }
-            // console.log(response);
+            console.log(response);
         })
         .catch((error) => console.log(error))
         // console.log("Delete product with ID:", productId);
