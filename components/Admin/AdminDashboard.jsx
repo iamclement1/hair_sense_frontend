@@ -95,11 +95,12 @@ export default function AdminDashboard({ children }) {
 
     const router = useRouter();
 
-    // useEffect(() => {
-
-    //     //redirect user to login if not logged in
-    //     if (user.role === "admin") router.push('/admin');
-    // }, [user, router]);
+    useEffect(() => {
+        // Redirect user to login if not logged in or not an admin
+        if (!user || user.role !== 'admin') {
+            router.push('/'); 
+        }
+    }, []);
     return (
         <Box minH="100vh" bgColor="shades_8">
             <SidebarContent
@@ -115,7 +116,7 @@ export default function AdminDashboard({ children }) {
                 onClose={onClose}
                 returnFocusOnClose={false}
                 onOverlayClick={onClose}
-                // size="md"
+            // size="md"
             >
                 <DrawerOverlay />
                 <DrawerContent>
