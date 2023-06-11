@@ -26,6 +26,7 @@ import {
     ModalContent,
     ModalOverlay,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { ErrorMessage, Field, Formik } from "formik";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
@@ -33,7 +34,7 @@ import { toast } from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
     const [subCat, setSubCat] = useState([]);
-    console.log(data);
+    console.log(data && data.id);
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCat, setSelectedSubCat] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -104,7 +105,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
 
     //TODO: HANDLE PRODUCT CREATION
     // submit form
-    const handleCreateProduct = async (values) => {
+    const handleEditProduct = async (values) => {
         setLoading(true);
         const {
             name,
@@ -125,21 +126,32 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
         if (file) {
             payload.append("product_img", file);
         } else {
-            payload.append("product_img", data && data.product_img);
+            if (data && data.product_img) {
+                try {
+                    const response = await axios.get(data.product_img, {
+                        responseType: 'blob',
+                    });
+                    const imageBlob = response.data;
+                    const convertedFile = new File([imageBlob], 'product_img');
+                    payload.append("product_img", convertedFile);
+                } catch (error) {
+                    console.log(error);
+                }
+            }
         }
 
-        await httpPut(`${baseUrl}/store/products/`, payload, {
+        await axios.put(`${baseUrl}/store/products/${data.id}/`, payload, {
             headers: {
                 Authorization: `Bearer ${accessToken}`,
             },
         })
             .then((response) => {
                 console.log(response);
-                // if (response.status === 201) {
-                //     toast.success("Update product successfully");
-                //     // setActivePage(4);
-                //     onClose()
-                // }
+                if (response.status === 202) {
+                    toast.success("Product updated successfully");
+                    // setActivePage(4);
+                    onClose()
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -147,7 +159,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
             });
 
         setLoading(false);
-        console.log(payload);
+        // console.log(payload);
     };
 
     return (
@@ -213,7 +225,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                             }}
                             onSubmit={(values) => {
                                 values.file = file;
-                                handleCreateProduct(values);
+                                handleEditProduct(values);
                                 // console.log(values);
                             }}
                         >
@@ -262,7 +274,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                 placeholder="Select Category"
                                                 className={
                                                     errors.category &&
-                                                    touched.category
+                                                        touched.category
                                                         ? "error"
                                                         : ""
                                                 }
@@ -326,7 +338,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                 placeholder="Select Sub-Category"
                                                 className={
                                                     errors.sub_category &&
-                                                    touched.sub_category
+                                                        touched.sub_category
                                                         ? "error"
                                                         : ""
                                                 }
@@ -412,7 +424,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                     {/* Cover Image Section */}
 
                                     {(data && data.product_img !== null) ||
-                                    file ? (
+                                        file ? (
                                         <Box
                                             w="full"
                                             h="full"
@@ -427,8 +439,8 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                     data && data.product_img
                                                         ? data.product_img
                                                         : URL.createObjectURL(
-                                                              file
-                                                          )
+                                                            file
+                                                        )
                                                 }
                                                 alt="Uploaded"
                                                 maxH="full"
