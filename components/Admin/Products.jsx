@@ -23,6 +23,12 @@ import { FiEdit } from "react-icons/fi";
 import EditProduct from "./EditProduct";
 
 const Products = () => {
+    const {
+        isOpen: isOpenEdit,
+        onOpen: onOpenEdit,
+        onClose: onCloseEdit,
+    } = useDisclosure();
+
     const [products, setProducts] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [deleting, setDeleting] = useState(false);
@@ -149,16 +155,9 @@ const Products = () => {
             .catch((error) => {
                 console.log(error);
             });
-
-        // console.log("Delete product with ID:", productId);
     };
 
     // Import edit Modal disclosure
-    const {
-        isOpen: isOpenEdit,
-        onOpen: onOpenEdit,
-        onClose: onCloseEdit,
-    } = useDisclosure();
 
     // Handler for the edit action
     const handleEdit = (product) => {
@@ -169,7 +168,7 @@ const Products = () => {
     };
 
     return (
-        <React.Fragment>
+        <>
             {products && products.length > 0 ? (
                 <Table
                     {...getTableProps()}
@@ -213,7 +212,7 @@ const Products = () => {
                             prepareRow(row);
                             const { id } = row.original; // Get the ID of the product
                             const productData = row.original;
-                            console.log(productData);
+
                             return (
                                 <Tr {...row.getRowProps()} key={row.id}>
                                     {row.cells.map((cell) => (
@@ -276,7 +275,7 @@ const Products = () => {
                 onClose={onCloseEdit}
                 data={editData}
             />
-        </React.Fragment>
+        </>
     );
 };
 

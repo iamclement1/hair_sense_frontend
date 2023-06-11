@@ -31,9 +31,9 @@ import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
-const EditProduct = ({ data, onOpen, onClose, isOpen }) => {
+const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
     const [subCat, setSubCat] = useState([]);
-
+    console.log(data);
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCat, setSelectedSubCat] = useState([]);
     const [loading, setLoading] = useState(false);
