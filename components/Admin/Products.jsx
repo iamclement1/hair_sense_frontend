@@ -1,17 +1,32 @@
 import { baseUrl, httpDelete, httpGet } from "@/http-request/http-request";
-import { Flex, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import {
+    Flex,
+    Icon,
+    Table,
+    Tbody,
+    Td,
+    Th,
+    Thead,
+    Tr,
+    useDisclosure,
+    Spinner,
+} from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import React, { useEffect, useMemo, useState } from "react";
 import { AiFillEdit } from "react-icons/ai";
-import { MdDelete } from "react-icons/md";
+import { MdDelete, MdOutlineDelete } from "react-icons/md";
 import { useTable } from "react-table";
 import TablePagination from "../Common/TablePagination";
-import Spinner from "../Common/Spinner";
+// import Spinner from "../Common/Spinner";
 import { toast } from "react-hot-toast";
+import { FiEdit } from "react-icons/fi";
+import EditProduct from "./EditProduct";
 
 const Products = () => {
     const [products, setProducts] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
+    const [deleting, setDeleting] = useState(false);
+    const [editData, setEditData] = useState(null);
     const accessToken = Cookies.get("access_token");
 
     //pagination session starts here
@@ -33,24 +48,26 @@ const Products = () => {
 
     //pagination session ends here
 
-    useEffect(() => {
-        async function fetchProduct() {
-            const response = await httpGet(`${baseUrl}/store/products`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            console.log(response);
-            if (response && response.data && response.status === 200) {
-                const data = response.data.results;
-                setProducts(data);
-                console.log("Response is here", data);
-            }
-            // console.log(
-            //     "product data fetched is here mf",
-            //     response.data.results
-            // );
+    // Fetch product to be global
+    async function fetchProduct() {
+        const response = await httpGet(`${baseUrl}/store/products`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+        console.log(response);
+        if (response && response.data && response.status === 200) {
+            const data = response.data.results;
+            setProducts(data);
+            console.log("Response is here", data);
         }
+        // console.log(
+        //     "product data fetched is here mf",
+        //     response.data.results
+        // );
+    }
+
+    useEffect(() => {
         if (!products) {
             fetchProduct();
         }
@@ -112,30 +129,43 @@ const Products = () => {
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
         tableInstance;
 
-    // Handler for the edit action
-    const handleEdit = (productId) => {
-        // Implement the logic for handling the edit action
-        console.log("Edit product with ID:", productId);
-    };
-
     // Handler for the delete action
     const handleDelete = async (productId) => {
         // Implement the logic for handling the delete action
         await httpDelete(`${baseUrl}/store/products/${productId}`, {
             headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
+                Authorization: `Bearer ${accessToken}`,
+            },
         })
-        .then((response) => {
-            if (response){
-                toast.success("Product deleted successfully");
-                window.location.reload();
-                setActivePage(5)
-            }
-            console.log(response);
-        })
-        .catch((error) => console.log(error))
+            .then((response) => {
+                if (response) {
+                    toast.success("Product deleted successfully");
+                    window.location.reload();
+                    setActivePage(5);
+                    fetchProduct();
+                }
+                console.log("response", response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
         // console.log("Delete product with ID:", productId);
+    };
+
+    // Import edit Modal disclosure
+    const {
+        isOpen: isOpenEdit,
+        onOpen: onOpenEdit,
+        onClose: onCloseEdit,
+    } = useDisclosure();
+
+    // Handler for the edit action
+    const handleEdit = (product) => {
+        // Implement the logic for handling the edit action
+        // console.log("Edit product with ID:", productId);
+        setEditData(product);
+        onOpenEdit();
     };
 
     return (
@@ -145,6 +175,7 @@ const Products = () => {
                     {...getTableProps()}
                     className="noBorder"
                     variant="simple"
+                    overflowX={"auto"}
                 >
                     <Thead
                         bgColor="#D0DAF2"
@@ -181,7 +212,8 @@ const Products = () => {
                         {rows.map((row) => {
                             prepareRow(row);
                             const { id } = row.original; // Get the ID of the product
-                            console.log(row);
+                            const productData = row.original;
+                            console.log(productData);
                             return (
                                 <Tr {...row.getRowProps()} key={row.id}>
                                     {row.cells.map((cell) => (
@@ -193,20 +225,29 @@ const Products = () => {
                                         </Td>
                                     ))}
                                     <Td>
-                                        <Flex>
-                                            <AiFillEdit
-                                                color="blue"
-                                                // size="xs"
-                                                mr={2}
-                                                cursor={"pointer"}
-                                                onClick={() => handleEdit(id)}
+                                        <Flex gap="10px">
+                                            {/* Edit Icon  */}
+                                            <Icon
+                                                as={FiEdit}
+                                                cursor="pointer"
+                                                boxSize="20px"
+                                                onClick={() => {
+                                                    handleEdit(productData);
+                                                }}
                                             />
-                                            <MdDelete
-                                                color="red"
-                                                // size="xs"
-                                                cursor={"pointer"}
-                                                onClick={() => handleDelete(id)}
-                                            />
+                                            {/* Delete content Icon/trigger  */}
+                                            {deleting ? (
+                                                <Spinner size="md" />
+                                            ) : (
+                                                <Icon
+                                                    as={MdOutlineDelete}
+                                                    cursor="pointer"
+                                                    boxSize="20px"
+                                                    onClick={() =>
+                                                        handleDelete(id)
+                                                    }
+                                                />
+                                            )}
                                         </Flex>
                                     </Td>
                                 </Tr>
@@ -226,6 +267,15 @@ const Products = () => {
                     onPageChange={handlePageChange}
                 />
             )}
+
+            {/* **************** */}
+
+            <EditProduct
+                isOpen={isOpenEdit}
+                onOpen={onOpenEdit}
+                onClose={onCloseEdit}
+                data={editData}
+            />
         </React.Fragment>
     );
 };

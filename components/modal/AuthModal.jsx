@@ -73,8 +73,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                             {currentPage === "login"
                                 ? "Welcome Back"
                                 : currentPage === "register"
-                                    ? "Create An Account"
-                                    : "Recover your Password"}
+                                ? "Create An Account"
+                                : "Recover your Password"}
                         </Text>
                         <Divider />
                     </Flex>
@@ -115,15 +115,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     currentPage === "login"
                                         ? handleCurrentForm("register")
                                         : currentPage === "register"
-                                            ? handleCurrentForm("login")
-                                            : handleCurrentForm("login");
+                                        ? handleCurrentForm("login")
+                                        : handleCurrentForm("login");
                                 }}
                             >
                                 {currentPage === "login"
                                     ? "Don’t have an account? "
                                     : currentPage === "register"
-                                        ? "Already have an account? "
-                                        : "Already have an account? "}
+                                    ? "Already have an account? "
+                                    : "Already have an account? "}
                                 <Box
                                     as="button"
                                     color="accent_2"
@@ -132,8 +132,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
-                                            ? "Sign in"
-                                            : "Sign in"}
+                                        ? "Sign in"
+                                        : "Sign in"}
                                 </Box>
                             </Box>
                         </Box>
@@ -245,10 +245,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                 console.log(error);
                 // toast.error(error.message);
             });
-
-
     };
-
 
     return (
         <Formik
@@ -379,13 +376,15 @@ const Register = ({ handleCurrentForm }) => {
         await axios
             .post(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
-                // console.log(response);
+                console.log(response);
                 // if (response && response.message === "proceed to login") {
                 //     handleCurrentForm("login");
                 //     toast("Account Created Successfully, Process To Login");
                 // }
                 if (response.status === 201) {
-                    toast.success("Account Created Successfully, Process To Login");
+                    toast.success(
+                        "Account Created Successfully, Process To Login"
+                    );
                     handleCurrentForm("login");
                 }
                 setIsLoading(false);
@@ -679,7 +678,7 @@ const Register = ({ handleCurrentForm }) => {
                         mb="15px"
                         mx="auto"
                         isLoading={isLoading}
-                    // handleButton={registerUser}
+                        // handleButton={registerUser}
                     />
                 </form>
             )}

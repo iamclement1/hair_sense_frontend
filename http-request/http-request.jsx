@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { ERROR_RESPONSES } from "./response";
 
-
 export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 // console.log("Base Ur === ", baseUrl);
 
@@ -11,7 +10,7 @@ const token = Cookies.get("access_token");
 const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
-}
+};
 
 //a http request for every request like post, get, put, delete
 export const httpGet = async (url) => {
@@ -20,14 +19,13 @@ export const httpGet = async (url) => {
         return response.data;
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            console.log('Resource not found');
+            console.log("Resource not found");
         } else {
-            console.log('Error occurred:', error.message);
+            console.log("Error occurred:", error.message);
         }
         return null;
     }
 };
-
 
 // export const httpGet = async (url) => {
 //     const access_token = Cookies.get("access_token");
@@ -92,8 +90,8 @@ export const httpPost = async (url, postBody) => {
     try {
         const { data } = await axios.post(url, postBody, {
             headers: {
-                Authorization: `Bearer ${access_token}`
-            }
+                Authorization: `Bearer ${access_token}`,
+            },
         });
         return data;
     } catch (error) {
