@@ -1,4 +1,4 @@
-import { baseUrl, httpGet } from "@/http-request/http-request";
+import { baseUrl, httpDelete, httpGet } from "@/http-request/http-request";
 import { Flex, Table, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import React, { useEffect, useMemo, useState } from "react";
@@ -7,6 +7,7 @@ import { MdDelete } from "react-icons/md";
 import { useTable } from "react-table";
 import TablePagination from "../Common/TablePagination";
 import Spinner from "../Common/Spinner";
+import { toast } from "react-hot-toast";
 
 const Products = () => {
     const [products, setProducts] = useState(null);
@@ -117,9 +118,22 @@ const Products = () => {
     };
 
     // Handler for the delete action
-    const handleDelete = (productId) => {
+    const handleDelete = async (productId) => {
         // Implement the logic for handling the delete action
-        console.log("Delete product with ID:", productId);
+        await httpDelete(`${baseUrl}/store/products/${productId}`, {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })
+        .then((response) => {
+            if (response){
+                toast.success("Product deleted successfully");
+                window.location.reload();
+            }
+            // console.log(response);
+        })
+        .catch((error) => console.log(error))
+        // console.log("Delete product with ID:", productId);
     };
 
     return (

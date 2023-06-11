@@ -78,9 +78,9 @@ export const httpGet = async (url) => {
 //     }
 // };
 
-export const httpDelete = async (url) => {
+export const httpDelete = async (url, headers) => {
     try {
-        const { data } = await axios.delete(`${url}`);
+        const { data } = await axios.delete(`${url}`, headers);
         return data;
     } catch (error) {
         return error;
