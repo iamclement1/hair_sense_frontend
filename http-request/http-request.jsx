@@ -124,11 +124,15 @@ export const httpPost = async (url, postBody) => {
         return error;
     }
 };
-
-export const httpPut = async (url) => {
+export const httpPut = async (url, payload, headers) => {
     try {
-        const { data } = await axios.put(url);
-        return data;
+        const response = await axios.put(url, payload, {
+            headers: {
+                ...headers,
+                Authorization: `Bearer ${headers.Authorization}`,
+            },
+        });
+        return response.data;
     } catch (error) {
         return error;
     }
