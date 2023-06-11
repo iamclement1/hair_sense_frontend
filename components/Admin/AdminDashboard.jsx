@@ -91,7 +91,7 @@ export default function AdminDashboard({ children }) {
     const [activePage, setActivePage] = useState(1);
 
     const { user } = useContext(StateContext);
-    console.log(user);
+    console.log(user && user.role);
 
     const router = useRouter();
 
@@ -100,7 +100,7 @@ export default function AdminDashboard({ children }) {
         if (!user || user.role !== 'admin') {
             router.push('/'); 
         }
-    }, []);
+    }, [user, router]);
     return (
         <Box minH="100vh" bgColor="shades_8">
             <SidebarContent
