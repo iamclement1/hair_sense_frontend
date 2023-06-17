@@ -15,10 +15,26 @@ import {
     Select,
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Formik } from "formik";
-import React from "react";
+import React, { useContext, useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import { Country, State, City } from "country-state-city";
+import { StateContext } from "@/context/StateProvider";
+import { useRouter } from "next/router";
 
 const AddressDetails = ({ handleCheckOutStep }) => {
+    const router = useRouter();
+    const { addressDetails, setAddressDetails, cart } =
+        useContext(StateContext);
+
+    console.log("cart", cart);
+    const [selectedState, setSelectedState] = useState("");
+
+    const cities = City.getCitiesOfState("NG", "KW");
+
+    // if (!cart) {
+    //     router.push("/");
+    // }
+
     return (
         <Box>
             <Box
@@ -41,13 +57,13 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                 <Box>
                     <Formik
                         initialValues={{
-                            first_name: "",
-                            last_name: "",
-                            phone_number: "",
-                            delivery_address_1: "",
+                            first_name: addressDetails?.first_name || "",
+                            last_name: addressDetails?.last_name || "",
+                            phone_number: addressDetails?.phone_number || "",
+                            delivery_address_1:
+                                addressDetails?.delivery_address_1 || "",
                             delivery_address_2: "",
-                            state: "",
-                            city: "",
+                            city: addressDetails?.city || "",
                         }}
                         validate={(values) => {
                             let errors = {};
@@ -61,25 +77,18 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                 errors.delivery_address_1 =
                                     "Delivery Address is required";
                             }
-                            if (!values.state) {
-                                errors.state = "State is required";
-                            }
+
                             if (!values.city) {
                                 errors.city = "City is required";
                             }
                             return errors;
                         }}
                         onSubmit={(values) => {
+                            setAddressDetails(values);
                             handleCheckOutStep(2);
                         }}
                     >
-                        {({
-                            handleSubmit,
-                            errors,
-                            touched,
-                            isValid,
-                            dirty,
-                        }) => (
+                        {({ handleSubmit, errors, touched, handleChange }) => (
                             <form onSubmit={handleSubmit}>
                                 {/* store_name  */}
                                 <Flex
@@ -158,7 +167,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
 
                                 {/* State */}
 
-                                <Box mt="16px">
+                                {/* <Box mt="16px">
                                     <FormLabel
                                         htmlFor="state"
                                         fontSize="14px"
@@ -188,16 +197,30 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                         border="1px"
                                         borderColor="dark_4"
                                         rounded="5px"
+                                        onChange={(event) =>
+                                            handleStateSelect(
+                                                event,
+                                                handleChange
+                                            )
+                                        }
                                     >
-                                        <option value="admin">State 1</option>
-                                        <option value="user">State 2</option>
+                                        {states.map((item, i) => {
+                                            return (
+                                                <option
+                                                    value={item?.name}
+                                                    key={i}
+                                                >
+                                                    {item?.name}
+                                                </option>
+                                            );
+                                        })}
                                     </Field>
                                     <ErrorMessage
                                         name="state"
                                         component="div"
                                         className="error-message"
                                     />
-                                </Box>
+                                </Box> */}
 
                                 {/* City */}
 
@@ -232,8 +255,16 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                         borderColor="dark_4"
                                         rounded="5px"
                                     >
-                                        <option value="admin">City 1</option>
-                                        <option value="user">City 2</option>
+                                        {cities.map((item, i) => {
+                                            return (
+                                                <option
+                                                    value={item?.name}
+                                                    key={i}
+                                                >
+                                                    {item?.name}
+                                                </option>
+                                            );
+                                        })}
                                     </Field>
                                     <ErrorMessage
                                         name="city"

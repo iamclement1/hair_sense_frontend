@@ -3,6 +3,7 @@ import AddressDetails from "@/components/Common/AddressDetails";
 import CustomInput from "@/components/Common/CustomInput";
 
 import PaymentMethod from "@/components/Common/PaymentMethod";
+import { StateContext } from "@/context/StateProvider";
 import {
     Box,
     Flex,
@@ -19,10 +20,10 @@ import {
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Formik } from "formik";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaTimes } from "react-icons/fa";
 
-const AddressDetailsPreview = ({ handleCheckOutStep }) => {
+const AddressDetailsPreview = ({ handleCheckOutStep, addressDetails }) => {
     return (
         <Box
             mt="52px"
@@ -59,9 +60,19 @@ const AddressDetailsPreview = ({ handleCheckOutStep }) => {
                 fontWeight="600"
                 color="accent_9"
             >
-                <Text>John Doe</Text>
-                <Text mt="10px">No 88 Brown street, Ilorin</Text>
-                <Text mt="10px">07030075660</Text>
+                <Text>
+                    {`${addressDetails && addressDetails.first_name} ${
+                        addressDetails && addressDetails.last_name
+                    }`}{" "}
+                </Text>
+                <Text mt="10px">
+                    {" "}
+                    {addressDetails && addressDetails.delivery_address_1}{" "}
+                </Text>
+                <Text mt="10px">
+                    {" "}
+                    {addressDetails && addressDetails.phone_number}{" "}
+                </Text>
             </Box>
         </Box>
     );

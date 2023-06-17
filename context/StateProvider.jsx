@@ -19,6 +19,14 @@ const StateProvider = ({ children }, props) => {
     const [prodID, setProdID] = useState(null);
     const [user, setUser] = useState(null);
     const [cart, setCart] = useState(null);
+    // Checkout states
+    const [addressDetails, setAddressDetails] = useState(null);
+    const [deliveryMethod, setDeliveryMethod] = useState("pick_up");
+    // Checkout values and fucntions
+
+    // Get length of cartItems
+
+    // Checkout States ends
 
     const router = useRouter();
 
@@ -53,6 +61,13 @@ const StateProvider = ({ children }, props) => {
         handleLogOut,
         cart,
         setCart,
+        addressDetails,
+        setAddressDetails,
+        deliveryMethod,
+        setDeliveryMethod,
+        // deliverFee,
+        // subTotal,
+        // totalBill,
     };
     //dispatch and state => dispatch pushes the actions
     const reducer = (state, action) => {
