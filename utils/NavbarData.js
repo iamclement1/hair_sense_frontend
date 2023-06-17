@@ -283,3 +283,14 @@ const category = [
         category_name: "Hair Styling",
     },
 ];
+
+const demo = {
+    first_name: "Lennox",
+    last_name: "Charles",
+    phone: "09124802297",
+    address: "209 road",
+    state: "Lagos",
+    city: "Festac",
+    method: "Pay on delivery",
+    amount: "45000",
+};

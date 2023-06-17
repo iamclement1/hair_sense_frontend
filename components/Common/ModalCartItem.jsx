@@ -169,7 +169,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                     //success callback
                     if (response?.status === 200) {
                         toast.success(
-                            " Successful... You will now been Redirected to the checkout page "
+                            "Successful... You will now been Redirected to the checkout page"
                         );
                         onClose();
                         setLoading(false);

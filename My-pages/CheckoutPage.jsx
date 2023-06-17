@@ -19,8 +19,9 @@ import {
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Formik } from "formik";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const CheckoutPage = () => {
     const [checkOutStep, setCheckOutStep] = useState(1);
@@ -28,6 +29,17 @@ const CheckoutPage = () => {
     const handleCheckOutStep = (value) => {
         setCheckOutStep(value);
     };
+
+    useEffect(() => {
+        // Get the existing cart data from localStorage
+        const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+
+        if (!existingCartData || existingCartData.lenght < 1) {
+            toast.error("Cart is empty, You can't be here!!!");
+            router.push("/");
+        }
+    }, []);
+
     return (
         <Flex
             minH="100vh"

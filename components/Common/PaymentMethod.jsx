@@ -1,15 +1,95 @@
 import { Box, Divider, Flex, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext, useState } from "react";
 import AddressDetailsPreview from "./AddressDetailsPreview";
 import DeliveryDetailsPreview from "./DeliveryDetailsPreview";
 import { PrimaryButton } from ".";
 import { useRouter } from "next/router";
+import { StateContext } from "@/context/StateProvider";
+import Cookies from "js-cookie";
+import { toast } from "react-hot-toast";
+import axios from "axios";
+import { baseUrl } from "@/http-request/http-request";
 
 const PaymentMethod = ({ handleCheckOutStep }) => {
+    const [loading, setLoading] = useState(false);
     const router = useRouter();
+
+    const { addressDetails, setDeliveryMethod, deliveryMethod } =
+        useContext(StateContext);
+
+    const cartItems = JSON.parse(localStorage.getItem("cart"));
+
+    if (!addressDetails) {
+        handleCheckOutStep(1);
+    }
+    // Get length of cartItems
+    const cartItemLength = cartItems && cartItems.length;
+
+    // delivery fee
+    let deliverFee = deliveryMethod === "pick_up" ? 0.0 : 1200;
+    //Get subtotal price
+    let subTotal = 0;
+    const semiSubTotal =
+        cartItems &&
+        cartItems.map((item, i) => {
+            return item.quantity * item.sales_price;
+        });
+    // Adding all the price together
+    for (let i = 0; i < semiSubTotal.length; i++) {
+        subTotal += semiSubTotal[i];
+    }
+
+    let totalBill = subTotal + deliverFee;
+
+    const formData = {
+        first_name: addressDetails && addressDetails.first_name,
+        last_name: addressDetails && addressDetails.last_name,
+        phone: addressDetails && addressDetails.phone_number,
+        address: addressDetails && addressDetails.delivery_address_1,
+        state: "Kwara",
+        city: addressDetails && addressDetails.city,
+        method: deliveryMethod && deliveryMethod,
+        amount: totalBill,
+    };
+
+    const access_token = Cookies.get("access_token");
+    //handle checkout payment button with paystack
+    const sendCheckoutDetails = async () => {
+        setLoading(true);
+        console.log(formData);
+
+        await axios
+            .post(`${baseUrl}store/orders/`, formData, {
+                headers: {
+                    Authorization: `Bearer ${access_token}`,
+                },
+            })
+            .then((response) => {
+                //success callback
+                console.log(response);
+                // if (response?.status === 200) {
+                //     toast.success(
+                //         "Successful... You will now been Redirected to the checkout page"
+                //     );
+                //     onClose();
+                //     setLoading(false);
+                //     router.push("/checkout");
+                // }
+            })
+            .catch((error) => {
+                console.log(error);
+                setLoading(false);
+
+                toast.error(error.message);
+            });
+    };
+
     return (
         <Box>
-            <AddressDetailsPreview handleCheckOutStep={handleCheckOutStep} />
+            <AddressDetailsPreview
+                handleCheckOutStep={handleCheckOutStep}
+                addressDetails={addressDetails}
+            />
 
             <Box>
                 <DeliveryDetailsPreview
@@ -43,7 +123,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                         <Flex align={"center"} justify={"space-between"}>
                             <Text fontSize={["16px", "15px"]}>Subtotal</Text>
                             <Text fontSize={["16px", "21px"]} fontWeight={600}>
-                                ₦ 4,000
+                                ₦ {subTotal}
                             </Text>
                         </Flex>
 
@@ -57,7 +137,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                                 Delivery fee
                             </Text>
                             <Text fontSize={["16px", "21px"]} fontWeight={600}>
-                                ₦ 4,000
+                                ₦ {deliverFee}
                             </Text>
                         </Flex>
                     </Box>
@@ -69,7 +149,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                         fontWeight={600}
                     >
                         <Text fontSize={["16px", "15px"]}>Total</Text>
-                        <Text fontSize={["16px", "21px"]}>₦ 4,000</Text>
+                        <Text fontSize={["16px", "21px"]}>₦ {totalBill}</Text>
                     </Flex>
 
                     {/* Button Section  */}
@@ -78,7 +158,8 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                         <PrimaryButton
                             text="Make Payment"
                             w="100%"
-                            handleButton={() => router.push("/order_details")}
+                            handleButton={sendCheckoutDetails}
+                            isLoading={loading}
                         />
                     </Box>
                 </Box>

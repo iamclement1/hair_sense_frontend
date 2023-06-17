@@ -129,10 +129,10 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
             if (data && data.product_img) {
                 try {
                     const response = await axios.get(data.product_img, {
-                        responseType: 'blob',
+                        responseType: "blob",
                     });
                     const imageBlob = response.data;
-                    const convertedFile = new File([imageBlob], 'product_img');
+                    const convertedFile = new File([imageBlob], "product_img");
                     payload.append("product_img", convertedFile);
                 } catch (error) {
                     console.log(error);
@@ -140,17 +140,18 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
             }
         }
 
-        await axios.put(`${baseUrl}/store/products/${data.id}/`, payload, {
-            headers: {
-                Authorization: `Bearer ${accessToken}`,
-            },
-        })
+        await axios
+            .put(`${baseUrl}/store/products/${data.id}/`, payload, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
             .then((response) => {
                 console.log(response);
                 if (response.status === 202) {
                     toast.success("Product updated successfully");
                     // setActivePage(4);
-                    onClose()
+                    onClose();
                 }
             })
             .catch((error) => {
@@ -274,7 +275,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                 placeholder="Select Category"
                                                 className={
                                                     errors.category &&
-                                                        touched.category
+                                                    touched.category
                                                         ? "error"
                                                         : ""
                                                 }
@@ -338,7 +339,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                 placeholder="Select Sub-Category"
                                                 className={
                                                     errors.sub_category &&
-                                                        touched.sub_category
+                                                    touched.sub_category
                                                         ? "error"
                                                         : ""
                                                 }
@@ -424,7 +425,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                     {/* Cover Image Section */}
 
                                     {(data && data.product_img !== null) ||
-                                        file ? (
+                                    file ? (
                                         <Box
                                             w="full"
                                             h="full"
@@ -439,8 +440,8 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                     data && data.product_img
                                                         ? data.product_img
                                                         : URL.createObjectURL(
-                                                            file
-                                                        )
+                                                              file
+                                                          )
                                                 }
                                                 alt="Uploaded"
                                                 maxH="full"

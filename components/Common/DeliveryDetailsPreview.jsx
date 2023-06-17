@@ -3,6 +3,7 @@ import AddressDetails from "@/components/Common/AddressDetails";
 import CustomInput from "@/components/Common/CustomInput";
 
 import PaymentMethod from "@/components/Common/PaymentMethod";
+import { StateContext } from "@/context/StateProvider";
 import {
     Box,
     Flex,
@@ -19,11 +20,12 @@ import {
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Formik } from "formik";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { FaTimes } from "react-icons/fa";
 
 const DeliveryDetailsPreview = ({ handleCheckOutStep }) => {
+    const { deliveryMethod } = useContext(StateContext);
     return (
         <Box
             mt="52px"
@@ -71,9 +73,19 @@ const DeliveryDetailsPreview = ({ handleCheckOutStep }) => {
                             />
                         </Box>
                         <Box maxW={["100%", "260px"]} fontSize={"14px"}>
-                            <Text fontWeight={600}>Door delivery</Text>
+                            <Text fontWeight={600}>
+                                {" "}
+                                {deliveryMethod === "pick_up"
+                                    ? "Pick Up"
+                                    : "Door delivery"}
+                            </Text>
 
-                            <Text mt="12px">Delivery is NGN 1,200</Text>
+                            <Text mt="12px">
+                                Delivery is NGN{" "}
+                                {deliveryMethod === "pick_up"
+                                    ? "0.00"
+                                    : "1,200"}
+                            </Text>
 
                             <Text>
                                 Items is ready and will be delivered in 24 - 48

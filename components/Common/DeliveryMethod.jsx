@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { PrimaryButton } from "@/components/Common";
 import {
     Box,
@@ -17,12 +17,43 @@ import {
     Radio,
 } from "@chakra-ui/react";
 import AddressDetailsPreview from "./AddressDetailsPreview";
+import { useRouter } from "next/router";
+import { StateContext } from "@/context/StateProvider";
 
 const DeliveryMethod = ({ handleCheckOutStep }) => {
-    const [value, setValue] = useState("door_delivery");
+    const { addressDetails, setDeliveryMethod, deliveryMethod } =
+        useContext(StateContext);
+
+    const cartItems = JSON.parse(localStorage.getItem("cart"));
+
+    if (!addressDetails) {
+        handleCheckOutStep(1);
+    }
+    // Get length of cartItems
+    const cartItemLength = cartItems && cartItems.length;
+
+    // delivery fee
+    let deliverFee = deliveryMethod === "pick_up" ? 0.0 : 1200;
+    //Get subtotal price
+    let subTotal = 0;
+    const semiSubTotal =
+        cartItems &&
+        cartItems.map((item, i) => {
+            return item.quantity * item.sales_price;
+        });
+    // Adding all the price together
+    for (let i = 0; i < semiSubTotal.length; i++) {
+        subTotal += semiSubTotal[i];
+    }
+
+    let totalBill = subTotal + deliverFee;
+
     return (
         <Box>
-            <AddressDetailsPreview handleCheckOutStep={handleCheckOutStep} />
+            <AddressDetailsPreview
+                handleCheckOutStep={handleCheckOutStep}
+                addressDetails={addressDetails}
+            />
             {/* Delivery Method start  */}
             <Box>
                 <Box
@@ -51,7 +82,10 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
                     {/* Selct delaivery Method section */}
 
                     <Box mt={["16px", "23px"]}>
-                        <RadioGroup onChange={setValue} value={value}>
+                        <RadioGroup
+                            onChange={setDeliveryMethod}
+                            value={deliveryMethod}
+                        >
                             <Flex
                                 align="center"
                                 flexDir={["column", "row"]}
@@ -134,10 +168,18 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
                         <Divider mt="8px" />
 
                         <Box fontSize={"14px"}>
-                            <Text mt="20px">Shipment 1 of 1</Text>
-                            <Text mt="12px">
-                                1 x Hyggee Vegan Sun Cream - 50ml
+                            <Text mt="20px">
+                                Shipment {cartItemLength} of {cartItemLength}
                             </Text>
+                            {/* Nmae of things to buy  */}
+                            {cartItems &&
+                                cartItems.map((item, i) => {
+                                    return (
+                                        <Text mt="12px" key={i}>
+                                            {item && item.name}
+                                        </Text>
+                                    );
+                                })}
                             <Text mt="12px">
                                 Delivery between 24 hours of purchase.
                             </Text>
@@ -150,7 +192,7 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
                         <Flex align={"center"} justify={"space-between"}>
                             <Text fontSize={["16px", "15px"]}>Subtotal</Text>
                             <Text fontSize={["16px", "21px"]} fontWeight={600}>
-                                ₦ 4,000
+                                ₦ {subTotal}
                             </Text>
                         </Flex>
 
@@ -164,7 +206,7 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
                                 Delivery fee
                             </Text>
                             <Text fontSize={["16px", "21px"]} fontWeight={600}>
-                                ₦ 0.00
+                                ₦ {deliverFee}
                             </Text>
                         </Flex>
                     </Box>
@@ -176,7 +218,7 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
                         fontWeight={600}
                     >
                         <Text fontSize={["16px", "15px"]}>Total</Text>
-                        <Text fontSize={["16px", "21px"]}>₦ 4,000</Text>
+                        <Text fontSize={["16px", "21px"]}>₦ {totalBill}</Text>
                     </Flex>
 
                     {/* Button Section  */}

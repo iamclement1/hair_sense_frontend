@@ -1,12 +1,14 @@
 import { Box } from "@chakra-ui/react";
 import Head from "next/head";
-import React from "react";
+import React, { useContext } from "react";
 import Navbar from "../Common/Navbar";
 import { Footer } from "../Common";
 import { useRouter } from "next/router";
+import { StateContext } from "@/context/StateProvider";
 
 const Layout = ({ title, children }) => {
     const router = useRouter();
+   
     // console.log(router);
     return (
         <>
