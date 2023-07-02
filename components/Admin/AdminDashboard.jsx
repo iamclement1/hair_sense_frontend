@@ -91,7 +91,7 @@ export default function AdminDashboard({ children }) {
     const [activePage, setActivePage] = useState(1);
 
     const { user } = useContext(StateContext);
-    console.log(user && user.role);
+    // console.log(user && user.role);
 
     const router = useRouter();
 
