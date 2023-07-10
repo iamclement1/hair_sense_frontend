@@ -5,7 +5,7 @@ import { ERROR_RESPONSES } from "./response";
 
 // export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 export const baseUrl =
-    process.env.NODE_ENV === "production"
+    process.env.NEXT_PUBLIC_ENVIRONMENT === "production"
         ? process.env.NEXT_PUBLIC_BASE_URL
         : process.env.NEXT_PUBLIC_BASE_URL;
 // console.log("Base Ur === ", baseUrl);
