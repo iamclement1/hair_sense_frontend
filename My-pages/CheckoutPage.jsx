@@ -32,7 +32,7 @@ const CheckoutPage = () => {
 
     useEffect(() => {
         // Get the existing cart data from localStorage
-        const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+        const existingCartData = JSON.parse(localStorage.getItem("cart"));
 
         if (!existingCartData || existingCartData.lenght < 1) {
             toast.error("Cart is empty, You can't be here!!!");

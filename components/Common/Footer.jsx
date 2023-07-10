@@ -205,7 +205,7 @@ const generalInformation = [
     },
     {
         text: "Shipping and payments",
-        url: "/",
+        url: "/shipping",
     },
     {
         text: "Delivery Information",
@@ -213,7 +213,7 @@ const generalInformation = [
     },
     {
         text: "Privacy",
-        url: "/",
+        url: "/privacy",
     },
 ];
 
@@ -224,7 +224,7 @@ const services = [
     },
     {
         text: "FAQ’S",
-        url: "/",
+        url: "/faq",
     },
     {
         text: "Returns",
@@ -232,7 +232,7 @@ const services = [
     },
     {
         text: "Beauty Guide",
-        url: "/",
+        url: "/beauty_guide",
     },
 ];
 
