@@ -40,7 +40,7 @@ const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
     const { user, setUser, products, handleLogOut } = useContext(StateContext);
-    console.log("user", user);
+    // console.log("user", user);
     // console.log("Producs is here in nav", products);
     // have userData here
     const [userData, setUserData] = useState(null);
