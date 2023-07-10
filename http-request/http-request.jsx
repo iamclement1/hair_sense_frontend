@@ -3,9 +3,13 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { ERROR_RESPONSES } from "./response";
 
-export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+// export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+export const baseUrl =
+    process.env.NODE_ENV === "production"
+        ? process.env.NEXT_PUBLIC_BASE_URL
+        : process.env.NEXT_PUBLIC_BASE_URL;
 // console.log("Base Ur === ", baseUrl);
-console.log(baseUrl);
+// console.log(baseUrl);
 
 const token = Cookies.get("access_token");
 const headers = {
