@@ -4,11 +4,11 @@ import { toast } from "react-toastify";
 import { ERROR_RESPONSES } from "./response";
 
 // export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
-export const baseUrl =
-    process.env.NEXT_PUBLIC_ENVIRONMENT === "production"
-        ? process.env.NEXT_PUBLIC_BASE_URL
-        : process.env.NEXT_PUBLIC_BASE_URL;
-// export const baseUrl = "https://backend.hairsenseretail.com"
+// export const baseUrl =
+//     process.env.NEXT_PUBLIC_ENVIRONMENT === "production"
+//         ? process.env.NEXT_PUBLIC_BASE_URL
+//         : process.env.NEXT_PUBLIC_BASE_URL;
+export const baseUrl = "https://backend.hairsenseretail.com"
 // console.log("Base Ur === ", baseUrl);
 
 // console.log(baseUrl);
