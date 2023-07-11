@@ -119,10 +119,9 @@ const ProductSlider = ({
     }, [products, setProducts]);
 
     const handleProduct = (id) => {
-        alert("Product Id === ", id);
+        // alert("Product Id === ", id);
+        console.log("Here is the product id", id);
     };
-
-   
     return (
         <ScreenSize>
             {/* Default Header for product slider  */}
@@ -179,8 +178,10 @@ const ProductSlider = ({
                                     <ProductBox
                                         key={id}
                                         productData={product}
-                                        onClick={() =>
+                                        onClick={() =>{
                                             handleProduct(product.id)
+                                            alert(product.id)
+                                        }
                                         }
                                     />
                                 );
