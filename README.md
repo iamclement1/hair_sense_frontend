@@ -6,7 +6,7 @@ This is an [E-commerce](https://hair-sense-frontend.vercel.app/) project bootstr
 <br />
 <div align="center">
   <a href="https://github.com/iamclement1/hair_sense_frontend.git">
-    <img src="https://www.hairsenseretail.com/images/Hairsense-logo.svg" alt="Logo" width="80" height="80">
+    <img src="https://www.hairsenseretail.com/images/Hairsense-logo.svg" alt="Logo" width="320" height="280">
   </a>
 
 <h3 align="center" fontSize="65px">HairSense Unisex Salon</h3>
