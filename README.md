@@ -32,7 +32,9 @@ Harisense takes care of your every beauty need, you can book us for bridal make 
 
 ### Built With
 
-* [![Next][Next.js]][Next-url]
+* Next.Js ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+* Chakra UI ![Chakra](https://img.shields.io/badge/chakra-%234ED1C5.svg?style=for-the-badge&logo=chakraui&logoColor=white)
+* Python ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
 
 
 <!-- GETTING STARTED -->
