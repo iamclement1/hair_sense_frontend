@@ -6,15 +6,15 @@ This is an [E-commerce](https://hair-sense-frontend.vercel.app/) project bootstr
 <br />
 <div align="center">
   <a href="https://github.com/iamclement1/hair_sense_frontend.git">
-    <img src="images/Hairsense-logo.svg" alt="Logo" width="80" height="80">
+    <img src=https://www.hairsenseretail.com/images/Hairsense-logo.svg" alt="Logo" width="80" height="80">
   </a>
 
 <h3 align="center" fontSize="65px">HairSense Unisex Salon</h3>
 
   <p align="center">
-    project_description
+    Project Description
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/iamclement1/hair_sense_frontend.git"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/github_username/repo_name">View Demo</a>
