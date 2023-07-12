@@ -41,7 +41,7 @@ Harisense takes care of your every beauty need; you can book us for bridal makeo
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-@all-contributors please add @<umarfaruq43> for <contributions>
+@all-contributors @umarfaruq43
 
 ### Built With
 
