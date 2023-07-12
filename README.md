@@ -26,9 +26,22 @@ This is an [E-commerce](https://hair-sense-frontend.vercel.app/) project bootstr
 
 ## About Hairsense
 
-Harisense takes care of your every beauty need, you can book us for bridal make overs too. We have branches nation wide.
+Harisense takes care of your every beauty need; you can book us for bridal makeovers too. We have branches nationwide.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+## Contributors
+
+<!-- ALL-CONTRIBUTORS-LIST: START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdown-lint-disable -->
+
+<!-- markdown-lint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+@all-contributors please add @<umarfaruq43> for <contributions>
 
 ### Built With
 
