@@ -122,7 +122,6 @@ const ProductSlider = ({
         alert("Product Id === ", id);
     };
 
-   
     return (
         <ScreenSize>
             {/* Default Header for product slider  */}
@@ -139,7 +138,7 @@ const ProductSlider = ({
                     >
                         {section}
                     </Text>
-                    <Divider />
+                    <Divider borderColor={"accent_2"} opacity={"20%"} />
                 </Box>
             ) : type === "other" ? (
                 <Box

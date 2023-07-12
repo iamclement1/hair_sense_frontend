@@ -116,7 +116,7 @@ const trackOrderData = [
         data_time: "10:30 A.M",
         status: true,
     },
-    { text: "arrow", status: true },
+    { text: "arrow", status: false },
     {
         text: "Out for Delivery",
         data_date: "Monday, 3rd Oct",

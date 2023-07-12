@@ -21,7 +21,7 @@ const Footer = () => {
             mt={["40px", null, "100px"]}
         >
             <ScreenSize>
-                <SimpleGrid columns={[1, 2, 2, 4]} spacingY={"20px"}>
+                <SimpleGrid columns={[1, 2, 2, 4]} spacing={"20px"}>
                     {/* General Information section */}
                     <Box>
                         <Text

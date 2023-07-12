@@ -52,7 +52,7 @@ const ProductBox = ({ productData }, isLiked) => {
                     // console.log(response);
                     toast.success(" Favorite item added successfully");
                 } else {
-                    toast.error("Please login to add item as favorite!")
+                    toast.error("Please login to add item as favorite!");
                 }
             })
             .catch((error) => {
@@ -121,11 +121,11 @@ const ProductBox = ({ productData }, isLiked) => {
             <Box
                 cursor={"pointer"}
                 bgColor=""
-                // maxW="285px"
+                maxW="272px"
                 textAlign={"center"}
                 // mx="auto"
             >
-                <Box w="100%" maxW="247px" pos={"relative"}>
+                <Flex w="100%" mx="auto" maxW="247px" pos={"relative"}>
                     <Image
                         mx="auto"
                         boxSize={["137px", null, "200px", "247px"]}
@@ -187,15 +187,13 @@ const ProductBox = ({ productData }, isLiked) => {
                             Add to Cart
                         </PopoverContent>
                     </Popover>
-                </Box>
-                <Box mt="19px" textAlign="center">
+                </Flex>
+                <Box mt="1.24rem" textAlign="center">
                     <Text
                         fontSize={["13px", null, "14px", "16px"]}
-                        fontWeight={["bold"]}
+                        noOfLines={2}
+                        h="3rem"
                     >
-                        {name}
-                    </Text>
-                    <Text fontSize={["13px", null, "14px", "16px"]} noOfLines={2}>
                         {desc}
                     </Text>
                     <Flex mt="13px" justify="center">

@@ -6,6 +6,7 @@ export const PrimaryButton = ({
     children,
     handleButton,
     isLoading,
+    width,
     notValid,
     ...props
 }) => {
@@ -22,10 +23,11 @@ export const PrimaryButton = ({
             py={["12px", null, "12px"]}
             display={"block"}
             h="auto"
-            w="100%"
-            fontSize={["14px", null, "16px"]}
+            w={width || "100%"}
+            fontSize={["0.743rem", null, "16px"]}
             onClick={handleButton}
             isDisabled={isLoading || notValid}
+            
         >
             {isLoading ? <Spinner size="md" /> : text}
         </Button>

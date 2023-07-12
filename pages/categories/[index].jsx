@@ -7,6 +7,7 @@ import Category from "@/My-pages/Category";
 const SingleCategory = () => {
     const router = useRouter();
     const { index } = router.query;
+    console.log("index", index);
     return (
         <Box>
             <Layout title={`category || ${index}`}>

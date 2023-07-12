@@ -21,7 +21,7 @@ const OrderDetailsPreview = ({ setShowFullDetails }) => {
     return (
         <Box>
             <Flex
-                boxShadow={"0px 0px 12px 4px rgba(0, 0, 0, 0.06)"}
+                boxShadow={"0px 1px 6px 2px rgba(0, 0, 0, 0.06)"}
                 py={["17px", "33px"]}
                 px={["13px", "34px"]}
                 justify="space-between"
@@ -33,13 +33,12 @@ const OrderDetailsPreview = ({ setShowFullDetails }) => {
                 <PrimaryButton
                     maxW="186px"
                     text="View order details"
-                    
                     handleButton={() => setShowFullDetails(true)}
                 />
             </Flex>
 
             <Flex
-                boxShadow={"0px 0px 12px 4px rgba(0, 0, 0, 0.06)"}
+                boxShadow={"0px 1px 6px 2px rgba(0, 0, 0, 0.06)"}
                 py={["17px", "33px"]}
                 px={["13px", "34px"]}
                 justify="space-between"

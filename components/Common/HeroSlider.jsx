@@ -1,10 +1,4 @@
-import {
-    Box,
-    Flex,
-    Icon,
-    Image,
-    Text,
-} from "@chakra-ui/react";
+import { Box, Flex, Icon, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import Slider from "react-slick";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
@@ -98,30 +92,36 @@ const HeroContent = ({ data }) => {
             <Flex
                 bgColor={bgColor}
                 // px="20px"
-                px={["20px", null, "20px"]}
+                // px={["1.92rem", null, "20px"]}
                 py={["60px", null, "70px"]}
                 rounded={"12px"}
                 align={"center"}
-                gap="20px"
+                gap={["0.81rem", null, "20px"]}
             >
                 <Flex w="50%" justify={"center"} align={"center"}>
-                    <Box maxW="584px">
+                    <Box maxW="584px" pl={["1rem", null, "1.92rem"]}>
                         <Text
                             fontWeight={"600"}
                             fontSize={["16px", "24px", "54px", "56px"]}
+                            lineHeight={["1.48594rem", null, "5.125rem"]}
                         >
                             {title}
                         </Text>
                         <Text
                             mt={["15px"]}
                             color="accent_2"
-                            fontSize={["14px", null, "19px", "28px"]}
+                            fontSize={["0.66044rem", null, "19px", "28px"]}
                         >
                             {subTitle}
                         </Text>
 
-                        <Box my={["20px", null, "40px", null, "80px"]}>
-                            <PrimaryButton text={"Discover Now"} maxW="272px" />
+                        <Box mt={["20px", null, "3rem", null, "3rem"]}>
+                            <PrimaryButton
+                                text={"Discover Now"}
+                                maxW="272px"
+                                rounded="0.24769rem"
+                                width={["fit-content", null, "17rem"]}
+                            />
                         </Box>
                     </Box>
                 </Flex>
