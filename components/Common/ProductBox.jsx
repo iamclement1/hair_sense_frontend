@@ -115,6 +115,7 @@ const ProductBox = ({ productData }, isLiked) => {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
         localStorage.setItem("current_product", JSON.stringify(productData));
         router.push(`/product_details/${productData.name}`);
+        console.log("Here is the product data", productData);
     }
     return (
         <Box onClick={() => handleProductDetails(productData)}>

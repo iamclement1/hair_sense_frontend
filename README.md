@@ -5,16 +5,15 @@ This is an [E-commerce](https://hair-sense-frontend.vercel.app/) project bootstr
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/iamclement1/hair_sense_frontend.git">
-    <img src="images/Hairsense-logo.svg" alt="Logo" width="80" height="80">
+  <a href="https://wwww.hairsenseretail.com" target="_blank">
+    <img src="https://www.hairsenseretail.com/images/Hairsense-logo.svg" alt="Logo" width="320" height="280">
   </a>
 
 <h3 align="center" fontSize="65px">HairSense Unisex Salon</h3>
 
-  <p align="center">
-    project_description
+  <!-- <p align="center">
+    Project Description
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/github_username/repo_name">View Demo</a>
@@ -22,10 +21,41 @@ This is an [E-commerce](https://hair-sense-frontend.vercel.app/) project bootstr
     <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
     ·
     <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
-  </p>
+  </p> -->
 </div>
 
-First, run the development server:
+## About Hairsense
+
+Harisense takes care of your every beauty need, you can book us for bridal make overs too. We have branches nation wide.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Built With
+
+* Next.Js ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+* Chakra UI ![Chakra](https://img.shields.io/badge/chakra-%234ED1C5.svg?style=for-the-badge&logo=chakraui&logoColor=white)
+* Python ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+This is an example of how you may give instructions on setting up your project locally.
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+
+* npm
+
+  ```sh
+  npm install npm@latest -g
+  ```
+
+
+
+<!-- First, run the development server:
 
 ```bash
 npm run dev
@@ -33,4 +63,4 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-```
+``` -->
