@@ -1,10 +1,21 @@
 import { PrimaryButton, ProductSlider, StarRating } from "@/components/Common";
 import { SecondaryButton } from "@/components/Common/Button";
+import ModalCartItem from "@/components/Common/ModalCartItem";
+import CartModal from "@/components/modal/CartModal";
 import { CartContext } from "@/context/StateProvider";
-import { Box, Flex, Image, Text, Divider, Button } from "@chakra-ui/react";
+import { Box, Flex, Image, Text, Divider, Button, useDisclosure } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
+import { toast } from "react-hot-toast";
 
-const ProductDetails = ({ productData }) => {
+const ProductDetails = ({ }) => {
+    const router = useRouter()
+
+    const url = router.asPath
+    const { onOpen,
+        isOpen,
+        onClose, } = useDisclosure()
+
     const [prod, setProd] = useState();
 
     useEffect(() => {
@@ -12,8 +23,8 @@ const ProductDetails = ({ productData }) => {
         if (getProductDetails) {
             setProd(JSON.parse(getProductDetails));
         }
-        // console.log(prod);
-    }, [prod]);
+        console.log("prod", prod);
+    }, [url]);
 
     // cart context
     const GlobalCart = useContext(CartContext);
@@ -28,17 +39,34 @@ const ProductDetails = ({ productData }) => {
             },
         });
 
+
         // Retrieve the existing cart items from localStorage
         const existingCartItems =
-            JSON.parse(localStorage.getItem("cartItems")) || [];
+            JSON.parse(localStorage.getItem("cart")) || [];
 
-        // Add the new product to the cart items array
-        const updatedCartItems = [...existingCartItems, productData];
+        // Check if the item already exists in localStorage
+        const isItemInLocalStorage = existingCartItems.some(
+            (item) => item.id === prod.id
+        );
 
-        // Save the updated cart items to localStorage
-        localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
-        console.log("Updated cart items");
+        if (isItemInLocalStorage) {
+            toast.error("Item already exists in the cart");
+        }
+        else {
+
+            // Add the new product to the cart items array
+            const updatedCartItems = [...existingCartItems, prod];
+
+            // Save the updated cart items to localStorage
+            localStorage.setItem("cart", JSON.stringify(updatedCartItems));
+            console.log("Updated cart items");
+
+            toast.success("Item added succesfully");
+
+
+        }
     };
+
 
     useEffect(() => {
         if (prevCartStateRef.current !== GlobalCart.state) {
@@ -48,9 +76,21 @@ const ProductDetails = ({ productData }) => {
         }
     }, [GlobalCart.state]);
 
+
+    const handleBuyNow = () => {
+        handleAddToCart()
+        onOpen()
+
+    }
+
+
     return (
 
         <Box>
+            <CartModal onOpen={onOpen}
+                isOpen={isOpen}
+                onClose={onClose} />
+
             {
                 prod && (
 
@@ -102,11 +142,14 @@ const ProductDetails = ({ productData }) => {
                                 <Flex align="center" gap="10px" mt={["18px", null, "35px"]}>
                                     <SecondaryButton
                                         text="Add to Cart"
-                                        onClick={handleAddToCart}
+                                        handleButton={() => {
+                                            console.log("jjdm");
+                                            handleAddToCart()
+                                        }}
                                     />
                                     <PrimaryButton
                                         text="Buy Now"
-                                        onClick={handleAddToCart}
+                                        handleButton={handleBuyNow}
                                     />
                                 </Flex>
                             </Box>

@@ -124,7 +124,7 @@ const ProductBox = ({ productData }, isLiked) => {
                 bgColor=""
                 maxW="272px"
                 textAlign={"center"}
-                // mx="auto"
+            // mx="auto"
             >
                 <Flex w="100%" mx="auto" maxW="247px" pos={"relative"}>
                     <Image

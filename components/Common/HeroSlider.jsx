@@ -1,60 +1,72 @@
 import { Box, Flex, Icon, Image, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-slick";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 
 import ScreenSize from "../layouts/ScreenSize";
 import { PrimaryButton } from ".";
 
-const NextArrow = (props) => {
-    const { onClick } = props;
-    return (
-        <Icon
-            aria-label="Next"
-            color="accent_2"
-            as={BsChevronRight}
-            onClick={onClick}
-            position="absolute"
-            top="50%"
-            right={["0", "10px"]}
-            transform="translateY(-50%)"
-            zIndex="1"
-            boxSize={["20px", null, "20px", "40px"]}
-            cursor={"pointer"}
-        />
-    );
-};
-
-const PrevArrow = (props) => {
-    const { onClick } = props;
-    return (
-        <Icon
-            aria-label="Previous"
-            color="accent_2"
-            as={BsChevronLeft}
-            onClick={onClick}
-            position="absolute"
-            top="50%"
-            left={["0", "10px"]}
-            transform="translateY(-50%)"
-            zIndex="1"
-            boxSize={["20px", null, "20px", "40px"]}
-            cursor={"pointer"}
-        />
-    );
-};
-
-const settings = {
-    dots: false,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    prevArrow: <PrevArrow />,
-    nextArrow: <NextArrow />,
-};
 
 const HeroSlider = ({ children }) => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const NextArrow = (props) => {
+        const { onClick } = props;
+        return (
+            <Icon
+                aria-label="Next"
+                color="accent_2"
+                as={BsChevronRight}
+                onClick={onClick}
+                position="absolute"
+                top="50%"
+                right={["0", "10px"]}
+                transform="translateY(-50%)"
+                zIndex="1"
+                boxSize={["20px", null, "20px", "40px"]}
+                cursor={"pointer"}
+                display={currentSlide === 1 ? "none" : "block"}
+            />
+        );
+    };
+
+    const PrevArrow = (props) => {
+        const { onClick } = props;
+        return (
+            <Icon
+                aria-label="Previous"
+                color="accent_2"
+                as={BsChevronLeft}
+                onClick={onClick}
+                position="absolute"
+                top="50%"
+                left={["0", "10px"]}
+                transform="translateY(-50%)"
+                zIndex="1"
+                boxSize={["20px", null, "20px", "40px"]}
+                cursor={"pointer"}
+                display={currentSlide === 0 ? "none" : "block"}
+
+            />
+        );
+    };
+
+    const settings = {
+        autoplay: true,
+        infinite: true,
+        dots: false,
+        infinite: false,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        prevArrow: <PrevArrow />,
+        nextArrow: <NextArrow />,
+        afterChange: (slideIndex) => {
+            setCurrentSlide(slideIndex)
+            console.log("slideIndex", slideIndex);
+            console.log(currentSlide);
+        },
+    };
+
     return (
         <ScreenSize>
             <Slider {...settings}>
@@ -92,7 +104,7 @@ const HeroContent = ({ data }) => {
             <Flex
                 bgColor={bgColor}
                 // px="20px"
-                // px={["1.92rem", null, "20px"]}
+                px={["1.92rem", null, "20px"]}
                 py={["60px", null, "70px"]}
                 rounded={"12px"}
                 align={"center"}
