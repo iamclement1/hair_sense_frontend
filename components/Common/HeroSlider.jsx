@@ -86,7 +86,7 @@ const heroData = [
         bgColor: "accent_4",
         title: "Find Your Favorite Hair Care Products",
         subTitle: "Your favorite hair care product is just one click away",
-        imageUrl: "/images/heroBg_1.svg",
+        imageUrl: "/images/hero.png",
         url: "/",
     },
     {
