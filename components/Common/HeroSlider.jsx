@@ -84,8 +84,8 @@ export default HeroSlider;
 const heroData = [
     {
         bgColor: "accent_4",
-        title: "Find Your Favorite Hair Care Products",
-        subTitle: "Your favorite hair care product is just one click away",
+        title: "Find Your Favorite Facial Products",
+        subTitle: "Your favorite facial product is just one click away",
         imageUrl: "/images/hero.png",
         url: "/",
     },
@@ -93,7 +93,7 @@ const heroData = [
         bgColor: "accent_4",
         title: "Beautiful Cosmetics products",
         subTitle: "Your favorite hair care product is just one click away",
-        imageUrl: "/images/heroBg_2.svg",
+        imageUrl: "/images/hero1.png",
         url: "/",
     },
 ];
