@@ -39,7 +39,7 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
     const semiSubTotal =
         cartItems &&
         cartItems.map((item, i) => {
-            return item.quantity * item.sales_price;
+            return item.quantity * item.actual_price;
         });
     // Adding all the price together
     for (let i = 0; i < semiSubTotal.length; i++) {

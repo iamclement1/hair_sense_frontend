@@ -32,7 +32,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
     const semiSubTotal =
         cartItems &&
         cartItems.map((item, i) => {
-            return item.quantity * item.sales_price;
+            return item.quantity * item.actual_price;
         });
     // Adding all the price together
     for (let i = 0; i < semiSubTotal.length; i++) {
@@ -59,7 +59,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
         console.log(formData);
 
         await axios
-            .post(`${baseUrl}store/orders/`, formData, {
+            .post(`${baseUrl}/store/orders/`, formData, {
                 headers: {
                     Authorization: `Bearer ${access_token}`,
                 },
@@ -67,21 +67,21 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
             .then((response) => {
                 //success callback
                 console.log(response);
-                // if (response?.status === 200) {
-                //     toast.success(
-                //         "Successful... You will now been Redirected to the checkout page"
-                //     );
-                //     onClose();
-                //     setLoading(false);
-                //     router.push("/checkout");
-                // }
+                if (response?.status === 200) {
+                    toast.success(
+                        "Successful... You will now been Redirected to the payment page"
+                    );
+
+                    setLoading(false);
+                    router.push(`${response && response.data?.url}`);
+                }
             })
             .catch((error) => {
                 console.log(error);
                 setLoading(false);
 
                 toast.error(error.message);
-            });
+            }).finally(() => setLoading(false))
     };
 
     return (
