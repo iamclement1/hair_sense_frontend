@@ -111,7 +111,7 @@ const HeroContent = ({ data }) => {
                 gap={["0.81rem", null, "20px"]}
             >
                 <Flex w="50%" justify={"center"} align={"center"}>
-                    <Box maxW="584px" pl={["1rem", null, "1.92rem"]}>
+                    <Box maxW="584px" pl={["0rem", null, "1.92rem"]}>
                         <Text
                             fontWeight={"600"}
                             fontSize={["16px", "24px", "54px", "56px"]}
