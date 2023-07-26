@@ -107,11 +107,7 @@ const ProductSlider = ({
 
                 setProducts(data);
             }
-            // console.log("Response is here", response);
-            // console.log(
-            //     "product data fetched is here mf",
-            //     response.data.results
-            // );
+
         }
         if (!products) {
             fetchProduct();
@@ -120,7 +116,7 @@ const ProductSlider = ({
 
     const handleProduct = (id) => {
         // alert("Product Id === ", id);
-        console.log("Here is the product id", id);
+
     };
     return (
         <ScreenSize>
@@ -178,7 +174,7 @@ const ProductSlider = ({
                                     <ProductBox
                                         key={id}
                                         productData={product}
-                                        onClick={() =>{
+                                        onClick={() => {
                                             handleProduct(product.id)
                                             alert(product.id)
                                         }

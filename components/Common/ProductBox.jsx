@@ -28,8 +28,8 @@ const ProductBox = ({ productData }, isLiked) => {
     const router = useRouter();
     // const { id, imageUrl, text, rating, price } = productData;
     const { products, cart, setCart, user } = useContext(StateContext);
-    // console.log("hey dude find the products here",products)
-    // console.log(user);
+
+
     const {
         id,
         name,
@@ -49,18 +49,18 @@ const ProductBox = ({ productData }, isLiked) => {
         await httpPost(`${baseUrl}/store/favourite/items/`, data)
             .then((response) => {
                 if (response && response.status === 201) {
-                    // console.log(response);
+
                     toast.success(" Favorite item added successfully");
                 } else {
                     toast.error("Please login to add item as favorite!");
                 }
             })
             .catch((error) => {
-                console.log(error);
+
             });
-        // console.log("favorite item added");
-        // console.log("favorite item details will be ", productData);
-        // console.log("favorite item ID will be ", productData && productData.id);
+
+
+
     };
 
     //cart context
@@ -106,16 +106,16 @@ const ProductBox = ({ productData }, isLiked) => {
     useEffect(() => {
         localStorage.setItem("cartState", JSON.stringify(GlobalCart.state));
         const stateCart = localStorage.getItem("cartState");
-        // console.log(stateCart);
+
     }, [GlobalCart.state]);
 
-    // console.log(GlobalCart.state); // Log the updated state
+
     // const dispatch = GlobalCart.dispatch;
     function handleProductDetails(productData) {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
         localStorage.setItem("current_product", JSON.stringify(productData));
         router.push(`/product_details/${productData.name}`);
-        console.log("Here is the product data", productData);
+
     }
     return (
         <Box onClick={() => handleProductDetails(productData)}>

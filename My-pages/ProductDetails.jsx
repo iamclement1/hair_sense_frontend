@@ -23,7 +23,7 @@ const ProductDetails = ({ }) => {
         if (getProductDetails) {
             setProd(JSON.parse(getProductDetails));
         }
-        console.log("prod", prod);
+
     }, [url]);
 
     // cart context
@@ -59,7 +59,7 @@ const ProductDetails = ({ }) => {
 
             // Save the updated cart items to localStorage
             localStorage.setItem("cart", JSON.stringify(updatedCartItems));
-            console.log("Updated cart items");
+
 
             toast.success("Item added succesfully");
 
@@ -72,7 +72,7 @@ const ProductDetails = ({ }) => {
         if (prevCartStateRef.current !== GlobalCart.state) {
             // setCart(GlobalCart.state);
             prevCartStateRef.current = GlobalCart.state;
-            // console.log(GlobalCart.state); // Log the updated state
+            // 
         }
     }, [GlobalCart.state]);
 
@@ -143,7 +143,7 @@ const ProductDetails = ({ }) => {
                                     <SecondaryButton
                                         text="Add to Cart"
                                         handleButton={() => {
-                                            console.log("jjdm");
+
                                             handleAddToCart()
                                         }}
                                     />

@@ -62,8 +62,6 @@ const HeroSlider = ({ children }) => {
         nextArrow: <NextArrow />,
         afterChange: (slideIndex) => {
             setCurrentSlide(slideIndex)
-            console.log("slideIndex", slideIndex);
-            console.log(currentSlide);
         },
     };
 

@@ -73,8 +73,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                             {currentPage === "login"
                                 ? "Welcome Back"
                                 : currentPage === "register"
-                                ? "Create An Account"
-                                : "Recover your Password"}
+                                    ? "Create An Account"
+                                    : "Recover your Password"}
                         </Text>
                         <Divider />
                     </Flex>
@@ -115,15 +115,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     currentPage === "login"
                                         ? handleCurrentForm("register")
                                         : currentPage === "register"
-                                        ? handleCurrentForm("login")
-                                        : handleCurrentForm("login");
+                                            ? handleCurrentForm("login")
+                                            : handleCurrentForm("login");
                                 }}
                             >
                                 {currentPage === "login"
                                     ? "Don’t have an account? "
                                     : currentPage === "register"
-                                    ? "Already have an account? "
-                                    : "Already have an account? "}
+                                        ? "Already have an account? "
+                                        : "Already have an account? "}
                                 <Box
                                     as="button"
                                     color="accent_2"
@@ -132,8 +132,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
-                                        ? "Sign in"
-                                        : "Sign in"}
+                                            ? "Sign in"
+                                            : "Sign in"}
                                 </Box>
                             </Box>
                         </Box>
@@ -162,7 +162,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
         };
         const { email, password } = formData;
 
-        // console.table({ username, password });
+
 
         await axios
             .post(`${baseUrl}/accounts/sign_in/`, formData)
@@ -178,7 +178,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                         Cookies.set("refreshToken", refresh, { expires });
                         Cookies.set("access_token", access, { expires });
                     };
-                    // console.log(response.data.role);
+
                     const { access, refresh } = response.data;
                     setAccessTokenCookie(access);
 
@@ -199,7 +199,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                         Cookies.set("refreshToken", refresh, { expires });
                         Cookies.set("access_token", access, { expires });
                     };
-                    // console.log(response.data.role);
+
                     const { access, refresh } = response.data;
                     setAccessTokenCookie(access);
 
@@ -242,7 +242,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                         //     toast.error(ERROR_RESPONSES.GENERIC_ERROR);
                     }
                 }
-                console.log(error);
+
                 // toast.error(error.message);
             });
     };
@@ -371,12 +371,12 @@ const Register = ({ handleCurrentForm }) => {
         };
         // const { first_name, last_name, phone, password } = formData;
 
-        // console.table({  first_name, last_name, phone, password });
+
 
         await axios
             .post(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
-                console.log(response);
+
                 // if (response && response.message === "proceed to login") {
                 //     handleCurrentForm("login");
                 //     toast("Account Created Successfully, Process To Login");
@@ -678,7 +678,7 @@ const Register = ({ handleCurrentForm }) => {
                         mb="15px"
                         mx="auto"
                         isLoading={isLoading}
-                        // handleButton={registerUser}
+                    // handleButton={registerUser}
                     />
                 </form>
             )}

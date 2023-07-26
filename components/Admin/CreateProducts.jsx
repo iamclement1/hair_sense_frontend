@@ -60,12 +60,12 @@ const CreateProducts = ({ setActivePage }) => {
             })
                 .then((response) => {
                     const data = response.data.results;
-                    // console.log(data);
+
                     setSubCat(data);
-                    console.log(subCat);
+
                 })
                 .catch((error) => {
-                    console.log(error);
+
                 });
         };
 
@@ -77,12 +77,12 @@ const CreateProducts = ({ setActivePage }) => {
     // useeffect to handle Selected subcat
     useEffect(() => {
         subCat.map((item) => {
-            // console.log(item.id === selectedCategory);
-            console.log(item.id);
-            console.log(selectedCategory);
+
+
+
             item.id == selectedCategory
                 ? setSelectedSubCat(item.sub_category)
-                : console.log("Not found");
+                : "";
         });
     }, [selectedCategory]);
 
@@ -96,7 +96,7 @@ const CreateProducts = ({ setActivePage }) => {
     const handleCreateProduct = async (values) => {
         setLoading(true);
         const {
-            name, 
+            name,
             sub_category,
             desc: desc,
             // description_2: second_description,
@@ -128,12 +128,12 @@ const CreateProducts = ({ setActivePage }) => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+
                 toast.error("Unable to create product");
             });
 
         setLoading(false);
-        console.log(payload);
+
     };
 
     return (
@@ -186,7 +186,7 @@ const CreateProducts = ({ setActivePage }) => {
                         onSubmit={(values) => {
                             values.file = file;
                             handleCreateProduct(values);
-                            // console.log(values);
+
                         }}
                     >
                         {({
@@ -234,7 +234,7 @@ const CreateProducts = ({ setActivePage }) => {
                                             placeholder="Select Category"
                                             className={
                                                 errors.category &&
-                                                touched.category
+                                                    touched.category
                                                     ? "error"
                                                     : ""
                                             }
@@ -290,7 +290,7 @@ const CreateProducts = ({ setActivePage }) => {
                                             placeholder="Select Sub-Category"
                                             className={
                                                 errors.sub_category &&
-                                                touched.sub_category
+                                                    touched.sub_category
                                                     ? "error"
                                                     : ""
                                             }
@@ -345,7 +345,7 @@ const CreateProducts = ({ setActivePage }) => {
                                         bgColor="white"
                                         className={
                                             errors.desc &&
-                                            touched.desc
+                                                touched.desc
                                                 ? "error"
                                                 : ""
                                         }

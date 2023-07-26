@@ -13,7 +13,7 @@ import { FaTimes } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const CartItemBoxDetails = ({ singleItem }) => {
-    console.log(singleItem);
+    
     const { id, name, actual_price, sales_price, product_img, quantity } =
         singleItem;
 

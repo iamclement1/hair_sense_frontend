@@ -26,7 +26,6 @@ const CreateSubCategoryModal = ({
     Categoryname,
     Categoryid,
 }) => {
-    // console.log(cate)
     const [name, setName] = useState("");
     const handleChange = (e) => {
         setName(e.target.value);
@@ -46,13 +45,11 @@ const CreateSubCategoryModal = ({
             },
         })
             .then((response) => {
-                console.log(response);
                 if (response.status === 201) {
                     toast.success("Sub Category successfully created");
                 }
             })
             .catch((error) => {
-                console.log(error);
             });
 
         // // alert(JSON.stringify(formData));

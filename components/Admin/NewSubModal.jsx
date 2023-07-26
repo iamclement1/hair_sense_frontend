@@ -20,7 +20,7 @@ import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
 
 const NewSubModal = ({ isOpen, onOpen, onClose }) => {
-    // console.log(cate)
+
     const initalData = {
         category: "",
         name: "",
@@ -51,7 +51,7 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
             },
         })
             .then((response) => {
-                console.log(response);
+
                 if (response.status === 201) {
                     toast.success("Category successfully created");
                     // Close the modal
@@ -64,7 +64,7 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
             .catch((error) => {
                 setLodaing(false);
 
-                console.log(error);
+
             })
             .finally(() => {
                 setLodaing(false);

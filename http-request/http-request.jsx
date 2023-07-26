@@ -9,9 +9,9 @@ export const baseUrl =
         ? process.env.NEXT_PUBLIC_BASE_URL
         : process.env.NEXT_PUBLIC_BASE_URL;
 // export const baseUrl = "https://backend.hairsenseretail.com"
-// console.log("Base Ur === ", baseUrl);
 
-// console.log(baseUrl);
+
+
 
 const token = Cookies.get("access_token");
 const headers = {
@@ -26,9 +26,9 @@ export const httpGet = async (url) => {
         return response.data;
     } catch (error) {
         if (error.response && error.response.status === 404) {
-            console.log("Resource not found");
+
         } else {
-            console.log("Error occurred:", error.message);
+
         }
         return null;
     }
@@ -102,7 +102,7 @@ export const httpPost = async (url, postBody) => {
         });
         return data;
     } catch (error) {
-        console.log("hello dude, error is here", error);
+
         if (error.response) {
             const { status } = error.response;
             switch (status) {
@@ -117,7 +117,7 @@ export const httpPost = async (url, postBody) => {
                     break;
                 case 404:
                     toast.error(ERROR_RESPONSES.RESOURCE_NOT_FOUND);
-                    // console.log("user with the credentials not found")
+                   
                     break;
                 case 400:
                     toast.error(ERROR_RESPONSES.BAD_REQUEST);

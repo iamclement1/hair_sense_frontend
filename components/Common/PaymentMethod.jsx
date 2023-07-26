@@ -56,7 +56,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
     //handle checkout payment button with paystack
     const sendCheckoutDetails = async () => {
         setLoading(true);
-        console.log(formData);
+
 
         await axios
             .post(`${baseUrl}/store/orders/`, formData, {
@@ -66,7 +66,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
             })
             .then((response) => {
                 //success callback
-                console.log(response);
+
                 if (response?.status === 200) {
                     toast.success(
                         "Successful... You will now been Redirected to the payment page"
@@ -77,7 +77,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+
                 setLoading(false);
 
                 toast.error(error.message);

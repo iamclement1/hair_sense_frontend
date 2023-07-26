@@ -40,12 +40,9 @@ const Categories = () => {
             })
                 .then((response) => {
                     const data = response.data.results;
-                    // console.log(data);
                     setCatData(data);
-                    console.log("Category data",catData)
                 })
                 .catch((error) => {
-                    console.log(error);
                 });
         }
 

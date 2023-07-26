@@ -26,7 +26,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
     const { addressDetails, setAddressDetails, cart } =
         useContext(StateContext);
 
-    console.log("cart", cart);
+    
     const [selectedState, setSelectedState] = useState("");
 
     const cities = City.getCitiesOfState("NG", "KW");

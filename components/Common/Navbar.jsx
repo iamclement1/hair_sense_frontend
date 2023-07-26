@@ -40,15 +40,15 @@ const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
     const { user, setUser, products, handleLogOut } = useContext(StateContext);
-    // console.log("user", user);
-    // console.log("Producs is here in nav", products);
+
+
     // have userData here
     const [userData, setUserData] = useState(null);
-    // console.log("User: " + user);
+
     // function to handle Authication  modal
     //fetch user info from the endpoint
     const access_token = Cookies.get("access_token");
-    // console.log("here is the token", access_token);
+
     useEffect(() => {
         async function fetchUser() {
             const response = await axios.get(`${baseUrl}/accounts/user`, {
