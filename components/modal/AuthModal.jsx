@@ -31,6 +31,7 @@ import StateProvider, { StateContext } from "@/context/StateProvider";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { ERROR_RESPONSES } from "@/http-request/response";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -90,10 +91,7 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                         {/* ************* */}
                         {/* Form Are being Use here  Check the Components Below for forms */}
                         {currentPage === "login" ? (
-                            <Login
-                                handleCurrentForm={handleCurrentForm}
-                                onClose={onClose}
-                            />
+                            <Login handleCurrentForm={handleCurrentForm} onClose={onClose} />
                         ) : currentPage === "register" ? (
                             <Register handleCurrentForm={handleCurrentForm} />
                         ) : currentPage === "forgetPassword" ? (
@@ -104,9 +102,7 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
 
                         {/* ************    * */}
 
-                        <Box>
-                            {currentPage === "login" && <SignInWithSocials />}
-                        </Box>
+                        <Box>{currentPage === "login" && <SignInWithSocials />}</Box>
                         <Box>
                             <Box
                                 fontSize={"14px"}
@@ -124,11 +120,7 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     : currentPage === "register"
                                         ? "Already have an account? "
                                         : "Already have an account? "}
-                                <Box
-                                    as="button"
-                                    color="accent_2"
-                                    fontWeight={"600"}
-                                >
+                                <Box as="button" color="accent_2" fontWeight={"600"}>
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
@@ -151,7 +143,13 @@ const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
     const [isCaptchaValid, setIsCaptchaValid] = useState(false); // Initially set to false
     const [captchaResponse, setCaptchaResponse] = useState("");
+    const [showPassWord, setShowPassWord] = useState(false);
     const { isLoading, setIsLoading, setUser } = useContext(StateContext);
+
+    //show password
+    const togglePassword = () => {
+        setShowPassWord(!showPassWord);
+    };
 
     // import user from context api
     const loginUser = async (values) => {
@@ -162,16 +160,10 @@ const Login = ({ handleCurrentForm, onClose }) => {
         };
         const { email, password } = formData;
 
-
-
         await axios
             .post(`${baseUrl}/accounts/sign_in/`, formData)
             .then((response) => {
-                if (
-                    response &&
-                    response.data &&
-                    response.data.role === "client"
-                ) {
+                if (response && response.data && response.data.role === "client") {
                     const setAccessTokenCookie = (access) => {
                         const expires = new Date(Date.now() + 60 * 60 * 1000); // One hour from now
                         Cookies.set("currentUser", access, { expires });
@@ -303,25 +295,31 @@ const Login = ({ handleCurrentForm, onClose }) => {
                         >
                             Password
                         </FormLabel>
-                        <Field
-                            as={Input}
-                            id="password"
-                            name="password"
-                            fontSize={["12px"]}
-                            type="password"
-                            placeholder="Password"
-                            px={["13px", null]}
-                            validate={(value) => {
-                                let error;
+                        <Flex>
+                            <Field
+                                as={Input}
+                                id="password"
+                                name="password"
+                                fontSize={["12px"]}
+                                type={showPassWord ? "text" : "password"}
+                                placeholder="Password"
+                                px={["13px", null]}
+                                validate={(value) => {
+                                    let error;
 
-                                if (value.length < 6) {
-                                    error =
-                                        "Password must contain at least 6 characters";
-                                }
+                                    if (value.length < 6) {
+                                        error = "Password must contain at least 6 characters";
+                                    }
 
-                                return error;
-                            }}
-                        />
+                                    return error;
+                                }}
+                            />
+                            {showPassWord ? (
+                                <ViewIcon cursor="pointer" onClick={togglePassword} />
+                            ) : (
+                                <ViewOffIcon cursor="pointer" onClick={togglePassword} />
+                            )}
+                        </Flex>
                         <FormErrorMessage fontSize={["12px"]}>
                             {errors.password}
                         </FormErrorMessage>
@@ -371,20 +369,15 @@ const Register = ({ handleCurrentForm }) => {
         };
         // const { first_name, last_name, phone, password } = formData;
 
-
-
         await axios
             .post(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
-
                 // if (response && response.message === "proceed to login") {
                 //     handleCurrentForm("login");
                 //     toast("Account Created Successfully, Process To Login");
                 // }
                 if (response.status === 201) {
-                    toast.success(
-                        "Account Created Successfully, Process To Login"
-                    );
+                    toast.success("Account Created Successfully, Process To Login");
                     handleCurrentForm("login");
                 }
                 setIsLoading(false);
@@ -415,11 +408,7 @@ const Register = ({ handleCurrentForm }) => {
                     {/* First Name and last name Input  */}
                     <Flex gap="20px" flexDir={["column", null, "row"]}>
                         {/* First Name  */}
-                        <FormControl
-                            isInvalid={
-                                !!errors.first_name && touched.first_name
-                            }
-                        >
+                        <FormControl isInvalid={!!errors.first_name && touched.first_name}>
                             <FormLabel
                                 fontSize={"14px"}
                                 htmlFor="first_name"
@@ -451,9 +440,7 @@ const Register = ({ handleCurrentForm }) => {
                         </FormControl>
 
                         {/* Last Name  */}
-                        <FormControl
-                            isInvalid={!!errors.last_name && touched.last_name}
-                        >
+                        <FormControl isInvalid={!!errors.last_name && touched.last_name}>
                             <FormLabel
                                 fontSize={"14px"}
                                 htmlFor="last_name"
@@ -544,9 +531,7 @@ const Register = ({ handleCurrentForm }) => {
                                 let error;
                                 if (!value) {
                                     error = "Phone number is required";
-                                } else if (
-                                    !/^(\+?\d{11}|\d{10})$/.test(value)
-                                ) {
+                                } else if (!/^(\+?\d{11}|\d{10})$/.test(value)) {
                                     error = "Please enter a valid phone number";
                                 }
 
@@ -583,8 +568,7 @@ const Register = ({ handleCurrentForm }) => {
                                     let error;
 
                                     if (value.length < 6) {
-                                        error =
-                                            "Password must contain at least 6 characters";
+                                        error = "Password must contain at least 6 characters";
                                     }
                                     setCurrentPassword(value);
 
@@ -599,10 +583,7 @@ const Register = ({ handleCurrentForm }) => {
                         {/* Confirm password  */}
 
                         <FormControl
-                            isInvalid={
-                                !!errors.confirm_password &&
-                                touched.confirm_password
-                            }
+                            isInvalid={!!errors.confirm_password && touched.confirm_password}
                             mt={["14px", null, "24px"]}
                         >
                             <FormLabel
@@ -654,16 +635,14 @@ const Register = ({ handleCurrentForm }) => {
                                 mr={2}
                             />
                             <Text fontSize={["12px"]}>
-                                I have read and acknowledge Hair Sense’s Privacy
-                                Policy
+                                I have read and acknowledge Hair Sense’s Privacy Policy
                             </Text>
                         </FormLabel>
                     </FormControl>
                     <Box mt={["10px", null, "27px"]}>
                         <Text fontSize={["12px"]}>
-                            By providing us with your email, you agree to Hair
-                            Sense Terms of Service and to receive email updates
-                            on new products
+                            By providing us with your email, you agree to Hair Sense Terms of
+                            Service and to receive email updates on new products
                         </Text>
                     </Box>
 
