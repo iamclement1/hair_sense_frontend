@@ -33,7 +33,7 @@ const SubCategoryBox = ({ data }) => {
         setName(e.target.value);
     };
     const acceptEdit = () => {
-        console.log(name);
+        
         setEdit(false);
     };
     return (

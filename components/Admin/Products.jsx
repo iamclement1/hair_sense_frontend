@@ -50,7 +50,7 @@ const Products = () => {
     const endIndex = startIndex + itemsPerPage;
     const itemsToDisplay =
         products && products.length > 0 && products.slice(startIndex, endIndex);
-    // console.log(itemsToDisplay);
+
 
     //pagination session ends here
 
@@ -61,13 +61,13 @@ const Products = () => {
                 Authorization: `Bearer ${accessToken}`,
             },
         });
-        console.log(response);
+
         if (response && response.data && response.status === 200) {
             const data = response.data.results;
             setProducts(data);
-            console.log("Response is here", data);
+
         }
-        // console.log(
+
         //     "product data fetched is here mf",
         //     response.data.results
         // );
@@ -150,10 +150,10 @@ const Products = () => {
                     setActivePage(5);
                     fetchProduct();
                 }
-                console.log("response", response);
+
             })
             .catch((error) => {
-                console.log(error);
+
             });
     };
 
@@ -162,7 +162,7 @@ const Products = () => {
     // Handler for the edit action
     const handleEdit = (product) => {
         // Implement the logic for handling the edit action
-        // console.log("Edit product with ID:", productId);
+
         setEditData(product);
         onOpenEdit();
     };

@@ -155,7 +155,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
     //handle checkout payment button with paystack
     const sendCartItems = async () => {
         // localStorage.setItem("sample", JSON.stringify(cartItems));
-        // console.log(localStorage.getItem("sample"));
+        
         setLoading(true);
 
         if (cartItems.length > 0) {

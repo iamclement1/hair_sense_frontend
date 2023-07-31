@@ -8,8 +8,8 @@ import { StateContext } from "@/context/StateProvider";
 
 const Layout = ({ title, children }) => {
     const router = useRouter();
-   
-    // console.log(router);
+
+
     return (
         <>
             <Head>

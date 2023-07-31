@@ -19,7 +19,7 @@ const FavouritePage = () => {
     const [fav, setFav] = useState([]);
 
     const token = Cookies.get("access_token");
-    // console.log(token);
+
     useEffect(() => {
         async function fetchFavorite() {
             const response = await axios.get(`${baseUrl}/store/favourite/`, {
@@ -30,9 +30,9 @@ const FavouritePage = () => {
             if (response && response.data && response.status === 200) {
                 setFav(
                     response &&
-                        response.data &&
-                        response.data.data &&
-                        response.data.data.favourite
+                    response.data &&
+                    response.data.data &&
+                    response.data.data.favourite
                 );
             }
         }
@@ -42,7 +42,7 @@ const FavouritePage = () => {
         }
     }, []); //eslint-disable-line
 
-    console.log(fav);
+
     return (
         <Box pt={["40px", null, "40px"]}>
             <Box>
@@ -68,7 +68,7 @@ const FavouritePage = () => {
                     >
                         {fav &&
                             fav.map((item, i) => {
-                                // console.log(fav);
+
                                 return (
                                     <ProductBox
                                         isLiked="true"

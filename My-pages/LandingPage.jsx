@@ -13,14 +13,14 @@ const LandingPage = () => {
     useEffect(() => {
         async function fetchAccessories() {
             const response = await httpGet(`${baseUrl}/store/categories`);
-            // console.log("A new response is here", response);
+
         }
 
         fetchAccessories();
     }, []);
     //cart context
     const GlobalCart = useContext(CartContext);
-    // console.log(GlobalCart)
+
     const dispatch = GlobalCart.dispatch;
     return (
         <Box pt={["40px", null, "40px"]}>

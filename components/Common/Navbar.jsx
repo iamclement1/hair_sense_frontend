@@ -40,15 +40,15 @@ const Navbar = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
     const { user, setUser, products, handleLogOut } = useContext(StateContext);
-    // console.log("user", user);
-    // console.log("Producs is here in nav", products);
+
+
     // have userData here
     const [userData, setUserData] = useState(null);
-    // console.log("User: " + user);
+
     // function to handle Authication  modal
     //fetch user info from the endpoint
     const access_token = Cookies.get("access_token");
-    // console.log("here is the token", access_token);
+
     useEffect(() => {
         async function fetchUser() {
             const response = await axios.get(`${baseUrl}/accounts/user`, {
@@ -120,13 +120,27 @@ const Navbar = () => {
                         gap="20px"
                         flexWrap={["wrap", null, "nowrap"]}
                     >
+
+
                         {/* The logo section */}
 
                         <Box
                             display="flex"
                             alignItems="center"
                             flexShrink={"0"}
+
                         >
+
+                            {/* Humbuger for Mobile Nav */}
+                            <Box
+                                // w={"50%"}
+
+                                display={["block", null, "null", "none"]}
+                                onClick={onOpen}
+                                cursor={"pointer"}
+                            >
+                                <Icon as={FaBars} boxSize={"25px"} />
+                            </Box>
                             <Link as={NextLink} href="/">
                                 <Image
                                     src={"/images/Hairsense-logo.svg"}
@@ -142,15 +156,17 @@ const Navbar = () => {
                         <Box
                             w={["100%", null, "100%"]}
                             order={[3, 3, 2]}
-                            // flexShrink={1}
+                        // flexShrink={1}
                         >
                             <SearchInput />
                         </Box>
+
+
                         {/* Account and other menu section */}
                         <Box
-                            order={3}
+                            order={[2, 2, 3]}
                             justifyContent={"flex-end"}
-                            display={["none", "none", "none", "flex"]}
+                            display={["flex", "flex", "flex", "flex"]}
                             flexShrink={0}
                         >
                             <Flex gap="20px">
@@ -162,7 +178,7 @@ const Navbar = () => {
                                                     <Box key={i}>
                                                         {" "}
                                                         {text ===
-                                                        "My Account" ? (
+                                                            "My Account" ? (
                                                             <>
                                                                 {" "}
                                                                 <Menu>
@@ -183,7 +199,8 @@ const Navbar = () => {
                                                                             }
                                                                             color="accent_2"
                                                                         />
-                                                                        <Text color="accent_2">
+
+                                                                        <Text color="accent_2" display={["none", null, "block"]} >
                                                                             {user &&
                                                                                 user.first_name}
                                                                         </Text>
@@ -218,13 +235,14 @@ const Navbar = () => {
                                                                     as={icon}
                                                                     color="accent_2"
                                                                 />
-                                                                <Text color="accent_2">
+
+                                                                <Text color="accent_2" display={["none", null, "block"]} >
                                                                     {text}{" "}
                                                                 </Text>
                                                                 {text ===
                                                                     "My Cart" &&
                                                                     cartItems.length >
-                                                                        0 && (
+                                                                    0 && (
                                                                         <Flex
                                                                             bgColor="primary_1"
                                                                             color="white"
@@ -266,12 +284,13 @@ const Navbar = () => {
                                                             as={icon}
                                                             color="accent_2"
                                                         />
-                                                        <Text color="accent_2">
+
+                                                        <Text color="accent_2" display={["none", null, "block"]} >
                                                             {text}{" "}
                                                         </Text>
                                                         {text === "My Cart" &&
                                                             state.length >
-                                                                0 && (
+                                                            0 && (
                                                                 <Flex
                                                                     bgColor="primary_1"
                                                                     color="white"
@@ -298,16 +317,7 @@ const Navbar = () => {
                                 )}
                             </Flex>
                         </Box>
-                        {/* Humbuger for Mobile Nav */}
-                        <Box
-                            // w={"50%"}
-                            order={[2, 2, 3]}
-                            display={["block", null, "null", "none"]}
-                            onClick={onOpen}
-                            cursor={"pointer"}
-                        >
-                            <Icon as={FaBars} boxSize={"25px"} />
-                        </Box>
+
                     </Flex>
                     {/* Destop NaV */}
                     <Box>
@@ -324,7 +334,7 @@ const Navbar = () => {
                 </ScreenSize>
 
                 {/* Modal Requirement Importation for the Account */}
-            </Box>
+            </Box >
 
             <AuthModal
                 isOpen={isOpenAuth}

@@ -34,7 +34,7 @@ import { toast } from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
     const [subCat, setSubCat] = useState([]);
-    console.log(data && data.id);
+
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCat, setSelectedSubCat] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -72,12 +72,12 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
             })
                 .then((response) => {
                     const data = response.data.results;
-                    // console.log(data);
+
                     setSubCat(data);
-                    console.log(subCat);
+
                 })
                 .catch((error) => {
-                    console.log(error);
+
                 });
         };
 
@@ -89,12 +89,12 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
     // useeffect to handle Selected subcat
     useEffect(() => {
         subCat.map((item) => {
-            // console.log(item.id === selectedCategory);
-            console.log(item.id);
-            console.log(selectedCategory);
+
+
+
             item.id == selectedCategory
                 ? setSelectedSubCat(item.sub_category)
-                : console.log("Not found");
+                : ""
         });
     }, [selectedCategory]);
 
@@ -135,7 +135,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                     const convertedFile = new File([imageBlob], "product_img");
                     payload.append("product_img", convertedFile);
                 } catch (error) {
-                    console.log(error);
+
                 }
             }
         }
@@ -147,7 +147,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                 },
             })
             .then((response) => {
-                console.log(response);
+
                 if (response.status === 202) {
                     toast.success("Product updated successfully");
                     // setActivePage(4);
@@ -155,12 +155,12 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                 }
             })
             .catch((error) => {
-                console.log(error);
+
                 toast.error("Unable to create product");
             });
 
         setLoading(false);
-        // console.log(payload);
+
     };
 
     return (
@@ -227,7 +227,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                             onSubmit={(values) => {
                                 values.file = file;
                                 handleEditProduct(values);
-                                // console.log(values);
+
                             }}
                         >
                             {({
@@ -275,7 +275,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                 placeholder="Select Category"
                                                 className={
                                                     errors.category &&
-                                                    touched.category
+                                                        touched.category
                                                         ? "error"
                                                         : ""
                                                 }
@@ -339,7 +339,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                 placeholder="Select Sub-Category"
                                                 className={
                                                     errors.sub_category &&
-                                                    touched.sub_category
+                                                        touched.sub_category
                                                         ? "error"
                                                         : ""
                                                 }
@@ -425,7 +425,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                     {/* Cover Image Section */}
 
                                     {(data && data.product_img !== null) ||
-                                    file ? (
+                                        file ? (
                                         <Box
                                             w="full"
                                             h="full"
@@ -440,8 +440,8 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                     data && data.product_img
                                                         ? data.product_img
                                                         : URL.createObjectURL(
-                                                              file
-                                                          )
+                                                            file
+                                                        )
                                                 }
                                                 alt="Uploaded"
                                                 maxH="full"

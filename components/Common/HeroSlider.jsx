@@ -62,8 +62,6 @@ const HeroSlider = ({ children }) => {
         nextArrow: <NextArrow />,
         afterChange: (slideIndex) => {
             setCurrentSlide(slideIndex)
-            console.log("slideIndex", slideIndex);
-            console.log(currentSlide);
         },
     };
 
@@ -84,16 +82,16 @@ export default HeroSlider;
 const heroData = [
     {
         bgColor: "accent_4",
-        title: "Find Your Favorite Hair Care Products",
-        subTitle: "Your favorite hair care product is just one click away",
-        imageUrl: "/images/heroBg_1.svg",
+        title: "Find Your Favorite Facial Products",
+        subTitle: "Your favorite facial product is just one click away",
+        imageUrl: "/images/hero.png",
         url: "/",
     },
     {
         bgColor: "accent_4",
         title: "Beautiful Cosmetics products",
         subTitle: "Your favorite hair care product is just one click away",
-        imageUrl: "/images/heroBg_2.svg",
+        imageUrl: "/images/hero1.png",
         url: "/",
     },
 ];
@@ -111,7 +109,7 @@ const HeroContent = ({ data }) => {
                 gap={["0.81rem", null, "20px"]}
             >
                 <Flex w="50%" justify={"center"} align={"center"}>
-                    <Box maxW="584px" pl={["1rem", null, "1.92rem"]}>
+                    <Box maxW="584px" pl={["0rem", null, "1.92rem"]}>
                         <Text
                             fontWeight={"600"}
                             fontSize={["16px", "24px", "54px", "56px"]}
