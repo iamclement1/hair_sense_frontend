@@ -98,7 +98,7 @@ export default function AdminDashboard({ children }) {
     useEffect(() => {
         // Redirect user to login if not logged in or not an admin
         if (!user && user?.role !== 'admin') {
-            router.push('/'); 
+            router.push('/404'); 
         } else {
             router.push('/admin');
         }
