@@ -18,6 +18,7 @@ import {
     ModalContent,
     ModalCloseButton,
     Select,
+    Icon,
 } from "@chakra-ui/react";
 import { PrimaryButton, SocialButton } from "../Common/Button";
 import { Formik, Field } from "formik";
@@ -31,6 +32,7 @@ import StateProvider, { StateContext } from "@/context/StateProvider";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { ERROR_RESPONSES } from "@/http-request/response";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 const AuthModal = ({ isOpen, onOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -73,8 +75,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                             {currentPage === "login"
                                 ? "Welcome Back"
                                 : currentPage === "register"
-                                    ? "Create An Account"
-                                    : "Recover your Password"}
+                                ? "Create An Account"
+                                : "Recover your Password"}
                         </Text>
                         <Divider />
                     </Flex>
@@ -115,15 +117,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     currentPage === "login"
                                         ? handleCurrentForm("register")
                                         : currentPage === "register"
-                                            ? handleCurrentForm("login")
-                                            : handleCurrentForm("login");
+                                        ? handleCurrentForm("login")
+                                        : handleCurrentForm("login");
                                 }}
                             >
                                 {currentPage === "login"
                                     ? "Don’t have an account? "
                                     : currentPage === "register"
-                                        ? "Already have an account? "
-                                        : "Already have an account? "}
+                                    ? "Already have an account? "
+                                    : "Already have an account? "}
                                 <Box
                                     as="button"
                                     color="accent_2"
@@ -132,8 +134,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
-                                            ? "Sign in"
-                                            : "Sign in"}
+                                        ? "Sign in"
+                                        : "Sign in"}
                                 </Box>
                             </Box>
                         </Box>
@@ -151,7 +153,13 @@ const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
     const [isCaptchaValid, setIsCaptchaValid] = useState(false); // Initially set to false
     const [captchaResponse, setCaptchaResponse] = useState("");
+    const [showPassWord, setShowPassWord] = useState(false);
     const { isLoading, setIsLoading, setUser } = useContext(StateContext);
+
+    //show password
+    const togglePassword = () => {
+        setShowPassWord(!showPassWord);
+    };
 
     // import user from context api
     const loginUser = async (values) => {
@@ -161,8 +169,6 @@ const Login = ({ handleCurrentForm, onClose }) => {
             password: values.password,
         };
         const { email, password } = formData;
-
-
 
         await axios
             .post(`${baseUrl}/accounts/sign_in/`, formData)
@@ -303,25 +309,39 @@ const Login = ({ handleCurrentForm, onClose }) => {
                         >
                             Password
                         </FormLabel>
-                        <Field
-                            as={Input}
-                            id="password"
-                            name="password"
-                            fontSize={["12px"]}
-                            type="password"
-                            placeholder="Password"
-                            px={["13px", null]}
-                            validate={(value) => {
-                                let error;
+                        <Flex position={"relative"}>
+                            <Field
+                                as={Input}
+                                id="password"
+                                name="password"
+                                fontSize={["12px"]}
+                                type={showPassWord ? "text" : "password"}
+                                placeholder="Password"
+                                px={["13px", null]}
+                                validate={(value) => {
+                                    let error;
 
-                                if (value.length < 6) {
-                                    error =
-                                        "Password must contain at least 6 characters";
-                                }
+                                    if (value.length < 6) {
+                                        error =
+                                            "Password must contain at least 6 characters";
+                                    }
 
-                                return error;
-                            }}
-                        />
+                                    return error;
+                                }}
+                            />
+
+                            <Icon
+                                zIndex={"overlay"}
+                                as={showPassWord ? ViewIcon : ViewOffIcon}
+                                onClick={togglePassword}
+                                cursor={"pointer"}
+                                transform={"auto"}
+                                position={"absolute"}
+                                top={"50%"}
+                                right="20px"
+                                translateY={"-50%"}
+                            />
+                        </Flex>
                         <FormErrorMessage fontSize={["12px"]}>
                             {errors.password}
                         </FormErrorMessage>
@@ -371,12 +391,9 @@ const Register = ({ handleCurrentForm }) => {
         };
         // const { first_name, last_name, phone, password } = formData;
 
-
-
         await axios
             .post(`${baseUrl}/accounts/register/`, formData)
             .then((response) => {
-
                 // if (response && response.message === "proceed to login") {
                 //     handleCurrentForm("login");
                 //     toast("Account Created Successfully, Process To Login");
@@ -678,7 +695,7 @@ const Register = ({ handleCurrentForm }) => {
                         mb="15px"
                         mx="auto"
                         isLoading={isLoading}
-                    // handleButton={registerUser}
+                        // handleButton={registerUser}
                     />
                 </form>
             )}
