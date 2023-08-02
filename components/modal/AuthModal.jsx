@@ -106,9 +106,9 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
 
                         {/* ************    * */}
 
-                        <Box>
+                        {/* <Box>
                             {currentPage === "login" && <SignInWithSocials />}
-                        </Box>
+                        </Box> */}
                         <Box>
                             <Box
                                 fontSize={"14px"}
@@ -704,52 +704,52 @@ const Register = ({ handleCurrentForm }) => {
 };
 
 // Layout Components
-const SignInWithSocials = () => {
-    return (
-        <Box>
-            <Flex
-                align={"center"}
-                gap={["12px", null, "12px"]}
-                mt="23px"
-                mb={["14px", null, "35px"]}
-            >
-                <Divider />
-                <Text
-                    flexShrink={0}
-                    fontSize={["14px", null, null, "20px"]}
-                    fontWeight={600}
-                    color="accent_2"
-                >
-                    or
-                </Text>
-                <Divider />
-            </Flex>
-            <Box>
-                <Box mb={["15px", null, "30px"]}>
-                    <SocialButton
-                        icon={false}
-                        text={"Continue with Google"}
-                        imageUrl={"/images/googleIcon.svg"}
-                        imageText={"Login with Google"}
-                    />
-                </Box>
-                <Box mb={["16px", null, "30px"]}>
-                    <SocialButton
-                        icon={false}
-                        text={"Continue with Facebook"}
-                        imageUrl={"/images/faceBook.svg"}
-                        imageText={"Login with facebook"}
-                    />
-                </Box>
-                <Box mb={["15px", null, "24px"]}>
-                    <SocialButton
-                        icon={false}
-                        text={"Continue with Apple"}
-                        imageUrl={"/images/apple.svg"}
-                        imageText={"Login with Apple"}
-                    />
-                </Box>
-            </Box>
-        </Box>
-    );
-};
+// const SignInWithSocials = () => {
+//     return (
+//         <Box>
+//             <Flex
+//                 align={"center"}
+//                 gap={["12px", null, "12px"]}
+//                 mt="23px"
+//                 mb={["14px", null, "35px"]}
+//             >
+//                 <Divider />
+//                 <Text
+//                     flexShrink={0}
+//                     fontSize={["14px", null, null, "20px"]}
+//                     fontWeight={600}
+//                     color="accent_2"
+//                 >
+//                     or
+//                 </Text>
+//                 <Divider />
+//             </Flex>
+//             <Box>
+//                 <Box mb={["15px", null, "30px"]}>
+//                     <SocialButton
+//                         icon={false}
+//                         text={"Continue with Google"}
+//                         imageUrl={"/images/googleIcon.svg"}
+//                         imageText={"Login with Google"}
+//                     />
+//                 </Box>
+//                 <Box mb={["16px", null, "30px"]}>
+//                     <SocialButton
+//                         icon={false}
+//                         text={"Continue with Facebook"}
+//                         imageUrl={"/images/faceBook.svg"}
+//                         imageText={"Login with facebook"}
+//                     />
+//                 </Box>
+//                 <Box mb={["15px", null, "24px"]}>
+//                     <SocialButton
+//                         icon={false}
+//                         text={"Continue with Apple"}
+//                         imageUrl={"/images/apple.svg"}
+//                         imageText={"Login with Apple"}
+//                     />
+//                 </Box>
+//             </Box>
+//         </Box>
+//     );
+// };
