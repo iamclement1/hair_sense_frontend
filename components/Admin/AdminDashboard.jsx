@@ -97,8 +97,8 @@ export default function AdminDashboard({ children }) {
     const router = useRouter();
     useEffect(() => {
         if (!user && user?.role !== 'admin') {
-            router.push('/404');
-        }
+            router.push('/');
+        } 
     })
     return (
         <Box minH="100vh" bgColor="shades_8">
