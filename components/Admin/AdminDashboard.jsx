@@ -1,3 +1,4 @@
+'use client'
 import React, { ReactNode, useContext, useEffect, useState } from "react";
 import {
     IconButton,
@@ -91,18 +92,14 @@ export default function AdminDashboard({ children }) {
     const [activePage, setActivePage] = useState(1);
 
     const { user } = useContext(StateContext);
-    
+
 
     const router = useRouter();
-
     useEffect(() => {
-        // Redirect user to login if not logged in or not an admin
         if (!user && user?.role !== 'admin') {
-            router.push('/404'); 
-        } else {
-            router.push('/admin');
+            router.push('/404');
         }
-    }, [user, router]);
+    })
     return (
         <Box minH="100vh" bgColor="shades_8">
             <SidebarContent
