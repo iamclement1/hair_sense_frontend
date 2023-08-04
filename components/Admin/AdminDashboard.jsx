@@ -1,13 +1,11 @@
 'use client'
-import React, { ReactNode, useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     IconButton,
-    Avatar,
     Box,
     CloseButton,
     Flex,
     HStack,
-    VStack,
     Icon,
     useColorModeValue,
     Link,
@@ -15,26 +13,13 @@ import {
     DrawerContent,
     Text,
     useDisclosure,
-    BoxProps,
-    FlexProps,
     Menu,
     MenuButton,
-    MenuDivider,
     MenuItem,
     MenuList,
     DrawerOverlay,
     Image,
 } from "@chakra-ui/react";
-import {
-    FiHome,
-    FiTrendingUp,
-    FiCompass,
-    FiStar,
-    FiSettings,
-    FiMenu,
-    FiBell,
-    FiChevronDown,
-} from "react-icons/fi";
 import { MdOutlineDashboard } from "react-icons/md";
 import Dashboard from "@/components/Admin/Dashboard";
 import Categories from "@/components/Admin/Categories";
@@ -86,7 +71,7 @@ const navData = [
     },
 ];
 
-export default function AdminDashboard({ children }) {
+export default function AdminDashboard() {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [activePage, setActivePage] = useState(1);
