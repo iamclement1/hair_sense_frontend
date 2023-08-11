@@ -16,14 +16,37 @@ import {
     TableCaption,
     TableContainer,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NextLink from "next/link";
 import { MdOutlineDashboard } from "react-icons/md";
 import { PrimaryButton } from "@/components/Common";
 import { SecondaryButton } from "../Common/Button";
+import Cookies from 'js-cookie'
+import { baseUrl, httpGet } from "@/http-request/http-request";
 
 const Orders = () => {
     const tableData = [1, 2];
+    const accessToken = Cookies.get("access_token");
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            await httpGet(`${baseUrl}/store/orders/all/`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            })
+                .then((response) => {
+                    const data = response.data.results;
+                    console.log(data);
+                    // setCatData(data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+
+        fetchOrders();
+    }, [accessToken])
     return (
         <Box>
             <Box>
