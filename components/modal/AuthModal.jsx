@@ -75,8 +75,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                             {currentPage === "login"
                                 ? "Welcome Back"
                                 : currentPage === "register"
-                                ? "Create An Account"
-                                : "Recover your Password"}
+                                    ? "Create An Account"
+                                    : "Recover your Password"}
                         </Text>
                         <Divider />
                     </Flex>
@@ -117,15 +117,15 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     currentPage === "login"
                                         ? handleCurrentForm("register")
                                         : currentPage === "register"
-                                        ? handleCurrentForm("login")
-                                        : handleCurrentForm("login");
+                                            ? handleCurrentForm("login")
+                                            : handleCurrentForm("login");
                                 }}
                             >
                                 {currentPage === "login"
                                     ? "Don’t have an account? "
                                     : currentPage === "register"
-                                    ? "Already have an account? "
-                                    : "Already have an account? "}
+                                        ? "Already have an account? "
+                                        : "Already have an account? "}
                                 <Box
                                     as="button"
                                     color="accent_2"
@@ -134,8 +134,8 @@ const AuthModal = ({ isOpen, onOpen, onClose }) => {
                                     {currentPage === "login"
                                         ? "Sign up"
                                         : currentPage === "register"
-                                        ? "Sign in"
-                                        : "Sign in"}
+                                            ? "Sign in"
+                                            : "Sign in"}
                                 </Box>
                             </Box>
                         </Box>
@@ -227,29 +227,9 @@ const Login = ({ handleCurrentForm, onClose }) => {
             .catch((error) => {
                 setIsLoading(false);
                 if (error.response) {
-                    const { status } = error.response;
-                    switch (status) {
-                        // case 401:
-                        //     toast.error(ERROR_RESPONSES.UNAUTHORIZED);
-                        //     break;
-                        case 404:
-                            toast.error("Details incorrect");
-                            break;
-                        // case 500:
-                        //     toast.error(ERROR_RESPONSES.INTERNAL_SERVER_ERROR);
-                        //     break;
-                        // case 404:
-                        //     toast.error(ERROR_RESPONSES.RESOURCE_NOT_FOUND);
-                        //     break;
-                        // case 400:
-                        //     toast.error(ERROR_RESPONSES.BAD_REQUEST);
-                        //     break;
-                        // default:
-                        //     toast.error(ERROR_RESPONSES.GENERIC_ERROR);
-                    }
+                    const errorMessage = (error.response.data.message);
+                    toast.error(errorMessage);
                 }
-
-                // toast.error(error.message);
             });
     };
 
@@ -695,7 +675,7 @@ const Register = ({ handleCurrentForm }) => {
                         mb="15px"
                         mx="auto"
                         isLoading={isLoading}
-                        // handleButton={registerUser}
+                    // handleButton={registerUser}
                     />
                 </form>
             )}
