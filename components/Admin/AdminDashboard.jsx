@@ -32,6 +32,7 @@ import { useRouter } from "next/router";
 import { HiChevronDown, HiOutlineShoppingBag } from "react-icons/hi2";
 import CreateProducts from "./CreateProducts";
 import Products from "./Products";
+import { FiMenu } from "react-icons/fi";
 
 const navData = [
     {
