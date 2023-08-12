@@ -38,7 +38,7 @@ const OverView = ({ onToggle }) => {
             </Flex>
 
             <Box fontSize={["16px", null, null, null, "18px"]}>
-                <Text> Greetings, Mr. Salaudeen!</Text>
+                <Text> Greetings, Mr. Salaudeen 🥰 </Text>
                 <Text mt="18px">
                     Our online store is eager to have you as a customer.
                     Purchase your own particular beauty favorites or explore

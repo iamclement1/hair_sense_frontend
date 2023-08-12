@@ -3,6 +3,7 @@ import OverView from "@/components/Client/OverView";
 import RecentlyViewed from "@/components/Client/RecentlyViewed";
 import { PrimaryButton, ProductSlider } from "@/components/Common";
 import Badge from "@/components/Common/Badge";
+import { StateContext } from "@/context/StateProvider";
 import {
     Box,
     Divider,
@@ -12,16 +13,25 @@ import {
     Image,
     useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const MyAccount = () => {
     const [activeNav, setActiveNav] = useState(2);
     const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+
+    const { handleLogOut } = useContext(StateContext);
+
+
     return (
         <Box>
-            <Box w="100%" mt={{ base: "33px", md: "74px", xl: "" }}>
+            <Box>
+                <Flex display="flex" justify="center" mt="48px" >
+                    <Text fontSize="2xl" fontWeight="extrabold">Thank you for choosing us, your orders can be viewed here 🤗</Text>
+                </Flex>
+            </Box>
+            <Box w="100%" mt={{ base: "33px", md: "60px", xl: "" }}>
                 <Box w="100%">
                     <Flex justify="flex-end" align="center">
                         <Icon
@@ -85,6 +95,15 @@ const MyAccount = () => {
                                 ""
                             )}
                         </Box>
+                    </Flex>
+
+                    <Flex>
+                        <Text fontSize="xl" mt="38px" color="#DE3C4B" cursor="pointer"
+                            onClick={() => {
+                                handleLogOut();
+                            }}>
+                            Log Out
+                        </Text>
                     </Flex>
                 </Box>
             </Box>

@@ -1,9 +1,18 @@
+
 import MyAccount from "@/My-pages/MyAccount";
 import { Layout, ScreenSize } from "@/components/layouts";
-import { Box } from "@chakra-ui/react";
-import React from "react";
+import { StateContext } from "@/context/StateProvider";
+import { useRouter } from "next/router";
+import React, { useContext, useEffect } from "react";
 
 const my_account = () => {
+    const router = useRouter();
+    const { user } = useContext(StateContext);
+    useEffect(() => {
+        if (!user) {
+            router.push('/')
+        }
+    })
     return (
         <Layout>
             <ScreenSize>
