@@ -1,12 +1,11 @@
-import React, { ReactNode, useContext, useEffect, useState } from "react";
+'use client'
+import React, { useContext, useEffect, useState } from "react";
 import {
     IconButton,
-    Avatar,
     Box,
     CloseButton,
     Flex,
     HStack,
-    VStack,
     Icon,
     useColorModeValue,
     Link,
@@ -14,26 +13,13 @@ import {
     DrawerContent,
     Text,
     useDisclosure,
-    BoxProps,
-    FlexProps,
     Menu,
     MenuButton,
-    MenuDivider,
     MenuItem,
     MenuList,
     DrawerOverlay,
     Image,
 } from "@chakra-ui/react";
-import {
-    FiHome,
-    FiTrendingUp,
-    FiCompass,
-    FiStar,
-    FiSettings,
-    FiMenu,
-    FiBell,
-    FiChevronDown,
-} from "react-icons/fi";
 import { MdOutlineDashboard } from "react-icons/md";
 import Dashboard from "@/components/Admin/Dashboard";
 import Categories from "@/components/Admin/Categories";
@@ -46,6 +32,7 @@ import { useRouter } from "next/router";
 import { HiChevronDown, HiOutlineShoppingBag } from "react-icons/hi2";
 import CreateProducts from "./CreateProducts";
 import Products from "./Products";
+import { FiMenu } from "react-icons/fi";
 
 const navData = [
     {
@@ -85,24 +72,20 @@ const navData = [
     },
 ];
 
-export default function AdminDashboard({ children }) {
+export default function AdminDashboard() {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const [activePage, setActivePage] = useState(1);
 
     const { user } = useContext(StateContext);
-    
+
 
     const router = useRouter();
-
     useEffect(() => {
-        // Redirect user to login if not logged in or not an admin
         if (!user && user?.role !== 'admin') {
-            router.push('/'); 
-        } else {
-            router.push('/admin');
-        }
-    }, [user, router]);
+            router.push('/');
+        } 
+    })
     return (
         <Box minH="100vh" bgColor="shades_8">
             <SidebarContent
