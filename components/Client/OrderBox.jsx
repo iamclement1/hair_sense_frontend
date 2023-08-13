@@ -14,7 +14,7 @@ import { FiChevronLeft } from "react-icons/fi";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const OrderBox = ({ data }) => {
-    console.log("dada", data);
+    // console.log("dada", data);
     return (
         <Box>
             <Flex
