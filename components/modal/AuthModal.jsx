@@ -174,9 +174,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
             .post(`${baseUrl}/accounts/sign_in/`, formData)
             .then((response) => {
                 if (
-                    response &&
-                    response.data &&
-                    response.data.role === "client"
+                    response?.data?.role === "client"
                 ) {
                     const setAccessTokenCookie = (access) => {
                         const expires = new Date(Date.now() + 60 * 60 * 1000); // One hour from now
@@ -198,7 +196,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     //success callback
                     toast.success("Login successful...");
                     onClose();
-                } else if (response.data.role === "admin") {
+                } else if (response?.data?.role === "admin") {
                     const setAccessTokenCookie = (access) => {
                         const expires = new Date(Date.now() + 60 * 60 * 1000); // One hour from now
                         Cookies.set("currentUser", access, { expires });
