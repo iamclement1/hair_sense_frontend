@@ -9,7 +9,7 @@ const my_account = () => {
     const router = useRouter();
     const { user } = useContext(StateContext);
     useEffect(() => {
-        if (!user) {
+        if (!user && user.role !== "client") {
             router.push('/')
         }
     })
