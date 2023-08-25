@@ -39,11 +39,11 @@ const Navbar = () => {
     // fuction to Open Nav
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
-    const { user, setUser, products, handleLogOut } = useContext(StateContext);
+    const { user, setUser, handleLogOut } = useContext(StateContext);
 
 
     // have userData here
-    const [userData, setUserData] = useState(null);
+    const [setUserData] = useState(null);
 
     // function to handle Authication  modal
     //fetch user info from the endpoint
@@ -56,9 +56,9 @@ const Navbar = () => {
                     Authorization: `Bearer ${access_token}`,
                 },
             });
-            // const data = await response;
-            setUser(response && response.data && response.data.data);
-            setUserData(response && response.data && response.data.data);
+            setUser(response?.data?.data);
+            setUserData(response?.data?.data);
+
         }
         user && fetchUser();
     }, [user]); //eslint-disable-line
@@ -201,8 +201,7 @@ const Navbar = () => {
                                                                         />
 
                                                                         <Text color="accent_2" display={["none", null, "block"]} >
-                                                                            {user &&
-                                                                                user.first_name}
+                                                                            {user?.first_name}
                                                                         </Text>
                                                                     </Box>
                                                                     <MenuList py="0px">
