@@ -3,17 +3,15 @@ import {
     Divider,
     Flex,
     Icon,
-    IconButton,
-    Image,
     Text,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import Slider from "react-slick";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import ScreenSize from "../layouts/ScreenSize";
 import ProductBox from "./ProductBox";
 import { StateContext } from "@/context/StateProvider";
-import { baseUrl, httpGet } from "@/http-request/http-request";
+import { baseUrl } from "@/http-request/http-request";
 import axios from "axios";
 
 const ProductSlider = ({
@@ -22,7 +20,6 @@ const ProductSlider = ({
     type = "default",
     children,
 }) => {
-    const [currentSlide, setCurrentSlide] = useState(1);
     const NextArrow = (props) => {
         const { onClick } = props;
         return (
@@ -102,8 +99,8 @@ const ProductSlider = ({
     useEffect(() => {
         async function fetchProduct() {
             const response = await axios.get(`${baseUrl}/store/products`);
-            if (response && response.data && response.status === 200) {
-                const data = response.data.data.results;
+            if (response?.data && response?.status === 200) {
+                const data = response?.data?.data?.results;
 
                 setProducts(data);
             }
@@ -116,7 +113,6 @@ const ProductSlider = ({
 
     const handleProduct = (id) => {
         // alert("Product Id === ", id);
-
     };
     return (
         <ScreenSize>
@@ -162,17 +158,15 @@ const ProductSlider = ({
             {/*  */}
 
             <Box>
-                {productDatas && productDatas === null ? (
-                    <Text> Products not Available </Text>
+                {!productDatas ? (
+                    <Text fontSize={'24px'} fontWeight={500}> Products not Available </Text>
                 ) : (
                     <Slider {...settings} ref={sliderRef}>
-                        {products &&
-                            products.map((product, id) => {
+                        {products?.map((product) => {
                                 product.quantity = 1;
-
                                 return (
                                     <ProductBox
-                                        key={id}
+                                        key={product.id}
                                         productData={product}
                                         onClick={() => {
                                             handleProduct(product.id)

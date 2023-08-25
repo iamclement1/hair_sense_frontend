@@ -1,5 +1,4 @@
-import { PrimaryButton, ProductSlider } from "@/components/Common";
-import Badge from "@/components/Common/Badge";
+import { StateContext } from "@/context/StateProvider";
 import {
     Box,
     Divider,
@@ -9,11 +8,12 @@ import {
     Image,
     useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FiChevronLeft } from "react-icons/fi";
-import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const OverView = ({ onToggle }) => {
+    const { user } = useContext(StateContext);
+
     return (
         <Box>
             <Flex
@@ -38,7 +38,7 @@ const OverView = ({ onToggle }) => {
             </Flex>
 
             <Box fontSize={["16px", null, null, null, "18px"]}>
-                <Text> Greetings, Mr. Salaudeen 🥰 </Text>
+                <Text> Greetings, Mr.{user && user?.first_name} 🥰 </Text>
                 <Text mt="18px">
                     Our online store is eager to have you as a customer.
                     Purchase your own particular beauty favorites or explore
