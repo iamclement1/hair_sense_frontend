@@ -66,6 +66,8 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
             })
             .then((response) => {
                 //success callback
+                console.log(response);
+
 
                 if (response?.status === 200) {
                     toast.success(
@@ -73,7 +75,8 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                     );
 
                     setLoading(false);
-                    router.push(`${response && response.data?.url}`);
+                    console.log(response);
+                    router.push(`${response && response?.data?.data?.url}`);
                 }
             })
             .catch((error) => {
