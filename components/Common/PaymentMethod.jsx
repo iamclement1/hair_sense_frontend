@@ -67,13 +67,14 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
             .then((response) => {
                 //success callback
 
+
                 if (response?.status === 200) {
                     toast.success(
                         "Successful... You will now been Redirected to the payment page"
                     );
 
                     setLoading(false);
-                    router.push(`${response && response.data?.url}`);
+                    router.push(`${response && response?.data?.data?.url}`);
                 }
             })
             .catch((error) => {
