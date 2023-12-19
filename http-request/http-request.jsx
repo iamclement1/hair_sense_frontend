@@ -13,6 +13,7 @@ export const baseUrl =
 
 
 
+
 const token = Cookies.get("access_token");
 const headers = {
     "Content-Type": "application/json",
@@ -117,7 +118,7 @@ export const httpPost = async (url, postBody) => {
                     break;
                 case 404:
                     toast.error(ERROR_RESPONSES.RESOURCE_NOT_FOUND);
-                   
+
                     break;
                 case 400:
                     toast.error(ERROR_RESPONSES.BAD_REQUEST);
