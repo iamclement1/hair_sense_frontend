@@ -66,7 +66,6 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
             })
             .then((response) => {
                 //success callback
-                console.log(response);
 
 
                 if (response?.status === 200) {
@@ -75,7 +74,6 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                     );
 
                     setLoading(false);
-                    console.log(response);
                     router.push(`${response && response?.data?.data?.url}`);
                 }
             })
