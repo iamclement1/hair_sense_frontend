@@ -43,7 +43,7 @@ const Navbar = () => {
 
 
     // have userData here
-    const [setUserData] = useState(null);
+    // const [setUserData] = useState(null);
 
     // function to handle Authication  modal
     //fetch user info from the endpoint
@@ -57,7 +57,7 @@ const Navbar = () => {
                 },
             });
             setUser(response?.data?.data);
-            setUserData(response?.data?.data);
+            // setUserData(response?.data?.data);
 
         }
         user && fetchUser();
