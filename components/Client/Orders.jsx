@@ -29,10 +29,14 @@ const Orders = ({ onToggle }) => {
                 },
             });
 
-            if (response && response.status === 200) {
-                setClientOrders(response.data && response.data.data);
+            console.log("order", response)
+            if (response?.status === 200) {
+                setClientOrders(response?.data.data);
+                console.log("order", response)
+
             }
-            console.log(response);
+            console.log("order", response)
+
         }
 
         fetchOrders();

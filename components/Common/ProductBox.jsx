@@ -7,12 +7,7 @@ import {
     Popover,
     PopoverTrigger,
     PopoverContent,
-    PopoverHeader,
-    PopoverBody,
-    PopoverFooter,
     PopoverArrow,
-    PopoverCloseButton,
-    PopoverAnchor,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useRef } from "react";
 
@@ -25,9 +20,10 @@ import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 
 const ProductBox = ({ productData }, isLiked) => {
+
+
     const router = useRouter();
     // const { id, imageUrl, text, rating, price } = productData;
-    const { products, cart, setCart, user } = useContext(StateContext);
 
 
     const {
@@ -65,7 +61,7 @@ const ProductBox = ({ productData }, isLiked) => {
 
     //cart context
     const GlobalCart = useContext(CartContext);
-    const prevCartStateRef = useRef(GlobalCart.state);
+
 
     const handleAddToCart = (event) => {
         event.stopPropagation();
@@ -76,8 +72,8 @@ const ProductBox = ({ productData }, isLiked) => {
             (item) => item.id === productData.id
         );
 
-        // Check if the item already exists in localStorage
-        const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+        // Check if the item already exists in sessionStorage
+        const existingCartData = JSON.parse(sessionStorage.getItem("cart")) || [];
         const isItemInLocalStorage = existingCartData.some(
             (item) => item.id === productData.id
         );
@@ -85,7 +81,7 @@ const ProductBox = ({ productData }, isLiked) => {
         if (isItemExist) {
             toast.error("Item already exists in the cart");
         } else if (isItemInLocalStorage) {
-            toast.error("Item already exists in the localStorage");
+            toast.error("Item already exists in the sessionStorage");
         } else {
             dispatch({
                 type: "ADD_ITEM_TO_CART",
@@ -95,8 +91,8 @@ const ProductBox = ({ productData }, isLiked) => {
             });
             toast.success("Item added successfully");
 
-            // Update the cart data in localStorage
-            localStorage.setItem(
+            // Update the cart data in sessionStorage
+            sessionStorage.setItem(
                 "cart",
                 JSON.stringify([...existingCartData, productData])
             );
@@ -104,8 +100,8 @@ const ProductBox = ({ productData }, isLiked) => {
     };
 
     useEffect(() => {
-        localStorage.setItem("cartState", JSON.stringify(GlobalCart.state));
-        const stateCart = localStorage.getItem("cartState");
+        sessionStorage.setItem("cartState", JSON.stringify(GlobalCart.state));
+        const stateCart = sessionStorage.getItem("cartState");
 
     }, [GlobalCart.state]);
 
@@ -113,7 +109,7 @@ const ProductBox = ({ productData }, isLiked) => {
     // const dispatch = GlobalCart.dispatch;
     function handleProductDetails(productData) {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
-        localStorage.setItem("current_product", JSON.stringify(productData));
+        sessionStorage.setItem("current_product", JSON.stringify(productData));
         router.push(`/product_details/${productData.name}`);
 
     }
@@ -142,7 +138,7 @@ const ProductBox = ({ productData }, isLiked) => {
                             <Icon
                                 as={!isLiked ? BsHeartFill : BsHeart}
                                 cursor={"pointer"}
-                                color={!isLiked ? "gray" : "gray"}
+                                color={!isLiked && "gray"}
                                 pos={"absolute"}
                                 top={3}
                                 right={3}

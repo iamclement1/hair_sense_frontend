@@ -19,7 +19,7 @@ const ProductDetails = ({ }) => {
     const [prod, setProd] = useState();
 
     useEffect(() => {
-        let getProductDetails = localStorage.getItem("current_product");
+        let getProductDetails = sessionStorage.getItem("current_product");
         if (getProductDetails) {
             setProd(JSON.parse(getProductDetails));
         }
@@ -30,7 +30,7 @@ const ProductDetails = ({ }) => {
     const GlobalCart = useContext(CartContext);
     const prevCartStateRef = useRef(GlobalCart.state);
     const handleAddToCart = async (event) => {
-        // //add item to localstorage
+        // //add item to sessionStorage
         const dispatch = GlobalCart.dispatch;
         dispatch({
             type: "ADD_ITEM_TO_CART",
@@ -40,11 +40,11 @@ const ProductDetails = ({ }) => {
         });
 
 
-        // Retrieve the existing cart items from localStorage
+        // Retrieve the existing cart items from sessionStorage
         const existingCartItems =
-            JSON.parse(localStorage.getItem("cart")) || [];
+            JSON.parse(sessionStorage.getItem("cart")) || [];
 
-        // Check if the item already exists in localStorage
+        // Check if the item already exists in sessionStorage
         const isItemInLocalStorage = existingCartItems.some(
             (item) => item.id === prod.id
         );
@@ -57,8 +57,8 @@ const ProductDetails = ({ }) => {
             // Add the new product to the cart items array
             const updatedCartItems = [...existingCartItems, prod];
 
-            // Save the updated cart items to localStorage
-            localStorage.setItem("cart", JSON.stringify(updatedCartItems));
+            // Save the updated cart items to sessionStorage
+            sessionStorage.setItem("cart", JSON.stringify(updatedCartItems));
 
 
             toast.success("Item added succesfully");
