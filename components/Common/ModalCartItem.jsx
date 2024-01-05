@@ -40,18 +40,18 @@ const ModalCartItem = ({ onOpen, onClose }) => {
 
     //calculate total price of the quantity added to the cart
 
-    // Retrieve cart items from localStorage
-    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    // Retrieve cart items from sessionStorage
+    const cartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
 
-    //remove cart from state and localStorage
+    //remove cart from state and sessionStorage
     const handleRemoveFromCart = (product) => {
         const dispatch = GlobalCart.dispatch;
 
         // Remove the item from the cart state
         dispatch({ type: "REMOVE", payload: product });
 
-        // Get the existing cart data from localStorage
-        const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+        // Get the existing cart data from sessionStorage
+        const existingCartData = JSON.parse(sessionStorage.getItem("cart")) || [];
 
         // Find the index of the item to remove in the existing cart data
         const itemIndex = existingCartData.findIndex(
@@ -62,20 +62,20 @@ const ModalCartItem = ({ onOpen, onClose }) => {
             // Remove the item from the existing cart data
             existingCartData.splice(itemIndex, 1);
 
-            // Update the cart data in localStorage
-            localStorage.setItem("cart", JSON.stringify(existingCartData));
+            // Update the cart data in sessionStorage
+            sessionStorage.setItem("cart", JSON.stringify(existingCartData));
         }
     };
 
-    //increase the quantity of an item in the cart and update the quantity in the localStorage
+    //increase the quantity of an item in the cart and update the quantity in the sessionStorage
     const handleIncreaseQuantity = (product) => {
         const dispatch = GlobalCart.dispatch;
 
         // Update the quantity in the cart state
         dispatch({ type: "INCREASE_QUANTITY", payload: product });
 
-        // Get the existing cart data from localStorage
-        const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+        // Get the existing cart data from sessionStorage
+        const existingCartData = JSON.parse(sessionStorage.getItem("cart")) || [];
 
         // Find the index of the item in the existing cart data
         const itemIndex = existingCartData.findIndex(
@@ -86,12 +86,12 @@ const ModalCartItem = ({ onOpen, onClose }) => {
             // Update the quantity in the existing cart data
             existingCartData[itemIndex].quantity += 1;
 
-            // Update the cart data in localStorage
-            localStorage.setItem("cart", JSON.stringify(existingCartData));
+            // Update the cart data in sessionStorage
+            sessionStorage.setItem("cart", JSON.stringify(existingCartData));
         }
     };
 
-    //decrease the quantity of an item in the cart and in localStorage
+    //decrease the quantity of an item in the cart and in sessionStorage
     const handleDecreaseQuantity = (product) => {
         const dispatch = GlobalCart.dispatch;
 
@@ -99,9 +99,9 @@ const ModalCartItem = ({ onOpen, onClose }) => {
             // Decrease the quantity in the cart state
             dispatch({ type: "DECREASE_QUANTITY", payload: product });
 
-            // Get the existing cart data from localStorage
+            // Get the existing cart data from sessionStorage
             const existingCartData =
-                JSON.parse(localStorage.getItem("cart")) || [];
+                JSON.parse(sessionStorage.getItem("cart")) || [];
 
             // Find the index of the item in the existing cart data
             const itemIndex = existingCartData.findIndex(
@@ -112,24 +112,24 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                 // Decrease the quantity in the existing cart data
                 existingCartData[itemIndex].quantity -= 1;
 
-                // Update the cart data in localStorage
-                localStorage.setItem("cart", JSON.stringify(existingCartData));
+                // Update the cart data in sessionStorage
+                sessionStorage.setItem("cart", JSON.stringify(existingCartData));
             }
         } else {
             // Remove the item from the cart state
             dispatch({ type: "REMOVE", payload: product });
 
-            // Get the existing cart data from localStorage
+            // Get the existing cart data from sessionStorage
             const existingCartData =
-                JSON.parse(localStorage.getItem("cart")) || [];
+                JSON.parse(sessionStorage.getItem("cart")) || [];
 
             // Remove the item from the existing cart data
             const updatedCartData = existingCartData.filter(
                 (item) => item.id !== product.id
             );
 
-            // Update the cart data in localStorage
-            localStorage.setItem("cart", JSON.stringify(updatedCartData));
+            // Update the cart data in sessionStorage
+            sessionStorage.setItem("cart", JSON.stringify(updatedCartData));
         }
     };
 
@@ -142,8 +142,8 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         //     totalPrice += product.actual_price * product.quantity;
         // });
 
-        // Get the existing cart data from localStorage
-        const existingCartData = JSON.parse(localStorage.getItem("cart")) || [];
+        // Get the existing cart data from sessionStorage
+        const existingCartData = JSON.parse(sessionStorage.getItem("cart")) || [];
 
         existingCartData.forEach((product) => {
             totalPrice += product.actual_price * product.quantity;
@@ -154,8 +154,8 @@ const ModalCartItem = ({ onOpen, onClose }) => {
     const access_token = Cookies.get("access_token");
     //handle checkout payment button with paystack
     const sendCartItems = async () => {
-        // localStorage.setItem("sample", JSON.stringify(cartItems));
-        
+        // sessionStorage.setItem("sample", JSON.stringify(cartItems));
+
         setLoading(true);
 
         if (cartItems.length > 0) {
