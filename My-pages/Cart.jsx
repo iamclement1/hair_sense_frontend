@@ -16,7 +16,7 @@ import EmptyCart from "@/components/Common/EmptyCart";
 import { CartContext } from "@/context/StateProvider";
 
 const Cart = () => {
-    // Retrieve cart items from localStorage
+    // Retrieve cart items from sessionStorage
     let cartItems = [];
 
     // const GlobalCart = useContext(CartContext);
@@ -27,7 +27,7 @@ const Cart = () => {
 
     // }, [state]);
     if (typeof window !== "undefined") {
-        cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        cartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
     }
 
     return (

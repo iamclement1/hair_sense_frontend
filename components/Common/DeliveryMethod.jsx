@@ -24,7 +24,7 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
     const { addressDetails, setDeliveryMethod, deliveryMethod } =
         useContext(StateContext);
 
-    const cartItems = JSON.parse(localStorage.getItem("cart"));
+    const cartItems = JSON.parse(sessionStorage.getItem("cart"));
 
     if (!addressDetails) {
         handleCheckOutStep(1);

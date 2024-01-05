@@ -13,13 +13,7 @@ import {
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import React, { useEffect, useMemo, useState } from "react";
-import { AiFillEdit } from "react-icons/ai";
-import { MdDelete, MdOutlineDelete } from "react-icons/md";
-import { useTable } from "react-table";
-import TablePagination from "../Common/TablePagination";
-// import Spinner from "../Common/Spinner";
 import { toast } from "react-hot-toast";
-import { FiEdit } from "react-icons/fi";
 import EditProduct from "./EditProduct";
 
 const Products = () => {
@@ -35,7 +29,6 @@ const Products = () => {
     const [editData, setEditData] = useState(null);
     const accessToken = Cookies.get("access_token");
 
-    //pagination session starts here
     const itemsPerPage = 10;
 
     //calculate the total number of page
@@ -62,9 +55,11 @@ const Products = () => {
             },
         });
 
-        if (response && response.data && response.status === 200) {
-            const data = response.data.results;
+        if (response?.status === 200) {
+            const data = response?.data.results;
             setProducts(data);
+
+            console.log(response);
 
         }
 
@@ -79,31 +74,6 @@ const Products = () => {
         }
     }, [accessToken, products, setProducts]);
 
-    const columns = useMemo(
-        () => [
-            {
-                Header: "SN",
-                accessor: "id",
-            },
-            {
-                Header: "Product Name",
-                accessor: "name",
-            },
-            {
-                Header: "Product Description",
-                accessor: "first_description",
-            },
-            {
-                Header: "Product Price",
-                accessor: "actual_price",
-            },
-            {
-                Header: "Product Image",
-                accessor: "product_img",
-            },
-        ],
-        []
-    );
 
     const EnvData = useMemo(() => itemsToDisplay, [itemsToDisplay]);
 
@@ -186,12 +156,12 @@ const Products = () => {
                         {headerGroups.map((headerGroup, header) => (
                             <Tr
                                 {...headerGroup.getHeaderGroupProps()}
-                                key={header}
+                                key={header.id}
                             >
                                 {headerGroup.headers.map((column, col) => (
                                     <Th
                                         {...column.getHeaderProps()}
-                                        key={col}
+                                        key={col.id}
                                         bgColor="shades_9"
                                         py="20px"
                                         _first={{

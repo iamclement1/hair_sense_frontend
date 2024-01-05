@@ -33,7 +33,7 @@ const Navbar = () => {
     let cartItems = [];
 
     if (typeof window !== "undefined") {
-        cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        cartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
     }
 
     // fuction to Open Nav

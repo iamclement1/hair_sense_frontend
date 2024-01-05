@@ -2,19 +2,16 @@ import { PrimaryButton, ProductSlider } from "@/components/Common";
 import Badge from "@/components/Common/Badge";
 import {
     Box,
-    Divider,
     Flex,
     Text,
-    Icon,
+
     Image,
-    useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { FiChevronLeft } from "react-icons/fi";
-import { IoIosCloseCircleOutline } from "react-icons/io";
+import React from "react";
+
 
 const OrderBox = ({ data }) => {
-    // console.log("dada", data);
+    console.log("dada", data);
     return (
         <Box>
             <Flex
