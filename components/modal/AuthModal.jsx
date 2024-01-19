@@ -152,7 +152,6 @@ export default AuthModal;
 const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
     const [isCaptchaValid, setIsCaptchaValid] = useState(false); // Initially set to false
-    const [captchaResponse, setCaptchaResponse] = useState("");
     const [showPassWord, setShowPassWord] = useState(false);
     const { isLoading, setIsLoading, setUser } = useContext(StateContext);
 
@@ -173,6 +172,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
         await axios
             .post(`${baseUrl}/accounts/sign_in/`, formData)
             .then((response) => {
+                console.log(response)
                 if (
                     response?.data?.role === "client"
                 ) {
@@ -367,35 +367,42 @@ const Register = ({ handleCurrentForm }) => {
             password: values.password,
             email: values.email,
         };
-        // const { first_name, last_name, phone, password } = formData;
 
-        await axios
-            .post(`${baseUrl}/accounts/register/`, formData)
-            .then((response) => {
-                // if (response && response.message === "proceed to login") {
-                //     handleCurrentForm("login");
-                //     toast("Account Created Successfully, Process To Login");
-                // }
-                if (response.status === 201) {
-                    toast.success(
-                        "Account Created Successfully, Process To Login"
-                    );
-                    handleCurrentForm("login");
-                }
-                setIsLoading(false);
-            })
-            .catch((error) => {
-                setIsLoading(false);
-                toast.error(error.message);
+        try {
+            const response = await fetch(`${baseUrl}/accounts/register/`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
             });
+
+            if (response.ok) {
+                const data = await response.json();
+                toast.success(
+                    data?.message
+                );
+                handleCurrentForm("login");
+
+
+            } else {
+                const errorData = await response.json();
+                toast.error(errorData?.message);
+            }
+        } catch (error) {
+            console.error("An error occurred during registration:", error);
+            // Optionally, you can handle other types of errors here
+        } finally {
+            setIsLoading(false);
+        }
     };
+
     return (
         <Formik
             initialValues={{
                 first_name: "",
                 last_name: "",
                 password: "",
-
                 email: "",
                 phone: "",
                 confirm_password: "",
