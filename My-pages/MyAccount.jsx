@@ -1,25 +1,20 @@
 import Orders from "@/components/Client/Orders";
 import OverView from "@/components/Client/OverView";
 import RecentlyViewed from "@/components/Client/RecentlyViewed";
-import { PrimaryButton, ProductSlider } from "@/components/Common";
-import Badge from "@/components/Common/Badge";
 import { StateContext } from "@/context/StateProvider";
 import {
     Box,
-    Divider,
     Flex,
     Text,
     Icon,
-    Image,
     useDisclosure,
 } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
-import { FiChevronLeft } from "react-icons/fi";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const MyAccount = () => {
     const [activeNav, setActiveNav] = useState(2);
-    const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+    const { isOpen, onOpen, onToggle } = useDisclosure();
 
     const { handleLogOut } = useContext(StateContext);
 

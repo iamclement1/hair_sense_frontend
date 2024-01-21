@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 const FavouritePage = () => {
     const [fav, setFav] = useState([]);
 
-    const token = Cookies.get("access_token");
+    const token = sessionStorage.getItem("access_token");
 
     useEffect(() => {
         async function fetchFavorite() {

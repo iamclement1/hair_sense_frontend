@@ -4,20 +4,14 @@ import { baseUrl, httpGet, httpPost } from "@/http-request/http-request";
 import {
     Box,
     Flex,
-    Button,
-    Divider,
-    Icon,
     Text,
     Image,
     Textarea,
-    FormErrorMessage,
     FormLabel,
-    FormControl,
     Select,
     Input,
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Formik } from "formik";
-import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
@@ -50,7 +44,7 @@ const CreateProducts = ({ setActivePage }) => {
         setFile(null);
     };
 
-    const accessToken = Cookies.get("access_token");
+    const accessToken = sessionStorage.getItem("access_token");
     useEffect(() => {
         const fetchSubCategory = async () => {
             await httpGet(`${baseUrl}/store/categories`, {
@@ -91,7 +85,7 @@ const CreateProducts = ({ setActivePage }) => {
         setSelectedCategory(event.target.value); // seting the id of the selected
     };
 
-    //TODO: HANDLE PRODUCT CREATION
+
     // submit form
     const handleCreateProduct = async (values) => {
         setLoading(true);
@@ -108,7 +102,6 @@ const CreateProducts = ({ setActivePage }) => {
         payload.append("name", name);
         payload.append("sub_category", sub_category);
         payload.append("desc", desc);
-        // payload.append("second_description", second_description);
         payload.append("sales_price", sales_price);
         payload.append("actual_price", actual_price);
 

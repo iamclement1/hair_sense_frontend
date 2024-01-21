@@ -1,147 +1,67 @@
-import React, { use, useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     Box,
-    Divider,
     Flex,
     Text,
-    Button,
     Checkbox,
     FormControl,
     FormLabel,
     FormErrorMessage,
     Input,
-    Link,
     Modal,
-    ModalHeader,
-    ModalBody,
-    ModalOverlay,
-    ModalContent,
-    ModalCloseButton,
-    Select,
     Icon,
 } from "@chakra-ui/react";
-import { PrimaryButton, SocialButton } from "../Common/Button";
+import { PrimaryButton } from "../Common/Button";
 import { Formik, Field } from "formik";
-import NextLink from "next/link";
 import { baseUrl, httpPost } from "@/http-request/http-request";
-// import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
-import Cookies from "js-cookie";
-import StateProvider, { StateContext } from "@/context/StateProvider";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { ERROR_RESPONSES } from "@/http-request/response";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
-const AuthModal = ({ isOpen, onOpen, onClose }) => {
+const AuthModal = ({ isOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
+
     const handleCurrentForm = (page) => {
         setCurrentPage(page);
     };
 
+    const renderForm = () => {
+        switch (currentPage) {
+            case "login":
+                return <Login handleCurrentForm={handleCurrentForm} onClose={onClose} />;
+            case "register":
+                return <Register handleCurrentForm={handleCurrentForm} />;
+            case "forgetPassword":
+                return <Box>forget password Form will be here</Box>;
+            default:
+                return <Box></Box>; // or any other default JSX element
+        }
+    };
+
+
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="4xl">
-            <ModalOverlay />
-            <ModalContent
-                bgColor={"white"}
-                mx={["16px"]}
-                px={["0px", null, "64px"]}
-                py={["83px", null, "100px"]}
-                rounded={["12px", null, "none"]}
+            {/* ... (rest of the code) */}
+            <Box
+                mt={["0px", null, "40px"]}
+                pt={["24px", null, "34px"]}
+                pb={["0px", null, "54px"]}
+                border={"1px"}
+                borderColor={["transparent", null, "dark_1"]}
+                rounded={"12px"}
+                px={["20px", null, "30px"]}
             >
-                <ModalCloseButton
-                    border={"1px"}
-                    rounded={"full"}
-                    top={["20px", null, "50px"]}
-                    right={["14px", null, "34px"]}
-                />
-                <Box
-                    bgColor={""}
-                    pos={"relative"}
-                    w={"100%"}
-                    maxW={["100%", null, "100%", "533px"]}
-                    mx="auto"
-                >
-                    {" "}
-                    <Flex align={"center"} gap={["20px"]} px={["0px"]}>
-                        <Divider />
-                        <Text
-                            flexShrink={0}
-                            fontSize={["18px", null, "40px"]}
-                            fontWeight={600}
-                            color="accent_2"
-                        >
-                            {currentPage === "login"
-                                ? "Welcome Back"
-                                : currentPage === "register"
-                                    ? "Create An Account"
-                                    : "Recover your Password"}
-                        </Text>
-                        <Divider />
-                    </Flex>
-                    <Box
-                        mt={["0px", null, "40px"]}
-                        pt={["24px", null, "34px"]}
-                        pb={["0px", null, "54px"]}
-                        border={"1px"}
-                        borderColor={["transparent", null, "dark_1"]}
-                        rounded={"12px"}
-                        px={["20px", null, "30px"]}
-                    >
-                        {/* ************* */}
-                        {/* Form Are being Use here  Check the Components Below for forms */}
-                        {currentPage === "login" ? (
-                            <Login
-                                handleCurrentForm={handleCurrentForm}
-                                onClose={onClose}
-                            />
-                        ) : currentPage === "register" ? (
-                            <Register handleCurrentForm={handleCurrentForm} />
-                        ) : currentPage === "forgetPassword" ? (
-                            "forget password Form  will be here"
-                        ) : (
-                            ""
-                        )}
-
-                        {/* ************    * */}
-
-                        {/* <Box>
-                            {currentPage === "login" && <SignInWithSocials />}
-                        </Box> */}
-                        <Box>
-                            <Box
-                                fontSize={"14px"}
-                                textAlign={"center"}
-                                onClick={() => {
-                                    currentPage === "login"
-                                        ? handleCurrentForm("register")
-                                        : currentPage === "register"
-                                            ? handleCurrentForm("login")
-                                            : handleCurrentForm("login");
-                                }}
-                            >
-                                {currentPage === "login"
-                                    ? "Don’t have an account? "
-                                    : currentPage === "register"
-                                        ? "Already have an account? "
-                                        : "Already have an account? "}
-                                <Box
-                                    as="button"
-                                    color="accent_2"
-                                    fontWeight={"600"}
-                                >
-                                    {currentPage === "login"
-                                        ? "Sign up"
-                                        : currentPage === "register"
-                                            ? "Sign in"
-                                            : "Sign in"}
-                                </Box>
-                            </Box>
-                        </Box>
+                {/* ... (previous code) */}
+                {renderForm()}
+                <Box fontSize={"14px"} textAlign={"center"} onClick={() => handleCurrentForm(currentPage === "login" ? "register" : "login")}>
+                    {currentPage === "login" ? "Don’t have an account? " : "Already have an account? "}
+                    <Box as="button" color="accent_2" fontWeight={"600"}>
+                        {currentPage === "login" ? "Sign up" : "Sign in"}
                     </Box>
                 </Box>
-            </ModalContent>
+            </Box>
         </Modal>
     );
 };
@@ -167,7 +87,6 @@ const Login = ({ handleCurrentForm, onClose }) => {
             email: values.email,
             password: values.password,
         };
-        const { email, password } = formData;
 
         await axios
             .post(`${baseUrl}/accounts/sign_in/`, formData)
@@ -177,10 +96,9 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     response?.data?.role === "client"
                 ) {
                     const setAccessTokenCookie = (access) => {
-                        const expires = new Date(Date.now() + 60 * 60 * 1000); // One hour from now
-                        Cookies.set("currentUser", access, { expires });
-                        Cookies.set("refreshToken", refresh, { expires });
-                        Cookies.set("access_token", access, { expires });
+                        sessionStorage.setItem("currentUser", access);
+                        sessionStorage.setItem("refreshToken", refresh);
+                        sessionStorage.setItem("access_token", access);
                     };
 
                     const { access, refresh } = response.data;
@@ -188,30 +106,30 @@ const Login = ({ handleCurrentForm, onClose }) => {
 
                     //remove token from cookies after one hour
                     setTimeout(() => {
-                        Cookies.remove("access_token");
-                        Cookies.remove("refreshToken");
-                        Cookies.remove("currentUser");
+                        sessionStorage.removeItem("access_token");
+                        sessionStorage.removeItem("refreshToken");
+                        sessionStorage.removeItem("currentUser");
                     }, 60 * 60 * 1000);
                     setUser(access);
                     //success callback
                     toast.success("Login successful...");
                     onClose();
                 } else if (response?.data?.role === "admin") {
-                    const setAccessTokenCookie = (access) => {
-                        const expires = new Date(Date.now() + 60 * 60 * 1000); // One hour from now
-                        Cookies.set("currentUser", access, { expires });
-                        Cookies.set("refreshToken", refresh, { expires });
-                        Cookies.set("access_token", access, { expires });
+                    const setAccessTokenCookie = (access, refresh) => {
+                        sessionStorage.setItem("currentUser", access);
+                        sessionStorage.setItem("refreshToken", refresh);
+                        sessionStorage.setItem("access_token", access);
                     };
 
-                    const { access, refresh } = response.data;
+
+                    const { access } = response.data;
                     setAccessTokenCookie(access);
 
                     //remove token from cookies after one hour
                     setTimeout(() => {
-                        Cookies.remove("access_token");
-                        Cookies.remove("refreshToken");
-                        Cookies.remove("currentUser");
+                        sessionStorage.removeItem("access_token");
+                        sessionStorage.removeItem("refreshToken");
+                        sessionStorage.removeItem("currentUser");
                     }, 60 * 60 * 1000);
                     setUser(access);
                     //success callback
