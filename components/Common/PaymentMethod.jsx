@@ -23,15 +23,14 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
         handleCheckOutStep(1);
     }
     // Get length of cartItems
-    const cartItemLength = cartItems && cartItems.length;
+    const cartItemLength = cartItems?.length;
 
     // delivery fee
     let deliverFee = deliveryMethod === "pick_up" ? 0.0 : 1200;
     //Get subtotal price
     let subTotal = 0;
     const semiSubTotal =
-        cartItems &&
-        cartItems.map((item, i) => {
+        cartItems?.map((item, i) => {
             return item.quantity * item.actual_price;
         });
     // Adding all the price together
@@ -42,17 +41,17 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
     let totalBill = subTotal + deliverFee;
 
     const formData = {
-        first_name: addressDetails && addressDetails.first_name,
-        last_name: addressDetails && addressDetails.last_name,
-        phone: addressDetails && addressDetails.phone_number,
-        address: addressDetails && addressDetails.delivery_address_1,
+        first_name: addressDetails?.first_name,
+        last_name: addressDetails?.last_name,
+        phone: addressDetails?.phone_number,
+        address: addressDetails?.delivery_address_1,
         state: "Kwara",
-        city: addressDetails && addressDetails.city,
-        method: deliveryMethod && deliveryMethod,
+        city: addressDetails?.city,
+        method: deliveryMethod,
         amount: totalBill,
     };
 
-    const access_token = sessionStorage.getItem("access_token");
+    const access_token = Cookies.get("access_token");
     //handle checkout payment button with paystack
     const sendCheckoutDetails = async () => {
         setLoading(true);
@@ -74,7 +73,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                     );
 
                     setLoading(false);
-                    router.push(`${response && response?.data?.data?.url}`);
+                    router.push(`${response?.data?.data?.url}`);
                 }
             })
             .catch((error) => {
