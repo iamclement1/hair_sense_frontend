@@ -62,7 +62,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
         setFile(null);
     };
 
-    const accessToken = sessionStorage.getItem("access_token");
+    const accessToken = Cookies.get("access_token");
     useEffect(() => {
         const fetchSubCategory = async () => {
             await httpGet(`${baseUrl}/store/categories`, {

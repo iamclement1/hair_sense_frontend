@@ -31,9 +31,9 @@ const StateProvider = ({ children }, props) => {
     const router = useRouter();
 
     useEffect(() => {
-        const mainUser_token = sessionStorage.getItem("access_token");
+        const mainUser_token = Cookies.get("access_token");
 
-        setUser(mainUser_token && mainUser_token);
+        setUser(mainUser_token);
     }, []);
     const handleLogOut = () => {
         router.push("/");

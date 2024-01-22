@@ -27,7 +27,7 @@ const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [deleting, setDeleting] = useState(false);
     const [editData, setEditData] = useState(null);
-    const accessToken = sessionStorage.getItem("access_token");
+    const accessToken = Cookies.get("access_token");
 
     const itemsPerPage = 10;
 

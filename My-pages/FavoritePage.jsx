@@ -1,7 +1,7 @@
 "use client";
 import { ProductSlider } from "@/components/Common";
 import ProductBox from "@/components/Common/ProductBox";
-import { baseUrl, httpGet } from "@/http-request/http-request";
+import { baseUrl } from "@/http-request/http-request";
 
 import {
     Box,
@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 const FavouritePage = () => {
     const [fav, setFav] = useState([]);
 
-    const token = sessionStorage.getItem("access_token");
+    const token = Cookies.get("access_token");
 
     useEffect(() => {
         async function fetchFavorite() {
@@ -27,12 +27,9 @@ const FavouritePage = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            if (response && response.data && response.status === 200) {
+            if (response?.data && response.status === 200) {
                 setFav(
-                    response &&
-                    response.data &&
-                    response.data.data &&
-                    response.data.data.favourite
+                    response?.data?.data.favourite
                 );
             }
         }
@@ -66,17 +63,16 @@ const FavouritePage = () => {
                         columns={[2, 3, 4]}
                         spacingY={["30px", null, "50px"]}
                     >
-                        {fav &&
-                            fav.map((item, i) => {
+                        {fav?.map((item, i) => {
 
-                                return (
-                                    <ProductBox
-                                        isLiked="true"
-                                        productData={item && item.product}
-                                        key={i}
-                                    />
-                                );
-                            })}
+                            return (
+                                <ProductBox
+                                    isLiked="true"
+                                    productData={item?.product}
+                                    key={i}
+                                />
+                            );
+                        })}
                     </SimpleGrid>
                 </Box>
 

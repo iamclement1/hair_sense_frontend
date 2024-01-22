@@ -33,7 +33,7 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
         setNewCategory({ ...newCategory, [name]: value });
     };
 
-    const accessToken = sessionStorage.getItem("access_token");
+    const accessToken = Cookies.get("access_token");
 
     // Desstructure the data state
     const { name } = newCategory;

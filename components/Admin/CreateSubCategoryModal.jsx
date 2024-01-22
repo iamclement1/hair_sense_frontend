@@ -31,7 +31,7 @@ const CreateSubCategoryModal = ({
         setName(e.target.value);
     };
 
-    const accesToken = sessionStorage.getItem("access_token");
+    const accesToken = Cookies.get("access_token");
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = {
