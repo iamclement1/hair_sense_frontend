@@ -11,7 +11,7 @@ import React from "react";
 
 
 const OrderBox = ({ data }) => {
-    console.log("dada", data);
+    // console.log("dada", data);
     return (
         <Box>
             <Flex

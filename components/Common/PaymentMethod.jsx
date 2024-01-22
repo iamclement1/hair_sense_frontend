@@ -52,7 +52,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
         amount: totalBill,
     };
 
-    const access_token = Cookies.get("access_token");
+    const access_token = sessionStorage.getItem("access_token");
     //handle checkout payment button with paystack
     const sendCheckoutDetails = async () => {
         setLoading(true);

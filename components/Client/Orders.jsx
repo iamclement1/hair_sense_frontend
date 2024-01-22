@@ -1,46 +1,56 @@
-import { PrimaryButton, ProductSlider } from "@/components/Common";
-import Badge from "@/components/Common/Badge";
+
 import {
     Box,
     Divider,
     Flex,
     Text,
-    Icon,
-    Image,
-    useDisclosure,
     Stack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FiChevronLeft } from "react-icons/fi";
-import { IoIosCloseCircleOutline } from "react-icons/io";
 import OrderBox from "./OrderBox";
-import { baseUrl, httpGet } from "@/http-request/http-request";
-import Cookies from "js-cookie";
-import axios from "axios";
+import { baseUrl } from "@/http-request/http-request";
+
 
 const Orders = ({ onToggle }) => {
     const [clientOrders, setClientOrders] = useState([]);
+    const accessToken = sessionStorage.getItem("access_token");
+    console.log(accessToken);
     useEffect(() => {
-        const accessToken = Cookies.get("access_token");
-        async function fetchOrders() {
-            const response = await axios.get(`${baseUrl}/store/orders/`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
+        const fetchOrders = async () => {
+            try {
+                if (!accessToken) {
+                    console.error("Access token not available");
+                    return;
+                }
 
-            console.log("order", response)
-            if (response?.status === 200) {
-                setClientOrders(response?.data.data);
-                console.log("order", response)
+                const response = await fetch(`${baseUrl}/store/orders/`, {
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
 
+                });
+
+                console.log(response);
+
+                if (response) {
+                    const responseData = await response.json();
+                    setClientOrders(responseData?.data.data);
+                    console.log("Orders:", responseData?.data.data);
+                } else {
+                    console.error("Failed to fetch orders:", response.statusText);
+                }
+            } catch (error) {
+                console.error("An error occurred while fetching orders:", error);
             }
-            console.log("order", response)
+        };
 
-        }
+        console.log(clientOrders)
 
         fetchOrders();
     }, []);
+
 
     return (
         <Box>

@@ -1,34 +1,23 @@
-import AdminLayout from "@/components/layouts/AdminLayout";
+
 import {
     Box,
     Flex,
-    Image,
-    Link,
-    Icon,
     Text,
     useDisclosure,
-    Input,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import NextLink from "next/link";
-import { MdOutlineDashboard, MdOutlineDelete } from "react-icons/md";
 import { PrimaryButton } from "../Common";
-import { FiEdit } from "react-icons/fi";
-import { IoCheckmarkOutline } from "react-icons/io5";
-import { HiXMark } from "react-icons/hi2";
 import CategoryBox from "./CategoryBox";
-import SubCategoryModal from "./SubCategoryModal";
 import NewSubModal from "./NewSubModal";
-import Cookies from "js-cookie";
 import { baseUrl, httpGet } from "@/http-request/http-request";
 import CustomSpinner from "../Common/Spinner";
 
 const Categories = () => {
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen } = useDisclosure();
     const [catData, setCatData] = useState([]);
     useEffect(() => { }, []);
 
-    const accessToken = Cookies.get("access_token");
+    const accessToken = sessionStorage.getItem("access_token");
 
     useEffect(() => {
 

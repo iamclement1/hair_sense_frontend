@@ -81,7 +81,7 @@ const ProductBox = ({ productData }, isLiked) => {
         if (isItemExist) {
             toast.error("Item already exists in the cart");
         } else if (isItemInLocalStorage) {
-            toast.error("Item already exists in the sessionStorage");
+            toast.error("Item already exists in the cart");
         } else {
             dispatch({
                 type: "ADD_ITEM_TO_CART",

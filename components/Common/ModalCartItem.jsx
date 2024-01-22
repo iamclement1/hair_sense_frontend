@@ -151,7 +151,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
 
         setTotal(totalPrice);
     }, [state]);
-    const access_token = Cookies.get("access_token");
+    const access_token = sessionStorage.getItem("access_token");
     //handle checkout payment button with paystack
     const sendCartItems = async () => {
         // sessionStorage.setItem("sample", JSON.stringify(cartItems));
