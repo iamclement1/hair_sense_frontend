@@ -47,7 +47,7 @@ const Navbar = () => {
 
     // function to handle Authication  modal
     //fetch user info from the endpoint
-    const access_token = sessionStorage.getItem("access_token");
+    const access_token = Cookies.get("access_token");
 
     useEffect(() => {
         async function fetchUser() {

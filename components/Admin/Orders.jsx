@@ -1,24 +1,16 @@
-import AdminLayout from "@/components/layouts/AdminLayout";
 import {
     Box,
     Flex,
-    Image,
-    Link,
-    Icon,
     Text,
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Th,
     Td,
-    TableCaption,
     TableContainer,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import NextLink from "next/link";
-import { MdOutlineDashboard } from "react-icons/md";
+import React, { useEffect } from "react";
 import { PrimaryButton } from "@/components/Common";
 import { SecondaryButton } from "../Common/Button";
 import Cookies from 'js-cookie'
@@ -26,7 +18,7 @@ import { baseUrl, httpGet } from "@/http-request/http-request";
 
 const Orders = () => {
     const tableData = [1, 2];
-    const accessToken = sessionStorage.getItem("access_token");
+    const accessToken = Cookies.get("access_token");
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -37,11 +29,11 @@ const Orders = () => {
             })
                 .then((response) => {
                     const data = response.data.results;
-                    // console.log(data);
-                    // setCatData(data);
+                    console.log(data);
+                    setCatData(data);
                 })
                 .catch((error) => {
-                    // console.log(error);
+                    console.log(error);
                 });
         }
 

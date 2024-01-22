@@ -11,13 +11,14 @@ import CategoryBox from "./CategoryBox";
 import NewSubModal from "./NewSubModal";
 import { baseUrl, httpGet } from "@/http-request/http-request";
 import CustomSpinner from "../Common/Spinner";
+import Cookies from "js-cookie";
 
 const Categories = () => {
     const { isOpen } = useDisclosure();
     const [catData, setCatData] = useState([]);
     useEffect(() => { }, []);
 
-    const accessToken = sessionStorage.getItem("access_token");
+    const accessToken = Cookies.get("access_token");
 
     useEffect(() => {
 

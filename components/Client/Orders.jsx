@@ -10,11 +10,12 @@ import React, { useEffect, useState } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import OrderBox from "./OrderBox";
 import { baseUrl } from "@/http-request/http-request";
+import Cookies from "js-cookie";
 
 
 const Orders = ({ onToggle }) => {
     const [clientOrders, setClientOrders] = useState([]);
-    const accessToken = sessionStorage.getItem("access_token");
+    const accessToken = Cookies.get("access_token");
     console.log(accessToken);
     useEffect(() => {
         const fetchOrders = async () => {

@@ -2,14 +2,11 @@ import { CartContext } from "@/context/StateProvider";
 import {
     Box,
     Flex,
-    Button,
-    Divider,
     Icon,
     Text,
     Image,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
-import { FaTimes } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const CartItemBoxDetails = ({ singleItem }) => {

@@ -7,7 +7,7 @@ import { ERROR_RESPONSES } from "./response";
 export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
 
 
-const token = sessionStorage.getItem("access_token");
+const token = Cookies.get("access_token");
 const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -19,12 +19,7 @@ export const httpGet = async (url) => {
         const response = await axios.get(`${url}`);
         return response.data;
     } catch (error) {
-        if (error.response && error.response.status === 404) {
-
-        } else {
-
-        }
-        return null;
+        console.log(error);
     }
 };
 
@@ -39,7 +34,7 @@ export const httpDelete = async (url, headers) => {
 };
 
 export const httpPost = async (url, postBody) => {
-    const access_token = sessionStorage.getItem("access_token");
+    const access_token = Cookies.get("access_token");
     try {
         const { data } = await axios.post(url, postBody, {
             headers: {

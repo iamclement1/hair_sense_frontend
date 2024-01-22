@@ -151,7 +151,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
 
         setTotal(totalPrice);
     }, [state]);
-    const access_token = sessionStorage.getItem("access_token");
+    const access_token = Cookies.get("access_token");
     //handle checkout payment button with paystack
     const sendCartItems = async () => {
         // sessionStorage.setItem("sample", JSON.stringify(cartItems));
@@ -194,47 +194,64 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                     </Box>
                 ) : (
                     <Box>
-                        {cartItems &&
-                            cartItems.map((product, index) => {
-                                // adding the total amoount to the object
+                        {cartItems?.map((product, index) => {
+                            // adding the total amoount to the object
 
-                                product.amount =
-                                    product.quantity * product.actual_price;
-                                return (
-                                    <Box key={index}>
+                            product.amount =
+                                product.quantity * product.actual_price;
+                            return (
+                                <Box key={index}>
+                                    <Flex
+                                        flexDirection="column"
+                                        justifyContent="space-between"
+                                        // alignItems="center"
+                                        py="30px"
+                                    >
                                         <Flex
-                                            flexDirection="column"
-                                            justifyContent="space-between"
-                                            // alignItems="center"
-                                            py="30px"
+                                            // align="center"
+                                            w="100%"
+                                            h="max-content"
+                                            gap={["none", "30px"]}
                                         >
+                                            <Box>
+                                                <Image
+                                                    src={
+                                                        product?.product_img
+                                                    }
+                                                    alt={product?.name}
+                                                    w={{
+                                                        base: "98px",
+                                                        md: "130px",
+                                                    }}
+                                                    h={{
+                                                        base: "98px",
+                                                        md: "130px",
+                                                    }}
+                                                    objectFit="cover"
+                                                />
+                                            </Box>
                                             <Flex
-                                                // align="center"
-                                                w="100%"
-                                                h="max-content"
-                                                gap={["none", "30px"]}
+                                                flexDir="column"
+                                                justify="space-between"
+                                                flex="1"
                                             >
                                                 <Box>
-                                                    <Image
-                                                        src={
-                                                            product?.product_img
-                                                        }
-                                                        alt={product?.name}
-                                                        w={{
-                                                            base: "98px",
-                                                            md: "130px",
+                                                    <Text
+                                                        fontSize={{
+                                                            base: "12px",
+                                                            md: "16px",
+                                                            lg: "23px",
                                                         }}
-                                                        h={{
-                                                            base: "98px",
-                                                            md: "130px",
-                                                        }}
-                                                        objectFit="cover"
-                                                    />
+                                                        fontWeight={"600"}
+                                                        maxW="600px"
+                                                        noOfLines={2}
+                                                    >
+                                                        {product?.name}
+                                                    </Text>
                                                 </Box>
                                                 <Flex
-                                                    flexDir="column"
                                                     justify="space-between"
-                                                    flex="1"
+                                                    align="center"
                                                 >
                                                     <Box>
                                                         <Text
@@ -243,123 +260,105 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                                                 md: "16px",
                                                                 lg: "23px",
                                                             }}
-                                                            fontWeight={"600"}
-                                                            maxW="600px"
-                                                            noOfLines={2}
+                                                            fontWeight={
+                                                                "600"
+                                                            }
                                                         >
-                                                            {product?.name}
+                                                            ₦{" "}
+                                                            {product.quantity *
+                                                                product.actual_price}
                                                         </Text>
                                                     </Box>
+
                                                     <Flex
-                                                        justify="space-between"
                                                         align="center"
+                                                        alignSelf="flex-end"
                                                     >
-                                                        <Box>
-                                                            <Text
-                                                                fontSize={{
-                                                                    base: "12px",
-                                                                    md: "16px",
-                                                                    lg: "23px",
-                                                                }}
-                                                                fontWeight={
-                                                                    "600"
-                                                                }
-                                                            >
-                                                                ₦{" "}
-                                                                {product.quantity *
-                                                                    product.actual_price}
-                                                            </Text>
-                                                        </Box>
-
-                                                        <Flex
-                                                            align="center"
-                                                            alignSelf="flex-end"
+                                                        <Text
+                                                            as="button"
+                                                            boxSize={{
+                                                                base: "30px",
+                                                                md: "23px",
+                                                                xl: "39px",
+                                                            }}
+                                                            bgColor="accent_8"
+                                                            color="white"
+                                                            rounded={"3px"}
+                                                            minW="30px"
+                                                            aria-label="reduce quantity"
+                                                            onClick={() =>
+                                                                handleDecreaseQuantity(
+                                                                    product
+                                                                )
+                                                            }
                                                         >
-                                                            <Text
-                                                                as="button"
-                                                                boxSize={{
-                                                                    base: "30px",
-                                                                    md: "23px",
-                                                                    xl: "39px",
-                                                                }}
-                                                                bgColor="accent_8"
-                                                                color="white"
-                                                                rounded={"3px"}
-                                                                minW="30px"
-                                                                aria-label="reduce quantity"
-                                                                onClick={() =>
-                                                                    handleDecreaseQuantity(
-                                                                        product
-                                                                    )
-                                                                }
-                                                            >
-                                                                -
-                                                            </Text>
+                                                            -
+                                                        </Text>
 
-                                                            <Text
-                                                                minW="32px"
-                                                                align="center"
-                                                                justify="center"
-                                                                fontSize={{
-                                                                    base: "13px",
-                                                                    sm: "15px",
-                                                                    md: "13px",
-                                                                    xl: "22px",
-                                                                }}
-                                                            >
-                                                                {
-                                                                    product?.quantity
-                                                                }
-                                                            </Text>
-                                                            {/* <Button
+                                                        <Text
+                                                            minW="32px"
+                                                            align="center"
+                                                            justify="center"
+                                                            fontSize={{
+                                                                base: "13px",
+                                                                sm: "15px",
+                                                                md: "13px",
+                                                                xl: "22px",
+                                                            }}
+                                                        >
+                                                            {
+                                                                product?.quantity
+                                                            }
+                                                        </Text>
+                                                        {/* <Button
                                                     aria-label="Add to quantity"
                                                     onClick={() => dispatch({ type: "INCREASE_QUANTITY", payload: product })}
                                                 >
                                                     +
                                                 </Button> */}
 
-                                                            <Text
-                                                                as="button"
-                                                                boxSize={{
-                                                                    base: "30px",
-                                                                    md: "23px",
-                                                                    xl: "39px",
-                                                                }}
-                                                                bgColor="accent_8"
-                                                                color="white"
-                                                                rounded={"3px"}
-                                                                minW="30px"
-                                                                aria-label="Add to quantity"
-                                                                onClick={() =>
-                                                                    handleIncreaseQuantity(
-                                                                        product
-                                                                    )
-                                                                }
-                                                            >
-                                                                +
-                                                            </Text>
-                                                            <Box
-                                                                ml="20px"
-                                                                cursor={
-                                                                    "pointer"
-                                                                }
-                                                                onClick={() =>
-                                                                    handleRemoveFromCart(
-                                                                        product
-                                                                    )
-                                                                }
-                                                            >
-                                                                <FaTrash />
-                                                            </Box>
-                                                        </Flex>
+                                                        <Text
+                                                            as="button"
+                                                            boxSize={{
+                                                                base: "30px",
+                                                                md: "23px",
+                                                                xl: "39px",
+                                                            }}
+                                                            bgColor="accent_8"
+                                                            color="white"
+                                                            rounded={"3px"}
+                                                            minW="30px"
+                                                            aria-label="Add to quantity"
+                                                            onClick={() =>
+                                                                handleIncreaseQuantity(
+                                                                    product
+                                                                )
+                                                            }
+                                                        >
+                                                            +
+                                                        </Text>
+                                                        <Box
+                                                            ml="20px"
+                                                            cursor={
+                                                                "pointer"
+                                                            }
+                                                            onClick={() =>
+                                                                handleRemoveFromCart(
+                                                                    product
+                                                                )
+                                                            }
+                                                        >
+                                                            <FaTrash />
+                                                        </Box>
                                                     </Flex>
                                                 </Flex>
                                             </Flex>
                                         </Flex>
-                                        <Divider />
-                                    </Box>
-                                );
-                            })}
+                                    </Flex>
+                                    <Divider />
+                                </Box>
+                            );
+                        })}
 
                         {/* Pricing data */}
                         <Box>

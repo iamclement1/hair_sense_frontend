@@ -12,6 +12,7 @@ import {
     Input,
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Formik } from "formik";
+import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
@@ -44,7 +45,7 @@ const CreateProducts = ({ setActivePage }) => {
         setFile(null);
     };
 
-    const accessToken = sessionStorage.getItem("access_token");
+    const accessToken = Cookies.get("access_token");
     useEffect(() => {
         const fetchSubCategory = async () => {
             await httpGet(`${baseUrl}/store/categories`, {
