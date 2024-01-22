@@ -26,7 +26,7 @@ import { baseUrl, httpGet } from "@/http-request/http-request";
 
 const Orders = () => {
     const tableData = [1, 2];
-    const accessToken = Cookies.get("access_token");
+    const accessToken = sessionStorage.getItem("access_token");
 
     useEffect(() => {
         const fetchOrders = async () => {

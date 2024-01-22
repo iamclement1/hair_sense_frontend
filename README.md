@@ -26,16 +26,9 @@ This is an [E-commerce](https://hair-sense-frontend.vercel.app/) project bootstr
 
 ## About Hairsense
 
-Harisense takes care of your every beauty need, you can book us for bridal make overs too. We have branches nation wide.
+Harisense takes care of your every beauty need; you can book us for bridal makeovers too. We have branches nationwide.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Built With
-
-* Next.Js ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
-* Chakra UI ![Chakra](https://img.shields.io/badge/chakra-%234ED1C5.svg?style=for-the-badge&logo=chakraui&logoColor=white)
-* Python ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -64,3 +57,17 @@ yarn dev
 # or
 pnpm dev
 ``` -->
+
+
+## Contributors
+
+
+
+## Built With
+
+*  ![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+* ![Chakra](https://img.shields.io/badge/chakra-%234ED1C5.svg?style=for-the-badge&logo=chakraui&logoColor=white)
+* ![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+
+
+
