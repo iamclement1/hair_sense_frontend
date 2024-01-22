@@ -1,17 +1,9 @@
-
-import {
-    Box,
-    Divider,
-    Flex,
-    Text,
-    Stack,
-} from "@chakra-ui/react";
+import { Box, Divider, Flex, Text, Stack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import OrderBox from "./OrderBox";
 import { baseUrl } from "@/http-request/http-request";
 import Cookies from "js-cookie";
-
 
 const Orders = ({ onToggle }) => {
     const [clientOrders, setClientOrders] = useState([]);
@@ -30,7 +22,6 @@ const Orders = ({ onToggle }) => {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
-
                 });
 
                 console.log(response);
@@ -40,18 +31,23 @@ const Orders = ({ onToggle }) => {
                     setClientOrders(responseData?.data.data);
                     console.log("Orders:", responseData?.data.data);
                 } else {
-                    console.error("Failed to fetch orders:", response.statusText);
+                    console.error(
+                        "Failed to fetch orders:",
+                        response.statusText
+                    );
                 }
             } catch (error) {
-                console.error("An error occurred while fetching orders:", error);
+                console.error(
+                    "An error occurred while fetching orders:",
+                    error
+                );
             }
         };
 
-        console.log(clientOrders)
+        console.log(clientOrders);
 
         fetchOrders();
     }, []);
-
 
     return (
         <Box>
@@ -79,13 +75,13 @@ const Orders = ({ onToggle }) => {
             </Flex>
 
             <Box>
-                {clientOrders.length < 1 ? (
+                {clientOrders?.length < 1 ? (
                     <Flex minH="20vh" align="center">
                         <Text>You currently do not have any order</Text>
                     </Flex>
                 ) : (
                     <Stack>
-                        {clientOrders.map((order, i) => {
+                        {clientOrders?.map((order, i) => {
                             return <OrderBox data={order} key={i} />;
                         })}
                     </Stack>
