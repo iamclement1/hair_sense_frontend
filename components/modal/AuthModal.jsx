@@ -143,7 +143,6 @@ export default AuthModal;
 // Forms Start
 const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
-    const [isCaptchaValid, setIsCaptchaValid] = useState(false); // Initially set to false
     const [showPassWord, setShowPassWord] = useState(false);
     const { isLoading, setIsLoading, setUser } = useContext(StateContext);
 
@@ -151,7 +150,10 @@ const Login = ({ handleCurrentForm, onClose }) => {
     const togglePassword = () => {
         setShowPassWord(!showPassWord);
     };
-
+    const setAccessTokenCookie = (access, refresh) => {
+        Cookies.set("refreshToken", refresh);
+        Cookies.set("access_token", access);
+    };
     // import user from context api
     const loginUser = async (values) => {
         setIsLoading(true);
@@ -163,19 +165,11 @@ const Login = ({ handleCurrentForm, onClose }) => {
         await axios
             .post(`${baseUrl}/accounts/sign_in/`, formData)
             .then((response) => {
-
-                const role = response?.data.role
+                const { access, refresh, role } = response.data;
                 if (response?.data?.role === "client") {
-                    const setAccessTokenCookie = (access, refresh) => {
-                        Cookies.set("currentUser", access);
-                        Cookies.set("refreshToken", refresh);
-                        Cookies.set("access_token", access);
-                        sessionStorage.setItem("role", role)
-                    };
 
-                    const { access, refresh } = response.data;
                     setAccessTokenCookie(access, refresh);
-
+                    sessionStorage.setItem("role", role)
                     // Remove token from cookies after one hour
                     setTimeout(() => {
                         Cookies.remove("access_token");
@@ -188,14 +182,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                     toast.success("Login successful...");
                     onClose();
                 } else if (response?.data?.role === "admin") {
-                    const setAccessTokenCookie = (access, refresh) => {
-                        Cookies.set("currentUser", access);
-                        Cookies.set("refreshToken", refresh);
-                        Cookies.set("access_token", access);
-                        sessionStorage.setItem("role", role)
-                    };
-
-                    const { access, refresh } = response.data;
+                    sessionStorage.setItem("role", role)
                     setAccessTokenCookie(access, refresh);
 
                     // Remove token from cookies after one hour
@@ -336,7 +323,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
                         width="full"
                         mt="30px"
                         py="20px"
-                        disabled={!isCaptchaValid || isLoading} // Disable submit button if reCAPTCHA is not clicked or while submitting
+                        disabled={isLoading} // Disable submit button if reCAPTCHA is not clicked or while submitting
                         isLoading={isLoading}
                     />
                 </form>
@@ -382,9 +369,11 @@ const Register = ({ handleCurrentForm }) => {
                 toast.error(errorData?.message);
             }
         } catch (error) {
-            console.error("An error occurred during registration:", error);
-            toast.error("An error occurred during registration");
-            // Optionally, you can handle other types of errors here
+            setIsLoading(false);
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                toast.error(errorMessage);
+            }
         } finally {
             setIsLoading(false);
         }

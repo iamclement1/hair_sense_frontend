@@ -60,8 +60,12 @@ const Navbar = () => {
             // setUserData(response?.data?.data);
 
         }
-        user && fetchUser();
-    }, [user]); //eslint-disable-line
+        // Fetch user only when the component mounts
+        if (access_token) {
+            fetchUser();
+        }
+
+    }, [access_token]);
     const router = useRouter();
     const {
         isOpen: isOpenAuth,
