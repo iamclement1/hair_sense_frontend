@@ -14,22 +14,23 @@ import React, { useEffect } from "react";
 import { PrimaryButton } from "@/components/Common";
 import { SecondaryButton } from "../Common/Button";
 import Cookies from 'js-cookie'
-import { baseUrl, httpGet } from "@/http-request/http-request";
+import { baseUrl } from "@/http-request/http-request";
+import axios from "axios";
 
 const Orders = () => {
-    const tableData = [1, 2];
+
     const accessToken = Cookies.get("access_token");
+    const [catData, setCatData] = React.useState([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
-            await httpGet(`${baseUrl}/store/orders/all/`, {
+            await axios.get(`${baseUrl}/store/orders/all/`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             })
                 .then((response) => {
-                    const data = response.data.results;
-                    console.log(data);
+                    const data = response?.data.data.results;
                     setCatData(data);
                 })
                 .catch((error) => {
@@ -39,6 +40,22 @@ const Orders = () => {
 
         fetchOrders();
     }, [accessToken])
+
+    const getStatusStyle = (status) => {
+        let textColor;
+
+        if (status === "received") {
+            textColor = "green";
+        } else if (status === "failed") {
+            textColor = "red";
+        } else {
+            textColor = "yellow";
+        }
+
+        return {
+            color: textColor,
+        };
+    };
     return (
         <Box>
             <Box>
@@ -98,33 +115,31 @@ const Orders = () => {
                                 </Tr>
                             </Thead>
                             <Tbody bgColor="white">
-                                {tableData.length > 0 ? (
-                                    <Tr>
-                                        <Td>Salaudeen Shina</Td>
-                                        <Td>07030075660</Td>
-                                        <Td>25.4</Td>
-                                        <Td>25.4</Td>
-                                        <Td>Pending</Td>
-                                    </Tr>
+                                {catData.length > 0 ? (
+                                    catData.map((order) => (
+                                        <Tr key={order.id}>
+                                            <Td>{`${order.first_name} ${order.last_name}`}</Td>
+                                            <Td>{order.id}</Td>
+                                            <Td>{order.amount}</Td>
+                                            <Td>{order.method}</Td>
+                                            <Td style={getStatusStyle(order.status)}>
+                                                {order.status}
+                                            </Td>
+                                        </Tr>
+                                    ))
                                 ) : (
-                                    ""
+                                    <Tr>
+                                        <Td colSpan="5" textAlign="center">
+                                            No records found
+                                        </Td>
+                                    </Tr>
                                 )}
                             </Tbody>
+
+
+
                         </Table>
                     </TableContainer>
-                    {tableData.length <= 0 ? (
-                        <Flex
-                            px={["17px", "27px", "47px"]}
-                            bgColor="white"
-                            py="24px"
-                            align="center"
-                            justify="center"
-                        >
-                            <Text>No record found</Text>
-                        </Flex>
-                    ) : (
-                        ""
-                    )}
                 </Box>
             </Box>
         </Box>

@@ -15,6 +15,9 @@ import Cookies from "js-cookie";
 import React, { useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import EditProduct from "./EditProduct";
+import { useTable } from "react-table";
+import { FiEdit } from "react-icons/fi";
+import { MdOutlineDelete } from "react-icons/md";
 
 const Products = () => {
     const {

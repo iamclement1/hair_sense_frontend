@@ -163,27 +163,28 @@ const Login = ({ handleCurrentForm, onClose }) => {
         await axios
             .post(`${baseUrl}/accounts/sign_in/`, formData)
             .then((response) => {
-                console.log(response.data)
-                if (
-                    response?.data?.role === "client"
-                ) {
-                    const setAccessTokenCookie = (access) => {
+
+                const role = response?.data.role
+                if (response?.data?.role === "client") {
+                    const setAccessTokenCookie = (access, refresh) => {
                         Cookies.set("currentUser", access);
                         Cookies.set("refreshToken", refresh);
                         Cookies.set("access_token", access);
+                        sessionStorage.setItem("role", role)
                     };
 
                     const { access, refresh } = response.data;
-                    setAccessTokenCookie(access);
+                    setAccessTokenCookie(access, refresh);
 
-                    //remove token from cookies after one hour
+                    // Remove token from cookies after one hour
                     setTimeout(() => {
                         Cookies.remove("access_token");
                         Cookies.remove("refreshToken");
                         Cookies.remove("currentUser");
                     }, 60 * 60 * 1000);
+
                     setUser(access);
-                    //success callback
+                    // Success callback
                     toast.success("Login successful...");
                     onClose();
                 } else if (response?.data?.role === "admin") {
@@ -191,35 +192,36 @@ const Login = ({ handleCurrentForm, onClose }) => {
                         Cookies.set("currentUser", access);
                         Cookies.set("refreshToken", refresh);
                         Cookies.set("access_token", access);
+                        sessionStorage.setItem("role", role)
                     };
 
+                    const { access, refresh } = response.data;
+                    setAccessTokenCookie(access, refresh);
 
-                    const { access } = response.data;
-                    setAccessTokenCookie(access);
-
-                    //remove token from cookies after one hour
+                    // Remove token from cookies after one hour
                     setTimeout(() => {
                         Cookies.remove("access_token");
                         Cookies.remove("refreshToken");
                         Cookies.remove("currentUser");
                     }, 60 * 60 * 1000);
+
                     setUser(access);
-                    //success callback
+                    // Success callback
                     toast.success("Login successful...");
                     onClose();
                     router.push("/admin");
-                    setUser(access);
                 }
                 setIsLoading(false);
             })
             .catch((error) => {
                 setIsLoading(false);
                 if (error.response) {
-                    const errorMessage = (error.response.data.message);
+                    const errorMessage = error.response.data.message;
                     toast.error(errorMessage);
                 }
             });
     };
+
 
     return (
         <Formik
@@ -381,6 +383,7 @@ const Register = ({ handleCurrentForm }) => {
             }
         } catch (error) {
             console.error("An error occurred during registration:", error);
+            toast.error("An error occurred during registration");
             // Optionally, you can handle other types of errors here
         } finally {
             setIsLoading(false);
