@@ -38,7 +38,9 @@ const StateProvider = ({ children }, props) => {
     const handleLogOut = () => {
         router.push("/");
         Cookies.remove("access_token");
+        Cookies.remove("refreshToken");
         Cookies.remove("currentUser");
+        sessionStorage.removeItem("role")
         toast.success("Logged out successfully");
         setUser(null);
 
