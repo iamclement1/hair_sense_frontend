@@ -77,15 +77,39 @@ export default function AdminDashboard() {
 
     const [activePage, setActivePage] = useState(1);
 
-    const { user } = useContext(StateContext);
-
-
+    let role;
     const router = useRouter();
+
+    if (typeof window !== 'undefined') {
+        role = sessionStorage.getItem("role");
+    }
+
     useEffect(() => {
-        if (!user && user?.role !== 'admin') {
-            router.push('/');
-        } 
-    })
+        if (role !== 'admin') {
+            router.push("/");
+        }
+    }, []);
+
+    const renderPageContent = () => {
+        switch (activePage) {
+            case 1:
+                return <Dashboard />;
+            case 2:
+                return <Categories />;
+            case 3:
+                return <CreateProducts setActivePage={setActivePage} />;
+            case 4:
+                return <Products />;
+            case 5:
+                return <Orders />;
+            case 6:
+                return <Transactions />;
+            case 7:
+                return <Customers />;
+            default:
+                return null;
+        }
+    };
     return (
         <Box minH="100vh" bgColor="shades_8">
             <SidebarContent
@@ -119,23 +143,7 @@ export default function AdminDashboard() {
                 activePage={activePage}
             />
             <Box ml={{ base: 0, md: 60 }} p="4">
-                {activePage === 1 ? (
-                    <Dashboard />
-                ) : activePage === 2 ? (
-                    <Categories />
-                ) : activePage === 3 ? (
-                    <CreateProducts setActivePage={setActivePage} />
-                ) : activePage === 4 ? (
-                    <Products />
-                ) : activePage === 5 ? (
-                    <Orders />
-                ) : activePage === 6 ? (
-                    <Transactions />
-                ) : activePage === 7 ? (
-                    <Customers />
-                ) : (
-                    ""
-                )}
+                {renderPageContent()}
             </Box>
         </Box>
     );
