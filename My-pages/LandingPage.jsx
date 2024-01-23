@@ -1,23 +1,26 @@
 import React, { useContext, useEffect } from "react";
 import { HeroSlider, ProductSlider } from "@/components/Common";
 import { Box } from "@chakra-ui/react";
-import { baseUrl, httpGet } from "@/http-request/http-request";
 import { CartContext, StateContext } from "@/context/StateProvider";
+import { useRouter } from "next/router";
 
 const LandingPage = () => {
     const { products } =
         useContext(StateContext);
+    let role;
+    const router = useRouter();
 
-
+    if (typeof window !== 'undefined') {
+        role = sessionStorage.getItem("role");
+    }
 
     useEffect(() => {
-        async function fetchAccessories() {
-            const response = await httpGet(`${baseUrl}/store/categories`);
-
+        if (role === 'admin') {
+            router.push("/admin");
         }
-
-        fetchAccessories();
     }, []);
+
+
     //cart context
     const GlobalCart = useContext(CartContext);
 
