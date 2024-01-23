@@ -18,6 +18,7 @@ import EditProduct from "./EditProduct";
 import { useTable } from "react-table";
 import { FiEdit } from "react-icons/fi";
 import { MdOutlineDelete } from "react-icons/md";
+import TablePagination from "../Common/TablePagination";
 
 const Products = () => {
     const {
