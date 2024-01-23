@@ -41,12 +41,9 @@ const StateProvider = ({ children }, props) => {
         Cookies.remove("refreshToken");
         Cookies.remove("currentUser");
         sessionStorage.removeItem("role")
+        sessionStorage.removeItem("cart");
         toast.success("Logged out successfully");
         setUser(null);
-
-        setTimeout(() => {
-            location.reload(); // Reload the page
-        }, 2000); // 2 second delay
     };
 
     const passedData = {
