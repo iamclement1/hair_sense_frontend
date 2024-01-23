@@ -51,7 +51,8 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         dispatch({ type: "REMOVE", payload: product });
 
         // Get the existing cart data from sessionStorage
-        const existingCartData = JSON.parse(sessionStorage.getItem("cart")) || [];
+        const existingCartData =
+            JSON.parse(sessionStorage.getItem("cart")) || [];
 
         // Find the index of the item to remove in the existing cart data
         const itemIndex = existingCartData.findIndex(
@@ -75,7 +76,8 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         dispatch({ type: "INCREASE_QUANTITY", payload: product });
 
         // Get the existing cart data from sessionStorage
-        const existingCartData = JSON.parse(sessionStorage.getItem("cart")) || [];
+        const existingCartData =
+            JSON.parse(sessionStorage.getItem("cart")) || [];
 
         // Find the index of the item in the existing cart data
         const itemIndex = existingCartData.findIndex(
@@ -113,7 +115,10 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                 existingCartData[itemIndex].quantity -= 1;
 
                 // Update the cart data in sessionStorage
-                sessionStorage.setItem("cart", JSON.stringify(existingCartData));
+                sessionStorage.setItem(
+                    "cart",
+                    JSON.stringify(existingCartData)
+                );
             }
         } else {
             // Remove the item from the cart state
@@ -143,7 +148,8 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         // });
 
         // Get the existing cart data from sessionStorage
-        const existingCartData = JSON.parse(sessionStorage.getItem("cart")) || [];
+        const existingCartData =
+            JSON.parse(sessionStorage.getItem("cart")) || [];
 
         existingCartData.forEach((product) => {
             totalPrice += product.actual_price * product.quantity;
@@ -180,6 +186,9 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                     setLoading(false);
 
                     toast.error(error.message);
+                })
+                .finally(() => {
+                    setLoading(false);
                 });
         }
     };
@@ -215,9 +224,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                         >
                                             <Box>
                                                 <Image
-                                                    src={
-                                                        product?.product_img
-                                                    }
+                                                    src={product?.product_img}
                                                     alt={product?.name}
                                                     w={{
                                                         base: "98px",
@@ -260,9 +267,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                                                 md: "16px",
                                                                 lg: "23px",
                                                             }}
-                                                            fontWeight={
-                                                                "600"
-                                                            }
+                                                            fontWeight={"600"}
                                                         >
                                                             ₦{" "}
                                                             {product.quantity *
@@ -306,9 +311,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                                                 xl: "22px",
                                                             }}
                                                         >
-                                                            {
-                                                                product?.quantity
-                                                            }
+                                                            {product?.quantity}
                                                         </Text>
                                                         {/* <Button
                                                     aria-label="Add to quantity"
@@ -339,9 +342,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                                         </Text>
                                                         <Box
                                                             ml="20px"
-                                                            cursor={
-                                                                "pointer"
-                                                            }
+                                                            cursor={"pointer"}
                                                             onClick={() =>
                                                                 handleRemoveFromCart(
                                                                     product
@@ -443,6 +444,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                         text="Check Out"
                                         w="100%"
                                         handleButton={sendCartItems}
+                                        isLoading={loading}
                                     />
                                 ) : (
                                     <PrimaryButton
