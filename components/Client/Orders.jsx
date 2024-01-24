@@ -11,6 +11,7 @@ import { FiChevronLeft } from "react-icons/fi";
 import OrderBox from "./OrderBox";
 import { baseUrl } from "@/http-request/http-request";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 
 const Orders = ({ onToggle }) => {
@@ -22,6 +23,7 @@ const Orders = ({ onToggle }) => {
             try {
                 if (!accessToken) {
                     console.error("Access token not available");
+                    toast.error("Access Denied");
                     return;
                 }
 
@@ -43,7 +45,10 @@ const Orders = ({ onToggle }) => {
                     console.error("Failed to fetch orders:", response.statusText);
                 }
             } catch (error) {
-                console.error("An error occurred while fetching orders:", error);
+                if (error?.response) {
+                    const errorMessage = error.response.data.message;
+                    toast.error(errorMessage);
+                }
             }
         };
 
