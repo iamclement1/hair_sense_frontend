@@ -9,18 +9,17 @@ import {
     PopoverContent,
     PopoverArrow,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect } from "react";
 
-import { BsHeart, BsHeartFill, AiOutlineShoppingCart } from "react-icons/bs";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { StarRating } from ".";
-import { FaBars, FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import { baseUrl, httpPost } from "@/http-request/http-request";
-import { CartContext, StateContext } from "@/context/StateProvider";
+import { CartContext } from "@/context/StateProvider";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 
 const ProductBox = ({ productData }, isLiked) => {
-
 
     const router = useRouter();
     // const { id, imageUrl, text, rating, price } = productData;
