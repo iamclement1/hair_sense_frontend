@@ -2,13 +2,7 @@ import Orders from "@/components/Client/Orders";
 import OverView from "@/components/Client/OverView";
 import RecentlyViewed from "@/components/Client/RecentlyViewed";
 import { StateContext } from "@/context/StateProvider";
-import {
-    Box,
-    Flex,
-    Text,
-    Icon,
-    useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Flex, Text, Icon, useDisclosure } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
@@ -18,12 +12,15 @@ const MyAccount = () => {
 
     const { handleLogOut } = useContext(StateContext);
 
-
     return (
         <Box>
+            <br />
             <Box>
-                <Flex display="flex" justify="center" mt="48px" >
-                    <Text fontSize="2xl" fontWeight="extrabold">Thank you for choosing us, your orders can be viewed here 🤗</Text>
+                <Flex display="flex" justify="center" mt="48px">
+                    <Text fontSize="2xl" fontWeight="extrabold">
+                        Thank you for choosing us, your orders can be viewed
+                        here 🤗
+                    </Text>
                 </Flex>
             </Box>
             <Box w="100%" mt={{ base: "33px", md: "60px", xl: "" }}>
@@ -93,10 +90,15 @@ const MyAccount = () => {
                     </Flex>
 
                     <Flex>
-                        <Text fontSize="xl" mt="38px" color="#DE3C4B" cursor="pointer"
+                        <Text
+                            fontSize="xl"
+                            mt="38px"
+                            color="#DE3C4B"
+                            cursor="pointer"
                             onClick={() => {
                                 handleLogOut();
-                            }}>
+                            }}
+                        >
                             Log Out
                         </Text>
                     </Flex>

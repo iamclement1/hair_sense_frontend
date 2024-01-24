@@ -24,4 +24,4 @@ const MyAcc = () => {
     );
 };
 
-export default MyAcc
+export default MyAcc;
