@@ -44,6 +44,9 @@ const StateProvider = ({ children }, props) => {
         sessionStorage.removeItem("cart");
         toast.success("Logged out successfully");
         setUser(null);
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
     };
 
     const passedData = {
