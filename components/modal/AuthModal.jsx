@@ -169,7 +169,9 @@ const Login = ({ handleCurrentForm, onClose }) => {
                 if (response?.data?.role === "client") {
 
                     setAccessTokenCookie(access, refresh);
-                    sessionStorage.setItem("role", role)
+                    sessionStorage.setItem("role", role)  
+                     sessionStorage.setItem("access_token", access)
+
                     // Remove token from cookies after one hour
                     setTimeout(() => {
                         Cookies.remove("access_token");
@@ -184,6 +186,8 @@ const Login = ({ handleCurrentForm, onClose }) => {
                 } else if (response?.data?.role === "admin") {
                     sessionStorage.setItem("role", role)
                     setAccessTokenCookie(access, refresh);
+                     sessionStorage.setItem("access_token", access)
+
 
                     // Remove token from cookies after one hour
                     setTimeout(() => {

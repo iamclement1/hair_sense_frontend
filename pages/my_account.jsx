@@ -10,7 +10,9 @@ const MyAcc = () => {
     const { user } = useContext(StateContext);
     console.log(user);
     useEffect(() => {
-        const isLoggedIn = Cookies.get("access_token");
+        // const isLoggedIn = Cookies.get("access_token");
+         const isLoggedIn = sessionStorage.getItem("access_token");
+
         if (!isLoggedIn && user.role !== "client") {
             router.push("/");
         }

@@ -42,6 +42,7 @@ const StateProvider = ({ children }, props) => {
         Cookies.remove("currentUser");
         sessionStorage.removeItem("role")
         sessionStorage.removeItem("cart");
+        sessionStorage.removeItem("access_token");
         toast.success("Logged out successfully");
         setUser(null);
     };

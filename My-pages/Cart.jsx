@@ -46,8 +46,8 @@ const Cart = () => {
             <Box mt="59px" w="100%">
                 {cartItems ? (
                     <>
-                        {cartItems &&
-                            cartItems.map((item, i) => {
+                        {
+                            cartItems?.map((item, i) => {
                                 return (
                                     <CartItemBoxDetails
                                         key={i}
