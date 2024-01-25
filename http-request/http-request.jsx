@@ -5,9 +5,12 @@ import { ERROR_RESPONSES } from "./response";
 
 
 export const baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+let token;
 
+if (typeof window !== 'undefined') {
+    token = sessionStorage.getItem("access_token");
+}
 
-const token = Cookies.get("access_token");
 const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,

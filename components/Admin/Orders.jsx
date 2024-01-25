@@ -10,23 +10,25 @@ import {
     Td,
     TableContainer,
 } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { PrimaryButton } from "@/components/Common";
 import { SecondaryButton } from "../Common/Button";
 import Cookies from 'js-cookie'
 import { baseUrl } from "@/http-request/http-request";
 import axios from "axios";
+import { StateContext } from "@/context/StateProvider";
 
 const Orders = () => {
 
-    const accessToken = Cookies.get("access_token");
+    const { user } = useContext(StateContext);
+
     const [catData, setCatData] = React.useState([]);
 
     useEffect(() => {
         const fetchOrders = async () => {
             await axios.get(`${baseUrl}/store/orders/all/`, {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization: `Bearer ${user}`,
                 },
             })
                 .then((response) => {
@@ -39,7 +41,7 @@ const Orders = () => {
         }
 
         fetchOrders();
-    }, [accessToken])
+    }, [user])
 
     const getStatusStyle = (status) => {
         let textColor;

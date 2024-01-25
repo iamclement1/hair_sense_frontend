@@ -12,9 +12,10 @@ import { baseUrl } from "@/http-request/http-request";
 
 const PaymentMethod = ({ handleCheckOutStep }) => {
     const [loading, setLoading] = useState(false);
+
     const router = useRouter();
 
-    const { addressDetails, setDeliveryMethod, deliveryMethod } =
+    const { addressDetails, deliveryMethod, user } =
         useContext(StateContext);
 
     const cartItems = JSON.parse(sessionStorage.getItem("cart"));
@@ -22,20 +23,18 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
     if (!addressDetails) {
         handleCheckOutStep(1);
     }
-    // Get length of cartItems
-    const cartItemLength = cartItems?.length;
 
     // delivery fee
-    let deliverFee = deliveryMethod === "pick_up" ? 0.0 : 1200;
+    let deliverFee = deliveryMethod === "pickup" ? 0.0 : 1200;
     //Get subtotal price
     let subTotal = 0;
-    const semiSubTotal =
-        cartItems?.map((item, i) => {
-            return item.quantity * item.actual_price;
-        });
-    // Adding all the price together
-    for (let i = 0; i < semiSubTotal.length; i++) {
-        subTotal += semiSubTotal[i];
+    const semiSubTotal = cartItems?.map((item) => {
+        return item.quantity * item.sales_price;
+    });
+
+    // Adding all the prices together using a for-of loop
+    for (const price of semiSubTotal) {
+        subTotal += price;
     }
 
     let totalBill = subTotal + deliverFee;
@@ -51,7 +50,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
         amount: totalBill,
     };
 
-    const access_token = Cookies.get("access_token");
+
     //handle checkout payment button with paystack
     const sendCheckoutDetails = async () => {
         setLoading(true);
@@ -60,7 +59,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
         await axios
             .post(`${baseUrl}/store/orders/`, formData, {
                 headers: {
-                    Authorization: `Bearer ${access_token}`,
+                    Authorization: `Bearer ${user}`,
                 },
             })
             .then((response) => {

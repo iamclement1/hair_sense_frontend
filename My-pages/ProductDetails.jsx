@@ -1,14 +1,13 @@
 import { PrimaryButton, ProductSlider, StarRating } from "@/components/Common";
 import { SecondaryButton } from "@/components/Common/Button";
-import ModalCartItem from "@/components/Common/ModalCartItem";
 import CartModal from "@/components/modal/CartModal";
 import { CartContext } from "@/context/StateProvider";
-import { Box, Flex, Image, Text, Divider, Button, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Image, Text, Divider, useDisclosure } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 
-const ProductDetails = ({ }) => {
+const ProductDetails = () => {
     const router = useRouter()
 
     const url = router.asPath
@@ -39,40 +38,33 @@ const ProductDetails = ({ }) => {
             },
         });
 
-
         // Retrieve the existing cart items from sessionStorage
         const existingCartItems =
             JSON.parse(sessionStorage.getItem("cart")) || [];
 
         // Check if the item already exists in sessionStorage
         const isItemInLocalStorage = existingCartItems.some(
-            (item) => item.id === prod.id
+            (item) => item.id === prod?.id
         );
 
         if (isItemInLocalStorage) {
             toast.error("Item already exists in the cart");
         }
         else {
-
             // Add the new product to the cart items array
             const updatedCartItems = [...existingCartItems, prod];
-
             // Save the updated cart items to sessionStorage
             sessionStorage.setItem("cart", JSON.stringify(updatedCartItems));
-
-
             toast.success("Item added succesfully");
-
-
         }
     };
 
 
     useEffect(() => {
         if (prevCartStateRef.current !== GlobalCart.state) {
-            // setCart(GlobalCart.state);
+
             prevCartStateRef.current = GlobalCart.state;
-            // 
+
         }
     }, [GlobalCart.state]);
 
@@ -104,7 +96,7 @@ const ProductDetails = ({ }) => {
                         >
                             <Box w="100%">
                                 <Image
-                                    src={prod.product_img}
+                                    src={prod?.product_img}
                                     display="block"
                                     mx="auto"
                                     alt=""
@@ -120,7 +112,7 @@ const ProductDetails = ({ }) => {
                                         fontSize={["20px", null, "30px", null, "38px"]}
                                         fontWeight="600"
                                     >
-                                        {prod.name}
+                                        {prod?.name}
                                     </Text>
                                     <Box mt={["16px", null, null, "20px"]}>
                                         <StarRating rating={4.5} />
@@ -132,7 +124,7 @@ const ProductDetails = ({ }) => {
                                             fontWeight="600"
                                             color="primary_1"
                                         >
-                                            {prod.actual_price}
+                                            {prod?.sales_price}
                                         </Text>
                                     </Box>
 

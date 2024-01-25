@@ -24,10 +24,10 @@ import { useRouter } from "next/router";
 import CartModal from "../modal/CartModal";
 import { CartContext, StateContext } from "@/context/StateProvider";
 import { baseUrl } from "@/http-request/http-request";
-import Cookies from "js-cookie";
 import axios from "axios";
 const Navbar = () => {
     // Global cart
+    const [localUser, setLocalUser] = useState(null);
     const GlobalCart = useContext(CartContext);
     const state = GlobalCart.state;
     let cartItems = [];
@@ -39,33 +39,30 @@ const Navbar = () => {
     // fuction to Open Nav
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
-    const { user, setUser, handleLogOut } = useContext(StateContext);
-
+    const { user, handleLogOut } = useContext(StateContext);
 
     // have userData here
     // const [setUserData] = useState(null);
 
     // function to handle Authication  modal
     //fetch user info from the endpoint
-    const access_token = Cookies.get("access_token");
 
     useEffect(() => {
         async function fetchUser() {
             const response = await axios.get(`${baseUrl}/accounts/user`, {
                 headers: {
-                    Authorization: `Bearer ${access_token}`,
+                    Authorization: `Bearer ${user}`,
                 },
             });
-            setUser(response?.data?.data);
-            // setUserData(response?.data?.data);
+            setLocalUser(response?.data?.data);
 
         }
         // Fetch user only when the component mounts
-        if (access_token) {
+        if (user) {
             fetchUser();
         }
 
-    }, [access_token]);
+    }, [user]);
     const router = useRouter();
     const {
         isOpen: isOpenAuth,
@@ -205,7 +202,7 @@ const Navbar = () => {
                                                                         />
 
                                                                         <Text color="accent_2" display={["none", null, "block"]} >
-                                                                            {user?.first_name}
+                                                                            {localUser?.first_name}
                                                                         </Text>
                                                                     </Box>
                                                                     <MenuList py="0px">
