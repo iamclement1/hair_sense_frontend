@@ -36,7 +36,7 @@ const Categories = () => {
         }
 
         fetchCategory();
-    }, [accessToken])
+    }, [user])
 
     const {
         isOpen: isOpenNewSubCategory,

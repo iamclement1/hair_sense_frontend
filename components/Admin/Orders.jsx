@@ -41,7 +41,7 @@ const Orders = () => {
         }
 
         fetchOrders();
-    }, [accessToken])
+    }, [user])
 
     const getStatusStyle = (status) => {
         let textColor;

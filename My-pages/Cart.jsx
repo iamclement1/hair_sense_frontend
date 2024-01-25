@@ -1,19 +1,16 @@
 import {
     Box,
     Flex,
-    Button,
     Divider,
     Icon,
     Text,
-    Image,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect } from "react";
 import { FaTimes } from "react-icons/fa";
-import { MdRemoveShoppingCart } from "react-icons/md";
 import CartItemBoxDetails from "@/components/Common/CartItemBoxDetails";
 import { PrimaryButton, ProductSlider } from "@/components/Common";
 import EmptyCart from "@/components/Common/EmptyCart";
-import { CartContext } from "@/context/StateProvider";
+
 
 const Cart = () => {
     // Retrieve cart items from sessionStorage

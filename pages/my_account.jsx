@@ -4,7 +4,7 @@ import { StateContext } from "@/context/StateProvider";
 import { useRouter } from "next/router";
 import React, { useContext, useEffect } from "react";
 
-const MyAcc = () => {
+const Account = () => {
     const router = useRouter();
     const { user } = useContext(StateContext);
 
@@ -25,4 +25,4 @@ const MyAcc = () => {
     );
 };
 
-export default MyAcc;
+export default Account;

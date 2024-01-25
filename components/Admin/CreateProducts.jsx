@@ -69,7 +69,7 @@ const CreateProducts = ({ setActivePage }) => {
         if (subCat.length < 1) {
             fetchSubCategory();
         }
-    }, [accessToken, subCat]);
+    }, [user, subCat]);
 
     // useeffect to handle Selected subcat
     useEffect(() => {
@@ -114,7 +114,7 @@ const CreateProducts = ({ setActivePage }) => {
 
         await httpPost(`${baseUrl}/store/products/`, payload, {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${user}`,
             },
         })
             .then((response) => {

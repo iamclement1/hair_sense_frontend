@@ -86,7 +86,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
         if (subCat.length < 1) {
             fetchSubCategory();
         }
-    }, [accessToken, subCat]);
+    }, [user, subCat]);
 
     // useeffect to handle Selected subcat
     useEffect(() => {
@@ -145,7 +145,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
         await axios
             .put(`${baseUrl}/store/products/${data.id}/`, payload, {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization: `Bearer ${user}`,
                 },
             })
             .then((response) => {

@@ -78,7 +78,7 @@ const Products = () => {
         if (!products) {
             fetchProduct();
         }
-    }, [accessToken, products, setProducts]);
+    }, [user, products, setProducts]);
 
 
     const EnvData = useMemo(() => itemsToDisplay, [itemsToDisplay]);
@@ -116,7 +116,7 @@ const Products = () => {
         // Implement the logic for handling the delete action
         await httpDelete(`${baseUrl}/store/products/${productId}`, {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${user}`,
             },
         })
             .then((response) => {
