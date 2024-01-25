@@ -36,6 +36,7 @@ const Orders = ({ onToggle }) => {
                 });
 
                 if (response) {
+                    console.log(response);
                     const responseData = await response.json();
                     setClientOrders(responseData?.data.data);
                     console.log("Orders:", responseData?.data.data);
