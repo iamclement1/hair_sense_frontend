@@ -25,7 +25,7 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
     const cartItemLength = cartItems?.length;
 
     // delivery fee
-    let deliverFee = deliveryMethod === "online" ? 0.0 : 1200;
+    let deliverFee = deliveryMethod === "pickup" ? 0.0 : 1200;
     //Get subtotal price
     let subTotal = 0;
     const semiSubTotal = cartItems?.map((item) => {
@@ -114,7 +114,7 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
                                 <Flex gap="15px">
                                     {/* Pick Up  */}
                                     <Box>
-                                        <Radio value="online" size="lg" />
+                                        <Radio value="pickup" size="lg" />
                                     </Box>
                                     <Box
                                         maxW={["100%", "260px"]}

@@ -25,7 +25,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
     }
 
     // delivery fee
-    let deliverFee = deliveryMethod === "online" ? 0.0 : 1200;
+    let deliverFee = deliveryMethod === "pickup" ? 0.0 : 1200;
     //Get subtotal price
     let subTotal = 0;
     const semiSubTotal = cartItems?.map((item) => {
