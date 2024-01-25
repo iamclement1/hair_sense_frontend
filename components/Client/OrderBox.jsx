@@ -1,4 +1,3 @@
-import { PrimaryButton, ProductSlider } from "@/components/Common";
 import Badge from "@/components/Common/Badge";
 import {
     Box,
@@ -11,7 +10,6 @@ import React from "react";
 
 
 const OrderBox = ({ data }) => {
-    // console.log("dada", data);
     return (
         <Box>
             <Flex
@@ -22,11 +20,11 @@ const OrderBox = ({ data }) => {
                 <Flex w="100%" h="max-content" gap={["none", "30px"]}>
                     <Box>
                         <Image
-                            // src={product?.product_img}
-                            // alt={product?.name}
+                            src={product?.product_img}
+                            alt={product?.name}
 
-                            src="/images/cream.svg"
-                            alt={"dummy "}
+                            // src="/images/cream.svg"
+                            // alt={"dummy "}
                             w={{
                                 base: "125px",
                                 md: "130px",
@@ -51,8 +49,7 @@ const OrderBox = ({ data }) => {
                                 maxW="600px"
                                 noOfLines={2}
                             >
-                                {/* {product?.name} */}
-                                Hyggee Vegan Sun Cream - 50ml
+                                {product?.name}
                             </Text>
                         </Box>
                         <Flex
@@ -96,7 +93,7 @@ const OrderBox = ({ data }) => {
                                 maxW="600px"
                                 noOfLines={2}
                             >
-                                {/* {product?.name} */}
+                                {product?.name}
                                 22/04/23
                             </Text>
                         </Box>
