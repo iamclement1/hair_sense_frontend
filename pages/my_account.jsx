@@ -8,16 +8,14 @@ const MyAcc = () => {
     const router = useRouter();
     const { user } = useContext(StateContext);
 
-    let role;
-    if (typeof window !== 'undefined') {
-        role = sessionStorage.getItem("role");
-    }
     useEffect(() => {
+        const role = sessionStorage.getItem("role");
 
         if (!user && role !== "client") {
             router.push("/");
         }
-    }, []);
+    }, [user, router]);
+
     return (
         <Layout>
             <ScreenSize>
@@ -27,4 +25,4 @@ const MyAcc = () => {
     );
 };
 
-export default MyAcc
+export default MyAcc;
