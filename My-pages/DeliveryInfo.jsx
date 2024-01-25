@@ -97,7 +97,7 @@ const DeliveryInfo = () => {
                             <Text mt="16px">
                                 In any of our stores in Ilorin, Lagos, Abuja and
                                 Osun, we are happy to provide free in-store
-                                pickup.
+                                online.
                             </Text>
                         </Box>
                     </Box>

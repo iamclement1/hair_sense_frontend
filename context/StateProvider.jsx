@@ -21,7 +21,7 @@ const StateProvider = ({ children }, props) => {
     const [cart, setCart] = useState(null);
     // Checkout states
     const [addressDetails, setAddressDetails] = useState(null);
-    const [deliveryMethod, setDeliveryMethod] = useState("pick_up");
+    const [deliveryMethod, setDeliveryMethod] = useState("online");
     // Checkout values and fucntions
 
     // Get length of cartItems
@@ -42,6 +42,7 @@ const StateProvider = ({ children }, props) => {
         Cookies.remove("currentUser");
         sessionStorage.removeItem("role")
         sessionStorage.removeItem("cart");
+        sessionStorage.removeItem("current_product");
         toast.success("Logged out successfully");
         setUser(null);
         setTimeout(() => {

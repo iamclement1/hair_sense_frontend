@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { PrimaryButton } from "../Common/Button";
 import { Formik, Field } from "formik";
-import { baseUrl, httpPost } from "@/http-request/http-request";
+import { baseUrl } from "@/http-request/http-request";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import axios from "axios";
