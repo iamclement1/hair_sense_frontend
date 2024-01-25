@@ -7,10 +7,14 @@ import React, { useContext, useEffect } from "react";
 const MyAcc = () => {
     const router = useRouter();
     const { user } = useContext(StateContext);
-    console.log(user);
+
+    let role;
+    if (typeof window !== 'undefined') {
+        role = sessionStorage.getItem("role");
+    }
     useEffect(() => {
-        const isLoggedIn = user;
-        if (!isLoggedIn && user.role !== "client") {
+
+        if (!user && role !== "client") {
             router.push("/");
         }
     }, []);
