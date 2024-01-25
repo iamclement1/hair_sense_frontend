@@ -1,18 +1,12 @@
-import { PrimaryButton, ProductSlider } from "@/components/Common";
+import { PrimaryButton } from "@/components/Common";
 import OrderDetailsPreview from "@/components/Common/OrderDetailsPreview";
 import {
     Box,
     Flex,
-    Button,
     Divider,
     Icon,
     Text,
     Image,
-    Textarea,
-    FormErrorMessage,
-    FormLabel,
-    FormControl,
-    Select,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
