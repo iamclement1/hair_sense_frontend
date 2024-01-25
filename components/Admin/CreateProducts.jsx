@@ -13,14 +13,12 @@ import {
     Input,
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Formik } from "formik";
-import Cookies from "js-cookie";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const CreateProducts = ({ setActivePage }) => {
     const [subCat, setSubCat] = useState([]);
     const { user } = useContext(StateContext);
-    console.log(user);
 
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCat, setSelectedSubCat] = useState([]);
@@ -73,10 +71,7 @@ const CreateProducts = ({ setActivePage }) => {
 
     // useeffect to handle Selected subcat
     useEffect(() => {
-        subCat.map((item) => {
-
-
-
+        return subCat.map((item) => {
             item.id == selectedCategory
                 ? setSelectedSubCat(item.sub_category)
                 : "";
@@ -255,15 +250,14 @@ const CreateProducts = ({ setActivePage }) => {
                                                 )
                                             }
                                         >
-                                            {subCat &&
-                                                subCat.map((subCategory) => (
-                                                    <option
-                                                        key={subCategory.id}
-                                                        value={subCategory.id}
-                                                    >
-                                                        {subCategory.name}
-                                                    </option>
-                                                ))}
+                                            {subCat?.map((subCategory) => (
+                                                <option
+                                                    key={subCategory.id}
+                                                    value={subCategory.id}
+                                                >
+                                                    {subCategory.name}
+                                                </option>
+                                            ))}
                                         </Field>
                                         <ErrorMessage
                                             name="category"
@@ -305,19 +299,18 @@ const CreateProducts = ({ setActivePage }) => {
                                             borderColor="dark_4"
                                             rounded="5px"
                                         >
-                                            {selectedSubCat &&
-                                                selectedSubCat.map(
-                                                    (subCategory) => (
-                                                        <option
-                                                            key={subCategory.id}
-                                                            value={
-                                                                subCategory.id
-                                                            }
-                                                        >
-                                                            {subCategory.name}
-                                                        </option>
-                                                    )
-                                                )}
+                                            {selectedSubCat?.map(
+                                                (subCategory) => (
+                                                    <option
+                                                        key={subCategory.id}
+                                                        value={
+                                                            subCategory.id
+                                                        }
+                                                    >
+                                                        {subCategory.name}
+                                                    </option>
+                                                )
+                                            )}
                                         </Field>
                                         <ErrorMessage
                                             name="sub_category"

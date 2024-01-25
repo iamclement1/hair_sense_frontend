@@ -168,7 +168,6 @@ const Login = ({ handleCurrentForm, onClose }) => {
             const { access, refresh, role } = response.data;
 
             if (role === "client" || role === "admin") {
-                setUser(access);
                 // Use sessionStorage instead of Cookies
                 setAccessTokenSessionStorage(access, refresh);
                 sessionStorage.setItem("role", role);
