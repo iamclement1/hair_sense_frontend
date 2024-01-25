@@ -16,11 +16,11 @@ import { ErrorMessage, Field, Formik } from "formik";
 import Cookies from "js-cookie";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { FaTimes } from "react-icons/fa";
 
 const CreateProducts = ({ setActivePage }) => {
     const [subCat, setSubCat] = useState([]);
     const { user } = useContext(StateContext);
+    console.log(user);
 
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCat, setSelectedSubCat] = useState([]);
@@ -124,8 +124,11 @@ const CreateProducts = ({ setActivePage }) => {
                 }
             })
             .catch((error) => {
-
-                toast.error("Unable to create product");
+                setLoading(false);
+                if (error.response) {
+                    const errorMessage = error.response.data.message;
+                    toast.error(errorMessage);
+                }
             });
 
         setLoading(false);
