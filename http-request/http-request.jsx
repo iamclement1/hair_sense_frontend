@@ -10,7 +10,7 @@ let token;
 if (typeof window !== 'undefined') {
     token = sessionStorage.getItem("access_token");
 }
-
+console.log(token)
 const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -37,13 +37,9 @@ export const httpDelete = async (url, headers) => {
 };
 
 export const httpPost = async (url, postBody) => {
-    const access_token = Cookies.get("access_token");
+
     try {
-        const { data } = await axios.post(url, postBody, {
-            headers: {
-                Authorization: `Bearer ${access_token}`,
-            },
-        });
+        const { data } = await axios.post(url, postBody, { headers });
         return data;
     } catch (error) {
 
