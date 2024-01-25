@@ -3,16 +3,8 @@ import { PrimaryButton } from "@/components/Common";
 import {
     Box,
     Flex,
-    Button,
     Divider,
-    Icon,
     Text,
-    Image,
-    Textarea,
-    FormErrorMessage,
-    FormLabel,
-    FormControl,
-    Select,
     RadioGroup,
     Radio,
 } from "@chakra-ui/react";

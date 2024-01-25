@@ -12,13 +12,14 @@ import {
     Spinner,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import EditProduct from "./EditProduct";
 import { useTable } from "react-table";
 import { FiEdit } from "react-icons/fi";
 import { MdOutlineDelete } from "react-icons/md";
 import TablePagination from "../Common/TablePagination";
+import { StateContext } from "@/context/StateProvider";
 
 const Products = () => {
     const {
@@ -31,7 +32,8 @@ const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [deleting, setDeleting] = useState(false);
     const [editData, setEditData] = useState(null);
-    const accessToken = Cookies.get("access_token");
+    const { user } = useContext(StateContext);
+
 
     const itemsPerPage = 10;
 
@@ -55,7 +57,7 @@ const Products = () => {
     async function fetchProduct() {
         const response = await httpGet(`${baseUrl}/store/products`, {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${user}`,
             },
         });
 

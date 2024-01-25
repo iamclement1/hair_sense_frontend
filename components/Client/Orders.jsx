@@ -6,17 +6,19 @@ import {
     Text,
     Stack,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import OrderBox from "./OrderBox";
 import { baseUrl } from "@/http-request/http-request";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
+import { StateContext } from "@/context/StateProvider";
 
 
 const Orders = ({ onToggle }) => {
     const [clientOrders, setClientOrders] = useState([]);
-    const accessToken = Cookies.get("access_token");
+    const { user } = useContext(StateContext);
+
     console.log(accessToken);
     useEffect(() => {
         const fetchOrders = async () => {
@@ -30,7 +32,7 @@ const Orders = ({ onToggle }) => {
                 const response = await fetch(`${baseUrl}/store/orders/`, {
                     method: "GET",
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${user}`,
                     },
 
                 });

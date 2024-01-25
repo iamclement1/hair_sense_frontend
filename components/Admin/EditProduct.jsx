@@ -1,5 +1,6 @@
 import { PrimaryButton } from "@/components/Common";
 import CustomInput from "@/components/Common/CustomInput";
+import { StateContext } from "@/context/StateProvider";
 import {
     baseUrl,
     httpGet,
@@ -29,11 +30,12 @@ import {
 import axios from "axios";
 import { ErrorMessage, Field, Formik } from "formik";
 import Cookies from "js-cookie";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
     const [subCat, setSubCat] = useState([]);
+    const { user } = useContext(StateContext);
 
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCat, setSelectedSubCat] = useState([]);
@@ -62,12 +64,12 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
         setFile(null);
     };
 
-    const accessToken = Cookies.get("access_token");
+
     useEffect(() => {
         const fetchSubCategory = async () => {
             await httpGet(`${baseUrl}/store/categories`, {
                 headers: {
-                    Authrization: `${accessToken}`,
+                    Authrization: `${user}`,
                 },
             })
                 .then((response) => {

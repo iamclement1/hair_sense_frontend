@@ -12,9 +12,10 @@ import { baseUrl } from "@/http-request/http-request";
 
 const PaymentMethod = ({ handleCheckOutStep }) => {
     const [loading, setLoading] = useState(false);
+
     const router = useRouter();
 
-    const { addressDetails, deliveryMethod } =
+    const { addressDetails, deliveryMethod, user } =
         useContext(StateContext);
 
     const cartItems = JSON.parse(sessionStorage.getItem("cart"));
@@ -49,7 +50,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
         amount: totalBill,
     };
 
-    const access_token = Cookies.get("access_token");
+
     //handle checkout payment button with paystack
     const sendCheckoutDetails = async () => {
         setLoading(true);
@@ -58,7 +59,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
         await axios
             .post(`${baseUrl}/store/orders/`, formData, {
                 headers: {
-                    Authorization: `Bearer ${access_token}`,
+                    Authorization: `Bearer ${user}`,
                 },
             })
             .then((response) => {

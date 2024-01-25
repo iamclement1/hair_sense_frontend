@@ -5,27 +5,26 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { PrimaryButton } from "../Common";
 import CategoryBox from "./CategoryBox";
 import NewSubModal from "./NewSubModal";
 import { baseUrl, httpGet } from "@/http-request/http-request";
 import CustomSpinner from "../Common/Spinner";
-import Cookies from "js-cookie";
+import { StateContext } from "@/context/StateProvider";
 
 const Categories = () => {
     const { isOpen } = useDisclosure();
     const [catData, setCatData] = useState([]);
-    useEffect(() => { }, []);
+    const { user } = useContext(StateContext);
 
-    const accessToken = Cookies.get("access_token");
 
     useEffect(() => {
 
         const fetchCategory = async () => {
             await httpGet(`${baseUrl}/store/categories/`, {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization: `Bearer ${user}`,
                 },
             })
                 .then((response) => {

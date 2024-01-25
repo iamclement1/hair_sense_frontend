@@ -32,6 +32,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
 
     const [total, setTotal] = useState(0);
     const GlobalCart = useContext(CartContext);
+    console.log(user)
     const state = GlobalCart.state;
 
     //calculate total price of the quantity added to the cart
@@ -146,8 +147,6 @@ const ModalCartItem = ({ onOpen, onClose }) => {
 
         setTotal(totalPrice);
     }, [state]);
-
-    const access_token = Cookies.get("access_token");
     //handle checkout payment button with paystack
     const sendCartItems = async () => {
 
@@ -162,7 +161,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
             await axios
                 .post(`${baseUrl}/store/cart/`, requestOptions, {
                     headers: {
-                        Authorization: `Bearer ${access_token}`,
+                        Authorization: `Bearer ${user}`,
                     },
                 })
                 .then((response) => {

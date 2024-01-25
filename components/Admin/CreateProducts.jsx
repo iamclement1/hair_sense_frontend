@@ -1,5 +1,6 @@
 import { PrimaryButton } from "@/components/Common";
 import CustomInput from "@/components/Common/CustomInput";
+import { StateContext } from "@/context/StateProvider";
 import { baseUrl, httpGet, httpPost } from "@/http-request/http-request";
 import {
     Box,
@@ -13,12 +14,13 @@ import {
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Formik } from "formik";
 import Cookies from "js-cookie";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
 
 const CreateProducts = ({ setActivePage }) => {
     const [subCat, setSubCat] = useState([]);
+    const { user } = useContext(StateContext);
 
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCat, setSelectedSubCat] = useState([]);
@@ -45,12 +47,12 @@ const CreateProducts = ({ setActivePage }) => {
         setFile(null);
     };
 
-    const accessToken = Cookies.get("access_token");
+
     useEffect(() => {
         const fetchSubCategory = async () => {
             await httpGet(`${baseUrl}/store/categories`, {
                 headers: {
-                    Authrization: `${accessToken}`,
+                    Authorization: `${user}`,
                 },
             })
                 .then((response) => {
