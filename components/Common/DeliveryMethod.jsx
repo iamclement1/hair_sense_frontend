@@ -30,20 +30,19 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
         handleCheckOutStep(1);
     }
     // Get length of cartItems
-    const cartItemLength = cartItems && cartItems.length;
+    const cartItemLength = cartItems?.length;
 
     // delivery fee
-    let deliverFee = deliveryMethod === "pick_up" ? 0.0 : 1200;
+    let deliverFee = deliveryMethod === "online" ? 0.0 : 1200;
     //Get subtotal price
     let subTotal = 0;
-    const semiSubTotal =
-        cartItems &&
-        cartItems.map((item, i) => {
-            return item.quantity * item.actual_price;
-        });
-    // Adding all the price together
-    for (let i = 0; i < semiSubTotal.length; i++) {
-        subTotal += semiSubTotal[i];
+    const semiSubTotal = cartItems?.map((item) => {
+        return item.quantity * item.sales_price;
+    });
+
+    // Adding all the prices together using a for-of loop
+    for (const price of semiSubTotal) {
+        subTotal += price;
     }
 
     let totalBill = subTotal + deliverFee;
@@ -96,7 +95,7 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
                                 <Flex gap="15px">
                                     <Box>
                                         <Radio
-                                            value="door_delivery"
+                                            value="cod"
                                             size="lg"
                                         />
                                     </Box>
@@ -123,7 +122,7 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
                                 <Flex gap="15px">
                                     {/* Pick Up  */}
                                     <Box>
-                                        <Radio value="pick_up" size="lg" />
+                                        <Radio value="online" size="lg" />
                                     </Box>
                                     <Box
                                         maxW={["100%", "260px"]}

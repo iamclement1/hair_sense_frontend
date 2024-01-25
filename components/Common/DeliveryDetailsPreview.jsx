@@ -75,14 +75,14 @@ const DeliveryDetailsPreview = ({ handleCheckOutStep }) => {
                         <Box maxW={["100%", "260px"]} fontSize={"14px"}>
                             <Text fontWeight={600}>
                                 {" "}
-                                {deliveryMethod === "pick_up"
+                                {deliveryMethod === "online"
                                     ? "Pick Up"
                                     : "Door delivery"}
                             </Text>
 
                             <Text mt="12px">
                                 Delivery is NGN{" "}
-                                {deliveryMethod === "pick_up"
+                                {deliveryMethod === "online"
                                     ? "0.00"
                                     : "1,200"}
                             </Text>

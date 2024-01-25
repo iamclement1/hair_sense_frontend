@@ -5,20 +5,17 @@ import {
     Divider,
     Flex,
     Text,
-    Button,
     Image,
-    Center,
     useDisclosure,
 } from "@chakra-ui/react";
-import { PrimaryButton, StarRating } from "../Common";
+import { PrimaryButton } from "../Common";
 import { CartContext, StateContext } from "@/context/StateProvider";
 import { SecondaryButton } from "./Button";
 import { FaTrash } from "react-icons/fa";
-import { BsCart4 } from "react-icons/bs";
 import EmptyCart from "./EmptyCart";
 import { useRouter } from "next/router";
 import AuthModal from "../modal/AuthModal";
-import { baseUrl, httpPost } from "@/http-request/http-request";
+import { baseUrl } from "@/http-request/http-request";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
@@ -31,18 +28,16 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         onOpen: onOpenAuth,
         onClose: onCloseAuth,
     } = useDisclosure();
-    const { user, products, setProducts } = useContext(StateContext);
+    const { user } = useContext(StateContext);
 
     const [total, setTotal] = useState(0);
     const GlobalCart = useContext(CartContext);
     const state = GlobalCart.state;
-    const dispatch = GlobalCart.dispatch;
 
     //calculate total price of the quantity added to the cart
 
     // Retrieve cart items from sessionStorage
     const cartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
-
     //remove cart from state and sessionStorage
     const handleRemoveFromCart = (product) => {
         const dispatch = GlobalCart.dispatch;
@@ -146,28 +141,33 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         const existingCartData = JSON.parse(sessionStorage.getItem("cart")) || [];
 
         existingCartData.forEach((product) => {
-            totalPrice += product.actual_price * product.quantity;
+            totalPrice += product.sales_price * product.quantity;
         });
 
         setTotal(totalPrice);
     }, [state]);
+
     const access_token = Cookies.get("access_token");
     //handle checkout payment button with paystack
     const sendCartItems = async () => {
-        // sessionStorage.setItem("sample", JSON.stringify(cartItems));
 
         setLoading(true);
 
         if (cartItems.length > 0) {
+            const cartItemIds = cartItems.map(item => item.id);
+            const requestOptions = {
+                product: cartItemIds,
+                total_amount: total,
+            };
             await axios
-                .post(`${baseUrl}/store/cart/items/`, cartItems, {
+                .post(`${baseUrl}/store/cart/`, requestOptions, {
                     headers: {
                         Authorization: `Bearer ${access_token}`,
                     },
                 })
                 .then((response) => {
                     //success callback
-                    if (response?.status === 200) {
+                    if (response?.status === 201) {
                         toast.success(
                             "Successful... You will now been Redirected to the checkout page"
                         );
@@ -178,8 +178,10 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                 })
                 .catch((error) => {
                     setLoading(false);
-
-                    toast.error(error.message);
+                    if (error.response) {
+                        const errorMessage = error.response.data.message;
+                        toast.error(errorMessage);
+                    }
                 });
         }
     };
@@ -194,13 +196,13 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                     </Box>
                 ) : (
                     <Box>
-                        {cartItems?.map((product, index) => {
+                        {cartItems?.map((product) => {
                             // adding the total amoount to the object
 
                             product.amount =
-                                product.quantity * product.actual_price;
+                                product.quantity * product.sales_price;
                             return (
-                                <Box key={index}>
+                                <Box key={product?.id}>
                                     <Flex
                                         flexDirection="column"
                                         justifyContent="space-between"
@@ -266,7 +268,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                                         >
                                                             ₦{" "}
                                                             {product.quantity *
-                                                                product.actual_price}
+                                                                product.sales_price}
                                                         </Text>
                                                     </Box>
 
@@ -449,7 +451,6 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                         text="Login to checkout"
                                         w="100%"
                                         handleButton={() => {
-                                            // onClose();
                                             onOpenAuth();
                                         }}
                                         isLoading={loading}
