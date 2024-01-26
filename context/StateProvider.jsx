@@ -48,6 +48,7 @@ const StateProvider = ({ children }, props) => {
         sessionStorage.removeItem("currentUser");
         sessionStorage.removeItem("role")
         sessionStorage.removeItem("cartState");
+        sessionStorage.removeItem("cart");
         sessionStorage.removeItem("current_product");
         // sessionStorage.removeItem("access_token", access_token)
         toast.success("Logged out successfully");
