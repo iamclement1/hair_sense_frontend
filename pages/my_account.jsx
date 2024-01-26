@@ -17,7 +17,7 @@ const Account = () => {
     }, [user, router]);
 
     return (
-        <Layout>
+        <Layout title="My Account">
             <ScreenSize>
                 <MyAccount />
             </ScreenSize>

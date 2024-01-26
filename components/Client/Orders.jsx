@@ -36,7 +36,7 @@ const Orders = ({ onToggle }) => {
                 });
 
                 if (response) {
-                    console.log(response);
+                    console.log("client response", response);
                     const responseData = await response.json();
                     setClientOrders(responseData?.data.data);
                     console.log("Orders:", responseData?.data.data);
@@ -51,7 +51,7 @@ const Orders = ({ onToggle }) => {
             }
         };
 
-        console.log(clientOrders)
+        console.log("client order", clientOrders)
 
         fetchOrders();
     }, []);

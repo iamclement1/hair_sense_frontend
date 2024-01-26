@@ -27,7 +27,6 @@ import { baseUrl } from "@/http-request/http-request";
 import axios from "axios";
 const Navbar = () => {
     // Global cart
-    const [localUser, setLocalUser] = useState(null);
     const GlobalCart = useContext(CartContext);
     const state = GlobalCart.state;
     let cartItems = [];
@@ -39,7 +38,7 @@ const Navbar = () => {
     // fuction to Open Nav
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
-    const { user, handleLogOut } = useContext(StateContext);
+    const { user, handleLogOut, setUserInfo, userInfo } = useContext(StateContext);
 
     // have userData here
     // const [setUserData] = useState(null);
@@ -54,7 +53,7 @@ const Navbar = () => {
                     Authorization: `Bearer ${user}`,
                 },
             });
-            setLocalUser(response?.data?.data);
+            setUserInfo(response?.data?.data);
 
         }
         // Fetch user only when the component mounts
@@ -171,7 +170,7 @@ const Navbar = () => {
                             flexShrink={0}
                         >
                             <Flex gap="20px">
-                                {user && user ? (
+                                {user ? (
                                     <>
                                         {menuItems.map(
                                             ({ url, text, icon }, i) => {
@@ -202,7 +201,7 @@ const Navbar = () => {
                                                                         />
 
                                                                         <Text color="accent_2" display={["none", null, "block"]} >
-                                                                            {localUser?.first_name}
+                                                                            {userInfo?.first_name}
                                                                         </Text>
                                                                     </Box>
                                                                     <MenuList py="0px">
