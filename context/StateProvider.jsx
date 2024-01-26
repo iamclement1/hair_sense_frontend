@@ -2,8 +2,8 @@
 import { useRouter } from "next/router";
 import React, {
     createContext,
-    useContext,
     useEffect,
+    useMemo,
     useReducer,
     useState,
 } from "react";
@@ -18,6 +18,7 @@ const StateProvider = ({ children }, props) => {
     const [isProduct, setIsProduct] = useState(null);
     const [prodID, setProdID] = useState(null);
     const [user, setUser] = useState(null);
+    const [userInfo, setUserInfo] = useState(null);
     const [cart, setCart] = useState(null);
     // Checkout states
     const [addressDetails, setAddressDetails] = useState(null);
@@ -56,7 +57,32 @@ const StateProvider = ({ children }, props) => {
         }, 2000);
     };
 
-    const passedData = {
+    const passedData = useMemo(() => {
+        return {
+            isLoading,
+            setIsLoading,
+            products,
+            setProducts,
+            isProduct,
+            setIsProduct,
+            prodID,
+            setProdID,
+            user,
+            setUser,
+            handleLogOut,
+            cart,
+            setCart,
+            addressDetails,
+            setAddressDetails,
+            deliveryMethod,
+            setDeliveryMethod,
+            userInfo,
+            setUserInfo,
+            // deliverFee,
+            // subTotal,
+            // totalBill,
+        };
+    }, [
         isLoading,
         setIsLoading,
         products,
@@ -74,10 +100,12 @@ const StateProvider = ({ children }, props) => {
         setAddressDetails,
         deliveryMethod,
         setDeliveryMethod,
+        userInfo,
+        setUserInfo,
         // deliverFee,
         // subTotal,
         // totalBill,
-    };
+    ]);
     //dispatch and state => dispatch pushes the actions
     const reducer = (state, action) => {
         switch (action.type) {
