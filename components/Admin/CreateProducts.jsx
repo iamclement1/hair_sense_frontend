@@ -1,7 +1,7 @@
 import { PrimaryButton } from "@/components/Common";
 import CustomInput from "@/components/Common/CustomInput";
 import { StateContext } from "@/context/StateProvider";
-import { baseUrl, httpGet, httpPost } from "@/http-request/http-request";
+import { baseUrl, httpGet } from "@/http-request/http-request";
 import {
     Box,
     Flex,
@@ -12,13 +12,14 @@ import {
     Select,
     Input,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { ErrorMessage, Field, Formik } from "formik";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const CreateProducts = ({ setActivePage }) => {
+    const { user } = useContext(StateContext)
     const [subCat, setSubCat] = useState([]);
-    const { user } = useContext(StateContext);
 
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCat, setSelectedSubCat] = useState([]);
@@ -45,7 +46,6 @@ const CreateProducts = ({ setActivePage }) => {
         setFile(null);
     };
 
-
     useEffect(() => {
         const fetchSubCategory = async () => {
             await httpGet(`${baseUrl}/store/categories`, {
@@ -71,13 +71,12 @@ const CreateProducts = ({ setActivePage }) => {
 
     // useeffect to handle Selected subcat
     useEffect(() => {
-        subCat.forEach((item) => {
-            if (item.id === selectedCategory) {
-                setSelectedSubCat(item.sub_category);
-            }
+        subCat.map((item) => {
+            item.id == selectedCategory
+                ? setSelectedSubCat(item.sub_category)
+                : "";
         });
     }, [selectedCategory]);
-
 
     const handleCategoryChange = (event, handleChange) => {
         handleChange(event); // Calling the handleChange function provided by Formik
@@ -108,7 +107,7 @@ const CreateProducts = ({ setActivePage }) => {
             payload.append("product_img", file);
         }
 
-        await httpPost(`${baseUrl}/store/products/`, payload, {
+        await axios.post(`${baseUrl}/store/products/`, payload, {
             headers: {
                 Authorization: `Bearer ${user}`,
             },
@@ -120,11 +119,8 @@ const CreateProducts = ({ setActivePage }) => {
                 }
             })
             .catch((error) => {
-                setLoading(false);
-                if (error.response) {
-                    const errorMessage = error.response.data.message;
-                    toast.error(errorMessage);
-                }
+
+                toast.error("Unable to create product");
             });
 
         setLoading(false);
@@ -303,12 +299,12 @@ const CreateProducts = ({ setActivePage }) => {
                                             {selectedSubCat?.map(
                                                 (subCategory) => (
                                                     <option
-                                                        key={subCategory.id}
+                                                        key={subCategory?.id}
                                                         value={
-                                                            subCategory.id
+                                                            subCategory?.id
                                                         }
                                                     >
-                                                        {subCategory.name}
+                                                        {subCategory?.name}
                                                     </option>
                                                 )
                                             )}

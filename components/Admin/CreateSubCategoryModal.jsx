@@ -14,6 +14,7 @@ import { baseUrl, httpPost } from "@/http-request/http-request";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
 import { StateContext } from "@/context/StateProvider";
+import axios from "axios";
 
 const CreateSubCategoryModal = ({
     isOpen,
@@ -36,7 +37,7 @@ const CreateSubCategoryModal = ({
             name: name,
         };
 
-        await httpPost(`${baseUrl}/store/sub_categories/`, formData, {
+        await axios.post(`${baseUrl}/store/sub_categories/`, formData, {
             headers: {
                 Authorization: `Bearer ${user}`,
             },
@@ -97,6 +98,7 @@ const CreateSubCategoryModal = ({
                                 <PrimaryButton
                                     maxW="130px"
                                     text="Save"
+                                    isLoading={loading}
                                     handleButton={handleSubmit}
                                     py="30px"
                                     type="submit"
