@@ -39,7 +39,7 @@ const Navbar = () => {
     // fuction to Open Nav
     const { isOpen, onOpen, onClose } = useDisclosure();
     //fetch user from context api
-    const { user, handleLogOut } = useContext(StateContext);
+    const { user, handleLogOut, setUserInfo } = useContext(StateContext);
 
     // have userData here
     // const [setUserData] = useState(null);
@@ -54,7 +54,7 @@ const Navbar = () => {
                     Authorization: `Bearer ${user}`,
                 },
             });
-            setLocalUser(response?.data?.data);
+            setUserInfo(response?.data?.data);
 
         }
         // Fetch user only when the component mounts
@@ -171,7 +171,7 @@ const Navbar = () => {
                             flexShrink={0}
                         >
                             <Flex gap="20px">
-                                {user && user ? (
+                                {user ? (
                                     <>
                                         {menuItems.map(
                                             ({ url, text, icon }, i) => {
