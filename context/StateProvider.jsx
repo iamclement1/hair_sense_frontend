@@ -1,4 +1,4 @@
-import Cookies from "js-cookie";
+
 import { useRouter } from "next/router";
 import React, {
     createContext,
@@ -21,7 +21,12 @@ const StateProvider = ({ children }, props) => {
     const [cart, setCart] = useState(null);
     // Checkout states
     const [addressDetails, setAddressDetails] = useState(null);
-    const [deliveryMethod, setDeliveryMethod] = useState("pick_up");
+    const [deliveryMethod, setDeliveryMethod] = useState("pickup");
+    let token;
+
+    if (typeof window !== 'undefined') {
+        token = sessionStorage.getItem("access_token");
+    }
     // Checkout values and fucntions
 
     // Get length of cartItems
@@ -31,20 +36,24 @@ const StateProvider = ({ children }, props) => {
     const router = useRouter();
 
     useEffect(() => {
-        const mainUser_token = Cookies.get("access_token");
+        const mainUser_token = token;
 
         setUser(mainUser_token);
     }, []);
     const handleLogOut = () => {
         router.push("/");
-        Cookies.remove("access_token");
-        Cookies.remove("refreshToken");
-        Cookies.remove("currentUser");
-        sessionStorage.removeItem("role")
-        sessionStorage.removeItem("cart");
         sessionStorage.removeItem("access_token");
+        sessionStorage.removeItem("refreshToken");
+        sessionStorage.removeItem("currentUser");
+        sessionStorage.removeItem("role")
+        sessionStorage.removeItem("cartState");
+        sessionStorage.removeItem("current_product");
+        // sessionStorage.removeItem("access_token", access_token)
         toast.success("Logged out successfully");
         setUser(null);
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
     };
 
     const passedData = {

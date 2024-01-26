@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { PrimaryButton } from "../Common/Button";
 import { Formik, Field } from "formik";
-import { baseUrl, httpPost } from "@/http-request/http-request";
+import { baseUrl } from "@/http-request/http-request";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import axios from "axios";
@@ -150,9 +150,10 @@ const Login = ({ handleCurrentForm, onClose }) => {
     const togglePassword = () => {
         setShowPassWord(!showPassWord);
     };
-    const setAccessTokenCookie = (access, refresh) => {
-        Cookies.set("refreshToken", refresh);
-        Cookies.set("access_token", access);
+
+    const setAccessTokenSessionStorage = (access, refresh) => {
+        sessionStorage.setItem("refreshToken", refresh);
+        sessionStorage.setItem("access_token", access);
     };
     // import user from context api
     const loginUser = async (values) => {
@@ -162,57 +163,33 @@ const Login = ({ handleCurrentForm, onClose }) => {
             password: values.password,
         };
 
-        await axios
-            .post(`${baseUrl}/accounts/sign_in/`, formData)
-            .then((response) => {
-                const { access, refresh, role } = response.data;
-                if (response?.data?.role === "client") {
+        try {
+            const response = await axios.post(`${baseUrl}/accounts/sign_in/`, formData);
+            const { access, refresh, role } = response.data;
 
-                    setAccessTokenCookie(access, refresh);
-                    sessionStorage.setItem("role", role)  
-                     sessionStorage.setItem("access_token", access)
+            if (role === "client" || role === "admin") {
+                // Use sessionStorage instead of Cookies
+                setAccessTokenSessionStorage(access, refresh);
+                sessionStorage.setItem("role", role);
 
-                    // Remove token from cookies after one hour
-                    setTimeout(() => {
-                        Cookies.remove("access_token");
-                        Cookies.remove("refreshToken");
-                        Cookies.remove("currentUser");
-                    }, 60 * 60 * 1000);
+                setUser(access);
+                toast.success("Login successful...");
+                onClose();
 
-                    setUser(access);
-                    // Success callback
-                    toast.success("Login successful...");
-                    onClose();
-                } else if (response?.data?.role === "admin") {
-                    sessionStorage.setItem("role", role)
-                    setAccessTokenCookie(access, refresh);
-                     sessionStorage.setItem("access_token", access)
-
-
-                    // Remove token from cookies after one hour
-                    setTimeout(() => {
-                        Cookies.remove("access_token");
-                        Cookies.remove("refreshToken");
-                        Cookies.remove("currentUser");
-                    }, 60 * 60 * 1000);
-
-                    setUser(access);
-                    // Success callback
-                    toast.success("Login successful...");
-                    onClose();
+                if (role === "admin") {
                     router.push("/admin");
                 }
-                setIsLoading(false);
-            })
-            .catch((error) => {
-                setIsLoading(false);
-                if (error.response) {
-                    const errorMessage = error.response.data.message;
-                    toast.error(errorMessage);
-                }
-            });
-    };
+            }
 
+            setIsLoading(false);
+        } catch (error) {
+            setIsLoading(false);
+            if (error.response) {
+                const errorMessage = error.response.data.message;
+                toast.error(errorMessage);
+            }
+        }
+    };
 
     return (
         <Formik

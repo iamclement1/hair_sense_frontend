@@ -11,13 +11,13 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 
 const CartItemBoxDetails = ({ singleItem }) => {
 
-    const { id, name, actual_price, sales_price, product_img, quantity } =
+    const { id, name, sales_price, product_img, quantity } =
         singleItem;
 
     const [total, setTotal] = useState(0);
     const GlobalCart = useContext(CartContext);
     const state = GlobalCart.state;
-    const dispatch = GlobalCart.dispatch;
+
 
     //remove cart from state and sessionStorage
     const handleRemoveFromCart = (singleItem) => {
@@ -55,7 +55,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
 
         // Find the index of the item in the existing cart data
         const itemIndex = existingCartData.findIndex(
-            (item) => item.id === singleItem.id
+            (item) => item.id === singleItem?.id
         );
 
         if (itemIndex !== -1) {
@@ -71,7 +71,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
     const handleDecreaseQuantity = (singleItem) => {
         const dispatch = GlobalCart.dispatch;
 
-        if (singleItem.quantity > 1) {
+        if (singleItem?.quantity > 1) {
             // Decrease the quantity in the cart state
             dispatch({ type: "DECREASE_QUANTITY", payload: singleItem });
 
@@ -81,7 +81,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
 
             // Find the index of the item in the existing cart data
             const itemIndex = existingCartData.findIndex(
-                (item) => item.id === singleItem.id
+                (item) => item.id === singleItem?.id
             );
 
             if (itemIndex !== -1) {
@@ -101,7 +101,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
 
             // Remove the item from the existing cart data
             const updatedCartData = existingCartData.filter(
-                (item) => item.id !== singleItem.id
+                (item) => item.id !== singleItem?.id
             );
 
             // Update the cart data in sessionStorage
@@ -115,7 +115,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
         const existingCartData = JSON.parse(sessionStorage.getItem("cart")) || [];
 
         existingCartData.forEach((singleItem) => {
-            totalPrice += singleItem.actual_price * singleItem.quantity;
+            totalPrice += singleItem?.sales_price * singleItem?.quantity;
         });
 
         setTotal(totalPrice);
@@ -137,7 +137,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
             {/* product Image */}
 
             <Image
-                src={product_img && product_img}
+                src={product_img}
                 maxW={{ base: "188px", md: "115px" }}
                 maxH={{ base: "188px", md: "115px" }}
                 alt={name}
@@ -165,7 +165,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
                     flexShrink={0}
                     noOfLines={3}
                 >
-                    {name && name}
+                    {name}
                 </Text>
             </Box>
 
@@ -196,7 +196,7 @@ const CartItemBoxDetails = ({ singleItem }) => {
                         fontSize={{ base: "16px", md: "14px", xl: "24px" }}
                         fontWeight={600}
                     >
-                        ₦ {actual_price}
+                        ₦ {sales_price}
                     </Text>
                 </Flex>
                 {/* Quantity Section */}

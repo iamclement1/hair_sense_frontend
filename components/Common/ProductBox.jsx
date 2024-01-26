@@ -9,27 +9,24 @@ import {
     PopoverContent,
     PopoverArrow,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useContext, useEffect } from "react";
 
-import { BsHeart, BsHeartFill, AiOutlineShoppingCart } from "react-icons/bs";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { StarRating } from ".";
-import { FaBars, FaShoppingCart } from "react-icons/fa";
+import { FaShoppingCart } from "react-icons/fa";
 import { baseUrl, httpPost } from "@/http-request/http-request";
-import { CartContext, StateContext } from "@/context/StateProvider";
+import { CartContext } from "@/context/StateProvider";
 import { useRouter } from "next/router";
 import { toast } from "react-hot-toast";
 
 const ProductBox = ({ productData }, isLiked) => {
 
-
     const router = useRouter();
-    // const { id, imageUrl, text, rating, price } = productData;
 
 
     const {
         id,
         name,
-        actual_price,
         sales_price,
         // first_description,
         desc,
@@ -39,7 +36,7 @@ const ProductBox = ({ productData }, isLiked) => {
     const handleAddFavorite = async (event) => {
         event.stopPropagation();
         const data = {
-            product: productData.id,
+            product: productData?.id,
         };
 
         await httpPost(`${baseUrl}/store/favourite/items/`, data)
@@ -69,13 +66,13 @@ const ProductBox = ({ productData }, isLiked) => {
 
         // Check if the product ID already exists in the cart
         const isItemExist = GlobalCart.state.some(
-            (item) => item.id === productData.id
+            (item) => item.id === productData?.id
         );
 
         // Check if the item already exists in sessionStorage
         const existingCartData = JSON.parse(sessionStorage.getItem("cart")) || [];
         const isItemInLocalStorage = existingCartData.some(
-            (item) => item.id === productData.id
+            (item) => item.id === productData?.id
         );
 
         if (isItemExist) {
@@ -110,7 +107,7 @@ const ProductBox = ({ productData }, isLiked) => {
     function handleProductDetails(productData) {
         // OnClick of the whole box the Box detaill will be open on the new product Details page.
         sessionStorage.setItem("current_product", JSON.stringify(productData));
-        router.push(`/product_details/${productData.name}`);
+        router.push(`/product_details/${productData?.name}`);
 
     }
     return (
@@ -202,7 +199,7 @@ const ProductBox = ({ productData }, isLiked) => {
                         fontSize={["18px", null, "24px"]}
                         fontWeight={600}
                     >
-                        ₦{actual_price}
+                        ₦{sales_price}
                     </Text>
                 </Box>
             </Box>

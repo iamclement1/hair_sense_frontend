@@ -99,9 +99,8 @@ const ProductSlider = ({
     useEffect(() => {
         async function fetchProduct() {
             const response = await axios.get(`${baseUrl}/store/products`);
-            if (response?.data && response?.status === 200) {
+            if (response?.status === 200) {
                 const data = response?.data?.data?.results;
-
                 setProducts(data);
             }
 
@@ -109,7 +108,7 @@ const ProductSlider = ({
         if (!products) {
             fetchProduct();
         }
-    }, [products, setProducts]);
+    }, [products]);
 
     const handleProduct = (id) => {
         // alert("Product Id === ", id);
@@ -163,19 +162,19 @@ const ProductSlider = ({
                 ) : (
                     <Slider {...settings} ref={sliderRef}>
                         {products?.map((product) => {
-                                product.quantity = 1;
-                                return (
-                                    <ProductBox
-                                        key={product.id}
-                                        productData={product}
-                                        onClick={() => {
-                                            handleProduct(product.id)
-                                            alert(product.id)
-                                        }
-                                        }
-                                    />
-                                );
-                            })}
+                            product.quantity = 1;
+                            return (
+                                <ProductBox
+                                    key={product.id}
+                                    productData={product}
+                                    onClick={() => {
+                                        handleProduct(product.id)
+                                        alert(product.id)
+                                    }
+                                    }
+                                />
+                            );
+                        })}
                     </Slider>
                 )}
             </Box>

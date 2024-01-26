@@ -1,23 +1,13 @@
-import { PrimaryButton } from "@/components/Common";
 import AddressDetails from "@/components/Common/AddressDetails";
-import CustomInput from "@/components/Common/CustomInput";
 import DeliveryMethod from "@/components/Common/DeliveryMethod";
 import PaymentMethod from "@/components/Common/PaymentMethod";
 import {
     Box,
     Flex,
-    Button,
     Divider,
     Icon,
     Text,
-    Image,
-    Textarea,
-    FormErrorMessage,
-    FormLabel,
-    FormControl,
-    Select,
 } from "@chakra-ui/react";
-import { ErrorMessage, Field, Formik } from "formik";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { FaTimes } from "react-icons/fa";
@@ -30,6 +20,9 @@ const CheckoutPage = () => {
         setCheckOutStep(value);
     };
 
+    let stepComponent;
+
+
     useEffect(() => {
         // Get the existing cart data from sessionStorage
         const existingCartData = JSON.parse(sessionStorage.getItem("cart"));
@@ -39,6 +32,21 @@ const CheckoutPage = () => {
             router.push("/");
         }
     }, []);
+
+
+    switch (checkOutStep) {
+        case 1:
+            stepComponent = <AddressDetails handleCheckOutStep={handleCheckOutStep} />;
+            break;
+        case 2:
+            stepComponent = <DeliveryMethod handleCheckOutStep={handleCheckOutStep} />;
+            break;
+        case 3:
+            stepComponent = <PaymentMethod handleCheckOutStep={handleCheckOutStep} />;
+            break;
+        default:
+            stepComponent = null;
+    }
 
     return (
         <Flex
@@ -69,21 +77,7 @@ const CheckoutPage = () => {
                 <Divider mt="8px" />
                 {/* Address Details page */}
                 <Box>
-                    {checkOutStep === 1 ? (
-                        <AddressDetails
-                            handleCheckOutStep={handleCheckOutStep}
-                        />
-                    ) : checkOutStep === 2 ? (
-                        <DeliveryMethod
-                            handleCheckOutStep={handleCheckOutStep}
-                        />
-                    ) : checkOutStep === 3 ? (
-                        <PaymentMethod
-                            handleCheckOutStep={handleCheckOutStep}
-                        />
-                    ) : (
-                        ""
-                    )}
+                    {stepComponent}
                 </Box>
             </Box>
         </Flex>
