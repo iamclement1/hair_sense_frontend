@@ -5,11 +5,11 @@ import {
     Flex,
     Text,
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 
 const OverView = ({ onToggle }) => {
-    const { user } = useContext(StateContext);
+    const { userInfo } = useContext(StateContext);
 
     return (
         <Box>
@@ -35,7 +35,7 @@ const OverView = ({ onToggle }) => {
             </Flex>
 
             <Box fontSize={["16px", null, null, null, "18px"]}>
-                <Text> Greetings, Mr.{user?.first_name} 🥰 </Text>
+                <Text> Greetings, Mr. {userInfo?.first_name} 🥰 </Text>
                 <Text mt="18px">
                     Our online store is eager to have you as a customer.
                     Purchase your own particular beauty favorites or explore
