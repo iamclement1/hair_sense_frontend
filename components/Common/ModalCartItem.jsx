@@ -17,7 +17,6 @@ import { useRouter } from "next/router";
 import AuthModal from "../modal/AuthModal";
 import { baseUrl } from "@/http-request/http-request";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
 
 const ModalCartItem = ({ onOpen, onClose }) => {

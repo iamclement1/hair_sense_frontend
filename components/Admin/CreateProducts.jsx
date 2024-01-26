@@ -71,12 +71,13 @@ const CreateProducts = ({ setActivePage }) => {
 
     // useeffect to handle Selected subcat
     useEffect(() => {
-        return subCat.map((item) => {
-            item.id == selectedCategory
-                ? setSelectedSubCat(item.sub_category)
-                : "";
+        subCat.forEach((item) => {
+            if (item.id === selectedCategory) {
+                setSelectedSubCat(item.sub_category);
+            }
         });
     }, [selectedCategory]);
+
 
     const handleCategoryChange = (event, handleChange) => {
         handleChange(event); // Calling the handleChange function provided by Formik
