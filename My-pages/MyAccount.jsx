@@ -18,6 +18,40 @@ const MyAccount = () => {
 
     const { handleLogOut } = useContext(StateContext);
 
+    const renderNavItems = () => {
+        return navContent.map((item, i) => {
+            const { text, navNo } = item;
+            return (
+                <Box
+                    cursor="pointer"
+                    py="13px"
+                    key={i}
+                    borderBottom={"1pxstart"}
+                    borderColor="accent_10"
+                    fontWeight={activeNav === navNo ? "600" : "400"}
+                    onClick={() => {
+                        setActiveNav(navNo);
+                        onOpen();
+                    }}
+                >
+                    <Box> {text} </Box>
+                </Box>
+            );
+        });
+    };
+
+    let previewComponent;
+
+    if (activeNav === 1) {
+        previewComponent = <OverView onToggle={onToggle} />;
+    } else if (activeNav === 2) {
+        previewComponent = <Orders onToggle={onToggle} />;
+    } else if (activeNav === 3) {
+        previewComponent = <RecentlyViewed onToggle={onToggle} />;
+    } else {
+        previewComponent = null; // Adjust accordingly if needed
+    }
+
 
     return (
         <Box>
@@ -46,27 +80,7 @@ const MyAccount = () => {
                                 "block",
                             ]}
                         >
-                            {navContent.map((item, i) => {
-                                const { text, navNo } = item;
-                                return (
-                                    <Box
-                                        cursor="pointer"
-                                        py="13px"
-                                        key={i}
-                                        borderBottom={"1pxstart"}
-                                        borderColor="accent_10"
-                                        fontWeight={
-                                            activeNav === navNo ? "600" : "400"
-                                        }
-                                        onClick={() => {
-                                            setActiveNav(navNo);
-                                            onOpen();
-                                        }}
-                                    >
-                                        <Box> {text} </Box>
-                                    </Box>
-                                );
-                            })}
+                            {renderNavItems()}
                         </Box>
 
                         {/* Preview section  */}
@@ -80,15 +94,7 @@ const MyAccount = () => {
                                 "block",
                             ]}
                         >
-                            {activeNav === 1 ? (
-                                <OverView onToggle={onToggle} />
-                            ) : activeNav === 2 ? (
-                                <Orders onToggle={onToggle} />
-                            ) : activeNav === 3 ? (
-                                <RecentlyViewed onToggle={onToggle} />
-                            ) : (
-                                ""
-                            )}
+                            {previewComponent}
                         </Box>
                     </Flex>
 
