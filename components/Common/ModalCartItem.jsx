@@ -20,18 +20,18 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 
 const ModalCartItem = ({ onOpen, onClose }) => {
-    const [loading, setLoading] = useState(false);
+
     const router = useRouter();
     const {
         isOpen: isOpenAuth,
         onOpen: onOpenAuth,
         onClose: onCloseAuth,
     } = useDisclosure();
-    const { user } = useContext(StateContext);
+    const { user, isLoading, setIsLoading } = useContext(StateContext);
 
     const [total, setTotal] = useState(0);
     const GlobalCart = useContext(CartContext);
-    console.log(user)
+
     const state = GlobalCart.state;
 
     //calculate total price of the quantity added to the cart
@@ -141,7 +141,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         const existingCartData = JSON.parse(sessionStorage.getItem("cart")) || [];
 
         existingCartData.forEach((product) => {
-            totalPrice += product.sales_price * product.quantity;
+            totalPrice += product.actualPrice * product.quantity;
         });
 
         setTotal(totalPrice);
@@ -149,14 +149,16 @@ const ModalCartItem = ({ onOpen, onClose }) => {
     //handle checkout payment button with paystack
     const sendCartItems = async () => {
 
-        setLoading(true);
+        setIsLoading(true);
 
-        if (cartItems.length > 0) {
+        if (cartItems?.length > 0) {
             const cartItemIds = cartItems.map(item => item.id);
+            console.log(cartItemIds)
             const requestOptions = {
-                product: cartItemIds,
-                total_amount: total,
+                products: cartItems,
+                // total_amount: total,
             };
+            console.log(requestOptions)
             await axios
                 .post(`${baseUrl}/store/cart/`, requestOptions, {
                     headers: {
@@ -165,17 +167,18 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                 })
                 .then((response) => {
                     //success callback
-                    if (response?.status === 201) {
+                    console.log(response)
+                    if (response?.data?.status === 200) {
                         toast.success(
-                            "Successful... You will now been Redirected to the checkout page"
+                            "Successfully added to cart... You will now been Redirected to the checkout page"
                         );
                         onClose();
-                        setLoading(false);
+                        setIsLoading(false);
                         router.push("/checkout");
                     }
                 })
                 .catch((error) => {
-                    setLoading(false);
+                    setIsLoading(false);
                     if (error.response) {
                         const errorMessage = error.response.data.message;
                         toast.error(errorMessage);
@@ -188,7 +191,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         <>
             <Box>
                 {/* Cart Item Section  */}
-                {cartItems.length === 0 ? (
+                {cartItems?.length === 0 ? (
                     <Box py="30px">
                         <EmptyCart onOpen={onOpen} onClose={onClose} />
                     </Box>
@@ -198,7 +201,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                             // adding the total amoount to the object
 
                             product.amount =
-                                product.quantity * product.sales_price;
+                                product.quantity * product.actualPrice;
                             return (
                                 <Box key={product?.id}>
                                     <Flex
@@ -216,7 +219,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                             <Box>
                                                 <Image
                                                     src={
-                                                        product?.product_img
+                                                        product?.productImg
                                                     }
                                                     alt={product?.name}
                                                     w={{
@@ -266,7 +269,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                                         >
                                                             ₦{" "}
                                                             {product.quantity *
-                                                                product.sales_price}
+                                                                product.actualPrice}
                                                         </Text>
                                                     </Box>
 
@@ -443,6 +446,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                         text="Check Out"
                                         w="100%"
                                         handleButton={sendCartItems}
+                                        isLoading={isLoading}
                                     />
                                 ) : (
                                     <PrimaryButton
@@ -451,7 +455,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                         handleButton={() => {
                                             onOpenAuth();
                                         }}
-                                        isLoading={loading}
+                                        isLoading={isLoading}
                                     />
                                 )}
                             </Flex>
