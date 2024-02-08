@@ -12,6 +12,7 @@ import OrderBox from "./OrderBox";
 import { baseUrl } from "@/http-request/http-request";
 import { toast } from "react-toastify";
 import { StateContext } from "@/context/StateProvider";
+import axios from "axios";
 
 
 const Orders = ({ onToggle }) => {
@@ -27,21 +28,18 @@ const Orders = ({ onToggle }) => {
                     return;
                 }
 
-                const response = await fetch(`${baseUrl}/store/orders/`, {
-                    method: "GET",
+                const response = await axios.get(`${baseUrl}/store/order/`, {
                     headers: {
                         Authorization: `Bearer ${user}`,
                     },
 
                 });
 
-                if (response) {
+                if (response?.data?.status === 200) {
                     console.log("client response", response);
-                    const responseData = await response.json();
-                    setClientOrders(responseData?.data.data);
-                    console.log("Orders:", responseData?.data.data);
-                } else {
-                    console.error("Failed to fetch orders:", response.statusText);
+                    const responseData = response.data.data;
+                    setClientOrders(responseData);
+                    console.log("Orders:", responseData);
                 }
             } catch (error) {
                 if (error?.response) {
@@ -51,11 +49,12 @@ const Orders = ({ onToggle }) => {
             }
         };
 
-        console.log("client order", clientOrders)
+        if (user) {
+            fetchOrders();
+        }
+    }, [user]);
 
-        fetchOrders();
-    }, []);
-
+    console.log("client order", clientOrders)
 
     return (
         <Box>
