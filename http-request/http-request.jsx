@@ -10,7 +10,6 @@ let token;
 if (typeof window !== 'undefined') {
     token = sessionStorage.getItem("access_token");
 }
-console.log(token)
 const headers = {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
