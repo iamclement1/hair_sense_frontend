@@ -12,31 +12,37 @@ import NewSubModal from "./NewSubModal";
 import { baseUrl, httpGet } from "@/http-request/http-request";
 import CustomSpinner from "../Common/Spinner";
 import { StateContext } from "@/context/StateProvider";
+import { toast } from "react-toastify";
 
 const Categories = () => {
     const { isOpen } = useDisclosure();
     const [catData, setCatData] = useState([]);
-    const { user } = useContext(StateContext);
+    const { user, isLoading, setIsLoading } = useContext(StateContext);
 
 
     useEffect(() => {
 
         const fetchCategory = async () => {
+            setIsLoading(true);
             await httpGet(`${baseUrl}/store/categories/`, {
                 headers: {
                     Authorization: `Bearer ${user}`,
                 },
             })
                 .then((response) => {
-                    const data = response.data.results;
+                    setIsLoading(false)
+                    const data = response.data;
                     setCatData(data);
                 })
                 .catch((error) => {
+                    setIsLoading(false)
+                    console.log(error);
+                    toast.error("Something went wrong");
                 });
         }
 
         fetchCategory();
-    }, [user])
+    }, [user, setIsLoading])
 
     const {
         isOpen: isOpenNewSubCategory,
@@ -46,6 +52,7 @@ const Categories = () => {
 
     return (
         <>
+            {isLoading && <CustomSpinner />}
             <Box pb="100px">
                 <Flex align="center" justify="space-between" gap="20px">
                     <Box>
@@ -84,15 +91,16 @@ const Categories = () => {
                         {/* Categories */}
 
                         {
-                            catData && catData.length > 0 ? (
+                            catData?.length > 0 ? (
                                 <Box>
-                                    {catData && catData.length > 0 && catData.map((item, i) => {
-                                        return <CategoryBox data={item} key={i} />;
+                                    {catData?.length > 0 && catData.map((item) => {
+                                        return <CategoryBox data={item} key={item?.id} />;
                                     })}
                                 </Box>
 
                             ) : (
-                                <CustomSpinner />
+                                // <CustomSpinner />
+                                <Text>No Category Found</Text>
                             )
                         }
 
@@ -111,34 +119,3 @@ const Categories = () => {
 
 export default Categories;
 
-// const catData = [
-//     {
-//         name: "Hair Styling",
-//         id: 1,
-//     },
-//     {
-//         name: "Hair Product",
-//         id: 2,
-//     },
-//     {
-//         name: "Skin Care",
-//         id: 3,
-//     },
-
-//     {
-//         name: "Hair Care",
-//         id: 4,
-//     },
-//     {
-//         name: "Equipments & Tools",
-//         id: 5,
-//     },
-//     {
-//         name: "Accessories",
-//         id: 6,
-//     },
-//     {
-//         name: "Cosmetics",
-//         id: 7,
-//     },
-// ];
