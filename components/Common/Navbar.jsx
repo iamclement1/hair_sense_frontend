@@ -53,7 +53,7 @@ const Navbar = () => {
                     Authorization: `Bearer ${user}`,
                 },
             });
-            setUserInfo(response?.data?.data);
+            setUserInfo(response?.data?.data?.data);
 
         }
         // Fetch user only when the component mounts
@@ -61,7 +61,7 @@ const Navbar = () => {
             fetchUser();
         }
 
-    }, [user]);
+    }, [user, setUserInfo]);
     const router = useRouter();
     const {
         isOpen: isOpenAuth,
