@@ -151,11 +151,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
         setShowPassWord(!showPassWord);
     };
 
-    const setAccessTokenSessionStorage = (access, refresh) => {
-        sessionStorage.setItem("refreshToken", refresh);
-        sessionStorage.setItem("access_token", access);
-    };
-    // import user from context api
+
     const loginUser = async (values) => {
         setIsLoading(true);
         const formData = {
@@ -165,32 +161,48 @@ const Login = ({ handleCurrentForm, onClose }) => {
 
         try {
             const response = await axios.post(`${baseUrl}/accounts/sign_in/`, formData);
+            const { access, refresh, role } = response.data.data;
 
-            const { access, refresh, role } = response.data?.data;
+            if (role === "client") {
+                setIsLoading(false);
 
-            if (role === "client" || role === "admin") {
-                // Use sessionStorage instead of Cookies
-                setAccessTokenSessionStorage(access, refresh);
-                sessionStorage.setItem("role", role);
-
-                setUser(access);
-                toast.success("Login successful...");
-                onClose();
-
-                if (role === "admin") {
-                    router.push("/admin");
-                }
+                handleClientLogin(access, refresh);
+            } else if (role === "admin") {
+                setIsLoading(false);
+                handleAdminLogin(access, refresh);
             }
-
-            setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
+            console.log(error.response)
             if (error.response) {
                 const errorMessage = error.response.data.message;
                 toast.error(errorMessage);
             }
         }
     };
+
+    const setAccessTokenSessionStorage = (access, refresh) => {
+        sessionStorage.setItem("refreshToken", refresh);
+        sessionStorage.setItem("access_token", access);
+    };
+    const handleClientLogin = (access, refresh) => {
+        setAccessTokenSessionStorage(access, refresh);
+        sessionStorage.setItem("role", "client");
+        setUser(access);
+        toast.success("Client login successful...");
+        onClose();
+
+    };
+
+    const handleAdminLogin = (access, refresh) => {
+        setAccessTokenSessionStorage(access, refresh);
+        sessionStorage.setItem("role", "admin");
+        setUser(access);
+        toast.success("Admin login successful...");
+        onClose();
+        router.push("/admin");
+    };
+
 
     return (
         <Formik

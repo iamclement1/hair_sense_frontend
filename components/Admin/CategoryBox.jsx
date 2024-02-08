@@ -27,8 +27,8 @@ import CreateSubCategoryModal from "./CreateSubCategoryModal";
 import NewSubModal from "./NewSubModal";
 
 const CategoryBox = ({ data }) => {
-    const [name, setName] = useState(data && data.name);
-    const [id, setId] = useState(data && data.id);
+    const [name, setName] = useState(data?.name);
+    const [id, setId] = useState(data?.id);
     const {
         isOpen: isOpenSubCategory,
         onOpen: onOpenSubCategory,
@@ -94,7 +94,7 @@ const CategoryBox = ({ data }) => {
                 onOpen={onOpenAddSubCategory}
                 onClose={onCloseAddSubCategory}
             />
-          
+
             {/* </form> */}
         </Box>
     );

@@ -1,35 +1,34 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     Modal,
     ModalOverlay,
     ModalContent,
-    ModalHeader,
-    ModalFooter,
     ModalBody,
-    ModalCloseButton,
     Text,
     Box,
     Input,
     Flex,
-    Button,
 } from "@chakra-ui/react";
 import { PrimaryButton } from "../Common";
 import { SecondaryButton } from "../Common/Button";
-import { baseUrl, httpGet, httpPost } from "@/http-request/http-request";
-import Cookies from "js-cookie";
+import { baseUrl } from "@/http-request/http-request";
 import { toast } from "react-hot-toast";
 import { StateContext } from "@/context/StateProvider";
+import axios from "axios";
 
 const NewSubModal = ({ isOpen, onOpen, onClose }) => {
+
 
     const initalData = {
         category: "",
         name: "",
     };
-    const { user } = useContext(StateContext);
+
+    const { user, isLoading, setIsLoading } = useContext(StateContext);
+
 
     const [newCategory, setNewCategory] = useState(initalData);
-    const [lodaing, setLodaing] = useState(false);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setNewCategory({ ...newCategory, [name]: value });
@@ -40,35 +39,39 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
     const { name } = newCategory;
 
     const handleSubmit = async (e) => {
-        setLodaing(true);
+        setIsLoading(true);
         e.preventDefault();
         const formData = {
             name: name,
         };
 
-        await httpPost(`${baseUrl}/store/categories/`, formData, {
+        await axios.post(`${baseUrl}/store/categories/`, formData, {
             headers: {
                 Authorization: `Bearer ${user}`,
             },
         })
             .then((response) => {
-
-                if (response.status === 201) {
+                if (response.status === 200) {
                     toast.success("Category successfully created");
                     // Close the modal
                     onClose();
                     // Reset the state to initial
                     setNewCategory(initalData);
-                    setLodaing(false);
+                    setIsLoading(false);
                 }
             })
             .catch((error) => {
-                setLodaing(false);
+                setIsLoading(false);
 
-
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+                    const errorMessage = error.response.data;
+                    toast.error(errorMessage);
+                }
             })
             .finally(() => {
-                setLodaing(false);
+                setIsLoading(false);
             });
 
         // // alert(JSON.stringify(formData));
@@ -123,7 +126,7 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
                                     handleButton={handleSubmit}
                                     py="30px"
                                     type="submit"
-                                    isLoading={lodaing}
+                                    isLoading={isLoading}
                                 />
                             </Flex>
                         </form>

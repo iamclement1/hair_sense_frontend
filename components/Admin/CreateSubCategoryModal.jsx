@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { PrimaryButton } from "../Common";
 import { SecondaryButton } from "../Common/Button";
-import { baseUrl, httpPost } from "@/http-request/http-request";
+import { baseUrl } from "@/http-request/http-request";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
 import { StateContext } from "@/context/StateProvider";
@@ -24,7 +24,7 @@ const CreateSubCategoryModal = ({
     Categoryid,
 }) => {
     const [name, setName] = useState("");
-    const { user } = useContext(StateContext);
+    const { user, isLoading, setIsLoading } = useContext(StateContext);
 
     const handleChange = (e) => {
         setName(e.target.value);
@@ -32,6 +32,7 @@ const CreateSubCategoryModal = ({
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
         const formData = {
             category: Categoryid,
             name: name,
@@ -43,16 +44,16 @@ const CreateSubCategoryModal = ({
             },
         })
             .then((response) => {
-                if (response.status === 201) {
+
+                if (response.status === 200) {
+                    setIsLoading(false);
                     toast.success("Sub Category successfully created");
                 }
             })
             .catch((error) => {
+                setIsLoading(false);
             });
 
-        // // alert(JSON.stringify(formData));
-        // onClose();
-        // setName("");
     };
 
     return (
@@ -98,7 +99,7 @@ const CreateSubCategoryModal = ({
                                 <PrimaryButton
                                     maxW="130px"
                                     text="Save"
-                                    isLoading={loading}
+                                    isLoading={isLoading}
                                     handleButton={handleSubmit}
                                     py="30px"
                                     type="submit"
