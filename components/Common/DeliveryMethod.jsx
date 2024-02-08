@@ -25,11 +25,11 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
     const cartItemLength = cartItems?.length;
 
     // delivery fee
-    let deliverFee = deliveryMethod === "pickup" ? 0.0 : 1200;
+    let deliverFee = deliveryMethod === "Pickup" ? 0.0 : 1200;
     //Get subtotal price
     let subTotal = 0;
     const semiSubTotal = cartItems?.map((item) => {
-        return item.quantity * item.sales_price;
+        return item.quantity * item.actualPrice;
     });
 
     // Adding all the prices together using a for-of loop
@@ -87,7 +87,7 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
                                 <Flex gap="15px">
                                     <Box>
                                         <Radio
-                                            value="cod"
+                                            value="Cash On Delivery"
                                             size="lg"
                                         />
                                     </Box>
@@ -114,7 +114,7 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
                                 <Flex gap="15px">
                                     {/* Pick Up  */}
                                     <Box>
-                                        <Radio value="pickup" size="lg" />
+                                        <Radio value="Pickup" size="lg" />
                                     </Box>
                                     <Box
                                         maxW={["100%", "260px"]}
@@ -163,14 +163,13 @@ const DeliveryMethod = ({ handleCheckOutStep }) => {
                                 Shipment {cartItemLength} of {cartItemLength}
                             </Text>
                             {/* Nmae of things to buy  */}
-                            {cartItems &&
-                                cartItems.map((item, i) => {
-                                    return (
-                                        <Text mt="12px" key={i}>
-                                            {item && item.name}
-                                        </Text>
-                                    );
-                                })}
+                            {cartItems?.map((item, i) => {
+                                return (
+                                    <Text mt="12px" key={i}>
+                                        {item?.name}
+                                    </Text>
+                                );
+                            })}
                             <Text mt="12px">
                                 Delivery between 24 hours of purchase.
                             </Text>

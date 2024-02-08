@@ -26,7 +26,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
     const { addressDetails, setAddressDetails, cart } =
         useContext(StateContext);
 
-    
+
     const [selectedState, setSelectedState] = useState("");
 
     const cities = City.getCitiesOfState("NG", "KW");
@@ -57,24 +57,23 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                 <Box>
                     <Formik
                         initialValues={{
-                            first_name: addressDetails?.first_name || "",
-                            last_name: addressDetails?.last_name || "",
-                            phone_number: addressDetails?.phone_number || "",
-                            delivery_address_1:
-                                addressDetails?.delivery_address_1 || "",
-                            delivery_address_2: "",
+                            firstName: addressDetails?.firstName || "",
+                            lastName: addressDetails?.lastName || "",
+                            phone: addressDetails?.phone || "",
+                            address:
+                                addressDetails?.address || "",
                             city: addressDetails?.city || "",
                         }}
                         validate={(values) => {
                             let errors = {};
-                            if (!values.first_name) {
-                                errors.first_name = "First Name is required";
+                            if (!values.firstName) {
+                                errors.firstName = "First Name is required";
                             }
-                            if (!values.last_name) {
-                                errors.last_name = "Last Name is required";
+                            if (!values.lastName) {
+                                errors.lastName = "Last Name is required";
                             }
-                            if (!values.delivery_address_1) {
-                                errors.delivery_address_1 =
+                            if (!values.address) {
+                                errors.address =
                                     "Delivery Address is required";
                             }
 
@@ -100,7 +99,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                 >
                                     <CustomInput
                                         label="First Name"
-                                        name="first_name"
+                                        name="firstName"
                                         type="text"
                                         placeholder="Enter first name"
                                         errors={errors}
@@ -109,7 +108,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
 
                                     <CustomInput
                                         label="Last name"
-                                        name="last_name"
+                                        name="lastName"
                                         type="text"
                                         placeholder="Enter last name  "
                                         errors={errors}
@@ -119,7 +118,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
 
                                 <CustomInput
                                     label="Phone Number"
-                                    name="phone_number"
+                                    name="phone"
                                     type="text"
                                     placeholder="00 0000 0000"
                                     errors={errors}
@@ -128,7 +127,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                 {/* Text Arear */}
                                 <Box mt="16px">
                                     <FormLabel
-                                        htmlFor="delivery_address_1"
+                                        htmlFor="address"
                                         fontSize="14px"
                                         color="accent_2"
                                         fontWeight={600}
@@ -137,12 +136,12 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                     </FormLabel>
                                     <Field
                                         as={Textarea}
-                                        id="delivery_address_1"
-                                        name="delivery_address_1"
+                                        id="address"
+                                        name="address"
                                         placeholder="Enter delivery address"
                                         className={
-                                            errors.delivery_address_1 &&
-                                            touched.delivery_address_1
+                                            errors.address &&
+                                                touched.address
                                                 ? "error"
                                                 : ""
                                         }
@@ -159,7 +158,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                         rounded="5px"
                                     />
                                     <ErrorMessage
-                                        name="delivery_address_1"
+                                        name="address"
                                         component="div"
                                         className="error-message"
                                     />
