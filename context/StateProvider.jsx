@@ -23,7 +23,7 @@ const StateProvider = ({ children }, props) => {
     const [cart, setCart] = useState(null);
     // Checkout states
     const [addressDetails, setAddressDetails] = useState(null);
-    const [deliveryMethod, setDeliveryMethod] = useState("pickup");
+    const [deliveryMethod, setDeliveryMethod] = useState("Pickup");
     let token;
 
     if (typeof window !== 'undefined') {
