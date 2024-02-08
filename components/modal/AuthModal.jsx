@@ -165,7 +165,8 @@ const Login = ({ handleCurrentForm, onClose }) => {
 
         try {
             const response = await axios.post(`${baseUrl}/accounts/sign_in/`, formData);
-            const { access, refresh, role } = response.data;
+
+            const { access, refresh, role } = response.data?.data;
 
             if (role === "client" || role === "admin") {
                 // Use sessionStorage instead of Cookies
@@ -198,9 +199,8 @@ const Login = ({ handleCurrentForm, onClose }) => {
                 password: "",
             }}
             onSubmit={(values) => {
-                // alert(JSON.stringify(values, null, 2));
                 loginUser(values);
-                handleSubmit;
+                handleSubmit();
             }}
         >
             {({ handleSubmit, errors, touched }) => (
@@ -340,14 +340,14 @@ const Register = ({ handleCurrentForm }) => {
             if (response.ok) {
                 const data = await response.json();
                 toast.success(
-                    data?.message
+                    data?.data?.message
                 );
                 handleCurrentForm("login");
 
 
             } else {
                 const errorData = await response.json();
-                toast.error(errorData?.message);
+                toast.error(errorData?.data);
             }
         } catch (error) {
             setIsLoading(false);
