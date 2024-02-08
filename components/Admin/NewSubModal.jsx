@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     Modal,
     ModalOverlay,
@@ -18,6 +18,7 @@ import { SecondaryButton } from "../Common/Button";
 import { baseUrl, httpGet, httpPost } from "@/http-request/http-request";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
+import { StateContext } from "@/context/StateProvider";
 
 const NewSubModal = ({ isOpen, onOpen, onClose }) => {
 
@@ -25,6 +26,7 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
         category: "",
         name: "",
     };
+    const { user } = useContext(StateContext);
 
     const [newCategory, setNewCategory] = useState(initalData);
     const [lodaing, setLodaing] = useState(false);
@@ -33,7 +35,6 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
         setNewCategory({ ...newCategory, [name]: value });
     };
 
-    const accessToken = Cookies.get("access_token");
 
     // Desstructure the data state
     const { name } = newCategory;
@@ -47,7 +48,7 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
 
         await httpPost(`${baseUrl}/store/categories/`, formData, {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${user}`,
             },
         })
             .then((response) => {

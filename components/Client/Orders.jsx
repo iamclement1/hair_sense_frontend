@@ -6,36 +6,37 @@ import {
     Text,
     Stack,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FiChevronLeft } from "react-icons/fi";
 import OrderBox from "./OrderBox";
 import { baseUrl } from "@/http-request/http-request";
-import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { StateContext } from "@/context/StateProvider";
 
 
 const Orders = ({ onToggle }) => {
     const [clientOrders, setClientOrders] = useState([]);
-    const accessToken = Cookies.get("access_token");
-    console.log(accessToken);
+    const { user } = useContext(StateContext);
+
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                if (!accessToken) {
+                if (!user) {
                     console.error("Access token not available");
+                    toast.error("Access Denied");
                     return;
                 }
 
                 const response = await fetch(`${baseUrl}/store/orders/`, {
                     method: "GET",
                     headers: {
-                        Authorization: `Bearer ${accessToken}`,
+                        Authorization: `Bearer ${user}`,
                     },
 
                 });
 
-                console.log(response);
-
                 if (response) {
+                    console.log("client response", response);
                     const responseData = await response.json();
                     setClientOrders(responseData?.data.data);
                     console.log("Orders:", responseData?.data.data);
@@ -43,11 +44,14 @@ const Orders = ({ onToggle }) => {
                     console.error("Failed to fetch orders:", response.statusText);
                 }
             } catch (error) {
-                console.error("An error occurred while fetching orders:", error);
+                if (error?.response) {
+                    const errorMessage = error.response.data.message;
+                    toast.error(errorMessage);
+                }
             }
         };
 
-        console.log(clientOrders)
+        console.log("client order", clientOrders)
 
         fetchOrders();
     }, []);

@@ -1,6 +1,7 @@
 "use client";
 import { ProductSlider } from "@/components/Common";
 import ProductBox from "@/components/Common/ProductBox";
+import { StateContext } from "@/context/StateProvider";
 import { baseUrl } from "@/http-request/http-request";
 
 import {
@@ -12,19 +13,24 @@ import {
     Text,
 } from "@chakra-ui/react";
 import axios from "axios";
-import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 const FavouritePage = () => {
     const [fav, setFav] = useState([]);
+    const { user } = useContext(StateContext);
 
-    const token = Cookies.get("access_token");
+
+    useEffect(() => {
+        if (!user) {
+            router.push("/");
+        }
+    }, []);
 
     useEffect(() => {
         async function fetchFavorite() {
             const response = await axios.get(`${baseUrl}/store/favourite/`, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${user}`,
                 },
             });
             if (response?.data && response.status === 200) {

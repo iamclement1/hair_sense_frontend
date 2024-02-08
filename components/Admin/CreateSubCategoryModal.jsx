@@ -1,23 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     Modal,
     ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
+    ModalContent, ModalBody,
     Text,
     Box,
     Input,
     Flex,
-    Button,
 } from "@chakra-ui/react";
 import { PrimaryButton } from "../Common";
 import { SecondaryButton } from "../Common/Button";
 import { baseUrl, httpPost } from "@/http-request/http-request";
 import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
+import { StateContext } from "@/context/StateProvider";
+import axios from "axios";
 
 const CreateSubCategoryModal = ({
     isOpen,
@@ -27,11 +24,12 @@ const CreateSubCategoryModal = ({
     Categoryid,
 }) => {
     const [name, setName] = useState("");
+    const { user } = useContext(StateContext);
+
     const handleChange = (e) => {
         setName(e.target.value);
     };
 
-    const accesToken = Cookies.get("access_token");
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = {
@@ -39,9 +37,9 @@ const CreateSubCategoryModal = ({
             name: name,
         };
 
-        await httpPost(`${baseUrl}/store/sub_categories/`, formData, {
+        await axios.post(`${baseUrl}/store/sub_categories/`, formData, {
             headers: {
-                Authorization: `Bearer ${accesToken}`,
+                Authorization: `Bearer ${user}`,
             },
         })
             .then((response) => {
@@ -100,6 +98,7 @@ const CreateSubCategoryModal = ({
                                 <PrimaryButton
                                     maxW="130px"
                                     text="Save"
+                                    isLoading={loading}
                                     handleButton={handleSubmit}
                                     py="30px"
                                     type="submit"

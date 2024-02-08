@@ -1,21 +1,10 @@
-import { PrimaryButton, ProductSlider } from "@/components/Common";
+import { PrimaryButton } from "@/components/Common";
 import {
     Box,
     Flex,
-    Button,
-    Divider,
-    Icon,
     Text,
-    Image,
-    Textarea,
-    FormErrorMessage,
-    FormLabel,
-    FormControl,
-    Select,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { FaTimes } from "react-icons/fa";
+import React from "react";
 
 const OrderDetailsPreview = ({ setShowFullDetails }) => {
     return (

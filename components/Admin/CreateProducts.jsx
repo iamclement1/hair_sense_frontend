@@ -1,6 +1,7 @@
 import { PrimaryButton } from "@/components/Common";
 import CustomInput from "@/components/Common/CustomInput";
-import { baseUrl, httpGet, httpPost } from "@/http-request/http-request";
+import { StateContext } from "@/context/StateProvider";
+import { baseUrl, httpGet } from "@/http-request/http-request";
 import {
     Box,
     Flex,
@@ -11,13 +12,13 @@ import {
     Select,
     Input,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { ErrorMessage, Field, Formik } from "formik";
-import Cookies from "js-cookie";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
-import { FaTimes } from "react-icons/fa";
 
 const CreateProducts = ({ setActivePage }) => {
+    const { user } = useContext(StateContext)
     const [subCat, setSubCat] = useState([]);
 
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -45,12 +46,11 @@ const CreateProducts = ({ setActivePage }) => {
         setFile(null);
     };
 
-    const accessToken = Cookies.get("access_token");
     useEffect(() => {
         const fetchSubCategory = async () => {
             await httpGet(`${baseUrl}/store/categories`, {
                 headers: {
-                    Authrization: `${accessToken}`,
+                    Authorization: `${user}`,
                 },
             })
                 .then((response) => {
@@ -67,14 +67,11 @@ const CreateProducts = ({ setActivePage }) => {
         if (subCat.length < 1) {
             fetchSubCategory();
         }
-    }, [accessToken, subCat]);
+    }, [user, subCat]);
 
     // useeffect to handle Selected subcat
     useEffect(() => {
         subCat.map((item) => {
-
-
-
             item.id == selectedCategory
                 ? setSelectedSubCat(item.sub_category)
                 : "";
@@ -110,9 +107,9 @@ const CreateProducts = ({ setActivePage }) => {
             payload.append("product_img", file);
         }
 
-        await httpPost(`${baseUrl}/store/products/`, payload, {
+        await axios.post(`${baseUrl}/store/products/`, payload, {
             headers: {
-                Authorization: `Bearer ${accessToken}`,
+                Authorization: `Bearer ${user}`,
             },
         })
             .then((response) => {
@@ -250,15 +247,14 @@ const CreateProducts = ({ setActivePage }) => {
                                                 )
                                             }
                                         >
-                                            {subCat &&
-                                                subCat.map((subCategory) => (
-                                                    <option
-                                                        key={subCategory.id}
-                                                        value={subCategory.id}
-                                                    >
-                                                        {subCategory.name}
-                                                    </option>
-                                                ))}
+                                            {subCat?.map((subCategory) => (
+                                                <option
+                                                    key={subCategory.id}
+                                                    value={subCategory.id}
+                                                >
+                                                    {subCategory.name}
+                                                </option>
+                                            ))}
                                         </Field>
                                         <ErrorMessage
                                             name="category"
@@ -300,19 +296,18 @@ const CreateProducts = ({ setActivePage }) => {
                                             borderColor="dark_4"
                                             rounded="5px"
                                         >
-                                            {selectedSubCat &&
-                                                selectedSubCat.map(
-                                                    (subCategory) => (
-                                                        <option
-                                                            key={subCategory.id}
-                                                            value={
-                                                                subCategory.id
-                                                            }
-                                                        >
-                                                            {subCategory.name}
-                                                        </option>
-                                                    )
-                                                )}
+                                            {selectedSubCat?.map(
+                                                (subCategory) => (
+                                                    <option
+                                                        key={subCategory?.id}
+                                                        value={
+                                                            subCategory?.id
+                                                        }
+                                                    >
+                                                        {subCategory?.name}
+                                                    </option>
+                                                )
+                                            )}
                                         </Field>
                                         <ErrorMessage
                                             name="sub_category"
