@@ -10,6 +10,7 @@ import {
     Tr,
     useDisclosure,
     Spinner,
+    Text,
 } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import React, { useContext, useEffect, useMemo, useState } from "react";
@@ -20,6 +21,7 @@ import { FiEdit } from "react-icons/fi";
 import { MdOutlineDelete } from "react-icons/md";
 import TablePagination from "../Common/TablePagination";
 import { StateContext } from "@/context/StateProvider";
+import CustomSpinner from "../Common/Spinner";
 
 const Products = () => {
     const {
@@ -32,7 +34,7 @@ const Products = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [deleting, setDeleting] = useState(false);
     const [editData, setEditData] = useState(null);
-    const { user } = useContext(StateContext);
+    const { user, isLoading, setIsLoading } = useContext(StateContext);
 
 
     const itemsPerPage = 10;
@@ -55,6 +57,7 @@ const Products = () => {
 
     // Fetch product to be global
     async function fetchProduct() {
+        setIsLoading(true);
         const response = await httpGet(`${baseUrl}/store/products`, {
             headers: {
                 Authorization: `Bearer ${user}`,
@@ -62,16 +65,15 @@ const Products = () => {
         });
 
         if (response?.status === 200) {
+            setIsLoading(false);
             const data = response?.data.results;
             setProducts(data);
 
             console.log(response);
 
+        } else {
+            setIsLoading(false);
         }
-
-        //     "product data fetched is here mf",
-        //     response.data.results
-        // );
     }
 
     useEffect(() => {
@@ -145,6 +147,7 @@ const Products = () => {
 
     return (
         <>
+            {isLoading && <CustomSpinner />}
             {products && products.length > 0 ? (
                 <Table
                     {...getTableProps()}
@@ -231,9 +234,9 @@ const Products = () => {
                     </Tbody>
                 </Table>
             ) : (
-                <div>
-                    <Spinner />
-                </div>
+                <Text>
+                    No product available
+                </Text>
             )}
 
             {totalPages > 1 && (
