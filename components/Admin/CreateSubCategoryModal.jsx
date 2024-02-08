@@ -47,6 +47,7 @@ const CreateSubCategoryModal = ({
 
                 if (response.status === 200) {
                     setIsLoading(false);
+                    onClose();
                     toast.success("Sub Category successfully created");
                 }
             })
