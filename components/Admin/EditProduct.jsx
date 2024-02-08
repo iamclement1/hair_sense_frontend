@@ -43,7 +43,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
     //check file type
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
 
-    const [file, setFile] = useState(data && data.product_img);
+    const [file, setFile] = useState(data && data.productImg);
 
     //file updload
     const handleFileChange = (e) => {
@@ -60,7 +60,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
 
     //remove image
     const handleRemoveImage = () => {
-        data.product_img = null;
+        data.productImg = null;
         setFile(null);
     };
 
@@ -95,7 +95,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
 
 
             item.id == selectedCategory
-                ? setSelectedSubCat(item.sub_category)
+                ? setSelectedSubCat(item.subcategory)
                 : ""
         });
     }, [selectedCategory]);
@@ -111,31 +111,31 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
         setLoading(true);
         const {
             name,
-            sub_category,
+            subcategory,
             desc: desc,
-            price: actual_price,
+            price: actualPrice,
             sales_price: sales_price,
         } = values;
 
         const payload = new FormData();
         payload.append("name", name);
-        payload.append("sub_category", sub_category);
+        payload.append("subcategory", subcategory);
         payload.append("desc", desc);
         // payload.append("second_description", second_description);
         payload.append("sales_price", sales_price);
-        payload.append("actual_price", actual_price);
+        payload.append("actualPrice", actualPrice);
 
         if (file) {
-            payload.append("product_img", file);
+            payload.append("productImg", file);
         } else {
-            if (data && data.product_img) {
+            if (data && data.productImg) {
                 try {
-                    const response = await axios.get(data.product_img, {
+                    const response = await axios.get(data.productImg, {
                         responseType: "blob",
                     });
                     const imageBlob = response.data;
-                    const convertedFile = new File([imageBlob], "product_img");
-                    payload.append("product_img", convertedFile);
+                    const convertedFile = new File([imageBlob], "productImg");
+                    payload.append("productImg", convertedFile);
                 } catch (error) {
 
                 }
@@ -191,10 +191,10 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                             initialValues={{
                                 name: data?.name,
                                 category: data?.category,
-                                sub_category: data?.sub_category,
+                                subcategory: data?.subcategory,
                                 desc: data?.desc,
                                 // description_2: "",
-                                price: data?.actual_price,
+                                price: data?.actualPrice,
                                 sales_price: data?.sales_price,
                             }}
                             validate={(values) => {
@@ -219,8 +219,8 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                 if (!values.category) {
                                     errors.category = "Category is required";
                                 }
-                                if (!values.sub_category) {
-                                    errors.sub_category =
+                                if (!values.subcategory) {
+                                    errors.subcategory =
                                         "Sub-Category is required";
                                 }
 
@@ -325,7 +325,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
 
                                         <Box mt="16px" w="100%">
                                             <FormLabel
-                                                htmlFor="sub_category"
+                                                htmlFor="subcategory"
                                                 fontSize="14px"
                                                 color="accent_2"
                                                 fontWeight={600}
@@ -334,13 +334,13 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                             </FormLabel>
                                             <Field
                                                 as={Select}
-                                                id="sub_category"
-                                                name="sub_category"
+                                                id="subcategory"
+                                                name="subcategory"
                                                 bgColor="white"
                                                 placeholder="Select Sub-Category"
                                                 className={
-                                                    errors.sub_category &&
-                                                        touched.sub_category
+                                                    errors.subcategory &&
+                                                        touched.subcategory
                                                         ? "error"
                                                         : ""
                                                 }
@@ -374,7 +374,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                 )}
                                             </Field>
                                             <ErrorMessage
-                                                name="sub_category"
+                                                name="subcategory"
                                                 component="div"
                                                 className="error-message"
                                             />
@@ -424,7 +424,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
 
                                     {/* Cover Image Section */}
 
-                                    {(data?.product_img !== null) ||
+                                    {(data?.productImg !== null) ||
                                         file ? (
                                         <Box
                                             w="full"
@@ -437,8 +437,8 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                         >
                                             <Image
                                                 src={
-                                                    data?.product_img
-                                                        ? data.product_img
+                                                    data?.productImg
+                                                        ? data.productImg
                                                         : URL.createObjectURL(
                                                             file
                                                         )
