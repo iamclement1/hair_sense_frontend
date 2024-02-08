@@ -1,7 +1,7 @@
 import { PrimaryButton } from "@/components/Common";
 import CustomInput from "@/components/Common/CustomInput";
 import { StateContext } from "@/context/StateProvider";
-import { baseUrl, httpGet } from "@/http-request/http-request";
+import { baseUrl } from "@/http-request/http-request";
 import {
     Box,
     Flex,
@@ -19,6 +19,8 @@ import { toast } from "react-hot-toast";
 
 const CreateProducts = ({ setActivePage }) => {
     const { user } = useContext(StateContext)
+
+
     const [subCat, setSubCat] = useState([]);
 
     const [selectedCategory, setSelectedCategory] = useState("");
@@ -48,13 +50,14 @@ const CreateProducts = ({ setActivePage }) => {
 
     useEffect(() => {
         const fetchSubCategory = async () => {
-            await httpGet(`${baseUrl}/store/categories`, {
+            await axios.get(`${baseUrl}/store/categories`, {
                 headers: {
                     Authorization: `${user}`,
                 },
             })
                 .then((response) => {
-                    const data = response.data.results;
+                    console.log(response.data.data);
+                    const data = response.data.data;
 
                     setSubCat(data);
 
@@ -64,7 +67,7 @@ const CreateProducts = ({ setActivePage }) => {
                 });
         };
 
-        if (subCat.length < 1) {
+        if (subCat?.length < 1) {
             fetchSubCategory();
         }
     }, [user, subCat]);
