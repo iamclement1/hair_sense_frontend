@@ -27,7 +27,7 @@ const CheckoutPage = () => {
         // Get the existing cart data from sessionStorage
         const existingCartData = JSON.parse(sessionStorage.getItem("cart"));
 
-        if (!existingCartData || existingCartData.lenght < 1) {
+        if (!existingCartData || existingCartData?.lenght < 1) {
             toast.error("Cart is empty, You can't be here!!!");
             router.push("/");
         }
