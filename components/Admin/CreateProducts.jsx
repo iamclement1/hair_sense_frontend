@@ -49,37 +49,38 @@ const CreateProducts = ({ setActivePage }) => {
     };
 
     useEffect(() => {
-        const fetchSubCategory = async () => {
+        const fetchCategory = async () => {
             await axios.get(`${baseUrl}/store/categories`, {
                 headers: {
                     Authorization: `${user}`,
                 },
             })
                 .then((response) => {
-                    console.log(response.data.data);
+                    console.log("categories data ==>", response.data.data)
                     const data = response.data.data;
 
                     setSubCat(data);
 
                 })
                 .catch((error) => {
-
+                    console.log(error)
                 });
         };
 
         if (subCat?.length < 1) {
-            fetchSubCategory();
+            fetchCategory();
         }
     }, [user, subCat]);
 
     // useeffect to handle Selected subcat
     useEffect(() => {
-        subCat.map((item) => {
-            item.id == selectedCategory
-                ? setSelectedSubCat(item.sub_category)
-                : "";
-        });
-    }, [selectedCategory]);
+        const selectedItem = subCat.find((item) => item.id === selectedCategory);
+        if (selectedItem) {
+            setSelectedSubCat(selectedItem.subcategories);
+        }
+    }, [selectedCategory, subCat]);
+
+
 
     const handleCategoryChange = (event, handleChange) => {
         handleChange(event); // Calling the handleChange function provided by Formik
@@ -92,22 +93,22 @@ const CreateProducts = ({ setActivePage }) => {
         setLoading(true);
         const {
             name,
-            sub_category,
+            subcategory,
             desc: desc,
             // description_2: second_description,
-            price: actual_price,
-            sales_price: sales_price,
+            price: actualPrice,
+            // sales_price: sales_price,
         } = values;
 
         const payload = new FormData();
         payload.append("name", name);
-        payload.append("sub_category", sub_category);
+        payload.append("subcategory", subcategory);
         payload.append("desc", desc);
-        payload.append("sales_price", sales_price);
-        payload.append("actual_price", actual_price);
+        // payload.append("sales_price", sales_price);
+        payload.append("actualPrice", actualPrice);
 
         if (file) {
-            payload.append("product_img", file);
+            payload.append("productImg", file);
         }
 
         await axios.post(`${baseUrl}/store/products/`, payload, {
@@ -116,7 +117,7 @@ const CreateProducts = ({ setActivePage }) => {
             },
         })
             .then((response) => {
-                if (response.status === 201) {
+                if (response.status === 200) {
                     toast.success("Create product successfully");
                     setActivePage(4);
                 }
@@ -143,11 +144,11 @@ const CreateProducts = ({ setActivePage }) => {
                         initialValues={{
                             name: "",
                             category: "",
-                            sub_category: "",
+                            subcategory: "",
                             desc: "",
                             // description_2: "",
                             price: "",
-                            sales_price: "",
+                            // sales_price: "",
                         }}
                         validate={(values) => {
                             let errors = {};
@@ -157,9 +158,9 @@ const CreateProducts = ({ setActivePage }) => {
                             if (!values.price) {
                                 errors.price = "Price is required";
                             }
-                            if (!values.sales_price) {
-                                errors.sales_price = "Sales_price is required";
-                            }
+                            // if (!values.sales_price) {
+                            //     errors.sales_price = "Sales_price is required";
+                            // }
                             if (!values.desc) {
                                 errors.des = "Description is required";
                             }
@@ -170,8 +171,8 @@ const CreateProducts = ({ setActivePage }) => {
                             if (!values.category) {
                                 errors.category = "Category is required";
                             }
-                            if (!values.sub_category) {
-                                errors.sub_category =
+                            if (!values.subcategory) {
+                                errors.subcategory =
                                     "Sub-Category is required";
                             }
 
@@ -268,7 +269,7 @@ const CreateProducts = ({ setActivePage }) => {
 
                                     <Box mt="16px" w="100%">
                                         <FormLabel
-                                            htmlFor="sub_category"
+                                            htmlFor="subcategory"
                                             fontSize="14px"
                                             color="accent_2"
                                             fontWeight={600}
@@ -277,13 +278,13 @@ const CreateProducts = ({ setActivePage }) => {
                                         </FormLabel>
                                         <Field
                                             as={Select}
-                                            id="sub_category"
-                                            name="sub_category"
+                                            id="subcategory"
+                                            name="subcategory"
                                             bgColor="white"
                                             placeholder="Select Sub-Category"
                                             className={
-                                                errors.sub_category &&
-                                                    touched.sub_category
+                                                errors.subcategory &&
+                                                    touched.subcategory
                                                     ? "error"
                                                     : ""
                                             }
@@ -313,7 +314,7 @@ const CreateProducts = ({ setActivePage }) => {
                                             )}
                                         </Field>
                                         <ErrorMessage
-                                            name="sub_category"
+                                            name="subcategory"
                                             component="div"
                                             className="error-message"
                                         />
@@ -471,14 +472,14 @@ const CreateProducts = ({ setActivePage }) => {
                                         touched={touched}
                                     />
 
-                                    <CustomInput
+                                    {/* <CustomInput
                                         label="Sales Price"
                                         name="sales_price"
                                         type="number"
                                         bgColor="white"
                                         errors={errors}
                                         touched={touched}
-                                    />
+                                    /> */}
                                 </Flex>
 
                                 {/* create new store  */}

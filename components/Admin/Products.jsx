@@ -11,8 +11,8 @@ import {
     useDisclosure,
     Spinner,
     Text,
+    Image,
 } from "@chakra-ui/react";
-import Cookies from "js-cookie";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import EditProduct from "./EditProduct";
@@ -36,26 +36,19 @@ const Products = () => {
     const [editData, setEditData] = useState(null);
     const { user, isLoading, setIsLoading } = useContext(StateContext);
 
-
     const itemsPerPage = 10;
 
-    //calculate the total number of page
     const totalPages = Math.ceil(products && products.length / itemsPerPage);
 
     const handlePageChange = (selectedPage) => {
         setCurrentPage(selectedPage);
     };
 
-    //the calculation of the start and end index per page starts here
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     const itemsToDisplay =
         products && products.length > 0 && products.slice(startIndex, endIndex);
 
-
-    //pagination session ends here
-
-    // Fetch product to be global
     async function fetchProduct() {
         setIsLoading(true);
         const response = await httpGet(`${baseUrl}/store/products`, {
@@ -66,11 +59,8 @@ const Products = () => {
 
         if (response?.status === 200) {
             setIsLoading(false);
-            const data = response?.data.results;
+            const data = response?.data;
             setProducts(data);
-
-            console.log(response);
-
         } else {
             setIsLoading(false);
         }
@@ -80,67 +70,45 @@ const Products = () => {
         if (!products) {
             fetchProduct();
         }
-    }, [user, products, setProducts]);
+    }, [user, products, setProducts, fetchProduct]);
 
+    const EnvData = useMemo(() => itemsToDisplay || [], [itemsToDisplay]);
 
-    const EnvData = useMemo(() => itemsToDisplay, [itemsToDisplay]);
-
-    const EnvColumn = useMemo(() => {
-        if (products && products.length > 0) {
-            const validKeys = Object.keys(products[0]).filter(
-                (key) =>
-                    ![
-                        "comment",
-                        "rate",
-                        "commenter",
-                        "second_description",
-                        "sales_price",
-                        "product",
-                        "views",
-                        "product_img",
-                    ].includes(key)
-            );
-            return validKeys.map((key) => ({
-                Header: key,
-                accessor: key,
-            }));
-        } else {
-            return [];
-        }
-    }, [products]);
+    const EnvColumn = useMemo(() => [
+        // { Header: "ID", accessor: "id" },
+        { Header: "Name", accessor: "name" },
+        { Header: "Actual Price", accessor: "actualPrice" },
+        {
+            Header: "Image",
+            accessor: "productImg",
+            Cell: ({ value }) => <Image src={value} boxSize="50px" />,
+        },
+    ], []);
 
     const tableInstance = useTable({ columns: EnvColumn, data: EnvData });
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
         tableInstance;
 
-    // Handler for the delete action
     const handleDelete = async (productId) => {
-        // Implement the logic for handling the delete action
+        setIsLoading(true);
         await httpDelete(`${baseUrl}/store/products/${productId}`, {
             headers: {
                 Authorization: `Bearer ${user}`,
             },
         })
-            .then((response) => {
-                if (response) {
-                    toast.success("Product deleted successfully");
-                    window.location.reload();
-                    setActivePage(5);
-                    fetchProduct();
-                }
-
+            .then(() => {
+                setIsLoading(false);
+                toast.success("Product deleted successfully");
+                fetchProduct();
             })
             .catch((error) => {
+                setIsLoading(false);
 
+                console.log(error);
             });
     };
 
-    // Import edit Modal disclosure
-
-    // Handler for the edit action
     const handleEdit = (product) => {
-        // Implement the logic for handling the edit action
-
         setEditData(product);
         onOpenEdit();
     };
@@ -148,40 +116,17 @@ const Products = () => {
     return (
         <>
             {isLoading && <CustomSpinner />}
-            {products && products.length > 0 ? (
-                <Table
-                    {...getTableProps()}
-                    className="noBorder"
-                    variant="simple"
-                    overflowX={"auto"}
-                >
-                    <Thead
-                        bgColor="#D0DAF2"
-                        borderRadius={"20px"}
-                        rounded="20px"
-                        fontWeight="600"
-                        fontSize={["16px", "18px"]}
-                    >
+            {products?.length > 0 ? (
+                <Table {...getTableProps()} className="noBorder" variant="simple" overflowX={"auto"}>
+                    <Thead bgColor="#D0DAF2" borderRadius={"20px"} rounded="20px" fontWeight="600" fontSize={["16px", "18px"]}>
                         {headerGroups.map((headerGroup, header) => (
-                            <Tr
-                                {...headerGroup.getHeaderGroupProps()}
-                                key={header.id}
-                            >
+                            <Tr {...headerGroup.getHeaderGroupProps()} key={header.id}>
                                 {headerGroup.headers.map((column, col) => (
-                                    <Th
-                                        {...column.getHeaderProps()}
-                                        key={col.id}
-                                        bgColor="shades_9"
-                                        py="20px"
-                                        _first={{
-                                            borderTopLeftRadius: "16px",
-                                        }}
-                                    >
+                                    <Th {...column.getHeaderProps()} key={col.id} bgColor="shades_9" py="20px" _first={{ borderTopLeftRadius: "16px" }}>
                                         {column.render("Header")}
                                     </Th>
                                 ))}
-                                <Th borderTopRightRadius="16px">Action</Th>{" "}
-                                {/* Add a column for action buttons */}
+                                <Th borderTopRightRadius="16px">Action</Th>
                             </Tr>
                         ))}
                     </Thead>
@@ -189,42 +134,23 @@ const Products = () => {
                     <Tbody {...getTableBodyProps()} bgColor="white">
                         {rows.map((row) => {
                             prepareRow(row);
-                            const { id } = row.original; // Get the ID of the product
+                            const { id } = row.original;
                             const productData = row.original;
 
                             return (
                                 <Tr {...row.getRowProps()} key={row.id}>
                                     {row.cells.map((cell) => (
-                                        <Td
-                                            {...cell.getCellProps()}
-                                            key={cell.id}
-                                        >
+                                        <Td {...cell.getCellProps()} key={cell.id}>
                                             {cell.render("Cell")}
                                         </Td>
                                     ))}
                                     <Td>
                                         <Flex gap="10px">
-                                            {/* Edit Icon  */}
-                                            <Icon
-                                                as={FiEdit}
-                                                cursor="pointer"
-                                                boxSize="20px"
-                                                onClick={() => {
-                                                    handleEdit(productData);
-                                                }}
-                                            />
-                                            {/* Delete content Icon/trigger  */}
+                                            <Icon as={FiEdit} cursor="pointer" boxSize="20px" onClick={() => handleEdit(productData)} />
                                             {deleting ? (
                                                 <Spinner size="md" />
                                             ) : (
-                                                <Icon
-                                                    as={MdOutlineDelete}
-                                                    cursor="pointer"
-                                                    boxSize="20px"
-                                                    onClick={() =>
-                                                        handleDelete(id)
-                                                    }
-                                                />
+                                                <Icon as={MdOutlineDelete} cursor="pointer" boxSize="20px" onClick={() => handleDelete(id)} />
                                             )}
                                         </Flex>
                                     </Td>
@@ -234,26 +160,14 @@ const Products = () => {
                     </Tbody>
                 </Table>
             ) : (
-                <Text>
-                    No product available
-                </Text>
+                <Text>No product available</Text>
             )}
 
             {totalPages > 1 && (
-                <TablePagination
-                    pageCount={totalPages}
-                    onPageChange={handlePageChange}
-                />
+                <TablePagination pageCount={totalPages} onPageChange={handlePageChange} />
             )}
 
-            {/* **************** */}
-
-            <EditProduct
-                isOpen={isOpenEdit}
-                onOpen={onOpenEdit}
-                onClose={onCloseEdit}
-                data={editData}
-            />
+            <EditProduct isOpen={isOpenEdit} onOpen={onOpenEdit} onClose={onCloseEdit} data={editData} />
         </>
     );
 };

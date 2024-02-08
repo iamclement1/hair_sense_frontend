@@ -19,7 +19,7 @@ const StateProvider = ({ children }, props) => {
     const [isProduct, setIsProduct] = useState(null);
     const [prodID, setProdID] = useState(null);
     const [user, setUser] = useState(null);
-    const [userInfo, setUserInfo] = useState(null);
+    const [userInfo, setUserInfo] = useState({ id: "", firstName: "", lastName: "", email: "" });
     const [cart, setCart] = useState(null);
     // Checkout states
     const [addressDetails, setAddressDetails] = useState(null);
