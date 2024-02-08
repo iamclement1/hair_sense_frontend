@@ -83,14 +83,14 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                 });
         };
 
-        if (subCat.length < 1) {
+        if (subCat?.length < 1) {
             fetchSubCategory();
         }
     }, [user, subCat]);
 
     // useeffect to handle Selected subcat
     useEffect(() => {
-        subCat.map((item) => {
+        subCat?.map((item) => {
 
 
 
@@ -143,7 +143,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
         }
 
         await axios
-            .put(`${baseUrl}/store/products/${data.id}/`, payload, {
+            .put(`${baseUrl}/store/products/${data?.id}/`, payload, {
                 headers: {
                     Authorization: `Bearer ${user}`,
                 },
@@ -299,23 +299,22 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                     )
                                                 }
                                             >
-                                                {subCat &&
-                                                    subCat.map(
-                                                        (subCategory) => (
-                                                            <option
-                                                                key={
-                                                                    subCategory.id
-                                                                }
-                                                                value={
-                                                                    subCategory.id
-                                                                }
-                                                            >
-                                                                {
-                                                                    subCategory.name
-                                                                }
-                                                            </option>
-                                                        )
-                                                    )}
+                                                {subCat?.map(
+                                                    (subCategory) => (
+                                                        <option
+                                                            key={
+                                                                subCategory.id
+                                                            }
+                                                            value={
+                                                                subCategory.id
+                                                            }
+                                                        >
+                                                            {
+                                                                subCategory.name
+                                                            }
+                                                        </option>
+                                                    )
+                                                )}
                                             </Field>
                                             <ErrorMessage
                                                 name="category"
@@ -357,23 +356,22 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                                 borderColor="dark_4"
                                                 rounded="5px"
                                             >
-                                                {selectedSubCat &&
-                                                    selectedSubCat.map(
-                                                        (subCategory) => (
-                                                            <option
-                                                                key={
-                                                                    subCategory.id
-                                                                }
-                                                                value={
-                                                                    subCategory.id
-                                                                }
-                                                            >
-                                                                {
-                                                                    subCategory.name
-                                                                }
-                                                            </option>
-                                                        )
-                                                    )}
+                                                {selectedSubCat?.map(
+                                                    (subCategory) => (
+                                                        <option
+                                                            key={
+                                                                subCategory.id
+                                                            }
+                                                            value={
+                                                                subCategory.id
+                                                            }
+                                                        >
+                                                            {
+                                                                subCategory.name
+                                                            }
+                                                        </option>
+                                                    )
+                                                )}
                                             </Field>
                                             <ErrorMessage
                                                 name="sub_category"
@@ -426,7 +424,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
 
                                     {/* Cover Image Section */}
 
-                                    {(data && data.product_img !== null) ||
+                                    {(data?.product_img !== null) ||
                                         file ? (
                                         <Box
                                             w="full"
@@ -439,7 +437,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                         >
                                             <Image
                                                 src={
-                                                    data && data.product_img
+                                                    data?.product_img
                                                         ? data.product_img
                                                         : URL.createObjectURL(
                                                             file
