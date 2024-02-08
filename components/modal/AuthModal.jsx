@@ -175,7 +175,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
             setIsLoading(false);
             console.log(error.response)
             if (error.response) {
-                const errorMessage = error.response.data.message;
+                const errorMessage = error.response.data.data;
                 toast.error(errorMessage);
             }
         }
@@ -333,54 +333,52 @@ const Register = ({ handleCurrentForm }) => {
     const regUser = async (values) => {
         setIsLoading(true);
         const formData = {
-            first_name: values.first_name,
-            last_name: values.last_name,
+            firstName: values.firstName,
+            lastName: values.lastName,
             phone: values.phone,
             password: values.password,
             email: values.email,
         };
 
         try {
-            const response = await fetch(`${baseUrl}/accounts/register/`, {
-                method: "POST",
+            const response = await axios.post(`${baseUrl}/accounts/register/`, formData, {
                 headers: {
                     "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
+                }
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                toast.success(
-                    data?.data?.message
-                );
+
+            if (response?.data?.status === 200) {
+                toast.success(response?.data?.data?.message);
                 handleCurrentForm("login");
-
-
             } else {
-                const errorData = await response.json();
-                toast.error(errorData?.data);
+                let errorMessage = "Registration failed";
+                if (response?.data?.data) {
+                    errorMessage = response?.data?.data;
+                }
+                throw new Error(errorMessage);
             }
         } catch (error) {
-            setIsLoading(false);
-            if (error.response) {
-                const errorMessage = error.response.data.message;
-                toast.error(errorMessage);
+            let errorMessage = "An error occurred";
+            if (error?.response?.data?.data) {
+                errorMessage = error?.response?.data?.data;
             }
+            toast.error(errorMessage);
         } finally {
             setIsLoading(false);
         }
     };
 
+
     return (
         <Formik
             initialValues={{
-                first_name: "",
-                last_name: "",
+                firstName: "",
+                lastName: "",
                 password: "",
                 email: "",
                 phone: "",
-                confirm_password: "",
+                confirmPassword: "",
             }}
             // consume Api here
             onSubmit={(values) => {
@@ -394,12 +392,12 @@ const Register = ({ handleCurrentForm }) => {
                         {/* First Name  */}
                         <FormControl
                             isInvalid={
-                                !!errors.first_name && touched.first_name
+                                !!errors.firstName && touched.firstName
                             }
                         >
                             <FormLabel
                                 fontSize={"14px"}
-                                htmlFor="first_name"
+                                htmlFor="firstName"
                                 mb="8px"
                                 fontWeight={"600"}
                             >
@@ -407,8 +405,8 @@ const Register = ({ handleCurrentForm }) => {
                             </FormLabel>
                             <Field
                                 as={Input}
-                                id="first_name"
-                                name="first_name"
+                                id="firstName"
+                                name="firstName"
                                 type="text"
                                 fontSize={["12px"]}
                                 placeholder="John"
@@ -423,17 +421,17 @@ const Register = ({ handleCurrentForm }) => {
                                 }}
                             />
                             <FormErrorMessage fontSize={["12px"]}>
-                                {errors.first_name}
+                                {errors.firstName}
                             </FormErrorMessage>
                         </FormControl>
 
                         {/* Last Name  */}
                         <FormControl
-                            isInvalid={!!errors.last_name && touched.last_name}
+                            isInvalid={!!errors.lastName && touched.lastName}
                         >
                             <FormLabel
                                 fontSize={"14px"}
-                                htmlFor="last_name"
+                                htmlFor="lastName"
                                 mb="8px"
                                 fontWeight={"600"}
                             >
@@ -441,8 +439,8 @@ const Register = ({ handleCurrentForm }) => {
                             </FormLabel>
                             <Field
                                 as={Input}
-                                id="last_name"
-                                name="last_name"
+                                id="lastName"
+                                name="lastName"
                                 type="text"
                                 fontSize={["12px"]}
                                 placeholder="Doe"
@@ -457,7 +455,7 @@ const Register = ({ handleCurrentForm }) => {
                                 }}
                             />
                             <FormErrorMessage fontSize={["12px"]}>
-                                {errors.last_name}
+                                {errors.lastName}
                             </FormErrorMessage>
                         </FormControl>
                     </Flex>
@@ -513,7 +511,6 @@ const Register = ({ handleCurrentForm }) => {
                             as={Input}
                             id="phone"
                             name="phone"
-                            type="number"
                             placeholder="Enter phone number"
                             fontSize={["12px"]}
                             px={["13px", null]}
@@ -577,14 +574,14 @@ const Register = ({ handleCurrentForm }) => {
 
                         <FormControl
                             isInvalid={
-                                !!errors.confirm_password &&
-                                touched.confirm_password
+                                !!errors.confirmPassword &&
+                                touched.confirmPassword
                             }
                             mt={["14px", null, "24px"]}
                         >
                             <FormLabel
                                 fontSize={"14px"}
-                                htmlFor="confirm_password"
+                                htmlFor="confirmPassword"
                                 mb="8px"
                                 fontWeight={"600"}
                             >
@@ -592,8 +589,8 @@ const Register = ({ handleCurrentForm }) => {
                             </FormLabel>
                             <Field
                                 as={Input}
-                                id="confirm_password"
-                                name="confirm_password"
+                                id="confirmPassword"
+                                name="confirmPassword"
                                 type="password"
                                 placeholder="Confirm your Password"
                                 px={["13px", null]}
@@ -609,7 +606,7 @@ const Register = ({ handleCurrentForm }) => {
                                 }}
                             />
                             <FormErrorMessage fontSize={["12px"]}>
-                                {errors.confirm_password}
+                                {errors.confirmPassword}
                             </FormErrorMessage>
                         </FormControl>
                     </Flex>
@@ -662,55 +659,3 @@ const Register = ({ handleCurrentForm }) => {
         </Formik>
     );
 };
-
-// Layout Components
-// const SignInWithSocials = () => {
-//     return (
-//         <Box>
-//             <Flex
-//                 align={"center"}
-//                 gap={["12px", null, "12px"]}
-//                 mt="23px"
-//                 mb={["14px", null, "35px"]}
-//             >
-//                 <Divider />
-//                 <Text
-//                     flexShrink={0}
-//                     fontSize={["14px", null, null, "20px"]}
-//                     fontWeight={600}
-//                     color="accent_2"
-//                 >
-//                     or
-//                 </Text>
-//                 <Divider />
-//             </Flex>
-//             <Box>
-//                 <Box mb={["15px", null, "30px"]}>
-//                     <SocialButton
-//                         icon={false}
-//                         text={"Continue with Google"}
-//                         imageUrl={"/images/googleIcon.svg"}
-//                         imageText={"Login with Google"}
-//                     />
-//                 </Box>
-//                 <Box mb={["16px", null, "30px"]}>
-//                     <SocialButton
-//                         icon={false}
-//                         text={"Continue with Facebook"}
-//                         imageUrl={"/images/faceBook.svg"}
-//                         imageText={"Login with facebook"}
-//                     />
-//                 </Box>
-//                 <Box mb={["15px", null, "24px"]}>
-//                     <SocialButton
-//                         icon={false}
-//                         text={"Continue with Apple"}
-//                         imageUrl={"/images/apple.svg"}
-//                         imageText={"Login with Apple"}
-//                     />
-//                 </Box>
-//             </Box>
-//         </Box>
-//     );
-// };
-

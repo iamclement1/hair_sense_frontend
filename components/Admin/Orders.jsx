@@ -26,12 +26,13 @@ const Orders = () => {
 
     useEffect(() => {
         const fetchOrders = async () => {
-            await axios.get(`${baseUrl}/store/orders/all/`, {
+            await axios.get(`${baseUrl}/store/order/`, {
                 headers: {
                     Authorization: `Bearer ${user}`,
                 },
             })
                 .then((response) => {
+                    console.log(response);
                     const data = response?.data.data.results;
                     setCatData(data);
                 })
@@ -117,7 +118,7 @@ const Orders = () => {
                                 </Tr>
                             </Thead>
                             <Tbody bgColor="white">
-                                {catData.length > 0 ? (
+                                {catData?.length > 0 ? (
                                     catData.map((order) => (
                                         <Tr key={order.id}>
                                             <Td>{`${order.first_name} ${order.last_name}`}</Td>
