@@ -96,7 +96,7 @@ const ProductDetails = () => {
                         >
                             <Box w="100%">
                                 <Image
-                                    src={prod?.product_img}
+                                    src={prod?.productImg}
                                     display="block"
                                     mx="auto"
                                     alt=""
@@ -124,7 +124,7 @@ const ProductDetails = () => {
                                             fontWeight="600"
                                             color="primary_1"
                                         >
-                                            {prod?.sales_price}
+                                            {prod?.actualPrice}
                                         </Text>
                                     </Box>
 

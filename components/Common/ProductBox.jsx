@@ -27,10 +27,10 @@ const ProductBox = ({ productData }, isLiked) => {
     const {
         id,
         name,
-        sales_price,
+        actualPrice,
         // first_description,
         desc,
-        product_img,
+        productImg,
     } = productData;
 
     const handleAddFavorite = async (event) => {
@@ -39,9 +39,9 @@ const ProductBox = ({ productData }, isLiked) => {
             product: productData?.id,
         };
 
-        await httpPost(`${baseUrl}/store/favourite/items/`, data)
+        await httpPost(`${baseUrl}/store/favourite/items`, data)
             .then((response) => {
-                if (response && response.status === 201) {
+                if (response?.data?.status === 200) {
 
                     toast.success(" Favorite item added successfully");
                 } else {
@@ -49,6 +49,7 @@ const ProductBox = ({ productData }, isLiked) => {
                 }
             })
             .catch((error) => {
+                console.log(error)
 
             });
 
@@ -124,7 +125,7 @@ const ProductBox = ({ productData }, isLiked) => {
                         mx="auto"
                         boxSize={["137px", null, "200px", "247px"]}
                         objectFit="cover"
-                        src={product_img}
+                        src={productImg}
                         display="inline-block"
                         alt={name}
                         fallbackSrc="https://via.placeholder.com/150"
@@ -199,7 +200,7 @@ const ProductBox = ({ productData }, isLiked) => {
                         fontSize={["18px", null, "24px"]}
                         fontWeight={600}
                     >
-                        ₦{sales_price}
+                        ₦{actualPrice}
                     </Text>
                 </Box>
             </Box>
