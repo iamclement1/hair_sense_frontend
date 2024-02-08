@@ -6,6 +6,7 @@ import React, {
     useMemo,
     useReducer,
     useState,
+    useCallback
 } from "react";
 import { toast } from "react-hot-toast";
 
@@ -40,8 +41,8 @@ const StateProvider = ({ children }, props) => {
         const mainUser_token = token;
 
         setUser(mainUser_token);
-    }, []);
-    const handleLogOut = () => {
+    }, [token]);
+    const handleLogOut = useCallback(() => {
         router.push("/");
         sessionStorage.removeItem("access_token");
         sessionStorage.removeItem("refreshToken");
@@ -56,7 +57,7 @@ const StateProvider = ({ children }, props) => {
         setTimeout(() => {
             window.location.reload();
         }, 2000);
-    };
+    }, [router, setUser]);
 
     const passedData = useMemo(() => {
         return {
@@ -163,7 +164,8 @@ const StateProvider = ({ children }, props) => {
     };
 
     const [state, dispatch] = useReducer(reducer, []);
-    const cartInfo = { state, dispatch };
+    const cartInfo = useMemo(() => ({ state, dispatch }), [state, dispatch]);
+
     return (
         <StateContext.Provider value={passedData}>
             <CartContext.Provider value={cartInfo}>

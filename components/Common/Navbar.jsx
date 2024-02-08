@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import {
     Flex,
     Box,
@@ -201,7 +201,7 @@ const Navbar = () => {
                                                                         />
 
                                                                         <Text color="accent_2" display={["none", null, "block"]} >
-                                                                            {userInfo?.first_name}
+                                                                            {userInfo?.firstName}
                                                                         </Text>
                                                                     </Box>
                                                                     <MenuList py="0px">
@@ -256,8 +256,7 @@ const Navbar = () => {
                                                                             top="-2"
                                                                             right="1px"
                                                                         >
-                                                                            {cartItems &&
-                                                                                cartItems.length}
+                                                                            {cartItems?.length}
                                                                         </Flex>
                                                                     )}
                                                             </Box>
@@ -304,8 +303,7 @@ const Navbar = () => {
                                                                     top="-2"
                                                                     right="1px"
                                                                 >
-                                                                    {cartItems &&
-                                                                        cartItems.length}
+                                                                    {cartItems?.length}
                                                                 </Flex>
                                                             )}
                                                     </Box>
