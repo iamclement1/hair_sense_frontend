@@ -11,11 +11,11 @@ import axios from "axios";
 import { baseUrl } from "@/http-request/http-request";
 
 const PaymentMethod = ({ handleCheckOutStep }) => {
-    const [loading, setLoading] = useState(false);
+
 
     const router = useRouter();
 
-    const { addressDetails, deliveryMethod, user } =
+    const { addressDetails, deliveryMethod, user, isLoading, setIsLoading } =
         useContext(StateContext);
 
     const cartItems = JSON.parse(sessionStorage.getItem("cart"));
@@ -25,11 +25,11 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
     }
 
     // delivery fee
-    let deliverFee = deliveryMethod === "pickup" ? 0.0 : 1200;
+    let deliverFee = deliveryMethod === "Pickup" ? 0.0 : 1200;
     //Get subtotal price
     let subTotal = 0;
     const semiSubTotal = cartItems?.map((item) => {
-        return item.quantity * item.sales_price;
+        return item.quantity * item.actualPrice;
     });
 
     // Adding all the prices together using a for-of loop
@@ -40,10 +40,10 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
     let totalBill = subTotal + deliverFee;
 
     const formData = {
-        first_name: addressDetails?.first_name,
-        last_name: addressDetails?.last_name,
-        phone: addressDetails?.phone_number,
-        address: addressDetails?.delivery_address_1,
+        firstName: addressDetails?.firstName,
+        lastName: addressDetails?.lastName,
+        phone: addressDetails?.phone,
+        address: addressDetails?.address,
         state: "Kwara",
         city: addressDetails?.city,
         method: deliveryMethod,
@@ -53,11 +53,11 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
 
     //handle checkout payment button with paystack
     const sendCheckoutDetails = async () => {
-        setLoading(true);
+        setIsLoading(true);
 
 
         await axios
-            .post(`${baseUrl}/store/orders/`, formData, {
+            .post(`${baseUrl}/store/order/`, formData, {
                 headers: {
                     Authorization: `Bearer ${user}`,
                 },
@@ -65,22 +65,22 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
             .then((response) => {
                 //success callback
 
-
-                if (response?.status === 200) {
+                console.log(response)
+                if (response?.data.status === 200) {
                     toast.success(
                         "Successful... You will now been Redirected to the payment page"
                     );
 
-                    setLoading(false);
+                    setIsLoading(false);
                     router.push(`${response?.data?.data?.url}`);
                 }
             })
             .catch((error) => {
 
-                setLoading(false);
+                setIsLoading(false);
 
                 toast.error(error.message);
-            }).finally(() => setLoading(false))
+            }).finally(() => setIsLoading(false))
     };
 
     return (
@@ -158,7 +158,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                             text="Make Payment"
                             w="100%"
                             handleButton={sendCheckoutDetails}
-                            isLoading={loading}
+                            isLoading={isLoading}
                         />
                     </Box>
                 </Box>
