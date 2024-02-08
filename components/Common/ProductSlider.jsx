@@ -99,8 +99,9 @@ const ProductSlider = ({
     useEffect(() => {
         async function fetchProduct() {
             const response = await axios.get(`${baseUrl}/store/products`);
+
             if (response?.status === 200) {
-                const data = response?.data?.data?.results;
+                const data = response?.data?.data;
                 setProducts(data);
             }
 
@@ -108,7 +109,7 @@ const ProductSlider = ({
         if (!products) {
             fetchProduct();
         }
-    }, [products]);
+    }, [products, setProducts]);
 
     const handleProduct = (id) => {
         // alert("Product Id === ", id);
