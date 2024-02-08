@@ -10,6 +10,10 @@ import React from "react";
 
 
 const OrderBox = ({ data }) => {
+    console.log(data)
+    const { payment, status } = data;
+    const { name, productImg, amount } = data.products;
+
     return (
         <Box>
             <Flex
@@ -20,8 +24,8 @@ const OrderBox = ({ data }) => {
                 <Flex w="100%" h="max-content" gap={["none", "30px"]}>
                     <Box>
                         <Image
-                            src={product?.product_img}
-                            alt={product?.name}
+                            src={productImg}
+                            alt={name}
 
                             // src="/images/cream.svg"
                             // alt={"dummy "}
@@ -49,7 +53,7 @@ const OrderBox = ({ data }) => {
                                 maxW="600px"
                                 noOfLines={2}
                             >
-                                {product?.name}
+                                {payment}
                             </Text>
                         </Box>
                         <Flex
@@ -68,7 +72,7 @@ const OrderBox = ({ data }) => {
                                     }}
                                     fontWeight={"600"}
                                 >
-                                    ₦ 4,000
+                                    {amount}
                                 </Text>
                             </Box>
 
@@ -80,7 +84,7 @@ const OrderBox = ({ data }) => {
                                 }
                             /> */}
 
-                            <Badge />
+                            <Badge status={payment} />
                         </Flex>
                         <Box order={{ base: "2", md: "2", xl: "2" }}>
                             <Text
@@ -93,8 +97,8 @@ const OrderBox = ({ data }) => {
                                 maxW="600px"
                                 noOfLines={2}
                             >
-                                {product?.name}
-                                22/04/23
+                                {status}
+
                             </Text>
                         </Box>
                     </Flex>
