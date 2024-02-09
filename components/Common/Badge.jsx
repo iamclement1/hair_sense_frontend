@@ -7,10 +7,10 @@ const Badge = ({ status = "success", ...props }) => {
 
     // Conditionally update background and text colors based on status
     if (status === "Pending") {
-        bgColor = "yellow"; // Change background color to yellow
+        bgColor = "#FAF5C5"; // Change background color to yellow
         textColor = "black"; // Change text color to black
     } else if (status === "failed") {
-        bgColor = "red"; // Change background color to red
+        bgColor = "#F9D1C8"; // Change background color to red
         textColor = "white"; // Change text color to white
     }
 
@@ -19,7 +19,7 @@ const Badge = ({ status = "success", ...props }) => {
             align="center"
             justify="center"
             bgColor={bgColor}
-            opacity={status === "pending" ? 0.5 : 1} // Reduce opacity for pending status
+            opacity={status === "Pending" ? 0.5 : 1} // Reduce opacity for pending status
             px="20px"
             py="8px"
             rounded="20px"
