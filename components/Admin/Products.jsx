@@ -22,6 +22,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import TablePagination from "../Common/TablePagination";
 import { StateContext } from "@/context/StateProvider";
 import CustomSpinner from "../Common/Spinner";
+import useProducts from "@/hooks/useProducts";
 
 const Products = () => {
     const {
@@ -30,11 +31,14 @@ const Products = () => {
         onClose: onCloseEdit,
     } = useDisclosure();
 
-    const [products, setProducts] = useState(null);
+    const { isLoading, data: product } = useProducts();
+    const products = product?.data?.data
+
     const [currentPage, setCurrentPage] = useState(1);
     const [deleting, setDeleting] = useState(false);
     const [editData, setEditData] = useState(null);
-    const { user, isLoading, setIsLoading } = useContext(StateContext);
+    const { user } = useContext(StateContext);
+
 
     const itemsPerPage = 10;
 
@@ -49,28 +53,6 @@ const Products = () => {
     const itemsToDisplay =
         products && products.length > 0 && products.slice(startIndex, endIndex);
 
-    async function fetchProduct() {
-        setIsLoading(true);
-        const response = await httpGet(`${baseUrl}/store/products`, {
-            headers: {
-                Authorization: `Bearer ${user}`,
-            },
-        });
-
-        if (response?.status === 200) {
-            setIsLoading(false);
-            const data = response?.data;
-            setProducts(data);
-        } else {
-            setIsLoading(false);
-        }
-    }
-
-    useEffect(() => {
-        if (!products) {
-            fetchProduct();
-        }
-    }, [user, products, setProducts, fetchProduct]);
 
     const EnvData = useMemo(() => itemsToDisplay || [], [itemsToDisplay]);
 
@@ -81,7 +63,7 @@ const Products = () => {
         {
             Header: "Image",
             accessor: "productImg",
-            Cell: ({ value }) => <Image src={value} boxSize="50px" />,
+            Cell: ({ value }) => <Image src={value} alt="product-image" boxSize="50px" />,
         },
     ], []);
 
@@ -90,19 +72,15 @@ const Products = () => {
         tableInstance;
 
     const handleDelete = async (productId) => {
-        setIsLoading(true);
         await httpDelete(`${baseUrl}/store/products/${productId}`, {
             headers: {
                 Authorization: `Bearer ${user}`,
             },
         })
             .then(() => {
-                setIsLoading(false);
                 toast.success("Product deleted successfully");
-                fetchProduct();
             })
             .catch((error) => {
-                setIsLoading(false);
 
                 console.log(error);
             });
