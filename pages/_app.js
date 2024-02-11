@@ -7,21 +7,20 @@ import { theme } from "@/utils/theme";
 import { CSSReset, ChakraProvider } from "@chakra-ui/react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import StateProvider from "@/context/StateProvider";
-import { ToastContainer } from "react-toastify";
 import { BackToTop } from "@/components/Common";
 import { Toaster } from "react-hot-toast";
+import TanstackProvider from "@/context/tanstackProvider";
 
 export default function App({ Component, pageProps }) {
     return (
         <ChakraProvider theme={theme}>
-            <StateProvider>
+            <TanstackProvider>
                 <CSSReset />
                 {/* <ToastContainer /> */}
                 <Toaster position="top-right" containerClassName="text-lg p-4" />
                 <Component {...pageProps} />
                 <BackToTop />
-            </StateProvider>
+            </TanstackProvider>
         </ChakraProvider>
     );
 }
