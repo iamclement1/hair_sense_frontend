@@ -23,8 +23,8 @@ import { useRouter } from "next/router";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import Cookies from "js-cookie";
 import { StateContext } from "@/context/StateProvider";
+import client from "@/context/axiosInstance";
 
 const AuthModal = ({ isOpen, onClose }) => {
     const [currentPage, setCurrentPage] = useState("login");
@@ -160,7 +160,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
         };
 
         try {
-            const response = await axios.post(`${baseUrl}/accounts/sign_in/`, formData);
+            const response = await client.post(`/accounts/sign_in/`, formData);
             const { access, refresh, role } = response.data.data;
 
             if (role === "client") {
@@ -341,7 +341,7 @@ const Register = ({ handleCurrentForm }) => {
         };
 
         try {
-            const response = await axios.post(`${baseUrl}/accounts/register/`, formData, {
+            const response = await client.post(`/accounts/register/`, formData, {
                 headers: {
                     "Content-Type": "application/json",
                 }
