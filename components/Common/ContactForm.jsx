@@ -1,25 +1,52 @@
 import {
     Box,
     Flex,
-    Button,
-    Divider,
-    Icon,
-    Text,
-    Image,
     Textarea,
-    FormErrorMessage,
-    FormLabel,
-    FormControl,
-    Select,
 } from "@chakra-ui/react";
 import { ErrorMessage, Field, Formik } from "formik";
 import { useRouter } from "next/router";
-import React, { useState } from "react";
-import { FaTimes } from "react-icons/fa";
+import React, { useContext } from "react";
 import { PrimaryButton } from ".";
 import CustomInput from "./CustomInput";
+import client from "@/context/axiosInstance";
+import { StateContext } from "@/context/StateProvider";
+import { toast } from "react-hot-toast";
 
 const ContactForm = () => {
+
+    const { isLoading, setIsLoading } = useContext(StateContext);
+    const router = useRouter()
+
+    const submitContactForm = async (values) => {
+        setIsLoading(true);
+        const formData = {
+            fullName: values.full_name,
+            email: values.email,
+            message: values.message,
+        };
+
+        console.log(formData);
+
+        try {
+            const response = await client.post('/contact', formData);
+            const data = await response.data;
+            if (data?.status === 200) {
+                setIsLoading(false)
+                const message = data?.data;
+                console.log(message)
+                toast.success(message);
+                router.push("/")
+            }
+        } catch (error) {
+            setIsLoading(false);
+            console.log(error.response)
+            if (error.response) {
+                const errorMessage = error.response.data.data;
+                toast.error(errorMessage);
+            }
+        }
+    };
+
     return (
         <Formik
             initialValues={{
@@ -42,7 +69,7 @@ const ContactForm = () => {
                 return errors;
             }}
             onSubmit={(values) => {
-                handleCheckOutStep(2);
+                submitContactForm(values);
             }}
         >
             {({ handleSubmit, errors, touched, isValid, dirty }) => (
@@ -110,6 +137,7 @@ const ContactForm = () => {
                             text="Submit"
                             type="submit"
                             maxW="300px"
+                            isLoading={isLoading}
                         />
                     </Box>
                 </form>
