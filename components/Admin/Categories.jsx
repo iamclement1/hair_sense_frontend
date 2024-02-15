@@ -5,44 +5,19 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { PrimaryButton } from "../Common";
 import CategoryBox from "./CategoryBox";
 import NewSubModal from "./NewSubModal";
-import { baseUrl, httpGet } from "@/http-request/http-request";
 import CustomSpinner from "../Common/Spinner";
 import { StateContext } from "@/context/StateProvider";
-import { toast } from "react-toastify";
+import useCategory from "@/hooks/useCategory";
 
 const Categories = () => {
     const { isOpen } = useDisclosure();
-    const [catData, setCatData] = useState([]);
-    const { user, isLoading, setIsLoading } = useContext(StateContext);
+    const { isLoading, data } = useCategory();
+    const categories = (data?.data?.data)
 
-
-    useEffect(() => {
-
-        const fetchCategory = async () => {
-            setIsLoading(true);
-            await httpGet(`${baseUrl}/store/categories/`, {
-                headers: {
-                    Authorization: `Bearer ${user}`,
-                },
-            })
-                .then((response) => {
-                    setIsLoading(false)
-                    const data = response.data;
-                    setCatData(data);
-                })
-                .catch((error) => {
-                    setIsLoading(false)
-                    console.log(error);
-                    toast.error("Something went wrong");
-                });
-        }
-
-        fetchCategory();
-    }, [user, setIsLoading])
 
     const {
         isOpen: isOpenNewSubCategory,
@@ -91,9 +66,9 @@ const Categories = () => {
                         {/* Categories */}
 
                         {
-                            catData?.length > 0 ? (
+                            categories?.length > 0 ? (
                                 <Box>
-                                    {catData?.length > 0 && catData.map((item) => {
+                                    {categories?.length > 0 && categories.map((item) => {
                                         return <CategoryBox data={item} key={item?.id} />;
                                     })}
                                 </Box>
