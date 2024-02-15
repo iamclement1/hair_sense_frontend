@@ -144,7 +144,7 @@ export default AuthModal;
 const Login = ({ handleCurrentForm, onClose }) => {
     const router = useRouter();
     const [showPassWord, setShowPassWord] = useState(false);
-    const { isLoading, setIsLoading, setUser } = useContext(StateContext);
+    const { loading, setLoading, setUser } = useContext(StateContext);
 
     //show password
     const togglePassword = () => {
@@ -153,7 +153,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
 
 
     const loginUser = async (values) => {
-        setIsLoading(true);
+        setLoading(true);
         const formData = {
             email: values.email,
             password: values.password,
@@ -164,19 +164,19 @@ const Login = ({ handleCurrentForm, onClose }) => {
             const { access, refresh, role } = response.data.data;
 
             if (role === "client") {
-                setIsLoading(false);
+                setLoading(false);
 
                 handleClientLogin(access, refresh);
             } else if (role === "admin") {
-                setIsLoading(false);
+                setLoading(false);
                 handleAdminLogin(access, refresh);
             }
         } catch (error) {
-            setIsLoading(false);
+            setLoading(false);
             console.log(error.response)
             if (error.response) {
-                const errorMessage = error.response.data.data;
-                toast.error(errorMessage);
+                // const errorMessage = error.response.data.data;
+                toast.error("Invalid credentials");
             }
         }
     };
@@ -189,7 +189,7 @@ const Login = ({ handleCurrentForm, onClose }) => {
         setAccessTokenSessionStorage(access, refresh);
         sessionStorage.setItem("role", "client");
         setUser(access);
-        toast.success("Client login successful...");
+        toast.success("Login successful...");
         onClose();
 
     };
@@ -316,8 +316,8 @@ const Login = ({ handleCurrentForm, onClose }) => {
                         width="full"
                         mt="30px"
                         py="20px"
-                        disabled={isLoading} // Disable submit button if reCAPTCHA is not clicked or while submitting
-                        isLoading={isLoading}
+                        disabled={loading}
+                        isLoading={loading}
                     />
                 </form>
             )}
@@ -328,10 +328,10 @@ const Login = ({ handleCurrentForm, onClose }) => {
 const Register = ({ handleCurrentForm }) => {
     const [currentPassword, setCurrentPassword] = useState("");
 
-    const { isLoading, setIsLoading } = useContext(StateContext);
+    const { loading, setLoading } = useContext(StateContext);
 
     const regUser = async (values) => {
-        setIsLoading(true);
+        setLoading(true);
         const formData = {
             firstName: values.firstName,
             lastName: values.lastName,
@@ -365,7 +365,7 @@ const Register = ({ handleCurrentForm }) => {
             }
             toast.error(errorMessage);
         } finally {
-            setIsLoading(false);
+            setLoading(false);
         }
     };
 
@@ -651,7 +651,7 @@ const Register = ({ handleCurrentForm }) => {
                         maxW="602.79px"
                         mb="15px"
                         mx="auto"
-                        isLoading={isLoading}
+                        isLoading={loading}
                     // handleButton={registerUser}
                     />
                 </form>
