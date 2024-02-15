@@ -12,6 +12,7 @@ client.interceptors.request.use(
   (config) => {
     // Do something before request is sent
     const { token } = getStorageAuthItems();
+
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
