@@ -11,10 +11,11 @@ import {
 import { PrimaryButton } from "../Common";
 import { SecondaryButton } from "../Common/Button";
 import { baseUrl } from "@/http-request/http-request";
-import Cookies from "js-cookie";
 import { toast } from "react-hot-toast";
 import { StateContext } from "@/context/StateProvider";
 import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import client from "@/context/axiosInstance";
 
 const CreateSubCategoryModal = ({
     isOpen,
@@ -24,36 +25,42 @@ const CreateSubCategoryModal = ({
     Categoryid,
 }) => {
     const [name, setName] = useState("");
-    const { user, isLoading, setIsLoading } = useContext(StateContext);
+    const queryClient = useQueryClient()
+
 
     const handleChange = (e) => {
         setName(e.target.value);
     };
 
-    const handleSubmit = async (e) => {
+    const { mutate, isPending } = useMutation({
+        mutationFn: (subcategory) => {
+            return client.post("/store/sub_categories/", subcategory);
+        },
+        onSuccess: ({ data }) => {
+            if (data) {
+                // Close the modal
+                onClose();
+                toast.success("Sub Category created successfully", {
+                    theme: "dark",
+                });
+            }
+            queryClient.invalidateQueries({ queryKey: ["subcategory"] });
+        },
+        onError: (error) => {
+            if (error.response) {
+                const errorMessage = error.response.data;
+                toast.error(errorMessage);
+            }
+        }
+    })
+
+    const handleSubmit = (e) => {
         e.preventDefault();
-        setIsLoading(true);
         const formData = {
             category: Categoryid,
             name: name,
         };
-
-        await axios.post(`${baseUrl}/store/sub_categories/`, formData, {
-            headers: {
-                Authorization: `Bearer ${user}`,
-            },
-        })
-            .then((response) => {
-
-                if (response.status === 200) {
-                    setIsLoading(false);
-                    onClose();
-                    toast.success("Sub Category successfully created");
-                }
-            })
-            .catch((error) => {
-                setIsLoading(false);
-            });
+        mutate(formData)
 
     };
 
@@ -100,7 +107,7 @@ const CreateSubCategoryModal = ({
                                 <PrimaryButton
                                     maxW="130px"
                                     text="Save"
-                                    isLoading={isLoading}
+                                    isLoading={isPending}
                                     handleButton={handleSubmit}
                                     py="30px"
                                     type="submit"
