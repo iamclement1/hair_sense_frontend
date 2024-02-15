@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
     Modal,
     ModalOverlay,
@@ -11,10 +11,9 @@ import {
 } from "@chakra-ui/react";
 import { PrimaryButton } from "../Common";
 import { SecondaryButton } from "../Common/Button";
-import { baseUrl } from "@/http-request/http-request";
 import { toast } from "react-hot-toast";
-import { StateContext } from "@/context/StateProvider";
-import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import client from "@/context/axiosInstance";
 
 const NewSubModal = ({ isOpen, onOpen, onClose }) => {
 
@@ -24,10 +23,9 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
         name: "",
     };
 
-    const { user, isLoading, setIsLoading } = useContext(StateContext);
-
 
     const [newCategory, setNewCategory] = useState(initalData);
+    const queryClient = useQueryClient()
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,43 +36,34 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
     // Desstructure the data state
     const { name } = newCategory;
 
-    const handleSubmit = async (e) => {
-        setIsLoading(true);
+    const { mutate, isPending } = useMutation({
+        mutationFn: (category) => {
+            return client.post("/store/categories/", category);
+        },
+        onSuccess: ({ data }) => {
+            if (data) {
+                // Close the modal
+                onClose();
+                toast.success("Category created successfully", {
+                    theme: "dark",
+                });
+            }
+            queryClient.invalidateQueries({ queryKey: ["category"] });
+        },
+        onError: (error) => {
+            if (error.response) {
+                const errorMessage = error.response.data;
+                toast.error(errorMessage);
+            }
+        }
+    })
+
+    const handleSubmit = (e) => {
         e.preventDefault();
         const formData = {
             name: name,
         };
-
-        await axios.post(`${baseUrl}/store/categories/`, formData, {
-            headers: {
-                Authorization: `Bearer ${user}`,
-            },
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    toast.success("Category successfully created");
-                    // Close the modal
-                    onClose();
-                    // Reset the state to initial
-                    setNewCategory(initalData);
-                    setIsLoading(false);
-                }
-            })
-            .catch((error) => {
-                setIsLoading(false);
-
-                if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    const errorMessage = error.response.data;
-                    toast.error(errorMessage);
-                }
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-
-        // // alert(JSON.stringify(formData));
+        mutate(formData);
     };
 
     return (
@@ -126,7 +115,7 @@ const NewSubModal = ({ isOpen, onOpen, onClose }) => {
                                     handleButton={handleSubmit}
                                     py="30px"
                                     type="submit"
-                                    isLoading={isLoading}
+                                    isLoading={isPending}
                                 />
                             </Flex>
                         </form>

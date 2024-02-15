@@ -88,7 +88,7 @@ export default function AdminDashboard() {
         if (role !== 'admin') {
             router.push("/");
         }
-    }, []);
+    }, [role, router]);
 
     const renderPageContent = () => {
         switch (activePage) {
