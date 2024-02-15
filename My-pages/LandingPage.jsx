@@ -18,7 +18,7 @@ const LandingPage = () => {
         if (role === 'admin') {
             router.push("/admin");
         }
-    }, []);
+    }, [role, router]);
 
 
     //cart context

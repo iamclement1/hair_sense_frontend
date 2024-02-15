@@ -1,7 +1,8 @@
 import { PrimaryButton } from "@/components/Common";
 import CustomInput from "@/components/Common/CustomInput";
 import { StateContext } from "@/context/StateProvider";
-import { baseUrl } from "@/http-request/http-request";
+import client from "@/context/axiosInstance";
+import useCategory from "@/hooks/useCategory";
 import {
     Box,
     Flex,
@@ -12,20 +13,43 @@ import {
     Select,
     Input,
 } from "@chakra-ui/react";
-import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ErrorMessage, Field, Formik } from "formik";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const CreateProducts = ({ setActivePage }) => {
-    const { user } = useContext(StateContext)
+
+    const { data: category } = useCategory();
+    const subCat = category?.data?.data
 
 
-    const [subCat, setSubCat] = useState([]);
+    const queryClient = useQueryClient()
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: (product) => {
+            return client.post("/store/products/", product);
+        },
+        onSuccess: ({ data }) => {
+            if (data) {
+                setActivePage(4)
+                toast.success("Product created successfully", {
+                    theme: "dark",
+                });
+            }
+            queryClient.invalidateQueries({ queryKey: ["product"] });
+        },
+        onError: (error) => {
+            if (error.response) {
+                const errorMessage = error.response.data;
+                toast.error(errorMessage);
+            }
+        }
+    })
+
 
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCat, setSelectedSubCat] = useState([]);
-    const [loading, setLoading] = useState(false);
     //check file type
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
     const [file, setFile] = useState(null);
@@ -48,33 +72,10 @@ const CreateProducts = ({ setActivePage }) => {
         setFile(null);
     };
 
-    useEffect(() => {
-        const fetchCategory = async () => {
-            await axios.get(`${baseUrl}/store/categories`, {
-                headers: {
-                    Authorization: `${user}`,
-                },
-            })
-                .then((response) => {
-                    console.log("categories data ==>", response.data.data)
-                    const data = response.data.data;
-
-                    setSubCat(data);
-
-                })
-                .catch((error) => {
-                    console.log(error)
-                });
-        };
-
-        if (subCat?.length < 1) {
-            fetchCategory();
-        }
-    }, [user, subCat]);
 
     // useeffect to handle Selected subcat
     useEffect(() => {
-        const selectedItem = subCat.find((item) => item.id === selectedCategory);
+        const selectedItem = subCat?.find((item) => item?.id === selectedCategory);
         if (selectedItem) {
             setSelectedSubCat(selectedItem.subcategories);
         }
@@ -90,9 +91,10 @@ const CreateProducts = ({ setActivePage }) => {
 
     // submit form
     const handleCreateProduct = async (values) => {
-        setLoading(true);
+
         const {
             name,
+            category,
             subcategory,
             desc: desc,
             // description_2: second_description,
@@ -102,6 +104,7 @@ const CreateProducts = ({ setActivePage }) => {
 
         const payload = new FormData();
         payload.append("name", name);
+        payload.append("category", category);
         payload.append("subcategory", subcategory);
         payload.append("desc", desc);
         // payload.append("sales_price", sales_price);
@@ -110,24 +113,7 @@ const CreateProducts = ({ setActivePage }) => {
         if (file) {
             payload.append("productImg", file);
         }
-
-        await axios.post(`${baseUrl}/store/products/`, payload, {
-            headers: {
-                Authorization: `Bearer ${user}`,
-            },
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    toast.success("Create product successfully");
-                    setActivePage(4);
-                }
-            })
-            .catch((error) => {
-
-                toast.error("Unable to create product");
-            });
-
-        setLoading(false);
+        mutate(payload)
 
     };
 
@@ -180,6 +166,7 @@ const CreateProducts = ({ setActivePage }) => {
                         }}
                         onSubmit={(values) => {
                             values.file = file;
+                            values.category = selectedCategory;
                             handleCreateProduct(values);
 
                         }}
@@ -487,7 +474,7 @@ const CreateProducts = ({ setActivePage }) => {
                                     <PrimaryButton
                                         text="Continue"
                                         type="submit"
-                                        isLoading={loading}
+                                        isLoading={isPending}
                                         onClick={handleSubmit}
                                     />
                                 </Box>

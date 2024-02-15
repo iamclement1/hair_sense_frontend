@@ -13,6 +13,8 @@ import ProductBox from "./ProductBox";
 import { StateContext } from "@/context/StateProvider";
 import { baseUrl } from "@/http-request/http-request";
 import axios from "axios";
+import useProducts from "@/hooks/useProducts";
+import CustomSpinner from "./Spinner";
 
 const ProductSlider = ({
     section,
@@ -91,25 +93,13 @@ const ProductSlider = ({
             },
         ],
     };
+    const { products, setProducts } = useContext(StateContext);
 
     const sliderRef = useRef(null);
     //product data
-    const { products, setProducts } = useContext(StateContext);
-
-    useEffect(() => {
-        async function fetchProduct() {
-            const response = await axios.get(`${baseUrl}/store/products`);
-
-            if (response?.status === 200) {
-                const data = response?.data?.data;
-                setProducts(data);
-            }
-
-        }
-        if (!products) {
-            fetchProduct();
-        }
-    }, [products, setProducts]);
+    const { isLoading, data } = useProducts();
+    const product = (data?.data?.data)
+    setProducts(product);
 
     const handleProduct = (id) => {
         // alert("Product Id === ", id);
@@ -156,7 +146,7 @@ const ProductSlider = ({
 
             {/*  Header for product slider which type is === "others"  */}
             {/*  */}
-
+            {isLoading && <CustomSpinner />}
             <Box>
                 {!productDatas ? (
                     <Text fontSize={'24px'} fontWeight={500}> Products not Available </Text>

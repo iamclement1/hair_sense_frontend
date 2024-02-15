@@ -1,11 +1,12 @@
 import AdminDashboard from "@/components/Admin/AdminDashboard";
-import React, { useState } from "react";
+import AdminLayout from "@/components/layouts/AdminLayout";
+import React from "react";
 
 const index = () => {
     return (
-        <div>
+        <AdminLayout title="Hair Sense">
             <AdminDashboard />
-        </div>
+        </AdminLayout>
     );
 };
 

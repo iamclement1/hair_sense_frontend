@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import client from "@/context/axiosInstance";
 
-const useProducts = () => {
-  const fetchProduct = async () => {
-    const data = await client.get("/store/products");
+const useSubCategory = () => {
+  const fetchSubCategory = async () => {
+    const data = await client.get("/store/sub_categories/");
     return data;
   };
 
   const { isLoading, error, data } = useQuery({
-    queryKey: ["products"],
-    queryFn: fetchProduct,
+    queryKey: ["subcategory"],
+    queryFn: fetchSubCategory,
     staleTime: 300000,
   });
 
@@ -20,4 +20,4 @@ const useProducts = () => {
   };
 };
 
-export default useProducts;
+export default useSubCategory;
