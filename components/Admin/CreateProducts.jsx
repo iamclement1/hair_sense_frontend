@@ -18,14 +18,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 const CreateProducts = ({ setActivePage }) => {
-    const { user } = useContext(StateContext)
+    const { user, isLoading, setIsLoading } = useContext(StateContext)
 
 
     const [subCat, setSubCat] = useState([]);
 
     const [selectedCategory, setSelectedCategory] = useState("");
     const [selectedSubCat, setSelectedSubCat] = useState([]);
-    const [loading, setLoading] = useState(false);
     //check file type
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
     const [file, setFile] = useState(null);
@@ -90,9 +89,10 @@ const CreateProducts = ({ setActivePage }) => {
 
     // submit form
     const handleCreateProduct = async (values) => {
-        setLoading(true);
+        setIsLoading(true);
         const {
             name,
+            category,
             subcategory,
             desc: desc,
             // description_2: second_description,
@@ -102,6 +102,7 @@ const CreateProducts = ({ setActivePage }) => {
 
         const payload = new FormData();
         payload.append("name", name);
+        payload.append("category", category);
         payload.append("subcategory", subcategory);
         payload.append("desc", desc);
         // payload.append("sales_price", sales_price);
@@ -118,16 +119,19 @@ const CreateProducts = ({ setActivePage }) => {
         })
             .then((response) => {
                 if (response.status === 200) {
+                    setIsLoading(false);
                     toast.success("Create product successfully");
-                    setActivePage(4);
+                    window.location.reload();
                 }
             })
             .catch((error) => {
-
-                toast.error("Unable to create product");
+                setIsLoading(false);
+                console.log(error.response)
+                if (error.response) {
+                    const errorMessage = error.response.data.data;
+                    toast.error(errorMessage);
+                }
             });
-
-        setLoading(false);
 
     };
 
@@ -180,6 +184,7 @@ const CreateProducts = ({ setActivePage }) => {
                         }}
                         onSubmit={(values) => {
                             values.file = file;
+                            values.category = selectedCategory;
                             handleCreateProduct(values);
 
                         }}
@@ -487,7 +492,7 @@ const CreateProducts = ({ setActivePage }) => {
                                     <PrimaryButton
                                         text="Continue"
                                         type="submit"
-                                        isLoading={loading}
+                                        isLoading={isLoading}
                                         onClick={handleSubmit}
                                     />
                                 </Box>
