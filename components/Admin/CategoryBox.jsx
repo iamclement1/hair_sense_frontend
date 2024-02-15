@@ -2,29 +2,18 @@ import AdminLayout from "@/components/layouts/AdminLayout";
 import {
     Box,
     Flex,
-    Image,
-    Link,
     Icon,
     Text,
     useDisclosure,
-    Input,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import NextLink from "next/link";
 import {
-    MdAdd,
     MdAddCircleOutline,
-    MdOutlineDashboard,
-    MdOutlineDelete,
 } from "react-icons/md";
-import { PrimaryButton } from "../Common";
-import { FiEdit, FiEye } from "react-icons/fi";
+import { FiEye } from "react-icons/fi";
 
-import { IoCheckmarkOutline } from "react-icons/io5";
-import { HiXMark } from "react-icons/hi2";
 import SubCategoryModal from "./SubCategoryModal";
 import CreateSubCategoryModal from "./CreateSubCategoryModal";
-import NewSubModal from "./NewSubModal";
 
 const CategoryBox = ({ data }) => {
     const [name, setName] = useState(data?.name);
