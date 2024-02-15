@@ -14,7 +14,7 @@ export const StateContext = createContext();
 export const CartContext = createContext();
 
 const StateProvider = ({ children }, props) => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [products, setProducts] = useState(null);
     const [isProduct, setIsProduct] = useState(null);
     const [prodID, setProdID] = useState(null);
@@ -61,8 +61,8 @@ const StateProvider = ({ children }, props) => {
 
     const passedData = useMemo(() => {
         return {
-            isLoading,
-            setIsLoading,
+            loading,
+            setLoading,
             products,
             setProducts,
             isProduct,
@@ -85,8 +85,8 @@ const StateProvider = ({ children }, props) => {
             // totalBill,
         };
     }, [
-        isLoading,
-        setIsLoading,
+        loading,
+        setLoading,
         products,
         setProducts,
         isProduct,
