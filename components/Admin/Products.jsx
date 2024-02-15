@@ -23,6 +23,7 @@ import TablePagination from "../Common/TablePagination";
 import { StateContext } from "@/context/StateProvider";
 import CustomSpinner from "../Common/Spinner";
 import useProducts from "@/hooks/useProducts";
+import { useRouter } from "next/router";
 
 const Products = () => {
     const {
@@ -31,12 +32,15 @@ const Products = () => {
         onClose: onCloseEdit,
     } = useDisclosure();
 
+
+
     const { isLoading, data: product } = useProducts();
     const products = product?.data?.data
-
+    const router = useRouter();
     const [currentPage, setCurrentPage] = useState(1);
     const [deleting, setDeleting] = useState(false);
     const [editData, setEditData] = useState(null);
+
     const { user } = useContext(StateContext);
 
 
@@ -72,19 +76,29 @@ const Products = () => {
         tableInstance;
 
     const handleDelete = async (productId) => {
-        await httpDelete(`${baseUrl}/store/products/${productId}`, {
-            headers: {
-                Authorization: `Bearer ${user}`,
-            },
-        })
-            .then(() => {
-                toast.success("Product deleted successfully");
-            })
-            .catch((error) => {
-
-                console.log(error);
+        setDeleting(true);
+        try {
+            const response = await httpDelete(`${baseUrl}/store/products/${productId}`, {
+                headers: {
+                    Authorization: `Bearer ${user}`,
+                },
             });
+            console.log("Delete response:", response);
+            if (response.status === 200) {
+                setDeleting(false);
+                window.location.reload();
+                toast.success("Product deleted successfully");
+            }
+        } catch (error) {
+            setDeleting(false);
+            console.log(error.response)
+            if (error.response) {
+                const errorMessage = error.response.data.data;
+                toast.error(errorMessage);
+            }
+        }
     };
+
 
     const handleEdit = (product) => {
         setEditData(product);
@@ -93,7 +107,7 @@ const Products = () => {
 
     return (
         <>
-            {isLoading && <CustomSpinner />}
+            {deleting || isLoading && <CustomSpinner />}
             {products?.length > 0 ? (
                 <Table {...getTableProps()} className="noBorder" variant="simple" overflowX={"auto"}>
                     <Thead bgColor="#D0DAF2" borderRadius={"20px"} rounded="20px" fontWeight="600" fontSize={["16px", "18px"]}>
@@ -125,11 +139,7 @@ const Products = () => {
                                     <Td>
                                         <Flex gap="10px">
                                             <Icon as={FiEdit} cursor="pointer" boxSize="20px" onClick={() => handleEdit(productData)} />
-                                            {deleting ? (
-                                                <Spinner size="md" />
-                                            ) : (
-                                                <Icon as={MdOutlineDelete} cursor="pointer" boxSize="20px" onClick={() => handleDelete(id)} />
-                                            )}
+                                            <Icon as={MdOutlineDelete} cursor="pointer" boxSize="20px" onClick={() => handleDelete(id)} />
                                         </Flex>
                                     </Td>
                                 </Tr>
