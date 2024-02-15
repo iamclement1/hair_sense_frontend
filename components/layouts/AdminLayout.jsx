@@ -2,7 +2,6 @@ import { Box } from "@chakra-ui/react";
 import Head from "next/head";
 import React from "react";
 
-import { useRouter } from "next/router";
 
 const AdminLayout = ({ children }) => {
     return (
