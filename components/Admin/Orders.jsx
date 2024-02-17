@@ -10,39 +10,17 @@ import {
     Td,
     TableContainer,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import { PrimaryButton } from "@/components/Common";
 import { SecondaryButton } from "../Common/Button";
-import Cookies from 'js-cookie'
-import { baseUrl } from "@/http-request/http-request";
-import axios from "axios";
-import { StateContext } from "@/context/StateProvider";
+import useOrder from "@/hooks/useOrder";
+import CustomSpinner from "../Common/Spinner";
 
 const Orders = () => {
 
-    const { user } = useContext(StateContext);
+    const { data, isLoading } = useOrder();
+    const order = data?.data?.data
 
-    const [catData, setCatData] = React.useState([]);
-
-    useEffect(() => {
-        const fetchOrders = async () => {
-            await axios.get(`${baseUrl}/store/order/`, {
-                headers: {
-                    Authorization: `Bearer ${user}`,
-                },
-            })
-                .then((response) => {
-                    console.log(response);
-                    const data = response?.data.data.results;
-                    setCatData(data);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
-
-        fetchOrders();
-    }, [user])
 
     const getStatusStyle = (status) => {
         let textColor;
@@ -52,7 +30,7 @@ const Orders = () => {
         } else if (status === "failed") {
             textColor = "red";
         } else {
-            textColor = "yellow";
+            textColor = "#f5bd0a";
         }
 
         return {
@@ -61,6 +39,7 @@ const Orders = () => {
     };
     return (
         <Box>
+            {isLoading && <CustomSpinner />}
             <Box>
                 <Flex align="center" justify="space-between" gap="20px">
                     <Box>
@@ -118,10 +97,10 @@ const Orders = () => {
                                 </Tr>
                             </Thead>
                             <Tbody bgColor="white">
-                                {catData?.length > 0 ? (
-                                    catData.map((order) => (
+                                {order?.length > 0 ? (
+                                    order.map((order) => (
                                         <Tr key={order.id}>
-                                            <Td>{`${order.first_name} ${order.last_name}`}</Td>
+                                            <Td>{`${order.firstName} ${order.lastName}`}</Td>
                                             <Td>{order.id}</Td>
                                             <Td>{order.amount}</Td>
                                             <Td>{order.method}</Td>
