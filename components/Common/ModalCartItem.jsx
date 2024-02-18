@@ -27,7 +27,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
         onOpen: onOpenAuth,
         onClose: onCloseAuth,
     } = useDisclosure();
-    const { user, isLoading, setIsLoading } = useContext(StateContext);
+    const { user, loading, setLoading } = useContext(StateContext);
 
     const [total, setTotal] = useState(0);
     const GlobalCart = useContext(CartContext);
@@ -149,7 +149,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
     //handle checkout payment button with paystack
     const sendCartItems = async () => {
 
-        setIsLoading(true);
+        setLoading(true);
 
         if (cartItems?.length > 0) {
             const cartItemIds = cartItems.map(item => item.id);
@@ -158,7 +158,6 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                 products: cartItems,
                 // total_amount: total,
             };
-            console.log(requestOptions)
             await axios
                 .post(`${baseUrl}/store/cart/`, requestOptions, {
                     headers: {
@@ -173,12 +172,12 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                             "Successfully added to cart... You will now been Redirected to the checkout page"
                         );
                         onClose();
-                        setIsLoading(false);
+                        setLoading(false);
                         router.push("/checkout");
                     }
                 })
                 .catch((error) => {
-                    setIsLoading(false);
+                    setLoading(false);
                     if (error.response) {
                         const errorMessage = error.response.data.message;
                         toast.error(errorMessage);
@@ -446,7 +445,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                         text="Check Out"
                                         w="100%"
                                         handleButton={sendCartItems}
-                                        isLoading={isLoading}
+                                        isLoading={loading}
                                     />
                                 ) : (
                                     <PrimaryButton
@@ -455,7 +454,7 @@ const ModalCartItem = ({ onOpen, onClose }) => {
                                         handleButton={() => {
                                             onOpenAuth();
                                         }}
-                                        isLoading={isLoading}
+                                        isLoading={loading}
                                     />
                                 )}
                             </Flex>
