@@ -1,31 +1,45 @@
-import AdminLayout from "@/components/layouts/AdminLayout";
+import React, { useState } from "react";
 import {
     Box,
     Flex,
-    Image,
-    Link,
-    Icon,
     Text,
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Th,
     Td,
-    TableCaption,
     TableContainer,
+    Button,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import NextLink from "next/link";
-import { MdOutlineDashboard } from "react-icons/md";
 import { PrimaryButton } from "@/components/Common";
 import { SecondaryButton } from "../Common/Button";
+import useCustomers from "@/hooks/useCustomers";
+import CustomSpinner from "../Common/Spinner";
+import CustomerPdf from "./ExportCustomer";
 
 const Customers = () => {
-    const tableData = [1, 2];
+    const { data, isLoading } = useCustomers();
+    const customerData = data?.data?.data;
+
+    // Pagination
+    const itemsPerPage = 10;
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const totalPages = Math.ceil(customerData?.length / itemsPerPage);
+
+    const handlePageChange = (selectedPage) => {
+        setCurrentPage(selectedPage);
+    };
+
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentCustomers = customerData?.length > 0 && customerData?.slice(startIndex, endIndex);
+
+
     return (
         <Box>
+            {isLoading && <CustomSpinner />}
             <Box>
                 <Flex align="center" justify="space-between" gap="20px">
                     <Box>
@@ -36,11 +50,7 @@ const Customers = () => {
                             A list of all Customers.
                         </Text>
                     </Box>
-                    <Flex
-                        align="center"
-                        gap="10px"
-                        flexWrap={["wrap", "nowrap"]}
-                    >
+                    <Flex align="center" gap="10px" flexWrap={["wrap", "nowrap"]}>
                         <PrimaryButton text="Download PDF" />
                         <SecondaryButton text="Export as DOCX" />
                     </Flex>
@@ -70,47 +80,50 @@ const Customers = () => {
                                     <Th bgColor="shades_9" py="20px">
                                         Phone number
                                     </Th>
-
                                     <Th bgColor="shades_9" py="20px">
                                         Email{" "}
-                                    </Th>
-
-                                    <Th
-                                        borderTopRightRadius={"16px"}
-                                        bgColor="shades_9"
-                                        py="20px"
-                                    >
-                                        Address
                                     </Th>
                                 </Tr>
                             </Thead>
                             <Tbody bgColor="white">
-                                {tableData.length > 0 ? (
-                                    <Tr>
-                                        <Td maxW="100px">1</Td>
-                                        <Td>Salaudeen Shina</Td>
-                                        <Td>07030075660</Td>
-                                        <Td>Oshyne14@gmail.com</Td>
-                                        <Td>Basin Rd. Ilorin</Td>
-                                    </Tr>
+                                {currentCustomers?.length > 0 ? (
+                                    currentCustomers?.map((customer, index) => (
+                                        <Tr key={customer.id}>
+                                            <Td maxW="100px">{index + 1}</Td>
+                                            <Td>{`${customer.firstName} ${customer.lastName}`}</Td>
+                                            <Td>{customer.phone}</Td>
+                                            <Td>{customer.email}</Td>
+                                        </Tr>
+                                    ))
                                 ) : (
-                                    ""
+                                    <Tr>
+                                        <Td colSpan="4" textAlign="center">
+                                            No records found
+                                        </Td>
+                                    </Tr>
                                 )}
                             </Tbody>
                         </Table>
                     </TableContainer>
-                    {tableData.length <= 0 ? (
-                        <Flex
-                            px={["17px", "27px", "47px"]}
-                            bgColor="white"
-                            py="24px"
-                            align="center"
-                            justify="center"
-                        >
-                            <Text>No record found</Text>
+                    {totalPages > 1 && (
+                        <Flex mt="20px" justify="center" alignItems={"center"} textAlign={"center"} justifyContent={"center"}>
+                            <Button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={currentPage === 1}
+                                mr="10px"
+                            >
+                                Previous
+                            </Button>
+                            <Text mx="10px">{currentPage}</Text>
+                            <Button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={currentPage === totalPages}
+                                ml="10px"
+                                cursor={currentPage === totalPages ? "not-allowed" : "pointer"}
+                            >
+                                Next
+                            </Button>
                         </Flex>
-                    ) : (
-                        ""
                     )}
                 </Box>
             </Box>
