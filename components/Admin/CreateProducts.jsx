@@ -27,8 +27,8 @@ const CreateProducts = ({ setActivePage }) => {
     const queryClient = useQueryClient()
 
     const { mutate, isPending } = useMutation({
-        mutationFn: (product) => {
-            return client.post("/store/products/", product);
+        mutationFn: (products) => {
+            return client.post("/store/products/", products);
         },
         onSuccess: ({ data }) => {
             if (data) {
@@ -37,7 +37,7 @@ const CreateProducts = ({ setActivePage }) => {
                     theme: "dark",
                 });
             }
-            queryClient.invalidateQueries({ queryKey: ["product"] });
+            queryClient.invalidateQueries({ queryKey: ["products"] });
         },
         onError: (error) => {
             if (error.response) {

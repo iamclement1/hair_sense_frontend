@@ -15,7 +15,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
 
     const router = useRouter();
 
-    const { addressDetails, deliveryMethod, user, isLoading, setIsLoading } =
+    const { addressDetails, deliveryMethod, user, loading, setLoading } =
         useContext(StateContext);
 
     const cartItems = JSON.parse(sessionStorage.getItem("cart"));
@@ -53,7 +53,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
 
     //handle checkout payment button with paystack
     const sendCheckoutDetails = async () => {
-        setIsLoading(true);
+        setLoading(true);
 
 
         await axios
@@ -71,16 +71,16 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                         "Successful... You will now been Redirected to the payment page"
                     );
 
-                    setIsLoading(false);
+                    setLoading(false);
                     router.push(`${response?.data?.data?.url}`);
                 }
             })
             .catch((error) => {
 
-                setIsLoading(false);
+                setLoading(false);
 
                 toast.error(error.message);
-            }).finally(() => setIsLoading(false))
+            }).finally(() => setLoading(false))
     };
 
     return (
@@ -158,7 +158,7 @@ const PaymentMethod = ({ handleCheckOutStep }) => {
                             text="Make Payment"
                             w="100%"
                             handleButton={sendCheckoutDetails}
-                            isLoading={isLoading}
+                            isLoading={loading}
                         />
                     </Box>
                 </Box>
