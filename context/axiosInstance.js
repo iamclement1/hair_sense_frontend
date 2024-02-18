@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-import { getStorageAuthItems, refreshToken } from '@/config/apis';
+import { getStorageAuthItems } from '@/config/apis';
+
+const { refreshToken } = getStorageAuthItems();
 
 const client = axios.create({
   baseURL: `${process.env.NEXT_PUBLIC_BASE_URL}`,
