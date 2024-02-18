@@ -31,7 +31,7 @@ const CheckoutPage = () => {
             toast.error("Cart is empty, You can't be here!!!");
             router.push("/");
         }
-    }, []);
+    }, [router]);
 
 
     switch (checkOutStep) {

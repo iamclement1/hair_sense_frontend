@@ -14,11 +14,11 @@ import { toast } from "react-hot-toast";
 
 const ContactForm = () => {
 
-    const { isLoading, setIsLoading } = useContext(StateContext);
+    const { loading, setLoading } = useContext(StateContext);
     const router = useRouter()
 
     const submitContactForm = async (values) => {
-        setIsLoading(true);
+        setLoading(true);
         const formData = {
             fullName: values.full_name,
             email: values.email,
@@ -31,14 +31,14 @@ const ContactForm = () => {
             const response = await client.post('/contact', formData);
             const data = await response.data;
             if (data?.status === 200) {
-                setIsLoading(false)
+                setLoading(false)
                 const message = data?.data;
                 console.log(message)
                 toast.success(message);
                 router.push("/")
             }
         } catch (error) {
-            setIsLoading(false);
+            setLoading(false);
             console.log(error.response)
             if (error.response) {
                 const errorMessage = error.response.data.data;
@@ -137,7 +137,7 @@ const ContactForm = () => {
                             text="Submit"
                             type="submit"
                             maxW="300px"
-                            isLoading={isLoading}
+                            isLoading={loading}
                         />
                     </Box>
                 </form>
