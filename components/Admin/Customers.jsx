@@ -16,7 +16,6 @@ import { PrimaryButton } from "@/components/Common";
 import { SecondaryButton } from "../Common/Button";
 import useCustomers from "@/hooks/useCustomers";
 import CustomSpinner from "../Common/Spinner";
-import CustomerPdf from "./ExportCustomer";
 
 const Customers = () => {
     const { data, isLoading } = useCustomers();
