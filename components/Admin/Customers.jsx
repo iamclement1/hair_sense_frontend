@@ -19,7 +19,6 @@ import CustomSpinner from "../Common/Spinner";
 
 const Customers = () => {
     const { data, isLoading } = useCustomers();
-    console.log(data)
     const customerData = data?.data?.data;
 
     // Pagination
