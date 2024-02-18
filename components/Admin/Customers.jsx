@@ -19,6 +19,7 @@ import CustomSpinner from "../Common/Spinner";
 
 const Customers = () => {
     const { data, isLoading } = useCustomers();
+    console.log(data)
     const customerData = data?.data?.data;
 
     // Pagination
@@ -33,7 +34,7 @@ const Customers = () => {
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentCustomers = customerData?.length > 0 && customerData?.slice(startIndex, endIndex);
+    const currentCustomers = customerData && customerData?.length > 0 && customerData?.slice(startIndex, endIndex);
 
 
     return (
