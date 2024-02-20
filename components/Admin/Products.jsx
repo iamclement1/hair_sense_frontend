@@ -83,7 +83,7 @@ const Products = () => {
                     Authorization: `Bearer ${user}`,
                 },
             });
-            console.log("Delete response:", response);
+            // console.log("Delete response:", response);
             if (response.status === 200) {
                 setDeleting(false);
                 window.location.reload();
@@ -91,7 +91,7 @@ const Products = () => {
             }
         } catch (error) {
             setDeleting(false);
-            console.log(error.response)
+            // console.log(error.response)
             if (error.response) {
                 const errorMessage = error.response.data.data;
                 toast.error(errorMessage);
