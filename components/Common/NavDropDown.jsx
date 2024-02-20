@@ -14,7 +14,8 @@ import {
 import React from "react";
 import NextLink from "next/link";
 import { FaChevronDown } from "react-icons/fa";
-import { categories } from "@/utils/NavbarData";
+// import { categories } from "@/utils/NavbarData";
+import useCategory from "@/hooks/useCategory";
 
 const NavDropDown = () => {
     return (
@@ -26,7 +27,12 @@ const NavDropDown = () => {
 
 export default NavDropDown;
 
+
 const DesktopMenu = () => {
+
+    const { data } = useCategory();
+    const categories = (data?.data?.data)
+    console.log(categories)
     return (
         <Flex
             align={"center"}
@@ -34,13 +40,13 @@ const DesktopMenu = () => {
             pb="20px"
             display={["none", null, null, "flex"]}
         >
-            {categories.map((item, i) => {
+            {categories?.map((item, i) => {
                 return (
                     <Box key={i}>
                         <Menu placement="bottom-end">
                             <MenuButton color={"accent_1"}>
                                 <Flex align={"center"} gap="10px">
-                                    <Text color={"accent_2"}>{item.text} </Text>
+                                    <Text color={"accent_2"}>{item.name} </Text>
                                     <Icon
                                         as={FaChevronDown}
                                         boxSize={"12px"}
@@ -59,43 +65,42 @@ const DesktopMenu = () => {
                                         fontSize={"20px"}
                                         mb="10px"
                                     >
-                                        {item.category}
+                                        {item.name}
                                     </Text>
                                     <SimpleGrid spacingX={"12px"}>
-                                        {item &&
-                                            item.children.map((subItem, i) => {
-                                                const lowNav =
-                                                    subItem.toLowerCase();
-                                                return (
-                                                    <Box
-                                                        key={i}
-                                                        as={MenuItem}
-                                                        _hover={{
-                                                            bgColor:
-                                                                "transparent",
-                                                        }}
-                                                        _focus={{
-                                                            bgColor:
-                                                                "transparent",
-                                                        }}
-                                                        _active={{
-                                                            bgColor:
-                                                                "transparent",
-                                                        }}
+                                        {categories?.subcategories?.map((subItem, i) => {
+                                            const lowNav =
+                                                subItem.toLowerCase();
+                                            return (
+                                                <Box
+                                                    key={subItem?.id}
+                                                    as={MenuItem}
+                                                    _hover={{
+                                                        bgColor:
+                                                            "transparent",
+                                                    }}
+                                                    _focus={{
+                                                        bgColor:
+                                                            "transparent",
+                                                    }}
+                                                    _active={{
+                                                        bgColor:
+                                                            "transparent",
+                                                    }}
+                                                >
+                                                    <Link
+                                                        h="100%"
+                                                        w="100%"
+                                                        display={"block"}
+                                                        as={NextLink}
+                                                        href={`/categories/${lowNav}`}
+                                                        color={"accent_2"}
                                                     >
-                                                        <Link
-                                                            h="100%"
-                                                            w="100%"
-                                                            display={"block"}
-                                                            as={NextLink}
-                                                            href={`/categories/${lowNav}`}
-                                                            color={"accent_2"}
-                                                        >
-                                                            {subItem}
-                                                        </Link>
-                                                    </Box>
-                                                );
-                                            })}
+                                                        {subItem.name}
+                                                    </Link>
+                                                </Box>
+                                            );
+                                        })}
                                     </SimpleGrid>
                                 </Box>
                             </MenuList>

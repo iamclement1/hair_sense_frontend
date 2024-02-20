@@ -103,24 +103,23 @@ const NavItem = ({ navData, onOpen, onClose }) => {
 
             <Collapse in={isOpen}>
                 <Box>
-                    {navData &&
-                        navData.children.map((item, i) => {
-                            const lowNav = item.toLowerCase();
+                    {navData?.children?.map((item, i) => {
+                        const lowNav = item.toLowerCase();
 
-                            return (
-                                <Link
-                                    href={`/categories/${lowNav}`}
-                                    key={i}
-                                    mb="16px"
-                                    cursor={"pointer"}
-                                    display={"block"}
-                                    onClick={onClose}
-                                    as={NextLink}
-                                >
-                                    <p>{item}</p>
-                                </Link>
-                            );
-                        })}
+                        return (
+                            <Link
+                                href={`/categories/${lowNav}`}
+                                key={i}
+                                mb="16px"
+                                cursor={"pointer"}
+                                display={"block"}
+                                onClick={onClose}
+                                as={NextLink}
+                            >
+                                <p>{item}</p>
+                            </Link>
+                        );
+                    })}
                 </Box>
             </Collapse>
         </Box>
