@@ -8,7 +8,7 @@ const useCustomers = () => {
   };
 
   const { isLoading, error, data } = useQuery({
-    queryKey: ["products"],
+    queryKey: ["customers"],
     queryFn: fetchCustomers,
     staleTime: 300000,
   });
