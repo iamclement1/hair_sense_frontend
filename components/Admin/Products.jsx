@@ -91,7 +91,7 @@ const Products = () => {
             }
         } catch (error) {
             setDeleting(false);
-            console.log(error.response)
+            // console.log(error.response)
             if (error.response) {
                 const errorMessage = error.response.data.data;
                 toast.error(errorMessage);
