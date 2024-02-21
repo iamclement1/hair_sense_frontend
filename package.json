@@ -3,9 +3,9 @@
    "version": "0.1.0",
    "private": true,
    "scripts": {
-      "dev": "ENVIRONMENT=production next dev",
+      "dev": "next dev -p 3949 ",
       "build": "ENVIRONMENT=production next build",
-      "start": "next start",
+      "start": "next start -p 3949",
       "lint": "next lint",
       "prepare": "cd .. && husky install [child-folder]/.husky"
    },
