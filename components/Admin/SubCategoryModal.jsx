@@ -14,6 +14,9 @@ import React from "react";
 import { FaTimes } from "react-icons/fa";
 import { MdAdd } from "react-icons/md";
 import SubCategoryBox from "./SubCategoryBox";
+import useSubCategoryById from "@/hooks/useSubCategoryById";
+import CustomSpinner from "../Common/Spinner";
+import useCategory from "@/hooks/useCategory";
 
 const SubCategoryModal = ({
     data,
@@ -22,9 +25,16 @@ const SubCategoryModal = ({
     isOpen,
     onOpenAddSubCategory,
 }) => {
+
+    const { isLoading, data: subcategorybyid } = useSubCategoryById(data?.id);
+
+    const subCatById = subcategorybyid?.data?.data?.subcategories
+
+    if (isLoading) return <CustomSpinner />
+
     return (
         <Box>
-            <Modal isOpen={isOpen} onClose={onClose} size="xl">
+            <Modal isOpen={isOpen} onClose={onClose} size="xl" >
                 <ModalOverlay />
                 <ModalContent
                     bgColor={"white"}
@@ -48,32 +58,47 @@ const SubCategoryModal = ({
                     </Flex>
                     <Divider mt="8px" />
                     <Box minH="60vh">
+                        {subCatById?.length > 0 ? (
+                            <Box>
+                                {subCatById?.map((item) => (
+                                    <Text key={item?.id} fontSize={{ base: "14px", md: "16px", xl: "18px" }}>
+                                        {item?.name}
+                                    </Text>
+                                ))}
+                            </Box>
+                        ) : (
+                            <Text>No Sub Category for this Category was found</Text>
+                        )}
+                    </Box>
+
+
+                    <Box>
+
+
                         {!true ? (
-                            <>
-                                {dummySubItem.map((item, i) => {
-                                    return (
-                                        <SubCategoryBox data={item} key={i} />
-                                    );
-                                })}
-                            </>
+                            <SubCategoryBox data={item} key={item.id} />
                         ) : (
                             // If we have no subcategory
-                            <Flex
-                                align={"center"}
-                                mt="20px"
-                                color="primary_1"
-                                cursor={"pointer"}
-                                maxW={"fit-content"}
-                                fontSize={"14px"}
-                                gap="5px"
-                                onClick={() => {
-                                    onClose();
-                                    onOpenAddSubCategory();
-                                }}
-                            >
-                                <Icon as={MdAdd} boxSize={"20px"} />
-                                <Text>Add Sub categories</Text>
-                            </Flex>
+                            <Box>
+                                <Divider mt="8px" />
+
+                                <Flex
+                                    align={"center"}
+                                    mt="20px"
+                                    color="primary_1"
+                                    cursor={"pointer"}
+                                    maxW={"fit-content"}
+                                    fontSize={"14px"}
+                                    gap="5px"
+                                    onClick={() => {
+                                        onClose();
+                                        onOpenAddSubCategory();
+                                    }}
+                                >
+                                    <Icon as={MdAdd} boxSize={"20px"} />
+                                    <Text>Add Sub categories</Text>
+                                </Flex>
+                            </Box>
                         )}
                     </Box>
                 </ModalContent>
@@ -84,11 +109,3 @@ const SubCategoryModal = ({
 
 export default SubCategoryModal;
 
-const dummySubItem = [
-    { name: "Shampoo", id: "1223" },
-    { name: "Hair cream", id: "1253" },
-    { name: "Detanglers", id: "253" },
-    { name: "Styling Pomades", id: "253" },
-    { name: "Sprays", id: "253" },
-    { name: "Hair Tonic", id: "253" },
-];

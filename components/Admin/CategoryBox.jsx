@@ -6,7 +6,7 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 import {
     MdAddCircleOutline,
 } from "react-icons/md";
@@ -16,8 +16,7 @@ import SubCategoryModal from "./SubCategoryModal";
 import CreateSubCategoryModal from "./CreateSubCategoryModal";
 
 const CategoryBox = ({ data }) => {
-    const [name, setName] = useState(data?.name);
-    const [id, setId] = useState(data?.id);
+
     const {
         isOpen: isOpenSubCategory,
         onOpen: onOpenSubCategory,
@@ -48,7 +47,7 @@ const CategoryBox = ({ data }) => {
                 gap="20px"
             >
                 <Text fontSize={["18px"]} fontWeight="500">
-                    {name}
+                    {data?.name}
                 </Text>
 
                 <Flex gap="20px">
@@ -77,8 +76,8 @@ const CategoryBox = ({ data }) => {
             />
             {/* Create Sub category modal */}
             <CreateSubCategoryModal
-                Categoryname={name}
-                Categoryid={id}
+                Categoryname={data?.name}
+                Categoryid={data?.id}
                 isOpen={isOpenAddSubCategory}
                 onOpen={onOpenAddSubCategory}
                 onClose={onCloseAddSubCategory}
