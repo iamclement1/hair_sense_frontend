@@ -19,7 +19,6 @@ import { IoCheckmarkOutline } from "react-icons/io5";
 import { HiXMark } from "react-icons/hi2";
 
 const SubCategoryBox = ({ data }) => {
-
     const [edit, setEdit] = useState(false);
     const [name, setName] = useState(data && data.name);
     const closeEdit = () => {
@@ -33,7 +32,7 @@ const SubCategoryBox = ({ data }) => {
         setName(e.target.value);
     };
     const acceptEdit = () => {
-        
+
         setEdit(false);
     };
     return (
