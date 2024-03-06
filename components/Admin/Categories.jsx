@@ -5,12 +5,11 @@ import {
     Text,
     useDisclosure,
 } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React from "react";
 import { PrimaryButton } from "../Common";
 import CategoryBox from "./CategoryBox";
 import NewSubModal from "./NewSubModal";
 import CustomSpinner from "../Common/Spinner";
-import { StateContext } from "@/context/StateProvider";
 import useCategory from "@/hooks/useCategory";
 
 const Categories = () => {
