@@ -4,26 +4,22 @@ import { Layout, ScreenSize } from "@/components/layouts";
 import { Box } from "@chakra-ui/react";
 import Category from "@/My-pages/Category";
 import useSubcategoryByIndex from "@/hooks/useCategoryByIndex";
+import CustomSpinner from "@/components/Common/Spinner";
 
 const SingleCategory = () => {
     const router = useRouter();
     const { index } = router.query;
-    const [categoryName, setCategoryName] = useState(null);
-    const { data: categoryData, isLoading } = useSubcategoryByIndex(index);
-    console.log(categoryData);
 
-    useEffect(() => {
-        if (!isLoading && categoryData) {
-            // Extract the category name from the categoryData object
-            setCategoryName(categoryData.data.name);
-        }
-    }, [isLoading, categoryData]);
+    const { data: categoryData, isLoading } = useSubcategoryByIndex(index);
+    if (isLoading) return <CustomSpinner />
+    const subCatNames = categoryData?.data?.data
+    const subCat = (categoryData?.data?.data);
 
     return (
         <Box>
-            <Layout title={`Category || ${categoryName}`}>
+            <Layout title={`Category || ${subCatNames?.name}`}>
                 <ScreenSize>
-                    <Category data={index} />
+                    <Category data={subCat} subCategoryName={subCatNames?.name} />
                 </ScreenSize>
             </Layout>
         </Box>

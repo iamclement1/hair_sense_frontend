@@ -3,7 +3,7 @@ import client from "@/context/axiosInstance";
 
 const useSubcategoryByIndex = (id: string) => {
   const fetchSubCategoryById = async () => {
-    const data = await client.get(`/store/sub_category/${id}`);
+    const data = await client.get(`/store/sub_categories/${id}`);
     return data;
   };
 
