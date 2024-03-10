@@ -30,8 +30,10 @@ export default NavDropDown;
 
 const DesktopMenu = () => {
 
-    const { data } = useCategory();
+    const { isLoading, data } = useCategory();
     const categories = data?.data?.data;
+
+    if (isLoading) return <CustomSpinner />
 
     return (
         <Flex

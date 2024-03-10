@@ -5,23 +5,18 @@ import {
     Icon,
     Text,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Slider from "react-slick";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
 import ScreenSize from "../layouts/ScreenSize";
 import ProductBox from "./ProductBox";
-import { StateContext } from "@/context/StateProvider";
-import { baseUrl } from "@/http-request/http-request";
-import axios from "axios";
-import useProducts from "@/hooks/useProducts";
-import CustomSpinner from "./Spinner";
-
 const ProductSlider = ({
     section,
     productDatas,
     type = "default",
     children,
 }) => {
+
     const NextArrow = (props) => {
         const { onClick } = props;
         return (
@@ -93,13 +88,9 @@ const ProductSlider = ({
             },
         ],
     };
-    const { products, setProducts } = useContext(StateContext);
 
     const sliderRef = useRef(null);
     //product data
-    const { isLoading, data } = useProducts();
-    const product = (data?.data?.data)
-    setProducts(product);
 
     const handleProduct = (id) => {
         // alert("Product Id === ", id);
@@ -145,14 +136,12 @@ const ProductSlider = ({
             )}
 
             {/*  Header for product slider which type is === "others"  */}
-            {/*  */}
-            {isLoading && <CustomSpinner />}
             <Box>
                 {!productDatas ? (
                     <Text fontSize={'24px'} fontWeight={500}> Products not Available </Text>
                 ) : (
                     <Slider {...settings} ref={sliderRef}>
-                        {products?.map((product) => {
+                        {productDatas?.map((product) => {
                             product.quantity = 1;
                             return (
                                 <ProductBox
