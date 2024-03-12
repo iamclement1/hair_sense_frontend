@@ -170,6 +170,9 @@ const Login = ({ handleCurrentForm, onClose }) => {
             } else if (role === "admin") {
                 setLoading(false);
                 handleAdminLogin(access, refresh);
+            } else if (role === "superadmin") {
+                setLoading(false);
+                handleSuperAdminLogin(access, refresh);
             }
         } catch (error) {
             setLoading(false);
@@ -198,9 +201,18 @@ const Login = ({ handleCurrentForm, onClose }) => {
         setAccessTokenSessionStorage(access, refresh);
         sessionStorage.setItem("role", "admin");
         setUser(access);
-        toast.success("Admin login successful...");
+        toast.success("Login successful...");
         onClose();
         router.push("/admin");
+    };
+
+    const handleSuperAdminLogin = (access, refresh) => {
+        setAccessTokenSessionStorage(access, refresh);
+        sessionStorage.setItem("role", "superadmin");
+        setUser(access);
+        toast.success("Login successful...");
+        onClose();
+        router.push("/chief-user");
     };
 
 
