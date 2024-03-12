@@ -1,9 +1,5 @@
-import AdminLayout from "@/components/layouts/AdminLayout";
-import { Box, Flex, Image, Link, Icon, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
-import NextLink from "next/link";
-import { MdOutlineDashboard } from "react-icons/md";
-import { PrimaryButton } from "@/components/Common";
+import { Box, Text } from "@chakra-ui/react";
+import React from "react";
 
 const Dashboard = () => {
     return (
