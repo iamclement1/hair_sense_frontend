@@ -161,7 +161,6 @@ const Login = ({ handleCurrentForm, onClose }) => {
 
         try {
             const response = await client.post(`/accounts/sign_in/`, formData);
-            console.log(response)
             const { access, refresh, role } = response.data.data;
 
             if (role === "client") {
