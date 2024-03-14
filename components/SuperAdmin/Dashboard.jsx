@@ -1,15 +1,28 @@
+import useSuperDashboard from "@/hooks/useSuperDashboard";
 import { Box, SimpleGrid, Text, Flex } from "@chakra-ui/react";
 import React from "react";
+import CustomSpinner from "../Common/Spinner";
+import { toast } from "react-toastify";
 
 const SuperDashboard = () => {
+
+    const { isLoading, error, data } = useSuperDashboard();
+
+    if (isLoading) return <CustomSpinner />
+
+    if (error) return toast.error("Unable to fetch data at the moment, Please contact support!")
+
+    const superRecord = (data?.data?.data?.data);
+
+
     const superAdminData = [
-        { id: 1, label: "Total Orders", status: "(Today)", value: "124" },
-        { id: 2, label: "Total Sales", status: "(Today)", value: "89,000" },
+        { id: 1, label: "Total Orders", status: "(Today)", value: superRecord?.totalOrders },
+        { id: 2, label: "Total Sales", status: "(Today)", value: superRecord?.totalAmount },
         {
             id: 3,
             label: "Total Products",
             status: "(In Stock)",
-            value: "1,200",
+            value: superRecord?.totalProducts,
         },
     ];
 
@@ -27,7 +40,7 @@ const SuperDashboard = () => {
                                 rounded="1rem"
                                 align="center"
                                 justify="center"
-                                // maxW={["100%", "25rem"]}
+                            // maxW={["100%", "25rem"]}
                             >
                                 <Box textAlign={"center"}>
                                     <Text fontSize="1.25rem" fontWeight="600">
