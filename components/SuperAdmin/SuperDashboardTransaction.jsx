@@ -2,8 +2,22 @@ import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import CustomTable from "./Tables/CustomTable";
+import useTransactions from "@/hooks/useTransactions";
+import CustomSpinner from "../Common/Spinner";
+import { toast } from "react-toastify";
 
 const SuperDashboardTransaction = () => {
+
+    const { isLoading, data: transData, error } = useTransactions();
+
+    if (isLoading) return <CustomSpinner />
+
+    if (error) {
+        return toast.error("We couldn't fetch data, please contact support!")
+
+    }
+
+    console.log(transData)
     const columns = [
         { id: "s/n", Header: "S/N", accessor: (row) => row.id },
         { id: "customer", Header: "Customer", accessor: (row) => row.customer },

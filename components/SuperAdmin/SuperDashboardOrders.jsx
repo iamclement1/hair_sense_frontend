@@ -2,77 +2,35 @@ import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import CustomTable from "./Tables/CustomTable";
+import CustomSpinner from "../Common/Spinner";
+import useOrder from "@/hooks/useOrder";
 
 const SuperDashboardOrders = () => {
+
+    const { data: orderData, isLoading } = useOrder();
+
+    if (isLoading) return <CustomSpinner />
+
+    // console.log(orderData?.data?.data)
+    const orders = orderData?.data?.data
     const columns = [
-        { id: "s/n", Header: "S/N", accessor: (row) => row.id },
-        { id: "customer", Header: "Customer", accessor: (row) => row.customer },
+        // { id: "s/n", Header: "S/N", accessor: (row) => row.id },
+        { id: "customer", Header: "Customer", accessor: (row) => `${row.firstName} ${row.lastName}` },
         { id: "order_no", Header: "Order no", accessor: (row) => row.order_no },
-        { id: "price", Header: "Price", accessor: (row) => row.price },
-        { id: "payment", Header: "Payment", accessor: (row) => row.payment },
+        {
+            id: "price",
+            Header: "Price",
+            accessor: (row) => {
+                // Calculate total price based on products in the products array
+                const totalPrice = row.products.reduce((acc, product) => acc + product.amount, 0);
+                return totalPrice;
+            }
+        },
+        { id: "payment", Header: "Payment", accessor: (row) => row.method },
         {
             id: "status",
             Header: "Status",
-            accessor: (row) => <Text color="accent_3">{row.customer}</Text>,
-        },
-    ];
-
-    const data = [
-        {
-            id: 1,
-            customer: "John Doe",
-            order_no: "Hs001b001",
-            price: "6,300",
-            payment: "On the app",
-            status: "Order placed",
-        },
-        {
-            id: 2,
-            customer: "John Doe",
-            order_no: "Hs001b001",
-            price: "6,300",
-            payment: "On the app",
-            status: "Order placed",
-        },
-        {
-            id: 3,
-            customer: "John Doe",
-            order_no: "Hs001b001",
-            price: "6,300",
-            payment: "On the app",
-            status: "Order placed",
-        },
-        {
-            id: 4,
-            customer: "John Doe",
-            order_no: "Hs001b001",
-            price: "6,300",
-            payment: "On the app",
-            status: "Order placed",
-        },
-        {
-            id: 5,
-            customer: "John Doe",
-            order_no: "Hs001b001",
-            price: "6,300",
-            payment: "On the app",
-            status: "Order placed",
-        },
-        {
-            id: 6,
-            customer: "John Doe",
-            order_no: "Hs001b001",
-            price: "6,300",
-            payment: "On the app",
-            status: "Order placed",
-        },
-        {
-            id: 7,
-            customer: "John Doe",
-            order_no: "Hs001b001",
-            price: "6,300",
-            payment: "On the app",
-            status: "Order placed",
+            accessor: (row) => <Text color="accent_3">{row.payment}</Text>,
         },
     ];
 
@@ -123,7 +81,7 @@ const SuperDashboardOrders = () => {
                 <Text fontSize="20px">A list of all Orders.</Text>
 
                 <Box mt="2.5rem">
-                    <CustomTable data={data} columns={columns} />
+                    <CustomTable data={orders} columns={columns} />
                 </Box>
             </Box>
         </Box>
