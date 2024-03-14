@@ -11,7 +11,12 @@ import {
     Button,
     Text,
     Select,
+    Flex,
+    Icon,
+    IconButton,
 } from "@chakra-ui/react";
+import { FaAddressBook, FaChevronLeft } from "react-icons/fa";
+import CustomPagination from "./CustomPagination";
 
 const CustomTable = ({ data, columns }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -43,6 +48,7 @@ const CustomTable = ({ data, columns }) => {
         (currentPage - 1) * rowsPerPage,
         currentPage * rowsPerPage
     );
+    const totalPages = Math.ceil(data.length / rowsPerPage);
 
     return (
         <Box>
@@ -97,31 +103,17 @@ const CustomTable = ({ data, columns }) => {
                     </Tbody>
                 </Table>
             </Box>
-            <Box
-                mt="2.5rem"
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                // mt={4}
-            >
-                <Button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    isDisabled={currentPage === 1}
-                >
-                    Previous Page
-                </Button>
-                <Text mx={2}>
-                    Page {currentPage} of {Math.ceil(data.length / rowsPerPage)}
-                </Text>
-                <Button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    isDisabled={
-                        currentPage === Math.ceil(data.length / rowsPerPage)
-                    }
-                >
-                    Next Page
-                </Button>
-            </Box>
+
+            {/* Pagination code  */}
+
+            <Flex align="center" justify={"center"} mt="2.5rem">
+                <CustomPagination
+                    rowsPerPage={rowsPerPage}
+                    handlePageChange={handlePageChange}
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                />
+            </Flex>
         </Box>
     );
 };
