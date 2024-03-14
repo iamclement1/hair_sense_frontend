@@ -15,34 +15,34 @@ const SuperDashboard = () => {
 
     return (
         <Box>
-            <Box>
-                <SimpleGrid spacing={"36px"} columns={[1, 2, null, 3]}>
+            <Box mt="3.125rem">
+                <SimpleGrid spacing={"2.25rem"} columns={[1, 2, null, 3]}>
                     {superAdminData?.map((item) => {
                         return (
                             <Flex
                                 key={item?.id}
                                 w="100%"
-                                py="50px"
+                                py="3.125rem"
                                 bgColor={"white"}
-                                rounded="16px"
+                                rounded="1rem"
                                 align="center"
                                 justify="center"
-                                // maxW={["100%", "400px"]}
+                                // maxW={["100%", "25rem"]}
                             >
                                 <Box textAlign={"center"}>
-                                    <Text fontSize="20px" fontWeight="600">
+                                    <Text fontSize="1.25rem" fontWeight="600">
                                         {item?.label}
                                     </Text>
                                     <Text
-                                        fontSize="16px"
+                                        fontSize="1rem"
                                         fontWeight="400"
-                                        mt="4px"
+                                        mt="0.25rem"
                                         color="primary_1"
                                     >
                                         {item?.status}
                                     </Text>
                                     <Text
-                                        fontSize="48px"
+                                        fontSize="3rem"
                                         fontWeight="600"
                                         mt="1rem"
                                         color="primary_1"
