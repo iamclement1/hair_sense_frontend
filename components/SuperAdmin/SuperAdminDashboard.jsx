@@ -28,6 +28,7 @@ import { HiChevronDown } from "react-icons/hi2";
 import { FiMenu } from "react-icons/fi";
 import SuperDashboard from "./Dashboard";
 import SuperDashboardOrders from "./SuperDashboardOrders";
+import SuperDashboardTransaction from "./SuperDashboardTransaction";
 
 const navData = [
     {
@@ -81,6 +82,8 @@ export default function SuperAdminDashboard() {
                 return <SuperDashboard />;
             case 2:
                 return <SuperDashboardOrders />;
+            case 3:
+                return <SuperDashboardTransaction />;
 
             default:
                 return null;
@@ -118,7 +121,7 @@ export default function SuperAdminDashboard() {
                 setActivePage={setActivePage}
                 activePage={activePage}
             />
-            <Box ml={{ base: 0, md: 60 }} p="4" maxW={"1500px"}>
+            <Box ml={{ base: 0, md: 60 }} p="4" maxW={"1500px"} pb="5rem">
                 {renderPageContent()}
             </Box>
         </Box>
@@ -252,7 +255,7 @@ const MobileNav = ({ onOpen, setActivePage, activePage, ...rest }) => {
                 <Menu>
                     <MenuButton
                         as={"flex"}
-                        alignContent={"center"}
+                        // alignContent={"center"}
                         fontWeight="bold"
                         w="fit-content"
                     >
