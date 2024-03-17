@@ -1,45 +1,37 @@
 import { PrimaryButton } from "@/components/Common";
 import CustomInput from "@/components/Common/CustomInput";
-import { StateContext } from "@/context/StateProvider";
-import {
-    baseUrl,
-    httpGet,
-    httpPost,
-    httpPut,
-} from "@/http-request/http-request";
+import client from "@/context/axiosInstance";
+import useCategory from "@/hooks/useCategory";
+import useSubCategoryById from "@/hooks/useSubCategoryById";
 import {
     Box,
     Flex,
-    Button,
     Divider,
     Icon,
     Text,
     Image,
     Textarea,
-    FormErrorMessage,
     FormLabel,
-    FormControl,
     Select,
     Input,
     Modal,
-    ModalBody,
-    ModalCloseButton,
     ModalContent,
     ModalOverlay,
 } from "@chakra-ui/react";
-import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ErrorMessage, Field, Formik } from "formik";
-import Cookies from "js-cookie";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaTimes } from "react-icons/fa";
-const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
-    const [subCat, setSubCat] = useState([]);
-    const { user } = useContext(StateContext);
+const EditProduct = ({ onOpen, onClose, isOpen, data, setActivePage }) => {
 
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [selectedSubCat, setSelectedSubCat] = useState([]);
-    const [loading, setLoading] = useState(false);
+    // const [isPending, setIsPending] = useState(false);
+    const { data: categoryData } = useCategory();
+    const { data: subCategoryData } = useSubCategoryById(selectedCategory)
+    let subCat = categoryData?.data?.data
+    const selectedSubCat = subCategoryData?.data?.data[0]?.subcategories;
+
     //check file type
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
 
@@ -64,104 +56,78 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
         setFile(null);
     };
 
+    const queryClient = useQueryClient();
 
-    useEffect(() => {
-        const fetchSubCategory = async () => {
-            await httpGet(`${baseUrl}/store/categories`, {
-                headers: {
-                    Authrization: `${user}`,
-                },
-            })
-                .then((response) => {
-                    const data = response.data.results;
-
-                    setSubCat(data);
-
-                })
-                .catch((error) => {
-
+    const { mutate, isPending } = useMutation({
+        mutationFn: (updatedProduct) => {
+            return client.patch(`/store/products/${data?.id}/`, updatedProduct);
+        },
+        onSuccess: ({ data }) => {
+            if (data) {
+                toast.success("Product updated successfully", {
+                    theme: "dark",
                 });
-        };
-
-        if (subCat?.length < 1) {
-            fetchSubCategory();
+                setActivePage(4)
+                onClose()
+            }
+            queryClient.invalidateQueries({ queryKey: ["products", data?.id] });
+        },
+        onError: (error) => {
+            if (error.response) {
+                const errorMessage = error.response.data;
+                toast.error(errorMessage);
+            }
         }
-    }, [user, subCat]);
-
-    // useeffect to handle Selected subcat
-    useEffect(() => {
-        subCat?.map((item) => {
-
-
-
-            item.id == selectedCategory
-                ? setSelectedSubCat(item.subcategory)
-                : ""
-        });
-    }, [selectedCategory]);
+    });
 
     const handleCategoryChange = (event, handleChange) => {
         handleChange(event); // Calling the handleChange function provided by Formik
         setSelectedCategory(event.target.value); // seting the id of the selected
     };
 
-    //TODO: HANDLE PRODUCT CREATION
     // submit form
     const handleEditProduct = async (values) => {
-        setLoading(true);
         const {
             name,
             subcategory,
             desc: desc,
             price: actualPrice,
-            sales_price: sales_price,
+            // sales_price: sales_price,
         } = values;
+
+        const price = parseFloat(actualPrice);
 
         const payload = new FormData();
         payload.append("name", name);
         payload.append("subcategory", subcategory);
         payload.append("desc", desc);
         // payload.append("second_description", second_description);
-        payload.append("sales_price", sales_price);
-        payload.append("actualPrice", actualPrice);
+        // payload.append("sales_price", sales_price);
+        payload.append("category", values.category);
+        payload.append("actualPrice", price);
 
         if (file) {
             payload.append("productImg", file);
-        } else {
-            if (data && data.productImg) {
-                try {
-                    const response = await axios.get(data.productImg, {
-                        responseType: "blob",
-                    });
-                    const imageBlob = response.data;
-                    const convertedFile = new File([imageBlob], "productImg");
-                    payload.append("productImg", convertedFile);
-                } catch (error) {
-
-                }
-            }
+        } else if (data?.productImg) {
+            payload.append("productImg", data.productImg);
         }
+        // await client
+        //     .patch(`${baseUrl}/store/products/${data?.id}/`, payload)
+        //     .then((response) => {
 
-        await axios
-            .put(`${baseUrl}/store/products/${data?.id}/`, payload, {
-                headers: {
-                    Authorization: `Bearer ${user}`,
-                },
-            })
-            .then((response) => {
+        //         if (response.status === 202) {
+        //             toast.success("Product updated successfully");
+        //             setActivePage(4);
+        //             onClose();
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         toast.error("Unable to update product");
+        //     });
 
-                if (response.status === 202) {
-                    toast.success("Product updated successfully");
-                    // setActivePage(4);
-                    onClose();
-                }
-            })
-            .catch((error) => {
+        mutate(payload)
 
-                toast.error("Unable to create product");
-            });
-
-        setLoading(false);
+        console.log(payload)
 
     };
 
@@ -205,10 +171,10 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                 if (!values.price) {
                                     errors.price = "Price is required";
                                 }
-                                if (!values.sales_price) {
-                                    errors.sales_price =
-                                        "Sales_price is required";
-                                }
+                                // if (!values.sales_price) {
+                                //     errors.sales_price =
+                                //         "Sales_price is required";
+                                // }
                                 if (!values.desc) {
                                     errors.des = "Description is required";
                                 }
@@ -502,14 +468,14 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                             touched={touched}
                                         />
 
-                                        <CustomInput
+                                        {/* <CustomInput
                                             label="Sales Price"
                                             name="sales_price"
                                             type="number"
                                             bgColor="white"
                                             errors={errors}
                                             touched={touched}
-                                        />
+                                        /> */}
                                     </Flex>
 
                                     {/* create new store  */}
@@ -517,7 +483,7 @@ const EditProduct = ({ onOpen, onClose, isOpen, data }) => {
                                         <PrimaryButton
                                             text="Continue"
                                             type="submit"
-                                            isLoading={loading}
+                                            isLoading={isPending}
                                             onClick={handleSubmit}
                                         />
                                     </Box>

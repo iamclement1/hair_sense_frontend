@@ -3,6 +3,7 @@ import CustomInput from "@/components/Common/CustomInput";
 import { StateContext } from "@/context/StateProvider";
 import client from "@/context/axiosInstance";
 import useCategory from "@/hooks/useCategory";
+import useSubCategoryById from "@/hooks/useSubCategoryById";
 import {
     Box,
     Flex,
@@ -49,7 +50,10 @@ const CreateProducts = ({ setActivePage }) => {
 
 
     const [selectedCategory, setSelectedCategory] = useState("");
-    const [selectedSubCat, setSelectedSubCat] = useState([]);
+    const { data: subCategoryData } = useSubCategoryById(selectedCategory)
+
+    const selectedSubCat = subCategoryData?.data?.data[0]?.subcategories;
+
     //check file type
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg"];
     const [file, setFile] = useState(null);
@@ -73,18 +77,9 @@ const CreateProducts = ({ setActivePage }) => {
     };
 
 
-    // useeffect to handle Selected subcat
-    useEffect(() => {
-        const selectedItem = subCat?.find((item) => item?.id === selectedCategory);
-        if (selectedItem) {
-            setSelectedSubCat(selectedItem.subcategories);
-        }
-    }, [selectedCategory, subCat]);
-
-
 
     const handleCategoryChange = (event, handleChange) => {
-        handleChange(event); // Calling the handleChange function provided by Formik
+        handleChange(event);
         setSelectedCategory(event.target.value); // seting the id of the selected
     };
 

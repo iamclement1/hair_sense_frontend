@@ -25,7 +25,7 @@ import CustomSpinner from "../Common/Spinner";
 import useProducts from "@/hooks/useProducts";
 import { useRouter } from "next/router";
 
-const Products = () => {
+const Products = ({ setActivePage }) => {
     const {
         isOpen: isOpenEdit,
         onOpen: onOpenEdit,
@@ -155,7 +155,7 @@ const Products = () => {
                 <TablePagination pageCount={totalPages} onPageChange={handlePageChange} />
             )}
 
-            <EditProduct isOpen={isOpenEdit} onOpen={onOpenEdit} onClose={onCloseEdit} data={editData} />
+            <EditProduct isOpen={isOpenEdit} onOpen={onOpenEdit} onClose={onCloseEdit} data={editData} setActivePage={setActivePage} />
         </>
     );
 };
