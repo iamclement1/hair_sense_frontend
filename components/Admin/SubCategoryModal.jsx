@@ -25,10 +25,10 @@ const SubCategoryModal = ({
     isOpen,
     onOpenAddSubCategory,
 }) => {
-
     const { isLoading, data: subcategorybyid } = useSubCategoryById(data?.id);
 
-    const subCatById = subcategorybyid?.data?.data?.subcategories
+    const subCatById = subcategorybyid?.data?.data[0]?.subcategories
+
 
     if (isLoading) return <CustomSpinner />
 
