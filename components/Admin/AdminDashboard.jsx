@@ -99,7 +99,7 @@ export default function AdminDashboard() {
             case 3:
                 return <CreateProducts setActivePage={setActivePage} />;
             case 4:
-                return <Products />;
+                return <Products setActivePage={setActivePage} />;
             case 5:
                 return <Orders />;
             case 6:
