@@ -7,7 +7,7 @@ const useDataErrorToast = (error, data, setActivePage) => {
   useEffect(() => {
     if ((error || !data) && !toastShown.current) {
       setActivePage(1);
-      toast.error("Unable to fetch data, Kindly contact support!");
+      toast.error("Sorry 😞, you don't have access. Kindly contact support!");
       toastShown.current = true;
     }
   }, [error, data, setActivePage]);
