@@ -1,15 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import client from "@/context/axiosInstance";
 
-const useTransactions = () => {
-  const fetchTransactions = async () => {
-    const data = await client.get("/transactions");
+const useProductById = (id: string) => {
+  const fetchProductById = async () => {
+    const data = await client.get(`/store/products/${id}`);
     return data;
   };
 
   const { isLoading, error, data } = useQuery({
-    queryKey: ["transactions"],
-    queryFn: fetchTransactions,
+    queryKey: ["products", id],
+    queryFn: fetchProductById,
     staleTime: 300000,
   });
 
@@ -20,4 +20,4 @@ const useTransactions = () => {
   };
 };
 
-export default useTransactions;
+export default useProductById;
