@@ -13,8 +13,9 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import CreateAdminForm from "./CreateAdminForm";
+import { toast } from "react-toastify";
 
-const CreateAdmin = () => {
+const CreateAdmin = ({ setActivePage }) => {
     const { isOpen, onClose, onOpen } = useDisclosure();
 
     return (
@@ -72,7 +73,7 @@ const CreateAdmin = () => {
                             rounded={"12px"}
                             px={["20px", null, "30px"]}
                         >
-                            <CreateAdminForm />
+                            <CreateAdminForm setActivePage={setActivePage} onClose={onClose} />
                         </Box>
                     </Box>
                 </ModalContent>
