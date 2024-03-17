@@ -5,10 +5,13 @@ import CustomTable from "./Tables/CustomTable";
 import useTransactions from "@/hooks/useTransactions";
 import CustomSpinner from "../Common/Spinner";
 import { toast } from "react-toastify";
+import useDataErrorToast from "@/hooks/useErrorToast";
 
-const SuperDashboardTransaction = () => {
+const SuperDashboardTransaction = ({ setActivePage }) => {
 
     const { isLoading, data: transData, error } = useTransactions();
+
+    useDataErrorToast(error, transData, setActivePage)
 
     if (isLoading) return <CustomSpinner />
 

@@ -2,8 +2,20 @@ import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import CustomTable from "./Tables/CustomTable";
+import useCustomers from "@/hooks/useCustomers";
+import CustomSpinner from "../Common/Spinner";
+import useDataErrorToast from "@/hooks/useErrorToast";
 
-const SuperDashboardUsers = () => {
+const SuperDashboardUsers = ({ setActivePage }) => {
+    const { isLoading, data: customerData, error } = useCustomers()
+
+    useDataErrorToast(error, customerData, setActivePage)
+
+    if (isLoading) return <CustomSpinner />
+    console.log(customerData)
+
+
+
     const columns = [
         { id: "s/n", Header: "S/N", accessor: (row) => row.id },
         { id: "name", Header: "Name", accessor: (row) => row.name },

@@ -85,11 +85,11 @@ export default function SuperAdminDashboard() {
             case 2:
                 return <SuperDashboardOrders />;
             case 3:
-                return <SuperDashboardTransaction />;
+                return <SuperDashboardTransaction setActivePage={setActivePage} />;
             case 4:
-                return <SuperDashboardUsers />;
+                return <SuperDashboardUsers setActivePage={setActivePage} />;
             case 5:
-                return <SuperDashboardAdmins />;
+                return <SuperDashboardAdmins setActivePage={setActivePage} />;
 
             default:
                 return null;

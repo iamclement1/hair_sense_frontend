@@ -10,13 +10,24 @@ import "slick-carousel/slick/slick-theme.css";
 import { BackToTop } from "@/components/Common";
 import { Toaster } from "react-hot-toast";
 import TanstackProvider from "@/context/tanstackProvider";
+import { ToastContainer } from "react-toastify";
 
 export default function App({ Component, pageProps }) {
     return (
         <ChakraProvider theme={theme}>
             <TanstackProvider>
                 <CSSReset />
-                {/* <ToastContainer /> */}
+                <ToastContainer
+                    position="bottom-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="dark" />
                 <Toaster position="top-right" containerClassName="text-lg p-4" />
                 <Component {...pageProps} />
                 <BackToTop />
