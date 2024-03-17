@@ -5,24 +5,49 @@ import {
     FormErrorMessage,
     FormLabel,
     Input,
+    useDisclosure,
 } from "@chakra-ui/react";
 import { Field, Formik } from "formik";
 import React from "react";
 import { PrimaryButton } from "../Common";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "react-toastify";
+import client from "@/context/axiosInstance";
 
-const CreateAdminForm = () => {
+const CreateAdminForm = ({ setActivePage, onClose }) => {
+
+    const queryClient = useQueryClient()
+
+    const { mutate, isPending } = useMutation({
+        mutationFn: (admin) => {
+            return client.post("/admin/users", admin);
+        },
+        onSuccess: (data) => {
+            if (data) {
+                onClose();
+                setActivePage(5)
+                toast.success("Admin created successfully");
+            }
+            queryClient.invalidateQueries({ queryKey: ["alladmin"] });
+        },
+        onError: (error) => {
+            console.log(error)
+            toast.error("There is a problem creating the admin, please try again later!");
+        },
+    });
     return (
         <Formik
             initialValues={{
                 email: "",
                 password: "",
                 cPassword: "",
-                fName: "",
-                lName: "",
+                firstName: "",
+                lastName: "",
+                phone: "",
                 role: "",
             }}
             onSubmit={(values) => {
-                console.log(values);
+                mutate(values);
             }}
         >
             {({ handleSubmit, errors, touched, values }) => (
@@ -31,11 +56,11 @@ const CreateAdminForm = () => {
 
                     <Flex gap="22px">
                         <FormControl
-                            isInvalid={!!errors?.fName && touched.fName}
+                            isInvalid={!!errors?.firstName && touched.firstName}
                         >
                             <FormLabel
                                 fontSize={"14px"}
-                                htmlFor="fName"
+                                htmlFor="firstName"
                                 mb="8px"
                                 fontWeight={"600"}
                             >
@@ -43,8 +68,8 @@ const CreateAdminForm = () => {
                             </FormLabel>
                             <Field
                                 as={Input}
-                                id="fName"
-                                name="fName"
+                                id="firstName"
+                                name="firstName"
                                 type="text"
                                 placeholder="John"
                                 fontSize={["12px"]}
@@ -59,27 +84,27 @@ const CreateAdminForm = () => {
                                 }}
                             />
                             <FormErrorMessage fontSize={["12px"]}>
-                                {errors?.fName}
+                                {errors?.firstName}
                             </FormErrorMessage>
                         </FormControl>
 
                         {/* {" "} */}
 
                         <FormControl
-                            isInvalid={!!errors?.lName && touched.lName}
+                            isInvalid={!!errors?.lastName && touched.lastName}
                         >
                             <FormLabel
                                 fontSize={"14px"}
-                                htmlFor="lName"
+                                htmlFor="lastName"
                                 mb="8px"
                                 fontWeight={"600"}
                             >
-                                Email
+                                LastName
                             </FormLabel>
                             <Field
                                 as={Input}
-                                id="lName"
-                                name="lName"
+                                id="lastName"
+                                name="lastName"
                                 type="text"
                                 placeholder="Enter your Email"
                                 fontSize={["12px"]}
@@ -94,7 +119,7 @@ const CreateAdminForm = () => {
                                 }}
                             />
                             <FormErrorMessage fontSize={["12px"]}>
-                                {errors?.lName}
+                                {errors?.lastName}
                             </FormErrorMessage>
                         </FormControl>
                     </Flex>
@@ -202,7 +227,37 @@ const CreateAdminForm = () => {
                             </FormErrorMessage>
                         </FormControl>
                     </Flex>
+                    <FormControl isInvalid={!!errors?.phone && touched.phone}>
+                        <FormLabel
+                            fontSize={"14px"}
+                            htmlFor="phone"
+                            mb="8px"
+                            mt="4px"
+                            fontWeight={"600"}
+                        >
+                            Phone Number
+                        </FormLabel>
+                        <Field
+                            as={Input}
+                            id="phone"
+                            name="phone"
+                            type="text"
+                            placeholder="Enter Phone Number"
+                            fontSize={["12px"]}
+                            px={["13px", null]}
+                            validate={(value) => {
+                                let error;
+                                if (value?.length < 1) {
+                                    error = "phone is Required";
+                                }
 
+                                return error;
+                            }}
+                        />
+                        <FormErrorMessage fontSize={["12px"]}>
+                            {errors?.phone}
+                        </FormErrorMessage>
+                    </FormControl>
                     {/* {"Role Type"} */}
 
                     <FormControl isInvalid={!!errors?.role && touched.role}>
@@ -238,13 +293,13 @@ const CreateAdminForm = () => {
 
                     <PrimaryButton
                         type="submit"
-                        text="Login"
+                        text="Create Admin"
                         colorScheme="purple"
                         width="full"
                         mt="30px"
                         py="20px"
                         // disabled={loading}
-                        // isLoading={loading}
+                        isLoading={isPending}
                     />
                 </form>
             )}
