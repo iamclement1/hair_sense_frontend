@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import CustomTable from "./Tables/CustomTable";
 import AdminMode from "./AdminModeModals";
@@ -13,12 +13,9 @@ const SuperDashboardAdmins = ({ setActivePage }) => {
 
     const { data: adminData, isLoading, error } = useAdmin();
 
-    const allAdmins = (adminData?.data?.data?.data)
+    useDataErrorToast(error, adminData, setActivePage);
 
-    useDataErrorToast(error, adminData, setActivePage)
-
-
-    if (isLoading) return <CustomSpinner />
+    const allAdmins = adminData?.data?.data?.data;
 
     const columns = [
         { id: "name", Header: "Name", accessor: (row) => `${row.firstName} ${row.lastName}` },
@@ -49,6 +46,7 @@ const SuperDashboardAdmins = ({ setActivePage }) => {
         },
     ];
 
+    if (isLoading) return <CustomSpinner />;
 
     return (
         <Box>
@@ -63,7 +61,7 @@ const SuperDashboardAdmins = ({ setActivePage }) => {
                     </Text>
 
                     <Box>
-                        <CreateAdmin />
+                        <CreateAdmin setActivePage={setActivePage} />
                     </Box>
                 </Flex>
                 <Text fontSize="20px">A list of all Admins.</Text>
