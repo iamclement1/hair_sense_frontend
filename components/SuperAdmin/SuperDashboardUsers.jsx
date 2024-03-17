@@ -2,32 +2,29 @@ import { Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlineCloudDownload } from "react-icons/ai";
 import CustomTable from "./Tables/CustomTable";
-import useTransactions from "@/hooks/useTransactions";
-import CustomSpinner from "../Common/Spinner";
-import { toast } from "react-toastify";
 
-const SuperDashboardTransaction = () => {
-
-    const { isLoading, data: transData, error } = useTransactions();
-
-    if (isLoading) return <CustomSpinner />
-
-    if (error) {
-        return toast.error("We couldn't fetch data, please contact support!")
-
-    }
-
-    console.log(transData?.data?.data)
-    const transactions = transData?.data?.data;
+const SuperDashboardUsers = () => {
     const columns = [
-        { id: "customer", Header: "Customer", accessor: (row) => `${row.firstName} ${row.lastName}` },
-        { id: "date", Header: "Date", accessor: (row) => row.date },
-        { id: "item", Header: "Item", accessor: (row) => row.item },
-        { id: "order_no", Header: "Order no", accessor: (row) => row.order_no },
+        { id: "s/n", Header: "S/N", accessor: (row) => row.id },
+        { id: "name", Header: "Name", accessor: (row) => row.name },
+        { id: "email", Header: "Email", accessor: (row) => row.email },
+        { id: "phoneNo", Header: "Phone No", accessor: (row) => row.phoneNo },
+        // { id: "item", Header: "Item", accessor: (row) => row.item },
+        // { id: "order_no", Header: "Order no", accessor: (row) => row.order_no },
+        // {
+        //     id: "price",
+        //     Header: "Price",
+        //     accessor: (row) => <Text> ₦{row.price}</Text>,
+        // },
+    ];
+
+    const data = [
         {
-            id: "price",
-            Header: "Price",
-            accessor: (row) => <Text> ₦{row.price}</Text>,
+            id: 1,
+            name: "John Doe",
+            date: "03/08/2024",
+            email: "Adesh16@gmail.com",
+            phoneNo: "07030075660",
         },
     ];
 
@@ -40,7 +37,7 @@ const SuperDashboardTransaction = () => {
                     flexDir={["column", null, "row"]}
                 >
                     <Text fontSize={"2rem"} fontWeight="bold">
-                        Transactions
+                        Users
                     </Text>
 
                     <Box>
@@ -75,14 +72,14 @@ const SuperDashboardTransaction = () => {
                         </Button>
                     </Box>
                 </Flex>
-                <Text fontSize="20px">A list of all transactions.</Text>
+                <Text fontSize="20px">A list of all Users.</Text>
 
                 <Box mt="2.5rem">
-                    <CustomTable data={transactions} columns={columns} />
+                    <CustomTable data={data} columns={columns} />
                 </Box>
             </Box>
         </Box>
     );
 };
 
-export default SuperDashboardTransaction;
+export default SuperDashboardUsers;

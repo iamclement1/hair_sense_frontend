@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
     Box,
     Flex,
@@ -16,9 +16,12 @@ import { PrimaryButton } from "@/components/Common";
 import { SecondaryButton } from "../Common/Button";
 import useCustomers from "@/hooks/useCustomers";
 import CustomSpinner from "../Common/Spinner";
+import { toast } from "react-toastify";
+import useDataErrorToast from "@/hooks/useErrorToast";
 
-const Customers = () => {
-    const { data, isLoading } = useCustomers();
+const Customers = ({ setActivePage }) => {
+    const { data, isLoading, error } = useCustomers();
+    console.log(data)
     const customerData = data?.data?.data;
 
     // Pagination
@@ -36,6 +39,7 @@ const Customers = () => {
     const currentCustomers = customerData && customerData?.length > 0 && customerData?.slice(startIndex, endIndex);
 
 
+    useDataErrorToast(error, data, setActivePage);
     return (
         <Box>
             {isLoading && <CustomSpinner />}

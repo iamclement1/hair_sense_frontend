@@ -29,6 +29,8 @@ import { FiMenu } from "react-icons/fi";
 import SuperDashboard from "./Dashboard";
 import SuperDashboardOrders from "./SuperDashboardOrders";
 import SuperDashboardTransaction from "./SuperDashboardTransaction";
+import SuperDashboardUsers from "./SuperDashboardUsers";
+import SuperDashboardAdmins from "./SuperDashboardAdmins";
 
 const navData = [
     {
@@ -84,6 +86,10 @@ export default function SuperAdminDashboard() {
                 return <SuperDashboardOrders />;
             case 3:
                 return <SuperDashboardTransaction />;
+            case 4:
+                return <SuperDashboardUsers />;
+            case 5:
+                return <SuperDashboardAdmins />;
 
             default:
                 return null;
@@ -104,7 +110,7 @@ export default function SuperAdminDashboard() {
                 onClose={onClose}
                 returnFocusOnClose={false}
                 onOverlayClick={onClose}
-                // size="md"
+            // size="md"
             >
                 <DrawerOverlay />
                 <DrawerContent>

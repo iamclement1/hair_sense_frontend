@@ -103,9 +103,9 @@ export default function AdminDashboard() {
             case 5:
                 return <Orders />;
             case 6:
-                return <Transactions />;
+                return <Transactions setActivePage={setActivePage} />;
             case 7:
-                return <Customers />;
+                return <Customers setActivePage={setActivePage} />;
             default:
                 return null;
         }

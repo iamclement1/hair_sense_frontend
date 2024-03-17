@@ -7,7 +7,7 @@ const useMutationProducts = () => {
 
   const mutation = useMutation({
     mutationFn: (allproducts) => {
-      return client.post("/logbooks", allproducts);
+      return client.post("/store/products", allproducts);
     },
     onSuccess: ({ data }) => {
       if (data) {
@@ -15,7 +15,7 @@ const useMutationProducts = () => {
           theme: "dark",
         });
       }
-      queryClient.invalidateQueries({ queryKey: ["allproducts"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
     },
     onError: (error) => {
       const errorMsg = error.response.data.error;

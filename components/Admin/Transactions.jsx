@@ -1,29 +1,33 @@
-import AdminLayout from "@/components/layouts/AdminLayout";
 import {
     Box,
     Flex,
-    Image,
-    Link,
-    Icon,
     Text,
     Table,
     Thead,
     Tbody,
-    Tfoot,
     Tr,
     Th,
     Td,
-    TableCaption,
     TableContainer,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import NextLink from "next/link";
-import { MdOutlineDashboard } from "react-icons/md";
+import React from "react";
 import { PrimaryButton } from "@/components/Common";
 import { SecondaryButton } from "../Common/Button";
+import useTransactions from "@/hooks/useTransactions";
+import CustomSpinner from "../Common/Spinner";
+import "react-toastify/dist/ReactToastify.css";
+import useDataErrorToast from "@/hooks/useErrorToast";
 
-const Transactions = () => {
-    const tableData = [];
+const Transactions = ({ setActivePage }) => {
+    const { isLoading, data, error } = useTransactions();
+
+    //prevent toast from showing twice
+    useDataErrorToast(error, data, setActivePage);
+
+    if (isLoading) return <CustomSpinner />;
+
+
+
     return (
         <Box>
             <Box>
@@ -36,11 +40,7 @@ const Transactions = () => {
                             A list of all Transactions.
                         </Text>
                     </Box>
-                    <Flex
-                        align="center"
-                        gap="10px"
-                        flexWrap={["wrap", "nowrap"]}
-                    >
+                    <Flex align="center" gap="10px" flexWrap={["wrap", "nowrap"]}>
                         <PrimaryButton text="Download PDF" />
                         <SecondaryButton text="Export as DOCX" />
                     </Flex>
@@ -49,18 +49,9 @@ const Transactions = () => {
                 <Box mt="40px">
                     <TableContainer p="0px">
                         <Table variant="simple" p="0px" className="noBorder">
-                            <Thead
-                                borderRadius={"20px"}
-                                rounded="20px"
-                                fontWeight="600"
-                                fontSize={["16px", "18px"]}
-                            >
+                            <Thead borderRadius={"20px"} rounded="20px" fontWeight="600" fontSize={["16px", "18px"]}>
                                 <Tr>
-                                    <Th
-                                        borderTopLeftRadius={"16px"}
-                                        bgColor="shades_9"
-                                        py="20px"
-                                    >
+                                    <Th borderTopLeftRadius={"16px"} bgColor="shades_9" py="20px">
                                         Name
                                     </Th>
                                     <Th bgColor="shades_9" py="20px">
@@ -69,36 +60,28 @@ const Transactions = () => {
                                     <Th bgColor="shades_9" py="20px">
                                         Order no.
                                     </Th>
-
                                     <Th bgColor="shades_9" py="20px">
-                                        reference
+                                        Reference
                                     </Th>
-
-                                    <Th
-                                        borderTopRightRadius={"16px"}
-                                        bgColor="shades_9"
-                                        py="20px"
-                                    >
+                                    <Th borderTopRightRadius={"16px"} bgColor="shades_9" py="20px">
                                         Amount
                                     </Th>
                                 </Tr>
                             </Thead>
                             <Tbody bgColor="white">
-                                {tableData.length > 0 ? (
-                                    <Tr>
-                                        <Td>Salaudeen Shina</Td>
-                                        <Td>07030075660</Td>
-                                        <Td>25.4</Td>
-                                        <Td>25.4</Td>
-                                        <Td>Pending</Td>
+                                {data.map((transaction) => (
+                                    <Tr key={transaction.id}>
+                                        <Td>{transaction.firstName} {transaction.lastName}</Td>
+                                        <Td>{transaction.createdAt}</Td> {/* Adjust date rendering as needed */}
+                                        <Td>{transaction.id}</Td>
+                                        <Td>{transaction.transactionRef}</Td>
+                                        <Td>{transaction.amount}</Td>
                                     </Tr>
-                                ) : (
-                                    ""
-                                )}
+                                ))}
                             </Tbody>
                         </Table>
                     </TableContainer>
-                    {tableData.length <= 0 ? (
+                    {data.length === 0 && (
                         <Flex
                             px={["17px", "27px", "47px"]}
                             bgColor="white"
@@ -108,8 +91,6 @@ const Transactions = () => {
                         >
                             <Text>No record found</Text>
                         </Flex>
-                    ) : (
-                        ""
                     )}
                 </Box>
             </Box>
