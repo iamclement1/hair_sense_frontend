@@ -16,7 +16,6 @@ const SuperDashboardAdmins = ({ setActivePage }) => {
     useDataErrorToast(error, adminData, setActivePage);
 
     const allAdmins = adminData?.data?.data?.data;
-
     const columns = [
         { id: "name", Header: "Name", accessor: (row) => `${row.firstName} ${row.lastName}` },
         { id: "email", Header: "Email", accessor: (row) => row.email },
