@@ -16,7 +16,7 @@ const SuperDashboardOrders = () => {
     const columns = [
         // { id: "s/n", Header: "S/N", accessor: (row) => row.id },
         { id: "customer", Header: "Customer", accessor: (row) => `${row.firstName} ${row.lastName}` },
-        { id: "order_no", Header: "Order no", accessor: (row) => row.order_no },
+        // { id: "order_no", Header: "Order no", accessor: (row) => row.order_no },
         {
             id: "price",
             Header: "Price",
