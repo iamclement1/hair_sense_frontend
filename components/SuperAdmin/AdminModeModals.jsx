@@ -1,3 +1,4 @@
+import useMutationAllAdmin from "@/hooks/useMutationAllAdmin";
 import {
     Box,
     Button,
@@ -10,10 +11,37 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
+import CustomSpinner from "../Common/Spinner";
 
-const AdminMode = ({ title, textContent, callBackFunc }) => {
+const AdminMode = ({ title, textContent, rowData }) => {
     const { isOpen, onClose, onOpen } = useDisclosure();
 
+    const { handleAdmin, isPending } = useMutationAllAdmin(rowData?.id);
+
+    const payload = {
+        email: rowData?.email,
+        firstName: rowData?.firstName,
+        lastName: rowData?.lastName,
+        phone: rowData?.phone,
+        role: rowData?.role,
+    }
+
+    const handleDeleteAdmin = (id) => {
+        handleAdmin(payload)
+        onClose();
+    };
+
+    const handleEnableAdmin = (id) => {
+        handleAdmin(payload)
+        onClose();
+    };
+
+    const handleDisableAdmin = (id) => {
+        handleAdmin(payload)
+        onClose();
+    };
+
+    if (isPending) return <CustomSpinner />
     return (
         <Box>
             <Button
@@ -26,19 +54,19 @@ const AdminMode = ({ title, textContent, callBackFunc }) => {
                     title === "Enable"
                         ? "#CFF8E1"
                         : title === "Disable"
-                          ? "#DFDAAD"
-                          : title === "Delete"
-                            ? "#FFE4E3"
-                            : ""
+                            ? "#DFDAAD"
+                            : title === "Delete"
+                                ? "#FFE4E3"
+                                : ""
                 }
                 color={
                     title === "Enable"
                         ? "#30C263"
                         : title === "Disable"
-                          ? "#A79A25"
-                          : title === "Delete"
-                            ? "#DE1A1A"
-                            : ""
+                            ? "#A79A25"
+                            : title === "Delete"
+                                ? "#DE1A1A"
+                                : ""
                 }
                 rounded="20px"
                 border="1px"
@@ -51,10 +79,10 @@ const AdminMode = ({ title, textContent, callBackFunc }) => {
                 {title === "Enable"
                     ? "Enable"
                     : title === "Disable"
-                      ? "Disable"
-                      : title === "Delete"
-                        ? "Delete"
-                        : ""}
+                        ? "Disable"
+                        : title === "Delete"
+                            ? "Delete"
+                            : ""}
             </Button>
             <Modal isOpen={isOpen} onClose={onClose} size="xl" isCentered>
                 <ModalOverlay />
@@ -108,7 +136,13 @@ const AdminMode = ({ title, textContent, callBackFunc }) => {
                                 _active={{}}
                                 _focus={{}}
                                 onClick={() => {
-                                    callBackFunc();
+                                    if (title === "Delete") {
+                                        handleDeleteAdmin(rowData?.id);
+                                    } else if (title === "Enable") {
+                                        handleEnableAdmin(rowData?.id);
+                                    } else if (title === "Disable") {
+                                        handleDisableAdmin(rowData?.id);
+                                    }
                                     onClose();
                                 }}
                                 w="122px"
