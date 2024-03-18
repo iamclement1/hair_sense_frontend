@@ -16,6 +16,9 @@ const SuperDashboardAdmins = ({ setActivePage }) => {
     useDataErrorToast(error, adminData, setActivePage);
 
     const allAdmins = adminData?.data?.data?.data;
+
+
+
     const columns = [
         { id: "name", Header: "Name", accessor: (row) => `${row.firstName} ${row.lastName}` },
         { id: "email", Header: "Email", accessor: (row) => row.email },
@@ -25,20 +28,20 @@ const SuperDashboardAdmins = ({ setActivePage }) => {
             Header: "Set Status",
             accessor: (row) => (
                 <Flex gap="12px">
-                    <AdminMode
+                    {/* <AdminMode
                         title={"Enable"}
-                        textContent={`Are you sure you want to enable ${row.name} as an admin?`}
-                        callBackFunc={() => console.log("input your fuc here")}
+                        textContent={`Are you sure you want to enable ${row.firstName} ${row.lastName} as an admin?`}
+                        rowData={row}
                     />
                     <AdminMode
                         title={"Disable"}
-                        textContent={`Are you sure you want to Disable ${row.name} as an admin?`}
-                        callBackFunc={() => console.log("input your fuc here")}
-                    />
+                        textContent={`Are you sure you want to Disable ${row.firstName} ${row.lastName} as an admin?`}
+                        rowData={row}
+                    /> */}
                     <AdminMode
                         title={"Delete"}
-                        textContent={`Are you sure you want to permanently delete ${row.name} as an admin?`}
-                        callBackFunc={() => console.log("input your fuc here")}
+                        textContent={`Are you sure you want to permanently delete ${row.firstName} ${row.lastName} as an admin?`}
+                        rowData={row}
                     />
                 </Flex>
             ),
@@ -46,6 +49,9 @@ const SuperDashboardAdmins = ({ setActivePage }) => {
     ];
 
     if (isLoading) return <CustomSpinner />;
+
+
+
 
     return (
         <Box>
