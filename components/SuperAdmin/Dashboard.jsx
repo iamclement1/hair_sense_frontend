@@ -16,13 +16,25 @@ const SuperDashboard = () => {
 
 
     const superAdminData = [
-        { id: 1, label: "Total Orders", status: "(Today)", value: superRecord?.totalOrders },
-        { id: 2, label: "Total Sales", status: "(Today)", value: superRecord?.totalAmount },
+        { id: 1, label: "Orders Placed", status: "(Today)", value: superRecord?.dailyOrders },
+        { id: 2, label: "Today Sales", status: "(Today)", value: superRecord?.dailyAmount },
         {
             id: 3,
             label: "Total Products",
             status: "(In Stock)",
             value: superRecord?.totalProducts,
+        },
+        {
+            id: 4,
+            label: "Total Orders",
+            status: "(General)",
+            value: superRecord?.totalOrders,
+        },
+        {
+            id: 5,
+            label: "Total Amount",
+            status: "(General)",
+            value: superRecord?.totalAmount,
         },
     ];
 
