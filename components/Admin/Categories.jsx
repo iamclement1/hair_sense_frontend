@@ -17,7 +17,6 @@ const Categories = () => {
     const { isLoading, data } = useCategory();
     const categories = (data?.data?.data)
 
-
     const {
         isOpen: isOpenNewSubCategory,
         onOpen: onOpenNewSubCategory,
