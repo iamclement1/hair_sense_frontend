@@ -6,6 +6,7 @@ import useTransactions from "@/hooks/useTransactions";
 import CustomSpinner from "../Common/Spinner";
 import { toast } from "react-toastify";
 import useDataErrorToast from "@/hooks/useErrorToast";
+import { format } from "date-fns";
 
 const SuperDashboardTransaction = ({ setActivePage }) => {
 
@@ -19,21 +20,14 @@ const SuperDashboardTransaction = ({ setActivePage }) => {
         return toast.error("We couldn't fetch data, please contact support!")
 
     }
-
-    console.log(transData?.data?.data)
     const transactions = transData?.data?.data;
     const columns = [
-        { id: "customer", Header: "Customer", accessor: (row) => `${row.firstName} ${row.lastName}` },
-        { id: "date", Header: "Date", accessor: (row) => row.date },
-        { id: "item", Header: "Item", accessor: (row) => row.item },
-        { id: "order_no", Header: "Order no", accessor: (row) => row.order_no },
-        {
-            id: "price",
-            Header: "Price",
-            accessor: (row) => <Text> ₦{row.price}</Text>,
-        },
+        { id: "name", Header: "Customer", accessor: (row) => row.name },
+        { id: "date", Header: "Date", accessor: (row) => format(new Date(row.date), "MMMM dd, yyyy") }, // Format the date
+        { id: "orderNo", Header: "Order no", accessor: (row) => row.orderNo },
+        { id: "reference", Header: "Reference", accessor: (row) => row.reference },
+        { id: "amount", Header: "Amount", accessor: (row) => <Text> ₦ {row.amount}</Text> },
     ];
-
     return (
         <Box>
             <Box>
