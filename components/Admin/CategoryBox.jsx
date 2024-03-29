@@ -1,4 +1,4 @@
-import AdminLayout from "@/components/layouts/AdminLayout";
+
 import {
     Box,
     Flex,
@@ -8,12 +8,13 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import {
-    MdAddCircleOutline,
+    MdAddCircleOutline, MdOutlineDeleteOutline,
 } from "react-icons/md";
 import { FiEye } from "react-icons/fi";
 
 import SubCategoryModal from "./SubCategoryModal";
 import CreateSubCategoryModal from "./CreateSubCategoryModal";
+import DeleteCategory from "./DeleteCategory";
 
 const CategoryBox = ({ data }) => {
 
@@ -27,6 +28,12 @@ const CategoryBox = ({ data }) => {
         isOpen: isOpenAddSubCategory,
         onOpen: onOpenAddSubCategory,
         onClose: onCloseAddSubCategory,
+    } = useDisclosure();
+
+    const {
+        isOpen: isOpenDeleteCategory,
+        onOpen: onOpenDeleteCategory,
+        onClose: onCloseDeleteCategory,
     } = useDisclosure();
 
     return (
@@ -64,6 +71,12 @@ const CategoryBox = ({ data }) => {
                         boxSize="18px"
                         onClick={onOpenAddSubCategory}
                     />
+                    <Icon
+                        as={MdOutlineDeleteOutline}
+                        cursor="pointer"
+                        boxSize="18px"
+                        onClick={onOpenDeleteCategory}
+                    />
                 </Flex>
             </Flex>
             {/* Sub Category Modal for each categories, subCategory Data will be pass as props for each Category */}
@@ -83,6 +96,13 @@ const CategoryBox = ({ data }) => {
                 onClose={onCloseAddSubCategory}
             />
 
+            {/* Delete Category */}
+            <DeleteCategory
+                data={data}
+                isOpen={isOpenDeleteCategory}
+                onOpen={onOpenDeleteCategory}
+                onClose={onCloseDeleteCategory}
+            />
             {/* </form> */}
         </Box>
     );

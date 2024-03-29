@@ -16,7 +16,6 @@ import { MdAdd } from "react-icons/md";
 import SubCategoryBox from "./SubCategoryBox";
 import useSubCategoryById from "@/hooks/useSubCategoryById";
 import CustomSpinner from "../Common/Spinner";
-import useCategory from "@/hooks/useCategory";
 
 const SubCategoryModal = ({
     data,
