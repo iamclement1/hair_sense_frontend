@@ -20,7 +20,7 @@ import useDataErrorToast from "@/hooks/useErrorToast";
 
 const Transactions = ({ setActivePage }) => {
     const { isLoading, data, error } = useTransactions();
-
+    const transaction = data?.data?.data
     //prevent toast from showing twice
     useDataErrorToast(error, data, setActivePage);
 
@@ -69,12 +69,12 @@ const Transactions = ({ setActivePage }) => {
                                 </Tr>
                             </Thead>
                             <Tbody bgColor="white">
-                                {data.map((transaction) => (
+                                {transaction.map((transaction) => (
                                     <Tr key={transaction.id}>
-                                        <Td>{transaction.firstName} {transaction.lastName}</Td>
-                                        <Td>{transaction.createdAt}</Td> {/* Adjust date rendering as needed */}
+                                        <Td>{transaction.name}</Td>
+                                        <Td>{new Date(transaction.date).toLocaleDateString()}</Td>
                                         <Td>{transaction.id}</Td>
-                                        <Td>{transaction.transactionRef}</Td>
+                                        <Td>{transaction.reference}</Td>
                                         <Td>{transaction.amount}</Td>
                                     </Tr>
                                 ))}
