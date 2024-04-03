@@ -1,10 +1,4 @@
-import {
-    Box,
-    Divider,
-    Flex,
-    Icon,
-    Text,
-} from "@chakra-ui/react";
+import { Box, Divider, Flex, Icon, Text } from "@chakra-ui/react";
 import React, { useRef } from "react";
 import Slider from "react-slick";
 import { BsChevronRight, BsChevronLeft } from "react-icons/bs";
@@ -16,7 +10,6 @@ const ProductSlider = ({
     type = "default",
     children,
 }) => {
-
     const NextArrow = (props) => {
         const { onClick } = props;
         return (
@@ -57,12 +50,12 @@ const ProductSlider = ({
 
     const settings = {
         dots: false,
-        infinite: true,
+        infinite: productDatas?.length > 3,
         speed: 500,
         slidesToShow: 4,
         slidesToScroll: 2,
-        prevArrow: <PrevArrow />,
-        nextArrow: <NextArrow />,
+        // prevArrow: <PrevArrow />,
+        // nextArrow: <NextArrow />,
         responsive: [
             {
                 breakpoint: 1024,
@@ -138,7 +131,10 @@ const ProductSlider = ({
             {/*  Header for product slider which type is === "others"  */}
             <Box>
                 {!productDatas ? (
-                    <Text fontSize={'24px'} fontWeight={500}> Products not Available </Text>
+                    <Text fontSize={"24px"} fontWeight={500}>
+                        {" "}
+                        Products not Available{" "}
+                    </Text>
                 ) : (
                     <Slider {...settings} ref={sliderRef}>
                         {productDatas?.map((product) => {
@@ -148,10 +144,9 @@ const ProductSlider = ({
                                     key={product.id}
                                     productData={product}
                                     onClick={() => {
-                                        handleProduct(product.id)
-                                        alert(product.id)
-                                    }
-                                    }
+                                        handleProduct(product.id);
+                                        alert(product.id);
+                                    }}
                                 />
                             );
                         })}
