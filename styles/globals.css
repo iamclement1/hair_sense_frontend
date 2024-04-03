@@ -80,3 +80,12 @@ a {
 .sticky {
     position: sticky !important;
 }
+
+.slick-track {
+    position: relative;
+    top: 0;
+    left: 0;
+    display: block;
+    margin-left: 0px !important;
+    margin-right: 0px !important ;
+}
