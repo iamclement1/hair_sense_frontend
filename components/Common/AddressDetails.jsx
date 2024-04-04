@@ -26,14 +26,21 @@ const AddressDetails = ({ handleCheckOutStep }) => {
     const { addressDetails, setAddressDetails, cart } =
         useContext(StateContext);
 
+    const [currentCity, setCurrentCity] = useState([]);
 
-    const [selectedState, setSelectedState] = useState("");
+    const stateList = State.getStatesOfCountry("NG");
 
-    const cities = City.getCitiesOfState("NG", "KW");
-
-    // if (!cart) {
-    //     router.push("/");
-    // }
+    const handleStateSelect = (value) => {
+        const currentStateCode = stateList?.find(
+            (item) => item?.name === value
+        );
+        //    get cities
+        const cities = City.getCitiesOfState(
+            "NG",
+            `${currentStateCode?.isoCode}`
+        );
+        setCurrentCity(cities);
+    };
 
     return (
         <Box>
@@ -60,8 +67,8 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                             firstName: addressDetails?.firstName || "",
                             lastName: addressDetails?.lastName || "",
                             phone: addressDetails?.phone || "",
-                            address:
-                                addressDetails?.address || "",
+                            address: addressDetails?.address || "",
+                            state: addressDetails?.state || "",
                             city: addressDetails?.city || "",
                         }}
                         validate={(values) => {
@@ -73,10 +80,12 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                 errors.lastName = "Last Name is required";
                             }
                             if (!values.address) {
-                                errors.address =
-                                    "Delivery Address is required";
+                                errors.address = "Delivery Address is required";
                             }
 
+                            if (!values.state) {
+                                errors.state = "State is required";
+                            }
                             if (!values.city) {
                                 errors.city = "City is required";
                             }
@@ -140,8 +149,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                         name="address"
                                         placeholder="Enter delivery address"
                                         className={
-                                            errors.address &&
-                                                touched.address
+                                            errors.address && touched.address
                                                 ? "error"
                                                 : ""
                                         }
@@ -166,7 +174,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
 
                                 {/* State */}
 
-                                {/* <Box mt="16px">
+                                <Box mt="16px">
                                     <FormLabel
                                         htmlFor="state"
                                         fontSize="14px"
@@ -196,18 +204,19 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                         border="1px"
                                         borderColor="dark_4"
                                         rounded="5px"
-                                        onChange={(event) =>
+                                        onChange={(event) => {
                                             handleStateSelect(
-                                                event,
-                                                handleChange
-                                            )
-                                        }
+                                                event.target.value
+                                            );
+
+                                            handleChange(event);
+                                        }}
                                     >
-                                        {states.map((item, i) => {
+                                        {stateList.map((item) => {
                                             return (
                                                 <option
                                                     value={item?.name}
-                                                    key={i}
+                                                    key={item?.name}
                                                 >
                                                     {item?.name}
                                                 </option>
@@ -219,7 +228,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                         component="div"
                                         className="error-message"
                                     />
-                                </Box> */}
+                                </Box>
 
                                 {/* City */}
 
@@ -254,7 +263,7 @@ const AddressDetails = ({ handleCheckOutStep }) => {
                                         borderColor="dark_4"
                                         rounded="5px"
                                     >
-                                        {cities.map((item, i) => {
+                                        {currentCity?.map((item, i) => {
                                             return (
                                                 <option
                                                     value={item?.name}
